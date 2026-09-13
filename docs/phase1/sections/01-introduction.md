@@ -6,7 +6,11 @@ Universities regularly purchase furniture, computers, electronic devices, labora
 
 This project designs and prototypes an internal campus platform, the Intelligent, AI-Powered Circular Campus Resource Exchange and Asset Life Cycle Management System, that combines a classic, rule-based asset-management core (registration, marketplace, requests, approvals, transfers, maintenance, role-based access, reports) with AI-enhanced services (semantic matching, automatic classification, sustainable-action recommendations, an LLM assistant and generative reporting). The system is built in eight phases over the Fall 2026 semester and gives the team hands-on experience of the full software development life cycle while comparing traditional and AI-augmented engineering approaches.
 
-## 1.2 Document Purpose
+## 1.2 Problem Statement
+
+Departments at a university buy equipment while equivalent usable items are idle in other departments, because there is no single place to see what exists, no structured way to ask for it, and no defined process to move it. The consequences are avoidable spending, storage areas full of unused assets, and no data on reuse, savings or environmental impact. The system must therefore answer three questions that today go unanswered: *what reusable assets exist on campus, who needs them, and what should happen to each asset next?*
+
+## 1.3 Document Purpose
 
 This document is the Phase 1 deliverable. It establishes the foundation for all later phases by:
 

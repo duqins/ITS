@@ -19,6 +19,23 @@ The team will follow an Agile approach (Scrum-style) constrained by the course's
 
 > Note: the project description lists a tentative schedule starting one week later (Phase 1 in the week of 20 September 2026). This plan follows the Phase 1 lab slides, which are the more recent instruction; the team will confirm the dates with the instructors.
 
+### Week-by-week sprint calendar
+
+<!-- widths: 1500,1500,6360 -->
+| Week of | Phase | Sprint goal |
+|---|---|---|
+| 14 Sep | 1 | Submit Phase 1; repository live with all collaborators; every member has committed. |
+| 21 Sep | 2 | Feasibility study; choose technology stack; test one LLM/embedding API end-to-end. |
+| 28 Sep | 3 | Stakeholder interviews and survey; draft use cases. |
+| 5 Oct | 3 | Complete SRS and submit Requirements Document. |
+| 12 Oct | 4 | Architecture, data model (ERD), data-flow diagrams. |
+| 19 Oct | 5 | UML diagrams, AI workflow diagrams, UI mockups. |
+| 26 Oct | 4 & 5 | Submit Design Document; set up project skeleton and synthetic data. |
+| 2 Nov | 6 | Authentication, roles, departments, asset registration, marketplace. |
+| 9 Nov | 6 | Requests, search, AI classification and matching, approvals, transfers. |
+| 16 Nov | 6 | Maintenance, sustainability dashboard, reports; submit draft implementation. |
+| 23 Nov | 7 & 8 | Test cases, bug fixes, final documentation, presentation and demo. |
+
 ## 8.3 Team Structure and Roles
 
 Roles rotate partially so that every member gains experience across the SDLC, but each member owns one area for accountability and for clear individual authorship in the commit history.
@@ -77,7 +94,18 @@ Roles rotate partially so that every member gains experience across the SDLC, bu
 - **Data:** team-generated synthetic asset, department, request and maintenance data; published sustainability factors.
 - **Budget:** AED 0 – all tools on free or student tiers.
 
-## 8.8 Version Control and Collaboration Workflow
+## 8.8 Communication Plan
+
+<!-- widths: 2600,3200,3560 -->
+| Channel | Purpose | Frequency |
+|---|---|---|
+| Lab session | Sprint review with instructors; sprint planning for the next phase. | Weekly |
+| Team meeting (in person or call) | Progress check, blockers, task re-assignment. | Twice a week, 30 minutes |
+| Group chat | Quick questions and coordination. | Daily as needed |
+| GitHub issues | One issue per task; assigned to an owner; closed by the pull request that completes it. | Continuous |
+| GitHub pull requests | Code and document review; at least one teammate approves before merge. | Per change |
+
+## 8.9 Version Control and Collaboration Workflow
 
 - One repository, created on GitHub with README, .gitignore and licence; instructor and lab engineer added as collaborators.
 - Branch protection on main: no direct commits; every change via a feature branch and pull request with at least one reviewer.

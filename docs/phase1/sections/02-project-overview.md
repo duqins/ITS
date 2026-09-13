@@ -75,7 +75,24 @@ The project is a lab-based running project for COSC 336 at Khalifa University. I
 - All team members have GitHub accounts, Git installed and access to the shared repository by 15 September 2026.
 - Deadlines follow the Phase 1 lab slides (week of 14 Sep 2026 onward); the project description lists a tentative later schedule and the slide dates take precedence unless the instructors announce otherwise.
 
-## 2.7 Expected Benefits
+## 2.7 Key Terms
+
+<!-- widths: 2400,6960 -->
+| Term | Meaning in this project |
+|---|---|
+| Asset | Any physical item owned by the university that is tracked individually or in quantity: furniture, computers, lab equipment, books, office materials. |
+| Surplus / underutilised asset | An asset its department no longer needs (surplus) or uses rarely (underutilised) and is willing to release to another department. |
+| Listing | A published surplus asset visible on the campus marketplace. |
+| Resource request | A department's structured description of something it needs (category, specifications, quantity, urgency, location, date). |
+| Match | A pairing of a listing with a request, produced by the AI matching engine with a compatibility score and an explanation. |
+| Custodian | The person responsible for an asset's physical condition and location at any given time. |
+| Transfer | The approved movement of an asset from one department or custodian to another. |
+| Life-cycle status | The current stage of an asset: registered, in use, published, reserved, in transfer, under maintenance, donated, recycled, disposed or retired. |
+| Sustainable action | The recommended next step for an asset: retain, transfer, repair, refurbish, donate, disassemble, recycle or dispose. |
+| Avoided purchase | A purchase that did not happen because a request was satisfied from an existing asset; its value is the estimated replacement cost. |
+| Waste diversion | Items or kilograms kept out of disposal through reuse, repair, donation or recycling. |
+
+## 2.8 Expected Benefits
 
 <!-- widths: 2800,6560 -->
 | Beneficiary | Benefit |
