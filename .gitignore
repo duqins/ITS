@@ -1,0 +1,26 @@
+# Secrets and local config
+.env
+.env.*
+*.pem
+credentials.json
+
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+
+# Build output
+dist/
+build/
+*.pyc
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Office temp files
+~$*

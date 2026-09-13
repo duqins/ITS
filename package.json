@@ -1,0 +1,12 @@
+{
+  "name": "its-circular-campus",
+  "version": "0.1.0",
+  "private": true,
+  "description": "COSC 336 Group 4 – Intelligent, AI-Powered Circular Campus Resource Exchange and Asset Life Cycle Management System",
+  "scripts": {
+    "build:phase1": "node docs/phase1/build.js"
+  },
+  "dependencies": {
+    "docx": "^9.0.0"
+  }
+}
