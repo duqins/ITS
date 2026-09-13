@@ -18,6 +18,8 @@ The document is written in Markdown, one file per section, in `sections/`. Git m
 | `09-classic-vs-ai.md` | 9. Classic vs AI | Ghith |
 | `10-open-questions-references.md` | 10–11. Open questions, references | all |
 
+Sections 3–7 and 9 are **skeletons**: the headings and table columns are there, with guidance notes (lines starting with `>`). The owner writes the content and deletes the guidance notes. Sections 1, 2, 8, 10–11 are written.
+
 ## Editing
 
 Open the `.md` file in VS Code (press `Ctrl+Shift+V` for a live preview). Plain text is a paragraph, `- ` starts a bullet, `**text**` is bold, and tables use `| pipes |`. Keep the `<!-- widths: ... -->` comment above a table if you change its columns.
@@ -36,4 +38,4 @@ Then whenever you want the `.docx`:
 npm run build:phase1
 ```
 
-This writes `Phase1_Initial_Plan_and_Requirements.docx` next to this file. Open it in Word, right-click the table of contents and choose **Update Field**, then **File → Save As → PDF** for the submission copy. Commit the regenerated `.docx`/`.pdf` only at submission time.
+This writes `Phase1_Initial_Plan_and_Requirements.docx` next to this file. Open it in Word, right-click the table of contents and choose **Update Field**, then **File → Save As → PDF** for the submission copy. The `.docx`/`.pdf` are not kept in the repository until submission time, when the final versions are committed once.
