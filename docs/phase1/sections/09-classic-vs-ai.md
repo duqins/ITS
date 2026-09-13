@@ -1,15 +1,21 @@
 # 9. Classic vs. AI-Enhanced Perspective (Initial Reflection)
 
-The project description requires the team to compare the two perspectives explicitly. This initial position will be revisited in every later phase.
+<!-- OWNER: Ghith. Delete the guidance lines starting with ">" when you are done.
+     The project description, Objective 3 (page 5), says: "Students will be required to discuss these differences
+     explicitly in their documentation. They should explain where deterministic rules are more appropriate, where AI
+     provides meaningful added value, and how human oversight can reduce the risks." It gives three examples:
+     search (keyword vs semantic), matching (rule check vs ranking), reporting (fixed tables vs generated summaries). -->
+
+> Short intro: this is our starting position and we will revisit it every phase.
 
 <!-- widths: 1500,2500,2700,2660 -->
-| Aspect | Classic (rule-based) approach | AI-enhanced approach | Initial position |
+| Aspect | Classic (rule-based) approach | AI-enhanced approach | Our initial position |
 |---|---|---|---|
-| Search | Exact keyword/category filters; predictable, transparent. | Semantic search finds functionally similar items with different wording. | Provide both; classic filters remain the ground truth, AI adds recall. |
-| Matching | Checks category, quantity, availability. | Ranks alternatives by specification, condition, urgency, location, cost, sustainability. | AI ranks; rules enforce hard constraints (availability, permissions). |
-| Classification | User selects from fixed taxonomy. | Model suggests category/tags from free text and images. | AI suggests, user confirms; taxonomy stays controlled. |
-| Life-cycle decisions | Policy thresholds (age, repair cost). | Recommendation with confidence and explanation. | AI advises; humans decide on disposal, donation, transfer. |
-| Reporting | Fixed totals and tables. | Narrative summaries, anomalies, suggested actions. | Generative report built on top of classic figures so numbers stay verifiable. |
-| Risks | Rigid; misses reuse when terminology differs. | Uncertain, opaque, possibly biased; depends on external services. | Explainability, confidence, override, model-version tracking and fallback are Must/Should requirements. |
+| Search |  |  |  |
+| Matching |  |  |  |
+| Classification |  |  |  |
+| Life-cycle decisions |  |  |  |
+| Reporting |  |  |  |
+| Risks |  |  |  |
 
-Decisions that must remain under human control: approving transfers and custody changes; authorising donation, recycling and disposal; approving repair spend; changing financial values; changing user roles. AI must never execute these automatically.
+> Finish with one paragraph listing the decisions that must always stay under human control (transfers, donation, recycling, disposal, repair spend, financial values, user roles) – the description asks "Which decisions must remain under human control?" (page 3).

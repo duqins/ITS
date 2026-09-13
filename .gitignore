@@ -24,3 +24,8 @@ Thumbs.db
 
 # Office temp files
 ~$*
+
+# Generated documents (committed only at submission)
+docs/**/*.docx
+docs/**/*.pdf
+!docs/reference/*.pdf

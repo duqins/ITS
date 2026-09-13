@@ -76,7 +76,10 @@ function parseMarkdown(md, { titlePage = false } = {}) {
     const t = line.trim();
     const wm = t.match(/^<!--\s*widths:\s*([\d,\s]+)\s*-->$/);
     if (wm) { pendingWidths = wm[1].split(",").map((n) => parseInt(n.trim(), 10)); i++; continue; }
-    if (t.startsWith("<!--")) { i++; continue; }
+    if (t.startsWith("<!--")) { // skip single- or multi-line HTML comments
+      while (i < lines.length && !lines[i].includes("-->")) i++;
+      i++; continue;
+    }
     if (t === "") { i++; continue; }
 
     if (t.startsWith("|")) {
