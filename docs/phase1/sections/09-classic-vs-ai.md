@@ -1,21 +1,14 @@
 # 9. Classic vs. AI-Enhanced Perspective (Initial Reflection)
-
-<!-- OWNER: Ghith. Delete the guidance lines starting with ">" when you are done.
-     The project description, Objective 3 (page 5), says: "Students will be required to discuss these differences
-     explicitly in their documentation. They should explain where deterministic rules are more appropriate, where AI
-     provides meaningful added value, and how human oversight can reduce the risks." It gives three examples:
-     search (keyword vs semantic), matching (rule check vs ranking), reporting (fixed tables vs generated summaries). -->
-
-> Short intro: this is our starting position and we will revisit it every phase.
+Our starting position is to build a dependable classic baseline and use AI where it can improve discovery, interpretation, and communication. The baseline handles permissions, validation, quantities, approvals, and official records. AI supports these workflows through suggestions that users can inspect and challenge. We will revisit this position in every project phase using feasibility findings, user feedback, test results, cost, and observed limitations. AI improvement is a target to evaluate rather than an outcome we assume.
 
 <!-- widths: 1500,2500,2700,2660 -->
 | Aspect | Classic (rule-based) approach | AI-enhanced approach | Our initial position |
 |---|---|---|---|
-| Search |  |  |  |
-| Matching |  |  |  |
-| Classification |  |  |  |
-| Life-cycle decisions |  |  |  |
-| Reporting |  |  |  |
-| Risks |  |  |  |
+| Search | Keyword search and explicit filters retrieve records using fields such as category, condition, location, and availability. Results are predictable but may miss equivalent terms. | Semantic search connects differently worded requests and listings, such as a request for seating with a listing for office chairs, while still applying access and availability rules. | Keep keyword search and filters available. Compare both approaches on the same labelled requests, especially those using different wording, before claiming that AI improves usefulness. |
+| Matching | Rules check required specifications, quantities, condition, availability, dates, and permissions. A documented formula can score eligible options. | AI interprets purpose and description and ranks eligible candidates using compatibility, urgency, location, cost, and sustainability benefit, with explanations and confidence information. | Apply mandatory eligibility rules before AI ranking. AI can help order acceptable options but cannot override an incompatible specification or grant approval. Measure top-three usefulness and record invalid recommendations. |
+| Classification | Users select categories and subcategories from controlled lists and enter descriptions and tags. Validation checks required fields. | AI suggests categories, tags, standardised descriptions, and potentially missing metadata from the information provided. | Use AI to reduce entry effort while requiring the custodian or department representative to confirm or correct suggestions. Do not save inferred material or condition as a verified fact. |
+| Life-cycle decisions | Status rules, inspection records, policy thresholds, and authorised approvals determine whether an asset can be transferred, repaired, donated, recycled, retired, or disposed of. | AI compares options using condition, demand, repairability, costs, materials, and sustainability estimates and explains a recommended action. | Use AI to present alternatives and assumptions. Keep the final decision with the responsible human, enforce normal approvals, and record the recommendation and the reason for accepting or rejecting it. |
+| Reporting | Fixed queries and formulas produce repeatable tables and indicators from approved transactions and documented factors. | Generative AI turns results into readable summaries of exchange activity, maintenance patterns, savings, and environmental estimates. | Treat conventional report totals as the calculation source. AI may explain them but must not invent figures or alter formulas. Link claims to records and require review before a generated summary becomes official. |
+| Risks | Incorrect business rules, stale records, or poor input validation can produce wrong decisions even when the software behaves consistently. Rules also require maintenance when policies change. | AI can generate unsupported claims, expose restricted information, rank unfairly, misunderstand specifications, or vary across model versions. External services add latency, cost, and availability limits. | Test the baseline and AI separately, enforce the same access controls, record model information and assumptions, evaluate relevance and fairness, and provide classic alternatives when AI is unavailable or insufficiently reliable. |
 
-> Finish with one paragraph listing the decisions that must always stay under human control (transfers, donation, recycling, disposal, repair spend, financial values, user roles) – the description asks "Which decisions must remain under human control?" (page 3).
+Human control remains mandatory for asset transfers, donation, recycling, disposal, repair spending, changes to financial values, and assignment of user roles. Releasing and receiving departments approve transfers; procurement, finance, and sustainability roles review the relevant policy, spending, and environmental decisions as agreed with the client. A business administrator authorises role assignments, and technical administrators apply them without gaining automatic business approval rights. Users must explicitly confirm assistant-proposed changes, and consequential actions must still pass their normal approval workflow. AI may recommend and explain, but it must not provide the final approval or bypass a required human decision.
