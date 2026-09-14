@@ -1,51 +1,81 @@
 # 6. Initial Requirements Specification
+The following requirements define the initial classic baseline, AI-enhanced extension, sustainability measurements, and quality expectations for the Circular Campus prototype. Each requirement has a stable ID so it can be linked to design decisions and tests and expanded in the Phase 3 Software Requirements Specification (SRS). Priorities use MoSCoW: M = Must have, S = Should have, and C = Could have. Core functions specified by the course remain Must have.
 
-<!-- OWNER: Ghith. Delete the guidance lines starting with ">" when you are done.
-     What the slides require (slide 10): "Detailed description of functional/operational requirements."
-     The project description, Objective 1 (pages 3–4), lists the classic functions; Objective 2 (page 4) lists the AI
-     functions; the appendix explains functional vs non-functional requirements. -->
-
-> Short intro paragraph: say that IDs are stable and will be expanded in the Phase 3 SRS, and that priority uses MoSCoW (M/S/C).
+These requirements follow the project scope in Section 2 and the stakeholder responsibilities in Section 3. Numerical targets are proposed targets for the prototype. Policy-dependent approval rules and financial thresholds will be confirmed with the lab instructors.
 
 ## 6.1 Functional Requirements – Classic Baseline
-
-> Write each requirement as "The system shall ...". One row per requirement. Cover at least: user accounts and roles, authentication and role-based access, departments, asset registration (all the fields listed in the description), life-cycle status, publishing surplus, resource requests, search and filtering, reservation, approval workflows, transfer records, maintenance and repair, life-cycle history, notifications, reports, audit log.
-
 <!-- widths: 900,7860,600 -->
 | ID | Requirement | Pri. |
 |---|---|---|
-| FR-01 |  |  |
-| FR-02 |  |  |
-| FR-03 |  |  |
+| FR-01 | The system shall allow authorised administrators to create, update, and deactivate user accounts and assign departments and approved roles. Technical administration shall not automatically grant business approval authority. | M |
+| FR-02 | The system shall authenticate users and enforce role-based and department-based permissions for protected records and actions, including actions requested through the AI assistant. | M |
+| FR-03 | The system shall allow authorised administrators to maintain departments, asset categories, subcategories, and approval responsibilities. | M |
+| FR-04 | The system shall allow custodians or department representatives to register and update assets with a unique ID, name, description, category, quantity, owner, custodian, department, location, purchase date, value, condition, availability, photographs, and supporting documents. | M |
+| FR-05 | The system shall track asset life-cycle status from acquisition and allocation through use, inspection, maintenance, repair, transfer, refurbishment, donation, recycling, retirement, and disposal, while separately recording availability for requests. | M |
+| FR-06 | The system shall allow authorised users to publish and withdraw surplus, underutilised, or unwanted assets, showing available quantity, condition, location, and restrictions with the releasing department's approval. | M |
+| FR-07 | The system shall allow requesters to create, update, submit, cancel, and track resource requests containing category, purpose, technical specifications, quantity, preferred condition, urgency, location, and required date. Changes after approval shall require revalidation. | M |
+| FR-08 | The system shall provide keyword search and filters for category, condition, department, location, quantity, availability, asset age, value, and life-cycle status, limited to records the user may access. | M |
+| FR-09 | The system shall allow users to request reservations and authorised custodians or department representatives to confirm them, recording quantity and expiry and releasing cancelled or expired reservations without allocating the same available quantity twice. | M |
+| FR-10 | The system shall route approval tasks to the responsible departments and, when required, procurement or finance, recording approval, rejection, or requests for changes with the decision maker, time, and reason. | M |
+| FR-11 | The system shall record approved transfers, including releasing and receiving departments, asset quantity, ownership, custody, location, collection or delivery arrangements, condition, documents, and handover and receipt confirmations. Asset records shall be updated at the appropriate confirmed stage. | M |
+| FR-12 | The system shall allow authorised staff to record inspections with the asset, inspection date, findings, condition, supporting evidence, and recommended follow-up action. | M |
+| FR-13 | The system shall manage maintenance, repair, and refurbishment records containing the defect, assigned staff, work status, work performed, estimated and actual costs, outcome, and resulting condition, with required spending approval before work is authorised. | M |
+| FR-14 | The system shall record approved donation, disassembly, recycling, retirement, and disposal actions with the reason, quantity, date, responsible person, destination where relevant, and evidence, and remove affected quantities from active availability. | M |
+| FR-15 | The system shall display an asset's chronological life-cycle history, linking acquisition, allocation, inspections, maintenance, transfers, and end-of-life actions to their dates, actors, approvals, costs, and evidence. | M |
+| FR-16 | The system shall provide in-application notifications for pending approvals, reservation expiry, request decisions, transfer and receipt tasks, and maintenance status changes, visible only to relevant authorised users. | M |
+| FR-17 | The system shall provide conventional reports on assets, availability, requests, reservations, transfers, maintenance, costs, and sustainability indicators, with reporting-period and department filters. | M |
+| FR-18 | The system shall maintain an audit log of asset changes, workflow decisions, account and role changes, and human responses to AI recommendations, recording the actor, time, affected record, action, and relevant before-and-after values. Ordinary users shall not edit or delete audit entries. | M |
 
 ## 6.2 Functional Requirements – AI-Enhanced Extension
-
-> Cover: AI classification on registration, semantic matching, the factors the matching engine must consider, compatibility score and explanation, ranking/prioritisation, sustainable-action recommendation, LLM assistant, generative reports. Add requirements that AI is recommendation-only (humans approve), that confidence and model version are shown/recorded, and that the system falls back to classic behaviour when AI is unavailable.
+AI supports the classic workflows. A compatibility score describes how well an asset meets a request, while confidence describes the strength or uncertainty of a recommendation. Neither represents an approval or a guaranteed probability of correctness.
 
 <!-- widths: 900,7860,600 -->
 | ID | Requirement | Pri. |
 |---|---|---|
-| AI-01 |  |  |
-| AI-02 |  |  |
-| AI-03 |  |  |
+| AI-01 | The system shall suggest an asset category and subcategory, standardised description, tags, material where supported, and missing metadata during registration, allowing the user to accept, correct, or reject suggestions before saving them. | M |
+| AI-02 | The system shall match requests to permitted asset listings using semantic similarity so that relevant resources can be found when requests and listings use different terms. | M |
+| AI-03 | The system shall consider functional purpose, category, technical compatibility, available quantity, condition, location, urgency and required date, estimated transfer or repair cost, and sustainability benefit when assessing matches, identifying missing information and excluding candidates that fail mandatory constraints. | M |
+| AI-04 | The system shall show each recommended match with a compatibility score, an explanation of the main matching factors, unresolved constraints, and confidence information, keeping confidence distinct from compatibility. | M |
+| AI-05 | The system shall rank eligible matches using documented factors and weights and allow users to inspect the reasons for the order and choose another eligible option. | M |
+| AI-06 | The system shall recommend sustainable actions such as retaining or reusing, transferring, repairing, refurbishing, donating, disassembling, recycling, retiring, or disposing of an asset, explaining how condition, demand, repairability, cost, material, value, and sustainability factors influenced the recommendation. | M |
+| AI-07 | The system shall provide an LLM assistant for natural-language resource search, asset and request status questions, policy and service guidance, and drafting resource requests, using only information the signed-in user is authorised to access. | M |
+| AI-08 | The system shall show the exact proposed changes from an assistant interaction and require explicit user confirmation before submitting a request or changing a record, while applying the same validation and approvals as the classic interface. | M |
+| AI-09 | The system shall generate draft narrative reports summarising resource exchange, maintenance trends, avoided purchases, financial savings, waste diversion, and estimated carbon reductions from authorised records and a selected reporting period. | M |
+| AI-10 | The system shall link generated factual claims to supporting records or report totals, identify missing information, and require human review before a generated report is treated as an official summary. | M |
+| AI-11 | The system shall treat AI outputs as recommendations and require the responsible authorised humans to approve transfers, repair spending, donation, recycling, disposal, financial values, and user-role changes. | M |
+| AI-12 | The system shall show confidence information and record the model or deployment identifier, version where available, generation time, and user acceptance, correction, or rejection for AI outputs. Unavailable version or confidence information shall be explicitly marked rather than invented. | M |
+| AI-13 | The system shall offer classic search, filters, forms, approvals, and conventional reports when AI is unavailable, times out, produces invalid output, or has insufficient confidence, informing the user and preserving entered data. | M |
 
 ## 6.3 Sustainability Measurement Requirements
-
-> The description asks for waste diversion, avoided purchases, asset-life extension, reuse rate, financial savings and estimated carbon-emission reductions. Say how they are shown and that assumptions/uncertainty must be stated.
+Prototype indicators will use synthetic transactions and clearly identified assumptions. They demonstrate how the system would measure outcomes without claiming actual university savings or environmental improvements. Calculations will use completed, approved events rather than unaccepted AI suggestions.
 
 <!-- widths: 900,7860,600 -->
 | ID | Requirement | Pri. |
 |---|---|---|
-| SU-01 |  |  |
-| SU-02 |  |  |
+| SU-01 | The system shall display waste diversion, avoided purchases, reuse rate, asset-life extension, financial savings, and estimated carbon-emission reductions in dashboards and conventional reports, with reporting period, department, units, and supporting records. | M |
+| SU-02 | The system shall report quantities diverted from a documented disposal baseline through completed reuse, repair, donation, or recycling, identify the route, and count each tracked item or batch quantity once within the reported total. Kilograms shall be shown only when measured or explicitly estimated mass is available. | M |
+| SU-03 | The system shall count an avoided purchase only when an approved request is fulfilled using an existing asset and an authorised reviewer records that a new purchase would otherwise have been needed, with the avoided quantity and replacement-cost estimate. | M |
+| SU-04 | The system shall calculate estimated net financial savings as validated avoided replacement cost minus attributable transfer, inspection, repair, and refurbishment costs, retaining each input and preventing duplicate counting. | M |
+| SU-05 | The system shall calculate the period reuse rate as the quantity from a defined cohort of reusable listed assets successfully placed back into use by the period end, divided by the total quantity in that cohort, multiplied by 100. It shall show the cohort definition, numerator, denominator, and N/A for a zero denominator. | M |
+| SU-06 | The system shall record a planned retirement date and an estimated revised retirement date after reuse, repair, or refurbishment, reporting the difference in months as estimated asset-life extension and distinguishing it from additional service time actually observed. | M |
+| SU-07 | The system shall estimate net carbon-emission reductions in kg CO2e against a stated baseline using documented factors, quantities, and attributable intervention emissions, retaining negative results and showing N/A when required inputs or defensible factors are missing. | M |
+| SU-08 | The system shall retain each indicator's formula, source records, factor source and version, assumptions, reviewer, and uncertainty or data limitations, distinguishing measured, estimated, and synthetic values. | M |
 
 ## 6.4 Non-Functional Requirements
-
-> Categories to cover: usability, performance, security, privacy, auditability, explainability, reliability/fallback, maintainability, portability (must run on a grader's machine from the repo), data integrity, scalability, fairness/ethics. Make them measurable where you can (e.g. "search returns in under 2 seconds").
+The numerical targets below are preliminary engineering targets for a semester prototype. The initial test dataset will contain 500 synthetic assets across 10 departments and 50 requests. Performance tests will use five concurrent users and a documented machine, browser, software version, and network setup so results can be repeated. The targets will be reviewed during Phase 3.
 
 <!-- widths: 1000,1600,6160,600 -->
 | ID | Category | Requirement | Pri. |
 |---|---|---|---|
-| NFR-01 |  |  |  |
-| NFR-02 |  |  |  |
-| NFR-03 |  |  |  |
+| NFR-01 | Usability | The system shall allow at least 4 of 5 representative test users to complete each of three role-appropriate tasks without help: register an asset, find a suitable listing, and submit a request. Mean post-task satisfaction shall be at least 4 out of 5. | M |
+| NFR-02 | Performance | The system shall return classic search and filter results within 2 seconds for at least 95% of 100 measured requests under the stated test conditions. AI processing time shall be reported separately. | M |
+| NFR-03 | Security | The system shall enforce server-side authentication and authorisation, store passwords only as salted hashes when passwords are managed locally, keep secrets outside version control, and block every unauthorised action in the agreed role-and-permission test matrix. | M |
+| NFR-04 | Privacy | The system shall use synthetic or anonymised demonstration data, prevent access to another department's restricted records in all agreed privacy tests, and exclude credentials and unnecessary personal information from AI requests and ordinary logs. | M |
+| NFR-05 | Auditability | The system shall produce a traceable audit entry for every controlled change in the acceptance test set and reject every tested attempt by an ordinary user to alter audit history. | M |
+| NFR-06 | Explainability | The system shall show reasons, relevant inputs, confidence information or its unavailability, and supporting records for every AI recommendation in the acceptance test set, distinguishing estimates from verified facts. | M |
+| NFR-07 | Reliability / fallback | The system shall display an AI failure or timeout message and make the relevant classic alternative available within 15 seconds of an unanswered AI request. Every tested outage shall preserve user input and allow the classic workflow to continue. | M |
+| NFR-08 | Maintainability | The system shall separate asset, workflow, reporting, and AI integration responsibilities into identifiable modules, document their interfaces, and provide a repeatable command for testing critical business rules. | M |
+| NFR-09 | Portability | The system shall run from a fresh repository copy on a grader's machine using documented supported dependencies, setup commands, configuration examples, and seed data. The classic baseline shall start without a paid AI account or an AI API key. | M |
+| NFR-10 | Data integrity | The system shall validate quantities and references and apply stock-changing operations atomically, with zero negative quantities, duplicate allocations, or invalid life-cycle transitions across the agreed validation and concurrent-reservation tests. | M |
+| NFR-11 | Scalability | The system shall support a second test dataset of 2,000 assets and 200 requests with five concurrent users, completing at least 95% of 100 classic searches within 3 seconds and preserving data integrity. | S |
+| NFR-12 | Fairness / ethics | The system shall exclude protected personal characteristics from matching factors, document department-based priorities, and preserve eligibility and relative ranking in 10 paired tests that change only personal names or department labels while permissions, policy priority, and asset needs stay equal. | M |
