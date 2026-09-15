@@ -10,12 +10,12 @@ The team will follow an Agile approach (Scrum-style) constrained by the course's
 | Phase | Due (labs of week of) | Milestone / deliverable | Weight | Key tasks |
 |---|---|---|---|---|
 | 1 | 14 Sep 2026 | Initial Plan and Requirement Gathering Document | 10 % | Problem, scope, stakeholders, as-is study, initial requirements, plan. Repo created and collaborators added by 15 Sep. |
-| 2 | 21 Sep 2026 | Feasibility Document | 10 % | Technical, financial, operational, schedule, data/AI and legal/ethical feasibility; technology stack decision; LLM/embedding API selection and fallback. |
+| 2 | 21 Sep 2026 | Feasibility Document | 10 % | Technical, financial, operational, schedule, data/AI and legal/ethical feasibility; technology stack and hosting selection; LLM/embedding API selection and fallback. |
 | 3 | 5 Oct 2026 | Requirements Document | 10 % | Full SRS (template in appendix): actors, states, business rules, FR/NFR, AI and sustainability requirements, use-case diagram and descriptions, prioritisation. |
 | 4 & 5 | 26 Oct 2026 | Design Document (Architecture and Detailed Design) | 20 % | Layered architecture, component/deployment diagrams, DFDs, ERD, class/sequence/activity/state diagrams, AI workflow diagrams, interface contracts, mockups, security boundaries. |
-| 6 | 16 Nov 2026 | Draft Implementation with Major Features | 20 % | Working prototype: auth/RBAC, departments, assets, marketplace, requests, search, AI classification and matching, approvals, transfers, maintenance, sustainability dashboard, reports. |
+| 6 | 16 Nov 2026 | Draft Implementation with Major Features | 20 % | Working prototype: auth/RBAC, departments, assets, marketplace, requests, search, AI classification and matching, approvals, transfers, maintenance, sustainability dashboard, reports; initial hosted deployment. |
 | 7 | 23 Nov 2026 | Details of Test Cases | 10 % | Unit, integration, system, AI-quality, sustainability-calculation and user-acceptance tests; limitations of test data reported honestly. |
-| 8 | 23 Nov 2026 | Final Project, Presentation and Demonstration | 20 % | Final code, configuration, documentation across all phases, presentation and live demo. |
+| 8 | 23 Nov 2026 | Final Project, Presentation and Demonstration | 20 % | Final code, hosted application URL, configuration and deployment instructions, documentation across all phases, presentation and live demo. |
 
 > Note: the project description lists a tentative schedule starting one week later (Phase 1 in the week of 20 September 2026). This plan uses the earlier dates in the Phase 1 lab slides as a conservative planning baseline; the team will confirm the authoritative schedule with the instructors.
 
@@ -25,7 +25,7 @@ The team will follow an Agile approach (Scrum-style) constrained by the course's
 | Week of | Phase | Sprint goal |
 |---|---|---|
 | 14 Sep | 1 | Submit Phase 1; repository live with all collaborators; every member has committed. |
-| 21 Sep | 2 | Feasibility study; choose technology stack; test one LLM/embedding API end-to-end. |
+| 21 Sep | 2 | Feasibility study; choose technology stack and hosting; test one LLM/embedding API end-to-end. |
 | 28 Sep | 3 | Stakeholder interviews and survey; draft use cases. |
 | 5 Oct | 3 | Complete SRS and submit Requirements Document. |
 | 12 Oct | 4 | Architecture, data model (ERD), data-flow diagrams. |
@@ -33,8 +33,8 @@ The team will follow an Agile approach (Scrum-style) constrained by the course's
 | 26 Oct | 4 & 5 | Submit Design Document; set up project skeleton and synthetic data. |
 | 2 Nov | 6 | Authentication, roles, departments, asset registration, marketplace. |
 | 9 Nov | 6 | Requests, search, AI classification and matching, approvals, transfers. |
-| 16 Nov | 6 | Maintenance, sustainability dashboard, reports; submit draft implementation. |
-| 23 Nov | 7 & 8 | Test cases, bug fixes, final documentation, presentation and demo. |
+| 16 Nov | 6 | Maintenance, sustainability dashboard, reports; deploy the draft application and verify hosted workflows. |
+| 23 Nov | 7 & 8 | Test cases, bug fixes, final deployment and restart checks, documentation, presentation and demo. |
 
 ## 8.3 Team Structure and Roles
 
@@ -55,7 +55,7 @@ Roles rotate partially so that every member gains experience across the SDLC, bu
 | Finalise Phase 1 document and submit | Project lead (Sultan); all contribute sections | Week of 14 Sep |
 | Create GitHub repository, add instructor and lab engineer as collaborators, add README, .gitignore, licence; plan branch protection for Phase 2 | Project lead (Sultan) | 15 Sep |
 | Set up Git identity and first commit for every member | Each member | 15 Sep |
-| Technology stack proposal and AI API evaluation (free tiers, rate limits, fallback) | AI/architecture lead (Ghith) | Week of 21 Sep |
+| Technology stack, hosting proposal and AI API evaluation (free tiers, rate limits, fallback) | AI/architecture lead (Ghith) | Week of 21 Sep |
 | Feasibility document (six feasibility dimensions) | Requirements lead (Zayed) drafts, all review | Week of 21 Sep |
 | Stakeholder interviews and survey | Requirements/UX lead (Zayed) | Weeks of 21 Sep – 28 Sep |
 | Use-case diagram and detailed use-case descriptions | Requirements lead (Zayed) | Week of 5 Oct |
@@ -67,7 +67,7 @@ Roles rotate partially so that every member gains experience across the SDLC, bu
 - Phase 2 stack decision depends on confirmation of available LLM/embedding API access (free tier or instructor-provided key).
 - Phase 3 SRS depends on interview/survey results and instructor answers on approval thresholds and sustainability factors.
 - Phase 4–5 design depends on the finalised data model and the chosen AI service interfaces.
-- Phase 6 implementation depends on the synthetic data set and on all members having a working local environment.
+- Phase 6 implementation and deployment depend on the synthetic data set, working local environments, selected hosting, deployment credentials, and documented application/database configuration.
 - Phase 7 AI-quality testing depends on a labelled test set created during Phase 6.
 - All phases depend on continuous, individually-authored commits to satisfy the GitHub grading criterion.
 
@@ -90,7 +90,7 @@ Roles rotate partially so that every member gains experience across the SDLC, bu
 
 - **People:** Three students, approximately 6–8 hours per member per week, rising to 10+ in Phases 6–8.
 - **Tools:** GitHub (repository, issues, pull requests, projects board); VS Code with GitHub Copilot (student plan); draw.io/PlantUML for UML; a web framework and relational database chosen in Phase 2; hosted LLM/embedding API (free tier); LibreOffice/Word for documents.
-- **Infrastructure:** local development machines; university lab computers; optional free-tier cloud hosting for the demo.
+- **Infrastructure:** local development machines; university lab computers; application and database hosting on a suitable free or university-provided tier selected in Phase 2. Ghith leads deployment, with Sultan supporting configuration and integration.
 - **Data:** team-generated synthetic asset, department, request and maintenance data; published sustainability factors.
 - **Budget:** AED 0 – all tools on free or student tiers.
 

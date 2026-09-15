@@ -24,7 +24,7 @@ const p=(text,options={})=>new Paragraph({spacing:{after:110,line:260},widowCont
 const space=()=>new Paragraph({spacing:{after:60,before:0,line:80},children:[]});
 const pageBreak=()=>new Paragraph({children:[new PageBreak()],spacing:{after:0,before:0}});
 function cleanHeading(t){return t.replace(/^(\d+)\.\s/,'$1 ').replace(/(\d)[–-](\d)/g,'$1 to $2').replace(/\(Initial Reflection\)/,'Initial Reflection').replace(/\(As-Is\)/,'As Is').replace(/vs\./g,'and').replace(/\s[–—]\s/g,' ').replace(/[-–]/g,' ').replace(/[():]/g,'').replace(/\s+/g,' ').trim();}
-function heading(level,text){return new Paragraph({heading:[HeadingLevel.HEADING_1,HeadingLevel.HEADING_2,HeadingLevel.HEADING_3][level-1],keepNext:true,pageBreakBefore:level===1&&/^(1\.|10\.)\s/.test(text),children:inline(cleanHeading(text),{size:[30,25,23][level-1],bold:true})});}
+function heading(level,text){return new Paragraph({heading:[HeadingLevel.HEADING_1,HeadingLevel.HEADING_2,HeadingLevel.HEADING_3][level-1],keepNext:true,pageBreakBefore:level===1&&/^1\.\s/.test(text),children:inline(cleanHeading(text),{size:[30,25,23][level-1],bold:true})});}
 function table(headers,rows,rawWidths){
   const raw=rawWidths&&rawWidths.length===headers.length?rawWidths:headers.map(()=>1),sum=raw.reduce((a,b)=>a+b,0);
   const widths=raw.map(x=>Math.round(x/sum*WIDTH));widths[widths.length-1]+=WIDTH-widths.reduce((a,b)=>a+b,0);

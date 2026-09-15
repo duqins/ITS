@@ -38,7 +38,7 @@ The project is a lab-based running project for COSC 336 at Khalifa University. I
 | Team resources | Student team of three members working part-time alongside other courses; limited AI/ML experience; no dedicated designer, tester or DevOps engineer. |
 | Data | No access to real university asset data. The prototype will use synthetic and anonymised sample data; sustainability figures (e.g., carbon factors) will use published estimates and must be reported with their uncertainty. |
 | Process | Git and GitHub are mandatory; commit history is graded (10 % of each phase). Regular, meaningful, individually-authored commits are required. |
-| Technology | Web application; must run on a grader's machine from the repository with documented setup. AI features depend on external LLM/embedding APIs with rate limits. |
+| Technology | Web application with documented local setup and deployment to a hosting environment. The hosting platform will be selected in Phase 2. AI features depend on external LLM/embedding APIs with rate limits. |
 | Policy and ethics | Must respect university procurement, ownership, privacy and safety policies; AI must not make final decisions on disposal, donation or transfer. |
 
 ## 2.5 Scope of the Project
@@ -56,6 +56,7 @@ The project is a lab-based running project for COSC 336 at Khalifa University. I
 - Conventional operational reports; notifications; audit logging.
 - AI: classification/tagging, semantic matching with compatibility score and explanation, prioritisation/ranking, sustainable-action recommendation, LLM assistant, generative reports.
 - Sustainability indicators and dashboard summaries.
+- Hosting and deployment of the web application for access by intended users and reviewers, with documented configuration, deployment, and restart procedures.
 - Full documentation across all eight phases and a working prototype with demonstration.
 
 ### Out of scope
@@ -65,7 +66,6 @@ The project is a lab-based running project for COSC 336 at Khalifa University. I
 - Physical logistics (vehicle scheduling, barcode/RFID hardware), beyond recording collection/delivery arrangements.
 - Training custom machine-learning models from scratch; the project uses pre-trained models and hosted LLM/embedding services.
 - Mobile native applications (the web UI will be responsive instead).
-- Production deployment, high-availability hosting and formal security certification.
 
 ## 2.6 Assumptions
 
