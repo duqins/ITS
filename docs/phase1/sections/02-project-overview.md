@@ -33,7 +33,7 @@ The project is a lab-based running project for COSC 336 at Khalifa University. I
 <!-- widths: 2200,7160 -->
 | Constraint | Description |
 |---|---|
-| Timeline | Eight phases across the Fall 2026 semester (Phase 1 week of 14 Sep 2026; final submission and demonstration week of 23 Nov 2026). Deadlines are fixed by the course; scope must fit them. |
+| Timeline | Eight phases across the Fall 2026 semester (Phase 1 week of 14 Sep 2026; final submission and demonstration week of 23 Nov 2026). The course sets the deadlines; this plan uses the earlier lab-slide dates pending instructor confirmation. |
 | Budget | No monetary budget. Only free/open-source frameworks, free-tier cloud or LLM APIs, and university-provided lab resources may be used. |
 | Team resources | Student team of three members working part-time alongside other courses; limited AI/ML experience; no dedicated designer, tester or DevOps engineer. |
 | Data | No access to real university asset data. The prototype will use synthetic and anonymised sample data; sustainability figures (e.g., carbon factors) will use published estimates and must be reported with their uncertainty. |
@@ -73,7 +73,7 @@ The project is a lab-based running project for COSC 336 at Khalifa University. I
 - Synthetic data of realistic size (hundreds of assets, tens of departments and requests) is sufficient to demonstrate all functionality.
 - A free-tier hosted LLM and embedding API will remain available throughout the semester, and the team may fall back to a smaller open-source model if not.
 - All team members have GitHub accounts, Git installed and access to the shared repository by 15 September 2026.
-- Deadlines follow the Phase 1 lab slides (week of 14 Sep 2026 onward); the project description lists a tentative later schedule and the slide dates take precedence unless the instructors announce otherwise.
+- Deadlines follow the Phase 1 lab slides (week of 14 Sep 2026 onward); the project description lists a tentative later schedule and the earlier slide dates are used for planning until the instructors confirm the schedule.
 
 ## 2.7 Key Terms
 

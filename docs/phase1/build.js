@@ -1,165 +1,65 @@
-// Builds Phase1_Initial_Plan_and_Requirements.docx from the Markdown files in ./sections.
-// Usage (from repo root):  npm install   (once)   then   node docs/phase1/build.js
-//
-// Supported Markdown: # ## ### headings, paragraphs, "- " bullets, "> " notes,
-// | pipe | tables |, **bold**, *italic*. A "<!-- widths: a,b,c -->" comment above a
-// table sets column widths (DXA, sum ≈ 9360). A file starting with "<!-- titlepage -->"
-// is rendered as a centred title page.
-
-const fs = require("fs");
-const path = require("path");
-const {
-  Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell,
-  WidthType, ShadingType, LevelFormat, PageBreak, TableOfContents, PageNumber, Footer, Header,
-} = require("docx");
-
-const FONT = "Calibri";
-const ACCENT = "C55A11";
-const TOTAL_W = 9360;
-const OUT_NAME = "Phase1_Initial_Plan_and_Requirements.docx";
-const HEADER_TEXT = "COSC 336 – Phase 1: Initial Plan and Requirement Gathering Document";
-
-// ---- inline markdown (**bold**, *italic*) -> TextRuns ----
-function inline(text, base = {}) {
-  const runs = [];
-  const re = /(\*\*[^*]+\*\*|\*[^*]+\*)/g;
-  let last = 0, m;
-  while ((m = re.exec(text))) {
-    if (m.index > last) runs.push(new TextRun({ text: text.slice(last, m.index), font: FONT, size: 22, ...base }));
-    const tok = m[0];
-    if (tok.startsWith("**")) runs.push(new TextRun({ text: tok.slice(2, -2), font: FONT, size: 22, bold: true, ...base }));
-    else runs.push(new TextRun({ text: tok.slice(1, -1), font: FONT, size: 22, italics: true, ...base }));
-    last = m.index + tok.length;
+// Generates the submission from the team's Markdown sections. Run npm run build:phase1.
+// Open rebuilt files in Word and update the contents and page fields before submission.
+const fs=require('fs'),path=require('path');
+const {Document,Packer,Paragraph,TextRun,HeadingLevel,AlignmentType,Table,TableRow,TableCell,WidthType,ShadingType,LevelFormat,PageBreak,TableOfContents,PageNumber,Footer,Header,BorderStyle,VerticalAlign,TableLayoutType,ExternalHyperlink}=require('docx');
+const FONT='Calibri',WIDTH=9746,NAVY='243746',OUT='Phase1_Initial_Plan_and_Requirements.docx';
+const border={style:BorderStyle.SINGLE,size:4,color:'D9D9D9'};
+function inline(text,base={}){
+  const result=[],re=/(https?:\/\/[^\s|]+|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
+  let last=0,m;
+  const run=(s,x={})=>new TextRun({text:s,font:FONT,size:22,color:'000000',...base,...x});
+  while((m=re.exec(text))){
+    if(m.index>last)result.push(run(text.slice(last,m.index)));
+    const t=m[0];
+    if(t.startsWith('http'))result.push(new ExternalHyperlink({link:t,children:[run(t,{color:NAVY})]}));
+    else if(t.startsWith('**'))result.push(run(t.slice(2,-2),{bold:true}));
+    else if(t.startsWith('`'))result.push(run(t.slice(1,-1),{font:'Consolas'}));
+    else result.push(run(t.slice(1,-1),{italics:true}));
+    last=m.index+t.length;
   }
-  if (last < text.length) runs.push(new TextRun({ text: text.slice(last), font: FONT, size: 22, ...base }));
-  return runs;
+  if(last<text.length)result.push(run(text.slice(last)));
+  return result;
 }
-
-function heading(level, text) {
-  const lv = [HeadingLevel.HEADING_1, HeadingLevel.HEADING_2, HeadingLevel.HEADING_3][level - 1];
-  return new Paragraph({ heading: lv, children: [new TextRun({ text, font: FONT })] });
+const p=(text,options={})=>new Paragraph({spacing:{after:110,line:260},widowControl:true,children:inline(text),...options});
+const space=()=>new Paragraph({spacing:{after:60,before:0,line:80},children:[]});
+const pageBreak=()=>new Paragraph({children:[new PageBreak()],spacing:{after:0,before:0}});
+function cleanHeading(t){return t.replace(/^(\d+)\.\s/,'$1 ').replace(/(\d)[–-](\d)/g,'$1 to $2').replace(/\(Initial Reflection\)/,'Initial Reflection').replace(/\(As-Is\)/,'As Is').replace(/vs\./g,'and').replace(/\s[–—]\s/g,' ').replace(/[-–]/g,' ').replace(/[():]/g,'').replace(/\s+/g,' ').trim();}
+function heading(level,text){return new Paragraph({heading:[HeadingLevel.HEADING_1,HeadingLevel.HEADING_2,HeadingLevel.HEADING_3][level-1],keepNext:true,pageBreakBefore:level===1&&/^(1\.|10\.)\s/.test(text),children:inline(cleanHeading(text),{size:[30,25,23][level-1],bold:true})});}
+function table(headers,rows,rawWidths){
+  const raw=rawWidths&&rawWidths.length===headers.length?rawWidths:headers.map(()=>1),sum=raw.reduce((a,b)=>a+b,0);
+  const widths=raw.map(x=>Math.round(x/sum*WIDTH));widths[widths.length-1]+=WIDTH-widths.reduce((a,b)=>a+b,0);
+  const cell=(text,i,head,n)=>new TableCell({width:{size:widths[i],type:WidthType.DXA},verticalAlign:VerticalAlign.CENTER,margins:{top:80,bottom:80,left:100,right:100},
+    shading:{type:ShadingType.CLEAR,fill:head?NAVY:(n%2?'F2F4F5':'FFFFFF'),color:'auto'},
+    children:[new Paragraph({alignment:/^(#|ID|Pri\.|Phase|Weight|Likelihood|Impact)$/.test(headers[i])?AlignmentType.CENTER:AlignmentType.LEFT,spacing:{after:0,before:0,line:235},widowControl:true,children:inline(text,{size:20,bold:head,color:head?'FFFFFF':'000000'})})]});
+  return new Table({width:{size:WIDTH,type:WidthType.DXA},columnWidths:widths,layout:TableLayoutType.FIXED,borders:{top:border,bottom:border,left:border,right:border,insideHorizontal:border,insideVertical:border},
+    rows:[new TableRow({tableHeader:true,cantSplit:true,children:headers.map((x,i)=>cell(x,i,true,0))}),...rows.map((r,n)=>new TableRow({cantSplit:true,children:headers.map((_,i)=>cell(r[i]||'',i,false,n))}))]});
 }
-const para = (text, extra = {}) => new Paragraph({ spacing: { after: 120, line: 276 }, children: inline(text, extra) });
-const bullet = (text) => new Paragraph({ numbering: { reference: "bullets", level: 0 }, spacing: { after: 60, line: 276 }, children: inline(text) });
-const note = (text) => new Paragraph({ spacing: { after: 120, line: 276 }, children: inline(text, { italics: true, size: 20 }) });
-const spacer = () => new Paragraph({ spacing: { after: 120 }, children: [] });
-const pageBreak = () => new Paragraph({ children: [new PageBreak()] });
-
-function table(headers, rows, widths) {
-  const ws = widths && widths.length === headers.length ? widths : headers.map(() => Math.floor(TOTAL_W / headers.length));
-  const cell = (text, w, isHead) => new TableCell({
-    width: { size: w, type: WidthType.DXA },
-    shading: isHead ? { type: ShadingType.CLEAR, fill: ACCENT, color: "auto" } : undefined,
-    margins: { top: 60, bottom: 60, left: 100, right: 100 },
-    children: [new Paragraph({ spacing: { after: 0 }, children: inline(text, { size: 20, bold: isHead || undefined, color: isHead ? "FFFFFF" : undefined }) })],
-  });
-  return new Table({
-    width: { size: ws.reduce((a, b) => a + b, 0), type: WidthType.DXA },
-    columnWidths: ws,
-    rows: [
-      new TableRow({ tableHeader: true, children: headers.map((h, i) => cell(h, ws[i], true)) }),
-      ...rows.map((r) => new TableRow({ children: r.map((c, i) => cell(c ?? "", ws[i], false)) })),
-    ],
-  });
-}
-
-const splitRow = (line) => line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
-
-// ---- markdown file -> array of docx elements ----
-function parseMarkdown(md, { titlePage = false } = {}) {
-  const lines = md.split(/\r?\n/);
-  const out = [];
-  let pendingWidths = null;
-  let i = 0;
-  while (i < lines.length) {
-    const line = lines[i];
-    const t = line.trim();
-    const wm = t.match(/^<!--\s*widths:\s*([\d,\s]+)\s*-->$/);
-    if (wm) { pendingWidths = wm[1].split(",").map((n) => parseInt(n.trim(), 10)); i++; continue; }
-    if (t.startsWith("<!--")) { // skip single- or multi-line HTML comments
-      while (i < lines.length && !lines[i].includes("-->")) i++;
-      i++; continue;
-    }
-    if (t === "") { i++; continue; }
-
-    if (t.startsWith("|")) {
-      const rows = [];
-      while (i < lines.length && lines[i].trim().startsWith("|")) { rows.push(splitRow(lines[i])); i++; }
-      const headers = rows[0];
-      const body = rows.slice(1).filter((r) => !r.every((c) => /^:?-{2,}:?$/.test(c)));
-      out.push(table(headers, body, pendingWidths));
-      out.push(spacer());
-      pendingWidths = null;
-      continue;
-    }
-
-    const hm = t.match(/^(#{1,4})\s+(.*)$/);
-    if (hm) {
-      const level = hm[1].length, text = hm[2];
-      if (titlePage) {
-        const size = [32, 40, 30, 28][level - 1];
-        const color = level === 2 ? ACCENT : undefined;
-        const bold = level !== 3;
-        const after = [200, 200, 600, 1200][level - 1];
-        out.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: level === 1 ? 1800 : 0, after }, children: [new TextRun({ text, font: FONT, size, bold, color })] }));
-      } else {
-        out.push(heading(Math.min(level, 3), text));
-      }
-      i++; continue;
-    }
-
-    if (t.startsWith("- ")) { out.push(bullet(t.slice(2))); i++; continue; }
-    if (t.startsWith("> ")) { out.push(note(t.slice(2))); i++; continue; }
-
-    // paragraph: join consecutive plain lines
-    const buf = [t];
-    i++;
-    while (i < lines.length && lines[i].trim() !== "" && !/^(#|-|>|\||<!--)/.test(lines[i].trim())) { buf.push(lines[i].trim()); i++; }
-    if (titlePage) buf.forEach((l) => out.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 100 }, children: [new TextRun({ text: l, font: FONT, size: 26 })] })));
-    else out.push(para(buf.join(" ")));
+const splitRow=line=>line.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map(x=>x.trim());
+function parse(md){
+  const lines=md.split(/\r?\n/),out=[];let i=0,widths=null;
+  while(i<lines.length){
+    const t=lines[i].trim(),wm=t.match(/^<!--\s*widths:\s*([\d,\s]+)\s*-->$/);
+    if(wm){widths=wm[1].split(',').map(Number);i++;continue;}
+    if(t.startsWith('<!--')){while(i<lines.length&&!lines[i].includes('-->'))i++;i++;continue;}
+    if(!t){i++;continue;}
+    if(t.startsWith('|')){const rows=[];while(i<lines.length&&lines[i].trim().startsWith('|'))rows.push(splitRow(lines[i++]));out.push(table(rows[0],rows.slice(1).filter(r=>!r.every(c=>/^:?-{2,}:?$/.test(c))),widths));out.push(space());widths=null;continue;}
+    const hm=t.match(/^(#{1,4})\s+(.*)$/);
+    if(hm){out.push(heading(Math.min(hm[1].length,3),hm[2]));i++;continue;}
+    if(t.startsWith('- ')){out.push(p(t.slice(2),{numbering:{reference:'bullets',level:0},spacing:{after:75,line:260}}));i++;continue;}
+    if(t.startsWith('> ')){out.push(p(t.slice(2)));i++;continue;}
+    const buf=[t];i++;while(i<lines.length&&lines[i].trim()&&!/^(#|-|>|\||<!--)/.test(lines[i].trim()))buf.push(lines[i++].trim());out.push(p(buf.join(' ')));
   }
   return out;
 }
-
-// ---- assemble ----
-const dir = path.join(__dirname, "sections");
-const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md")).sort();
-const children = [];
-for (const f of files) {
-  const md = fs.readFileSync(path.join(dir, f), "utf8");
-  const isTitle = /^<!--\s*titlepage\s*-->/.test(md.trim());
-  children.push(...parseMarkdown(md, { titlePage: isTitle }));
-  if (isTitle) {
-    children.push(pageBreak());
-    children.push(new Paragraph({ spacing: { before: 360, after: 160 }, children: [new TextRun({ text: "Table of Contents", font: FONT, size: 32, bold: true, color: ACCENT })] }));
-    children.push(new TableOfContents("Table of Contents", { hyperlink: true, headingStyleRange: "1-2" }));
-    children.push(note("(In Word, right-click the table and choose “Update Field” to refresh page numbers.)"));
-    children.push(pageBreak());
-  }
-}
-
-const doc = new Document({
-  creator: "COSC 336 Group 4",
-  title: "Phase 1 – Initial Plan and Requirement Gathering Document",
-  styles: {
-    default: { document: { run: { font: FONT, size: 22 } } },
-    paragraphStyles: [
-      { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true, run: { size: 32, bold: true, color: ACCENT, font: FONT }, paragraph: { spacing: { before: 360, after: 160 }, outlineLevel: 0 } },
-      { id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true, run: { size: 26, bold: true, color: "1F3864", font: FONT }, paragraph: { spacing: { before: 240, after: 120 }, outlineLevel: 1 } },
-      { id: "Heading3", name: "Heading 3", basedOn: "Normal", next: "Normal", quickFormat: true, run: { size: 23, bold: true, font: FONT }, paragraph: { spacing: { before: 200, after: 80 }, outlineLevel: 2 } },
-    ],
-  },
-  numbering: { config: [{ reference: "bullets", levels: [{ level: 0, format: LevelFormat.BULLET, text: "•", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 720, hanging: 360 } } } }] }] },
-  sections: [{
-    properties: { page: { margin: { top: 1440, bottom: 1440, left: 1440, right: 1440 } } },
-    headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: HEADER_TEXT, font: FONT, size: 16, color: "666666" })] })] }) },
-    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Page ", font: FONT, size: 16 }), new TextRun({ children: [PageNumber.CURRENT], font: FONT, size: 16 })] })] }) },
-    children,
-  }],
-});
-
-Packer.toBuffer(doc).then((buf) => {
-  const out = path.join(__dirname, OUT_NAME);
-  fs.writeFileSync(out, buf);
-  console.log(`wrote ${out} (${buf.length} bytes) from ${files.length} section files`);
-});
+const dir=path.join(__dirname,'sections'),files=fs.readdirSync(dir).filter(x=>x.endsWith('.md')).sort(),meta={};
+for(const line of fs.readFileSync(path.join(dir,'00-title.md'),'utf8').split(/\r?\n/).filter(x=>x.startsWith('|'))){const r=splitRow(line);meta[r[0]]=r[1];}
+const centered=(text,size,bold=false,after=180,extra={})=>new Paragraph({alignment:AlignmentType.CENTER,spacing:{after},children:inline(text,{size,bold}),...extra});
+const cover=[centered('Khalifa University',32,true,120,{spacing:{before:500,after:120}}),centered('Department of Computer Science',24,false,180),centered('COSC 336  Introduction to Software Engineering',23,false,80),centered('Fall 2026',23,false,720),centered('Phase 1',28,true,140),centered('Initial Plan and Requirement Gathering Document',42,true,450,{style:'Title'}),centered(meta['Title of the project'],29,true,640),centered(meta['Prepared by'],24,false,240),centered(meta['Date of the document']+'  |  Version 1.0',22,false,400),centered('Prepared for',22,true,100),centered("Ala' Alsamarneh",22,false,70),centered('Hamdan Abdulla Naser Salem Alshkeili',22,false,200),centered('COSC 336 lab instructors and project clients',21,false,380),centered(meta['GitHub repository'],22,false,0)];
+const children=[...cover,pageBreak(),new Paragraph({style:'ContentsTitle',children:inline('Contents',{size:32,bold:true}),spacing:{after:220}}),new TableOfContents('Contents',{hyperlink:true,headingStyleRange:'1-2'})];
+for(const file of files.filter(x=>x!=='00-title.md'))children.push(...parse(fs.readFileSync(path.join(dir,file),'utf8')));
+const style=(id,name,size,before,after,level)=>({id,name,basedOn:'Normal',next:'Normal',quickFormat:true,run:{font:FONT,size,bold:true,color:'000000'},paragraph:{spacing:{before,after},keepNext:true,...(level===undefined?{}:{outlineLevel:level})}});
+const doc=new Document({creator:'COSC 336 Group 4',lastModifiedBy:'COSC 336 Group 4',title:'Initial Plan and Requirement Gathering Document',subject:meta['Title of the project'],description:'Phase 1 submission for COSC 336 Group 4',
+  styles:{default:{document:{run:{font:FONT,size:22,color:'000000'},paragraph:{spacing:{after:110,line:260}}}},paragraphStyles:[style('Title','Title',42,0,450),style('ContentsTitle','Contents Title',32,0,220),style('Heading1','Heading 1',30,240,150,0),style('Heading2','Heading 2',25,210,110,1),style('Heading3','Heading 3',23,170,90,2),{id:'TOC1',name:'toc 1',basedOn:'Normal',next:'Normal',run:{font:FONT,size:22,bold:true,color:'000000'},paragraph:{spacing:{after:80,line:245}}},{id:'TOC2',name:'toc 2',basedOn:'Normal',next:'Normal',run:{font:FONT,size:21,color:'000000'},paragraph:{indent:{left:220},spacing:{after:50,line:240}}}]},
+  numbering:{config:[{reference:'bullets',levels:[{level:0,format:LevelFormat.BULLET,text:'•',alignment:AlignmentType.LEFT,style:{paragraph:{indent:{left:300,hanging:180}}}}]}]},
+  sections:[{properties:{titlePage:true,page:{size:{width:11906,height:16838},margin:{top:1080,bottom:1080,left:1080,right:1080,header:500,footer:500}}},headers:{default:new Header({children:[new Paragraph({alignment:AlignmentType.RIGHT,spacing:{after:0},children:inline('COSC 336  |  Group 4  |  Phase 1',{size:17})})]})},footers:{default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,spacing:{after:0},children:[new TextRun({text:'Page ',font:FONT,size:18,color:'000000'}),new TextRun({children:[PageNumber.CURRENT],font:FONT,size:18,color:'000000'})]})]})},children}]});
+Packer.toBuffer(doc).then(buf=>{const output=path.join(__dirname,OUT);fs.writeFileSync(output,buf);console.log(`Built ${output} from ${files.length} section files.`);}).catch(e=>{console.error(e);process.exitCode=1;});

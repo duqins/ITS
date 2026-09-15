@@ -13,7 +13,7 @@ Lab-based Running Project
 | Field | Value |
 |---|---|
 | Title of the project | Intelligent, AI-Powered Circular Campus Resource Exchange and Asset Life Cycle Management System |
-| Date of the document | September 2026 |
+| Date of the document | 15 September 2026 |
 | Document version | 1.0 (initial submission) |
 | Prepared by | Group 4 – Zayed Alfadli, Ghith Alhinaai, Sultan Almheiri |
 | Prepared for | Khalifa University, Department of Computer Science – COSC 336 lab instructors Ala' Alsamarneh and Hamdan Abdulla Naser Salem Alshkeili (acting as client and project sponsor) |

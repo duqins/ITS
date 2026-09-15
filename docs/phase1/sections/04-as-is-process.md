@@ -1,8 +1,9 @@
 # 4. Study of the Current (As-Is) Process
 
-The team does not have access to Khalifa University's real asset-management systems or internal procedures. Therefore, this section is a preliminary view based on the project description, common university practices, and the team's walkthrough of the process. It will be checked and corrected through interviews and workshops in Phases 2 and 3.
+The team does not have access to Khalifa University's real asset-management systems or internal procedures. Therefore, this section is a preliminary view based on the project description, common university practices, and the team's desk walkthrough of the assignment scenario. It will be checked and corrected through interviews and workshops in Phases 2 and 3.
 
 
+<!-- widths: 2000,3760,3600 -->
 | Process | Current practice (typical) | Main problems to solve |
 |---|---|---|
 | Identifying surplus assets | A department notices an unused or unwanted asset and records it in a spreadsheet, email, or local file. Other departments may only learn about it by asking around. | No campus-wide visibility, incomplete records, outdated information, and unnecessary purchases. |

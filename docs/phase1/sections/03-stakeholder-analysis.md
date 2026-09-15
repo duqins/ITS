@@ -2,9 +2,10 @@
 
 ## 3.1 Identification of Stakeholders
 
-The stakeholders were identified from the project description, the Phase 1 slides, and a walkthrough of the asset process from registration to transfer, maintenance, and disposal. They include people who use the system, approve decisions, operate the software, define the project requirements, or benefit from its results.
+The stakeholders were identified from the project description, the Phase 1 slides, and a desk walkthrough of the assignment scenario from registration to transfer, maintenance, and disposal. They include people who use the system, approve decisions, operate the software, define the project requirements, or benefit from its results.
 
 
+<!-- widths: 1800,3100,4460 -->
 | Group | Stakeholders | Interest in the system |
 |---|---|---|
 | Operational users | Department representatives, asset custodians, requesters, maintenance staff | Register, find, request, transfer, inspect, and maintain assets. |
@@ -20,6 +21,7 @@ The stakeholders were identified from the project description, the Phase 1 slide
 Permissions are assigned according to each person's role. Technical access does not give someone business approval authority; for example, a system administrator cannot approve an asset transfer simply because they manage the software.
 
 
+<!-- widths: 2200,3480,3680 -->
 | Stakeholder | Main responsibilities | Main system permissions |
 |---|---|---|
 | Department representative | Confirm department needs and approve releasing or receiving assets. | Manage department requests and listings; approve release and receipt. |
@@ -31,12 +33,13 @@ Permissions are assigned according to each person's role. Technical access does 
 | Maintenance staff | Inspect assets and record repair work, cost, and outcome. | Manage assigned maintenance records and update asset condition. |
 | Sustainability officer | Review reuse, repair, donation, recycling, and disposal options. | Review recommendations; manage sustainability factors; validate indicators. |
 | System administrator | Manage accounts, roles, configuration, backup, and security. | Perform technical administration without automatic business approval rights. |
-| Lab instructors | Clarify scope and review the project's work. | Use reviewer access and make course acceptance decisions. |
+| Lab instructors | Clarify scope and review the project's work. | Review documents, repository evidence, and demonstrations; make course acceptance decisions. |
 | Student project team | Gather requirements and build, test, and document the prototype. | Use development and test access with synthetic data. |
 
 ## 3.3 Stakeholder Needs and Expectations
 
 
+<!-- widths: 2200,2860,4300 -->
 | Stakeholder | Main need | Expected system support |
 |---|---|---|
 | Department representative | Control department requests and assets. | Clear approval tasks and confirmed ownership, custody, and location changes. |
@@ -56,6 +59,7 @@ Permissions are assigned according to each person's role. Technical access does 
 AI features only provide recommendations. People remain responsible for approving transfers, repair spending, donation, recycling, disposal, financial values, and user roles. Approval thresholds that depend on university policy will be confirmed with the client in later phases.
 
 
+<!-- widths: 1950,1900,3150,2360 -->
 | Feature | Primary users | Main data needed | Approval owner |
 |---|---|---|---|
 | Asset registration and classification | Asset custodian, department representative | Name, description, category, quantity, owner, department, location, purchase date, value, condition, availability, photos, documents, plus suggested category/subcategory, standard description, tags, material, and missing metadata | Custodian or department representative confirms the record and AI suggestions. |
@@ -67,6 +71,7 @@ AI features only provide recommendations. People remain responsible for approvin
 | Transfer and receipt | Department representatives, custodians, administrator | Approvals, ownership, custody, location, collection/delivery, condition, documents, and confirmation | Releasing and receiving departments; finance/procurement when required. |
 | Maintenance and repair | Custodian, maintenance staff, finance | Defect, inspection, work, cost, outcome, condition | Department representative; finance above an agreed threshold. |
 | Asset life-cycle tracking | Custodian, administrator, maintenance, procurement | Acquisition, allocation, use, inspection, repair, transfer, refurbishment, donation, recycling, retirement, disposal, actor, date, and evidence | Authorised owner confirms controlled status changes. |
+| End-of-life actions | Department representatives, procurement, sustainability, finance | Asset condition, proposed route, reason, value, destination, approvals, and evidence | Proposed: department and procurement authorisation, sustainability review, and finance approval where thresholds apply; final sequence to be confirmed with the client. |
 | Sustainable-action recommendation | Sustainability officer, custodian, administrator | Condition, demand, repairability, cost, material, value, sustainability factors, and recommendation to retain, transfer, repair, refurbish, donate, disassemble, recycle, or dispose | Authorised human roles; AI only recommends. |
 | LLM assistant | All authorised users | User role, permitted assets, requests, history, status, policy guidance, sustainability information, and intended action | User confirms changes; normal approval workflow still applies. |
 | Operational and AI-generated reports | Administrators, finance, procurement, sustainability | Assets, requests, transfers, maintenance, savings, waste diversion, reuse, repair, asset-life extension, and estimated carbon reduction | Relevant data owner reviews official reports and generated summaries. |

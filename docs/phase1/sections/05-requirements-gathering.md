@@ -5,6 +5,7 @@
 Requirements gathering will continue throughout the project. Phase 1 creates an initial list from the supplied documents, Phases 2 and 3 validate it with the client and stakeholders, and later prototypes and tests help identify missing or unclear requirements. Using several techniques reduces the risk of relying on one person's assumptions.
 
 
+<!-- widths: 1850,3100,2850,1560 -->
 | Technique | Purpose | Participants or sources | Timing |
 |---|---|---|---|
 | Document analysis | Identify required roles, features, constraints, deliverables, and open questions. | Project description, Phase 1 slides, course announcements | Phase 1 and whenever documents change |
@@ -30,14 +31,15 @@ The information gathered so far can be summarised into six areas. Detailed numbe
 
 ## 5.3 Prioritisation of Requirements
 
-The requirements are prioritised using MoSCoW because the semester has a fixed deadline and the team has limited time. “Must” features are built first; “Should” and “Could” features are attempted only after the core system is stable.
+The requirements are prioritised using MoSCoW because the semester has a fixed deadline and the team has limited time. “Must” features form the initial working baseline. “Should” features are planned after that baseline, while “Could” features are optional enhancements. Course-listed features remain within the intended semester scope; any proposed omission or deferral requires instructor agreement. These priorities define implementation order and will be reviewed during the feasibility study.
 
 
+<!-- widths: 1500,2450,5410 -->
 | Priority | Meaning | Requirement groups |
 |---|---|---|
-| Must have | Required for the minimum working prototype or explicitly required by the project description. | Accounts and nine roles; authentication and role-based access; departments; asset registration and publication; requests; search and filtering; reservations; approvals and transfers; custody/location updates; maintenance history; notifications and audit trail; AI classification and explainable matching; human review and classic fallback; basic sustainability indicators and basic operational and Al-generated reports; synthetic data and reproducible setup. |
-| Should have | Important, but the prototype can work temporarily without it or use a simpler manual process. | production hosting and deployment; Sustainable-action recommendations; LLM assistant; configurable approval limits; advanced matching factors; richer sustainability dashboard; report export; improved accessibility and exception handling. |
-| Could have | Useful enhancement attempted only if the Must and Should features are stable. | Demand forecasting; advanced image/document extraction; map view; saved searches and alerts; advanced analytics and AI feedback monitoring. |
+| Must have | Required for the initial working baseline, including the Phase 6 minimum functions. | Accounts and nine roles; authentication and role-based access; departments; asset registration and publication; requests; search and filtering; reservations; approvals and transfers; custody/location updates; maintenance history; notifications and audit trail; AI classification and explainable matching; human review and classic fallback; basic sustainability indicators and basic operational and AI-generated reports; synthetic data and reproducible setup. |
+| Should have | Important, but the prototype can work temporarily without it or use a simpler manual process. | Optional demo hosting; sustainable-action recommendations; LLM assistant; configurable approval limits; further tuning of the required matching factors; richer sustainability dashboard; report export; improved accessibility and exception handling. |
+| Could have | Useful enhancement attempted only if the Must and Should features are stable. | Demand forecasting; advanced image/document extraction beyond the initial classification support; map view; saved searches and alerts; advanced analytics and AI feedback monitoring. |
 | Won't have (this semester) | Explicitly outside the prototype scope and recorded for possible future work. | Live university ERP, finance, procurement, or identity integration; payments or purchasing; transport scheduling; barcode/RFID hardware; real university data; custom model training; native mobile apps; fully autonomous AI approvals. |
 
 The priorities will be reviewed after the Phase 2 feasibility study and confirmed with the instructors. Any change to a Must requirement should record the reason, effect on the schedule, and client decision.

@@ -8,8 +8,7 @@
 
 # 11. References
 
-- Khalifa University, Department of Computer Science. COSC 336 Lab-based Running Project – Project Description, Fall 2026 (Project-September2026.pdf).
-- COSC 336 Lab Phase 1 slides – Initial Plan and Requirement Gathering Document (COSC336_Circular_Campus_Project_Fall2026.pdf).
+- Khalifa University, Department of Computer Science. COSC 336 Lab-based Running Project, Project Description, Fall 2026 (Project-September2026.pdf), pp. 1–5 for system scope and the classic and AI comparison, pp. 7–10 for phases and assessment, and p. 12 onward for the requirements template.
+- Khalifa University. COSC 336 Lab Phase 1, Initial Plan and Requirement Gathering Document (COSC336_Circular_Campus_Project_Fall2026.pdf), p. 4 for the phase schedule, pp. 7–10 for Phase 1 analysis and document structure, and p. 11 for GitHub requirements.
 - IEEE-style Software Requirements Specification template (appendix of the project description).
-- Sommerville, I. Software Engineering, 10th ed., Pearson.
 - Git, GitHub and Copilot Onboarding guide (DOC-VC-01).

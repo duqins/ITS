@@ -29,3 +29,6 @@ Thumbs.db
 docs/**/*.docx
 docs/**/*.pdf
 !docs/reference/*.pdf
+
+# Final Phase 1 submission
+!docs/phase1/Phase1_Initial_Plan_and_Requirements.docx

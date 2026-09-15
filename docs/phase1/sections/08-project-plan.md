@@ -17,7 +17,7 @@ The team will follow an Agile approach (Scrum-style) constrained by the course's
 | 7 | 23 Nov 2026 | Details of Test Cases | 10 % | Unit, integration, system, AI-quality, sustainability-calculation and user-acceptance tests; limitations of test data reported honestly. |
 | 8 | 23 Nov 2026 | Final Project, Presentation and Demonstration | 20 % | Final code, configuration, documentation across all phases, presentation and live demo. |
 
-> Note: the project description lists a tentative schedule starting one week later (Phase 1 in the week of 20 September 2026). This plan follows the Phase 1 lab slides, which are the more recent instruction; the team will confirm the dates with the instructors.
+> Note: the project description lists a tentative schedule starting one week later (Phase 1 in the week of 20 September 2026). This plan uses the earlier dates in the Phase 1 lab slides as a conservative planning baseline; the team will confirm the authoritative schedule with the instructors.
 
 ### Week-by-week sprint calendar
 
@@ -53,7 +53,7 @@ Roles rotate partially so that every member gains experience across the SDLC, bu
 | Task | Owner | Due |
 |---|---|---|
 | Finalise Phase 1 document and submit | Project lead (Sultan); all contribute sections | Week of 14 Sep |
-| Create GitHub repository, add instructor and lab engineer as collaborators, add README, .gitignore, licence, branch protection on main | Project lead (Sultan) | 15 Sep |
+| Create GitHub repository, add instructor and lab engineer as collaborators, add README, .gitignore, licence; plan branch protection for Phase 2 | Project lead (Sultan) | 15 Sep |
 | Set up Git identity and first commit for every member | Each member | 15 Sep |
 | Technology stack proposal and AI API evaluation (free tiers, rate limits, fallback) | AI/architecture lead (Ghith) | Week of 21 Sep |
 | Feasibility document (six feasibility dimensions) | Requirements lead (Zayed) drafts, all review | Week of 21 Sep |
@@ -77,8 +77,8 @@ Roles rotate partially so that every member gains experience across the SDLC, bu
 | # | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|---|
 | R1 | LLM/embedding API unavailable, rate-limited or paid | Medium | High | Evaluate two providers in Phase 2; design AI as a pluggable service; keep a small open-source model or keyword fallback. |
-| R2 | Scope too large for the semester | High | High | Strict MoSCoW; Must-have items first; Should/Could only after prototype is stable. |
-| R3 | Uneven contribution / commit history flagged | Medium | High | Module ownership per member; PR-based workflow; weekly commit check by project lead. |
+| R2 | Scope too large for the semester | High | High | Build the Must-have baseline first, then planned Should features; validate any course-scope deferral with the instructors. |
+| R3 | Uneven contribution / commit history flagged | Medium | High | Section/module ownership; individual Phase 1 commits; PR review from Phase 2; weekly contribution check by the project lead. |
 | R4 | Match quality poor on synthetic data | Medium | Medium | Build a labelled test set early; iterate on prompts/embeddings; report limitations honestly. |
 | R5 | Sustainability figures unreliable | Medium | Medium | Use published factors; state assumptions and uncertainty ranges; sustainability officer role can edit factors. |
 | R6 | Security weaknesses in RBAC | Medium | High | Server-side authorisation on every endpoint; security test cases in Phase 7. |
@@ -103,12 +103,12 @@ Roles rotate partially so that every member gains experience across the SDLC, bu
 | Team meeting (in person or call) | Progress check, blockers, task re-assignment. | Twice a week, 30 minutes |
 | Group chat | Quick questions and coordination. | Daily as needed |
 | GitHub issues | One issue per task; assigned to an owner; closed by the pull request that completes it. | Continuous |
-| GitHub pull requests | Code and document review; at least one teammate approves before merge. | Per change |
+| GitHub pull requests | Code and document review; at least one teammate approves before merge from Phase 2. Phase 1 uses peer review before each member pushes their own work. | Per change |
 
 ## 8.9 Version Control and Collaboration Workflow
 
-- One repository, created on GitHub with README, .gitignore and licence; instructor and lab engineer added as collaborators.
-- Branch protection on main: no direct commits; every change via a feature branch and pull request with at least one reviewer.
+- One shared GitHub repository with a README and .gitignore. The project lead maintains repository setup and confirms instructor and lab-engineer access.
+- During Phase 1, each member updates their copy, edits their assigned sections, reviews the changes, and commits and pushes through their own account. From Phase 2, the team plans to use feature branches and pull requests with at least one teammate review and protection on main.
 - Conventional Commits messages (feat, fix, docs, test, refactor, chore); one logical change per commit.
 - Each member commits under their own verified GitHub identity so authorship is visible.
 - Documents for every phase are written in Markdown in the repository (docs/phaseN/sections) and committed incrementally as they are written; the Word/PDF versions are generated from them for submission.
