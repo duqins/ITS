@@ -1,49 +1,49 @@
-# Phase 2 progress update
+# Phase 2 feasibility study
 
-Class discussion prepared on 22 September 2026. Final Phase 2 submission is next week; the exact day still needs confirmation.
+Expanded working draft prepared on 22 September 2026. It replaces the earlier short class progress document and nine-slide presentation. The final submission is next week; confirm the exact day with the instructor.
 
 ## Files
 
-- [PowerPoint presentation](Phase2_Progress_Presentation.pptx): nine visual slides, about five minutes for the team.
-- [Word progress document](Phase2_Progress_Update.docx): three pages in plain language.
-- [Readable document content](Phase2_Progress_Update.md): Markdown copy for review on GitHub.
+- [Word report](Phase2_Feasibility_Study.docx): 18 pages, including references and editable equations.
+- [PowerPoint presentation](Phase2_Feasibility_Presentation.pptx): 30 slides, including three source appendices, editable tables and two editable charts. The earlier five-minute limit no longer applies.
+- [Report text](Phase2_Feasibility_Study.md): readable on GitHub.
+- [Evidence and calculation inputs](evidence-and-calculations.json): bibliography, assumptions, financial values, proposed scope and risk ratings shared by the report and slides.
 
-## Presentation split
+## Coverage
 
-| Member | Slides | Suggested time |
-|---|---|---|
-| Sultan | 1, 8 and 9 | 100 seconds |
-| Zayed | 2, 3 and 4 | 100 seconds |
-| Ghith | 5, 6 and 7 | 100 seconds |
+The report and presentation address the instructor's scope, stakeholder, market, technical and financial checklist. They also cover all six course feasibility areas, the proposed monitor scenario, data and AI evaluation, workload, risk scoring, mitigation, contingency actions and the team's recommendation. Student IDs and an AI-use statement are included.
 
-## Slide overview
+The market review cites Rheaply, Warp It and Snipe-IT. A separate comparison plan records what must be confirmed about the current KU process. Hosted deployment remains in scope.
 
-1. Progress summary and timing of the final submission.
-2. Illustrated monitor request, approvals and handover example.
-3. In-scope and out-of-scope table, including hosting and deployment.
-4. Planned comparison with the current KU process.
-5. Ordinary search compared with proposed AI help.
-6. How to measure benefits and count extra work.
-7. Work started and evidence still needed for all six feasibility areas.
-8. Editable chart of the illustrative USD 6.20 monthly hosting cost.
-9. Each member's next tasks and points to confirm with the doctor.
+## Reading the evidence
 
-The tables and chart are editable in PowerPoint. Source and status notes are included; there is no separate speaking guide.
+- **S01–S23** identify course/team documents and external references. Source IDs beside claims and equations match the references. The slides include full source links in their notes.
+- **AF and AS identifiers** mark financial and schedule assumptions. These are planning choices, not published statistics or measured KU results.
+- **E1–E10** identify equations. The report distinguishes sourced methods, team operational definitions and derived arithmetic.
+- Vendor pages establish advertised features and prices. They do not prove our prototype's performance or KU demand.
 
-## Status
+The AED 690 example is gross purchase avoidance for two assumed monitors at a dated AED 345 retail-price proxy, before costs. The annual sensitivity analysis and break-even point use only the explicitly included cash costs. They are scenarios, not achieved savings or a complete institutional ROI. Student effort and staff handling time are assessed separately. All totals use unrounded inputs.
 
-This is a progress discussion, not the final feasibility report or a claim that exactly half the work is complete. It covers requirements reviewed, a proposed scenario, the comparison and measurement plan, verified provider prices and an illustrative hosting calculation.
+## Current recommendation and missing evidence
 
-The existing KU system, scenario owner and product identity still need confirmation. No interviews, timed trials, working prototype, deployment or measured savings are claimed. The USD 6.20 monthly hosting figure uses assumed resource consumption and excludes AI and other unpriced costs. Official references are in the Word document and slide source notes.
+Proceed with the academic prototype subject to validated data, a workable time plan, tested hosting and AI evaluation. A live KU rollout is not yet justified by the available evidence.
+
+Two interviews, confirmation of the current KU workflow and functional owner, measured staff time, actual hosting use and AI results remain pending. No completed interviews, working application, deployment or measured savings are claimed. Facilities Management is a proposed functional owner. Dawra Campus is a working brand for team confirmation.
+
+## Next work
+
+| Member | Next deliverables |
+|---|---|
+| Sultan | Hosting test inputs, full cost and benefit calculation, agreed workload and consolidated risk register |
+| Zayed | Three-system comparison, two interviews, KU workflow evidence and operational/legal findings |
+| Ghaith | Stack and AI investigation, labelled trial, technical controls and recommendation draft with the team |
+
+Everyone reviews the final evidence, assumptions, numbers and recommendation before submission. There is no separate speaking guide.
 
 ## Review and merge
 
-A commit records the change. Pushing publishes the branch on GitHub. A pull request lets a teammate review it; merging then adds it to main. Publishing this progress update does not mean submitting the final report. Follow the team's Phase 2 agreement: one teammate reviews before merge, and everyone commits their own work under their own account.
+These materials are published on the Phase 2 branch for review. Follow the team's agreement: one teammate reviews before merging, and each member commits their own work under their own account. Publishing this working draft does not submit the final report.
 
-## Photograph
+## Visual attribution
 
-The cover uses an illustrative UNC Chapel Hill classroom photograph by Ildar Sagdejev (Specious), 30 September 2003. It is not a KU photograph. Source: https://commons.wikimedia.org/wiki/File:2003-09-30_UNC-CH_Phillips_classroom_1.jpg . Licence: CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0 . Resized proportionally with no other edits. Attribution is also included in the PowerPoint source notes.
-
-## Process illustration
-
-Slide 2 uses a generated conceptual illustration of the proposed workflow. It is not a photograph or a screenshot of a working system. The [image](assets/monitor-transfer.png) and [generation prompt](assets/illustration-prompt.md) are retained here.
+The [Dawra Campus logo](assets/Dawra_Campus_Logo_Concept.png) and [monitor workflow illustration](assets/monitor-transfer.png) are AI-generated concepts. They are not official KU artwork or a screenshot of an implemented application. Their generation records are included: [logo prompt](assets/Logo_Concept_Prompt.md) and [workflow prompt](assets/illustration-prompt.md).

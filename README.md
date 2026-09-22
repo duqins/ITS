@@ -3,11 +3,11 @@
 COSC 336 – Introduction to Software Engineering, Khalifa University, Fall 2026. Lab-based running project, **Group 4**.
 
 ## Team
-| Member | Primary role |
-|---|---|
-| Sultan Almheiri | Project lead / Scrum master, backend lead |
-| Zayed Alfadli | Requirements, UX and QA lead |
-| Ghith Alhinaai | Architecture and AI integration lead |
+| Member | Student ID | Primary role |
+|---|---|---|
+| Sultan Almheiri | 100065654 | Project lead / Scrum master, backend lead |
+| Zayed Alfadli | 100064657 | Requirements, UX and QA lead |
+| Ghaith Alhinaai | 100066185 | Architecture and AI integration lead |
 
 ## What the system does
 An internal campus platform that registers, publishes, matches, transfers, maintains and tracks campus assets through their life cycle, with a classic rule-based core and AI-enhanced services (classification, semantic matching, sustainable-action recommendations, LLM assistant, generative reporting).
@@ -26,7 +26,7 @@ src/                 Application source (from Phase 6)
 | Phase | Due (labs of week of) | Deliverable |
 |---|---|---|
 | 1 | 14 Sep 2026 | Initial Plan and Requirement Gathering Document |
-| 2 | 21 Sep 2026 | Feasibility Document |
+| 2 | Next week after the 22 Sep progress discussion; exact day to confirm | Feasibility Document |
 | 3 | 5 Oct 2026 | Requirements Document |
 | 4 & 5 | 26 Oct 2026 | Design Document |
 | 6 | 16 Nov 2026 | Draft Implementation |
@@ -42,6 +42,6 @@ All phase documents are written in Markdown under `docs/phaseN/sections/` so tha
 - Everyone commits under their own GitHub account – commit history is 10 % of each phase grade.
 - Never commit secrets; API keys go in `.env` (ignored).
 
-## Phase 2 progress
+## Phase 2 feasibility study
 
-See the [22 September class progress update](docs/phase2/progress/2026-09-22/README.md) for the Word document and nine-slide visual presentation. These are progress materials; the final feasibility submission is next week, with the exact day to confirm.
+See the [22 September feasibility working draft](docs/phase2/progress/2026-09-22/README.md) for the 18-page Word report and 30-slide presentation. They cover scope, stakeholders, three existing systems, technical and financial feasibility, data and AI, schedule, quantified risks and the recommendation. Sources, equations and numerical assumptions are traceable. Two interviews and measured KU results remain pending. The final feasibility submission is next week, with the exact day to confirm.

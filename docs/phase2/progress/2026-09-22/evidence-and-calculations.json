@@ -1,0 +1,470 @@
+{
+  "date": "22 September 2026",
+  "brand": "Dawra Campus",
+  "brandStatus": "Working brand for team confirmation",
+  "team": [
+    [
+      "Sultan Almheiri",
+      "100065654"
+    ],
+    [
+      "Zayed Alfadli",
+      "100064657"
+    ],
+    [
+      "Ghaith Alhinaai",
+      "100066185"
+    ]
+  ],
+  "refs": [
+    {
+      "id": "S01",
+      "title": "COSC336 course project description",
+      "url": "https://github.com/duqins/ITS/blob/main/docs/reference/Project-September2026.pdf",
+      "note": "Page 7: six feasibility areas; page 5: classic and AI comparison."
+    },
+    {
+      "id": "S02",
+      "title": "Group 4 Phase 1 scope and success criteria",
+      "url": "https://github.com/duqins/ITS/blob/main/docs/phase1/sections/07-success-criteria.md",
+      "note": "Team-defined prototype targets, not achieved results. Scope: https://github.com/duqins/ITS/blob/main/docs/phase1/sections/02-project-overview.md . Effort and budget: https://github.com/duqins/ITS/blob/main/docs/phase1/sections/08-project-plan.md ."
+    },
+    {
+      "id": "S03",
+      "title": "KU ISO certificates",
+      "url": "https://www.ku.ac.ae/iso-certificates",
+      "note": "Lists asset management under Facilities Management; supports a proposed owner, not confirmed software ownership."
+    },
+    {
+      "id": "S04",
+      "title": "Rheaply internal reuse",
+      "url": "https://rheaply.com/internal-reuse/",
+      "note": "Vendor-described marketplace, inventory, approvals and impact reporting."
+    },
+    {
+      "id": "S05",
+      "title": "Rheaply AI suggestions",
+      "url": "https://support.rheaply.com/en/articles/7967928-use-ai-powered-suggestions-to-create-and-backfill-listings",
+      "note": "AI-assisted listing details with human review."
+    },
+    {
+      "id": "S06",
+      "title": "Warp It product tour",
+      "url": "https://www.warp-it.co.uk/portal/warpit/tour",
+      "note": "Vendor-described reuse workflow and reports; homepage https://www.warp-it.co.uk/ describes AI photo-based listing."
+    },
+    {
+      "id": "S07",
+      "title": "Snipe-IT product and pricing",
+      "url": "https://snipeitapp.com/product",
+      "note": "Inventory/custody, requests, history, permissions and API. Pricing: https://snipeitapp.com/pricing ."
+    },
+    {
+      "id": "S08",
+      "title": "UC Berkeley Rheaply showroom",
+      "url": "https://property.berkeley.edu/surplus/campus/rheaply-online-showroom-inventory",
+      "note": "Institutional use elsewhere supports relevance, not KU demand or savings."
+    },
+    {
+      "id": "S09",
+      "title": "Django overview and authentication",
+      "url": "https://www.djangoproject.com/start/overview/",
+      "note": "Framework facilities; permissions: https://docs.djangoproject.com/en/stable/topics/auth/default/ . Department/item rules still need application code."
+    },
+    {
+      "id": "S10",
+      "title": "PostgreSQL overview",
+      "url": "https://www.postgresql.org/about/",
+      "note": "Relational database candidate. Proposed stack remains untested."
+    },
+    {
+      "id": "S11",
+      "title": "Railway pricing and billing",
+      "url": "https://docs.railway.com/pricing",
+      "note": "Rates and Hobby minimum. Billing: https://docs.railway.com/pricing/understanding-your-bill ."
+    },
+    {
+      "id": "S12",
+      "title": "Render free services",
+      "url": "https://render.com/docs/free",
+      "note": "Idle sleep and nonpersistent local files. A lasting upload store is still required."
+    },
+    {
+      "id": "S13",
+      "title": "Neon official plan documentation source",
+      "url": "https://github.com/neondatabase/website/blob/main/content/docs/introduction/plans.md",
+      "note": "Free allowances: 0.5 GB storage, 100 CU-hours and 5 GB public transfer per project/month."
+    },
+    {
+      "id": "S14",
+      "title": "CBUAE reference exchange rates",
+      "url": "https://centralbank.ae/umbraco/Surface/Exchange/GetExchangeRateAllCurrency",
+      "note": "Table updated 21 September 2026: USD 1 = AED 3.6725. Reference rate, not card fees."
+    },
+    {
+      "id": "S15",
+      "title": "Sharaf DG Samsung S3 S33GF monitor listing",
+      "url": "https://uae.sharafdg.com/product/samsung-s3-s33gf-essential-fhd-monitor-24inch-ls24f330eamxue/",
+      "note": "22 September 2026 listing: AED 345 incl. VAT, ENGAGE seller, 24-inch FHD with HDMI. Retail proxy, not KU quote. Delivery excluded."
+    },
+    {
+      "id": "S16",
+      "title": "NHS Measurement for Improvement and Return on Investment",
+      "url": "https://www.england.nhs.uk/improvement-hub/wp-content/uploads/sites/44/2017/11/2010-Measurement-for-Improvement-and-ROI.pdf",
+      "note": "Printed page 26: ROI = net benefits / costs x 100. Project inputs are separate assumptions."
+    },
+    {
+      "id": "S17",
+      "title": "NASA Software Engineering Handbook SWE-086",
+      "url": "https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695470/SWE-086%2B-%2BContinuous%2BRisk%2BManagement",
+      "note": "Risk assessment, owners, mitigation, triggers and continuing review. Our numeric rubric is a team adaptation."
+    },
+    {
+      "id": "S18",
+      "title": "NIST IR 8286Ar1",
+      "url": "https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=933223",
+      "note": "Printed pages 55–56 and 59: probability and monetary impact support quantitative risk exposure. Ordinal scores are not probabilities."
+    },
+    {
+      "id": "S19",
+      "title": "NIST AI RMF Playbook Measure",
+      "url": "https://airc.nist.gov/airmf-resources/playbook/measure/",
+      "note": "Context-specific metrics, limitations and corrective action; no prescribed sample sizes here."
+    },
+    {
+      "id": "S20",
+      "title": "Introduction to Information Retrieval ranked evaluation",
+      "url": "https://nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-ranked-retrieval-results-1.html",
+      "note": "Ranked retrieval evaluation background. Our request-level Hit@3 is a stated operational definition."
+    },
+    {
+      "id": "S21",
+      "title": "scikit-learn zero one loss",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.zero_one_loss.html",
+      "note": "Normalised zero-one loss is the fraction of misclassifications."
+    },
+    {
+      "id": "S22",
+      "title": "Act on Heat TELOS workflow",
+      "url": "https://actionheat.eu/workflow-step-8",
+      "note": "Technical, economic, legal, operational and scheduling framework; data/AI added separately by course."
+    },
+    {
+      "id": "S23",
+      "title": "Warp It UK pricing",
+      "url": "https://www.warp-it.co.uk/portal/warpit/pricing",
+      "note": "Published UK bands are not a KU quotation; confirm local eligibility and taxes before cost comparison."
+    }
+  ],
+  "scope": [
+    [
+      "Campus work",
+      "Nine roles, inventory, requests, search, reservations, approvals, custody and audit",
+      "Live KU ERP, finance or procurement integration"
+    ],
+    [
+      "Asset life cycle",
+      "Transfers, maintenance, repair and retirement records",
+      "Vehicle scheduling and barcode/RFID hardware"
+    ],
+    [
+      "Reports",
+      "Cost records, conventional/AI reports and sustainability indicators",
+      "Purchasing and payment processing"
+    ],
+    [
+      "AI support",
+      "Classification, matching/ranking, sustainable actions and assistant",
+      "Training new models from scratch or autonomous approvals"
+    ],
+    [
+      "Delivery",
+      "Responsive website, hosted deployment, setup/restart instructions and documentation",
+      "Separate native iPhone/Android apps"
+    ]
+  ],
+  "roles": [
+    [
+      "Department representative",
+      "Approve release and receipt",
+      "Clear approval tasks and department controls"
+    ],
+    [
+      "Asset custodian",
+      "Maintain item records and confirm handover",
+      "Accurate condition, quantity, location and history"
+    ],
+    [
+      "Requester",
+      "Find items and submit requests",
+      "Suitable results and visible request status"
+    ],
+    [
+      "Business administrator",
+      "Configure workflows and handle exceptions",
+      "Consistent records and approval routes"
+    ],
+    [
+      "Procurement officer",
+      "Check reuse and procurement rules",
+      "Evidence that reuse is permitted and avoids a purchase"
+    ],
+    [
+      "Finance officer",
+      "Check values, costs and thresholds",
+      "Traceable figures and authorised decisions"
+    ],
+    [
+      "Maintenance staff",
+      "Inspect, repair and update condition",
+      "Work records, costs and safe condition"
+    ],
+    [
+      "Sustainability officer",
+      "Review actions, factors and indicators",
+      "Sourced measures and explicit uncertainty"
+    ],
+    [
+      "System administrator",
+      "Operate accounts, security and backups",
+      "Tested access and recovery; no automatic business approval"
+    ]
+  ],
+  "risks": [
+    {
+      "id": "R1",
+      "name": "KU baseline and access unconfirmed",
+      "l": 4,
+      "i": 4,
+      "owner": "Zayed",
+      "target": [
+        2,
+        4
+      ],
+      "why": "No verified process, owner or approved sample yet. This can block the operational comparison.",
+      "mit": "Arrange two interviews and a permitted sample. Record the current workflow.",
+      "trigger": "No verified baseline by the agreed evidence cut-off.",
+      "cont": "Use labelled synthetic cases and state that KU benefit remains unverified. Seek instructor direction."
+    },
+    {
+      "id": "R2",
+      "name": "AI recommends unsuitable items",
+      "l": 3,
+      "i": 4,
+      "owner": "Ghaith",
+      "target": [
+        2,
+        4
+      ],
+      "why": "Eligibility filters and ranking have not been tested.",
+      "mit": "Filter eligibility before ranking. Freeze labels, check outputs and require staff review.",
+      "trigger": "Any ineligible actionable result or failure of the matching targets.",
+      "cont": "Use classic search for task completion, investigate and retest AI. Keep the unmet requirement visible."
+    },
+    {
+      "id": "R3",
+      "name": "Restricted data or credentials exposed",
+      "l": 3,
+      "i": 5,
+      "owner": "Ghaith",
+      "target": [
+        1,
+        5
+      ],
+      "why": "Data routes and permissions are untested. Confidential disclosure is a severe consequence.",
+      "mit": "Synthetic data first, minimal fields, permission tests and protected secrets.",
+      "trigger": "Any unauthorised access, restricted prompt or exposed key.",
+      "cont": "Stop the affected route, revoke keys and preserve relevant logs. Involve the authorised owner where applicable."
+    },
+    {
+      "id": "R4",
+      "name": "Duplicate work removes the benefit",
+      "l": 3,
+      "i": 4,
+      "owner": "Zayed",
+      "target": [
+        2,
+        4
+      ],
+      "why": "KU record-entry obligations and staff acceptance are unknown.",
+      "mit": "Measure the whole request, including review, handover and reconciliation.",
+      "trigger": "No lower total handling effort or staff reject the workflow.",
+      "cont": "Redesign around the verified process or reconsider an existing product. Retain required approvals."
+    },
+    {
+      "id": "R5",
+      "name": "Hosting or AI limits interrupt work",
+      "l": 3,
+      "i": 3,
+      "owner": "Sultan",
+      "target": [
+        2,
+        2
+      ],
+      "why": "Real usage, file persistence and recovery have not been tested.",
+      "mit": "Agree a spending cap. Measure usage and test storage, backup and fallback.",
+      "trigger": "Failed availability check or projected spend exceeds the approved cap.",
+      "cont": "Recover or move to a tested option. A temporary local demo does not complete hosted deployment."
+    },
+    {
+      "id": "R6",
+      "name": "Work exceeds available time",
+      "l": 3,
+      "i": 5,
+      "owner": "Sultan",
+      "target": [
+        2,
+        5
+      ],
+      "why": "Available hours and task estimates remain unconfirmed.",
+      "mit": "Estimate dependencies with each owner. Integrate early and review weekly.",
+      "trigger": "Remaining effort exceeds confirmed capacity or a dependent task slips.",
+      "cont": "Reassign work and seek instructor agreement for any required-scope change. Record deadline risk."
+    }
+  ],
+  "wbs": [
+    [
+      "Requirements and design",
+      "Zayed with all",
+      20,
+      28
+    ],
+    [
+      "Core inventory and approval workflows",
+      "Sultan",
+      36,
+      48
+    ],
+    [
+      "Maintenance, life cycle and reports",
+      "Sultan and Zayed",
+      24,
+      32
+    ],
+    [
+      "AI functions and evaluation",
+      "Ghaith",
+      30,
+      44
+    ],
+    [
+      "Deployment, uploads and security",
+      "Ghaith and Sultan",
+      16,
+      24
+    ],
+    [
+      "Tests, integration and documentation",
+      "All",
+      24,
+      34
+    ]
+  ],
+  "assumptions": [
+    [
+      "AF01",
+      "One year, 12 months",
+      "Comparison horizon, not semester duration"
+    ],
+    [
+      "AF02–05",
+      "0.5 GB RAM; 0.05 vCPU; 1 GB volume; 1 GB/month egress",
+      "Combined app/database planning use, replace after testing"
+    ],
+    [
+      "AF06",
+      "Two monitors",
+      "Illustrative request, not measured KU demand"
+    ],
+    [
+      "AF07–09",
+      "USD 10/month AI; USD 5/month files/backups; AED 200 setup",
+      "Proposed cash caps/allowance, not quotes or approved spending"
+    ],
+    [
+      "AF10",
+      "15% reserve, fully spent in the model",
+      "Planning convention, not expected loss"
+    ],
+    [
+      "AF11",
+      "AED 25 handling per monitor",
+      "Unmeasured extra cash materials/handling, excludes staff time"
+    ],
+    [
+      "AF12",
+      "0, 4 or 8 extra purchases avoided/year",
+      "Sensitivity cases, not a forecast"
+    ],
+    [
+      "AS01",
+      "8 weeks; 3 members; 8 hours/member/week",
+      "Capacity scenario, member availability/deadline unconfirmed"
+    ],
+    [
+      "AS02",
+      "Task effort ranges and 15% effort reserve",
+      "Initial team planning estimates from scope, need owner review"
+    ]
+  ],
+  "finance": {
+    "fx": 3.6725,
+    "host": 273.23400000000004,
+    "cost": [
+      [
+        "Hosting usage example",
+        "0.5 GB RAM; 0.05 vCPU; 1 GB volume/egress",
+        273.23400000000004,
+        "S11, S14; AF02–05"
+      ],
+      [
+        "AI spending allowance",
+        "USD 10/month cap",
+        440.7,
+        "AF07; S14"
+      ],
+      [
+        "Files and backup allowance",
+        "USD 5/month cap",
+        220.35,
+        "AF08; S14"
+      ],
+      [
+        "Setup cash allowance",
+        "One-off, excludes labour",
+        200,
+        "AF09"
+      ]
+    ],
+    "subtotal": 1134.284,
+    "reserve": 170.14260000000002,
+    "fixed": 1304.4266000000002,
+    "sensitivity": [
+      {
+        "n": 0,
+        "gross": 0,
+        "cost": 1304.4266000000002,
+        "net": -1304.4266000000002,
+        "roi": -100.0
+      },
+      {
+        "n": 4,
+        "gross": 1380,
+        "cost": 1404.4266000000002,
+        "net": -24.426600000000235,
+        "roi": -1.7392578579756486
+      },
+      {
+        "n": 8,
+        "gross": 2760,
+        "cost": 1504.4266000000002,
+        "net": 1255.5733999999998,
+        "roi": 83.45860143658717
+      }
+    ],
+    "price": 345,
+    "grossTwo": 690,
+    "handling": 25,
+    "breakEven": 5
+  }
+}
