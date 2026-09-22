@@ -44,4 +44,4 @@ All phase documents are written in Markdown under `docs/phaseN/sections/` so tha
 
 ## Phase 2 progress
 
-See the [22 September class progress update](docs/phase2/progress/2026-09-22/README.md) for the Word document and six-slide presentation. These are progress materials; the final feasibility submission is next week, with the exact day to confirm.
+See the [22 September class progress update](docs/phase2/progress/2026-09-22/README.md) for the Word document and nine-slide visual presentation. These are progress materials; the final feasibility submission is next week, with the exact day to confirm.

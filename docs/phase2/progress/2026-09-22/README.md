@@ -4,7 +4,7 @@ Class discussion prepared on 22 September 2026. Final Phase 2 submission is next
 
 ## Files
 
-- [PowerPoint presentation](Phase2_Progress_Presentation.pptx): six slides, about five minutes for the team.
+- [PowerPoint presentation](Phase2_Progress_Presentation.pptx): nine visual slides, about five minutes for the team.
 - [Word progress document](Phase2_Progress_Update.docx): three pages in plain language.
 - [Readable document content](Phase2_Progress_Update.md): Markdown copy for review on GitHub.
 
@@ -12,9 +12,23 @@ Class discussion prepared on 22 September 2026. Final Phase 2 submission is next
 
 | Member | Slides | Suggested time |
 |---|---|---|
-| Sultan | 1 and 6 | 100 seconds |
-| Zayed | 2 and 3 | 100 seconds |
-| Ghith | 4 and 5 | 100 seconds |
+| Sultan | 1, 8 and 9 | 100 seconds |
+| Zayed | 2, 3 and 4 | 100 seconds |
+| Ghith | 5, 6 and 7 | 100 seconds |
+
+## Slide overview
+
+1. Progress summary and timing of the final submission.
+2. Illustrated monitor request, approvals and handover example.
+3. In-scope and out-of-scope table, including hosting and deployment.
+4. Planned comparison with the current KU process.
+5. Ordinary search compared with proposed AI help.
+6. How to measure benefits and count extra work.
+7. Work started and evidence still needed for all six feasibility areas.
+8. Editable chart of the illustrative USD 6.20 monthly hosting cost.
+9. Each member's next tasks and points to confirm with the doctor.
+
+The tables and chart are editable in PowerPoint. Source and status notes are included; there is no separate speaking guide.
 
 ## Status
 
@@ -29,3 +43,7 @@ A commit records the change. Pushing publishes the branch on GitHub. A pull requ
 ## Photograph
 
 The cover uses an illustrative UNC Chapel Hill classroom photograph by Ildar Sagdejev (Specious), 30 September 2003. It is not a KU photograph. Source: https://commons.wikimedia.org/wiki/File:2003-09-30_UNC-CH_Phillips_classroom_1.jpg . Licence: CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0 . Resized proportionally with no other edits. Attribution is also included in the PowerPoint source notes.
+
+## Process illustration
+
+Slide 2 uses a generated conceptual illustration of the proposed workflow. It is not a photograph or a screenshot of a working system. The [image](assets/monitor-transfer.png) and [generation prompt](assets/illustration-prompt.md) are retained here.
