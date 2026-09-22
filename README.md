@@ -41,3 +41,7 @@ All phase documents are written in Markdown under `docs/phaseN/sections/` so tha
 - Conventional Commits (`feat`, `fix`, `docs`, `test`, `refactor`, `chore`), one logical change per commit.
 - Everyone commits under their own GitHub account – commit history is 10 % of each phase grade.
 - Never commit secrets; API keys go in `.env` (ignored).
+
+## Phase 2 progress
+
+See the [22 September class progress update](docs/phase2/progress/2026-09-22/README.md) for the Word document and six-slide presentation. These are progress materials; the final feasibility submission is next week, with the exact day to confirm.
