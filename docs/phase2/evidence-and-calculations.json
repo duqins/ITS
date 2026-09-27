@@ -1,0 +1,761 @@
+{
+  "date": "22 September 2026",
+  "brand": "Dawra Campus",
+  "brandStatus": "Proposed project brand for team confirmation",
+  "team": [
+    [
+      "Sultan Almheiri",
+      "100065654"
+    ],
+    [
+      "Zayed Alfadli",
+      "100064657"
+    ],
+    [
+      "Ghaith Alhinaai",
+      "100066185"
+    ]
+  ],
+  "refs": [
+    {
+      "id": "S01",
+      "title": "COSC336 course project description",
+      "url": "https://github.com/duqins/ITS/blob/main/docs/reference/Project-September2026.pdf",
+      "note": "Page 7: six feasibility areas; page 5: classic and AI comparison."
+    },
+    {
+      "id": "S02",
+      "title": "Group 4 Phase 1 scope and success criteria",
+      "url": "https://github.com/duqins/ITS/blob/main/docs/phase1/sections/07-success-criteria.md",
+      "note": "Team-defined prototype targets, not achieved results. Scope: https://github.com/duqins/ITS/blob/main/docs/phase1/sections/02-project-overview.md . Effort and budget: https://github.com/duqins/ITS/blob/main/docs/phase1/sections/08-project-plan.md ."
+    },
+    {
+      "id": "S03",
+      "title": "KU ISO certificates",
+      "url": "https://www.ku.ac.ae/iso-certificates",
+      "note": "Lists asset management under Facilities Management; supports a proposed owner, not confirmed software ownership."
+    },
+    {
+      "id": "S04",
+      "title": "Rheaply internal reuse",
+      "url": "https://rheaply.com/internal-reuse/",
+      "note": "Vendor-described marketplace, inventory, approvals and impact reporting."
+    },
+    {
+      "id": "S05",
+      "title": "Rheaply AI suggestions",
+      "url": "https://support.rheaply.com/en/articles/7967928-use-ai-powered-suggestions-to-create-and-backfill-listings",
+      "note": "AI-assisted listing details with human review."
+    },
+    {
+      "id": "S06",
+      "title": "Warp It product tour",
+      "url": "https://www.warp-it.co.uk/portal/warpit/tour",
+      "note": "Vendor-described reuse workflow and reports; homepage https://www.warp-it.co.uk/ describes AI photo-based listing."
+    },
+    {
+      "id": "S07",
+      "title": "Snipe-IT product and pricing",
+      "url": "https://snipeitapp.com/product",
+      "note": "Inventory/custody, requests, history, permissions and API. Pricing: https://snipeitapp.com/pricing ."
+    },
+    {
+      "id": "S08",
+      "title": "UC Berkeley Rheaply showroom",
+      "url": "https://property.berkeley.edu/surplus/campus/rheaply-online-showroom-inventory",
+      "note": "Institutional use elsewhere supports relevance, not KU demand or savings."
+    },
+    {
+      "id": "S09",
+      "title": "Django overview and authentication",
+      "url": "https://www.djangoproject.com/start/overview/",
+      "note": "Framework facilities; permissions: https://docs.djangoproject.com/en/stable/topics/auth/default/ . Department/item rules still need application code."
+    },
+    {
+      "id": "S10",
+      "title": "PostgreSQL overview",
+      "url": "https://www.postgresql.org/about/",
+      "note": "Relational database candidate. Proposed stack remains untested."
+    },
+    {
+      "id": "S11",
+      "title": "Railway pricing and billing",
+      "url": "https://docs.railway.com/pricing",
+      "note": "Rates and Hobby minimum. Billing: https://docs.railway.com/pricing/understanding-your-bill ."
+    },
+    {
+      "id": "S12",
+      "title": "Render free services",
+      "url": "https://render.com/docs/free",
+      "note": "Idle sleep and nonpersistent local files. A lasting upload store is still required."
+    },
+    {
+      "id": "S13",
+      "title": "Neon official plan documentation source",
+      "url": "https://github.com/neondatabase/website/blob/main/content/docs/introduction/plans.md",
+      "note": "Free allowances: 0.5 GB storage, 100 CU-hours and 5 GB public transfer per project/month."
+    },
+    {
+      "id": "S14",
+      "title": "CBUAE reference exchange rates",
+      "url": "https://centralbank.ae/umbraco/Surface/Exchange/GetExchangeRateAllCurrency",
+      "note": "Table updated 21 September 2026: USD 1 = AED 3.6725. Reference rate, not card fees."
+    },
+    {
+      "id": "S15",
+      "title": "Sharaf DG Samsung S3 S33GF monitor listing",
+      "url": "https://uae.sharafdg.com/product/samsung-s3-s33gf-essential-fhd-monitor-24inch-ls24f330eamxue/",
+      "note": "22 September 2026 listing: AED 345 incl. VAT, ENGAGE seller, 24-inch FHD with HDMI. Retail proxy, not KU quote. Delivery excluded."
+    },
+    {
+      "id": "S16",
+      "title": "NHS Measurement for Improvement and Return on Investment",
+      "url": "https://www.england.nhs.uk/improvement-hub/wp-content/uploads/sites/44/2017/11/2010-Measurement-for-Improvement-and-ROI.pdf",
+      "note": "Printed page 26: ROI = net benefits / costs x 100. Project inputs are separate assumptions."
+    },
+    {
+      "id": "S17",
+      "title": "NASA Software Engineering Handbook SWE-086",
+      "url": "https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695470/SWE-086%2B-%2BContinuous%2BRisk%2BManagement",
+      "note": "Risk assessment, owners, mitigation, triggers and continuing review. Our numeric rubric is a team adaptation."
+    },
+    {
+      "id": "S18",
+      "title": "NIST IR 8286Ar1",
+      "url": "https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=933223",
+      "note": "Printed pages 55–56 and 59: probability and monetary impact support quantitative risk exposure. Ordinal scores are not probabilities."
+    },
+    {
+      "id": "S19",
+      "title": "NIST AI RMF Playbook Measure",
+      "url": "https://airc.nist.gov/airmf-resources/playbook/measure/",
+      "note": "Context-specific metrics, limitations and corrective action; no prescribed sample sizes here."
+    },
+    {
+      "id": "S20",
+      "title": "Introduction to Information Retrieval ranked evaluation",
+      "url": "https://nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-ranked-retrieval-results-1.html",
+      "note": "Ranked retrieval evaluation background. Our request-level Hit@3 is a stated operational definition."
+    },
+    {
+      "id": "S21",
+      "title": "scikit-learn zero one loss",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.zero_one_loss.html",
+      "note": "Normalised zero-one loss is the fraction of misclassifications."
+    },
+    {
+      "id": "S22",
+      "title": "Act on Heat TELOS workflow",
+      "url": "https://actionheat.eu/workflow-step-8",
+      "note": "Technical, economic, legal, operational and scheduling framework; data/AI added separately by course."
+    },
+    {
+      "id": "S23",
+      "title": "Warp It UK pricing",
+      "url": "https://www.warp-it.co.uk/portal/warpit/pricing",
+      "note": "Published UK bands are not a KU quotation; confirm local eligibility and taxes before cost comparison."
+    },
+    {
+      "id": "S24",
+      "title": "GAO Cost Estimating and Assessment Guide",
+      "url": "https://www.gao.gov/assets/d20195G.pdf",
+      "note": "GAO-20-195G (2020), printed pages 94–95: recurring/nonrecurring cost categories; page 123: double-counting checks. Our project amounts are assumptions."
+    },
+    {
+      "id": "S25",
+      "title": "NIST investment analysis guide",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ams/NIST.AMS.200-11.pdf",
+      "note": "Appendix A1.3, printed page 25 equation 7: simple payback from initial investment and uniform annual net inflow. Page 26 discusses limitations. Our inputs are scenarios."
+    },
+    {
+      "id": "S26",
+      "title": "University of Bristol Annual Report 2025",
+      "url": "https://www.bristol.ac.uk/media-library/sites/finance/documents/UoB_ARFS2025_WEB.pdf",
+      "note": "Page 34 reports nearly 800 office-furniture items reused and estimated GBP 92,000 avoided purchase cost. This is university-reported gross avoidance, not KU savings or net system ROI."
+    },
+    {
+      "id": "S27",
+      "title": "University of Liverpool Warp It first-year results",
+      "url": "https://www.liverpool.ac.uk/about/sustainability/news/stories/title,1545664,en.php",
+      "note": "Published 24 February 2026: GBP 300,442 reported savings in the first 12 months, including 1,732 furniture items reused. Storage, collection, delivery and IT support also contributed. No complete net-cost method is disclosed."
+    },
+    {
+      "id": "S28",
+      "title": "Django built-in application components",
+      "url": "https://www.djangoproject.com/start/",
+      "note": "Official forms, authentication and administration facilities. Supports reuse availability, not our estimated hours."
+    },
+    {
+      "id": "S29",
+      "title": "PostgreSQL and Django licence information",
+      "url": "https://www.postgresql.org/about/licence/",
+      "note": "PostgreSQL permits use without a licence fee subject to its notice conditions. Django BSD licence: https://docs.djangoproject.com/en/5.2/faq/general/#how-is-django-licensed . Hosting and maintenance still cost resources."
+    },
+    {
+      "id": "S30",
+      "title": "OpenAI GPT 4.1 mini model documentation",
+      "url": "https://developers.openai.com/api/docs/models/gpt-4.1-mini",
+      "note": "Provisional text-model candidate gpt-4.1-mini-2025-04-14. Standard uncached text rates: USD 0.40 per million input tokens, USD 1.60 per million output tokens. Access and suitability untested."
+    },
+    {
+      "id": "S31",
+      "title": "OpenAI text embedding 3 small documentation",
+      "url": "https://developers.openai.com/api/docs/models/text-embedding-3-small",
+      "note": "Provisional hosted semantic-search candidate. USD 0.02 per million input tokens. Token volume remains unmeasured."
+    },
+    {
+      "id": "S32",
+      "title": "Sentence Transformers all MiniLM L6 v2 model card",
+      "url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2",
+      "note": "Local English embedding alternative with Apache 2.0 licence. Requires separate loaded-memory, latency and quality tests; not assumed to fit 0.5 GB hosting."
+    },
+    {
+      "id": "S33",
+      "title": "Django supported release schedule",
+      "url": "https://www.djangoproject.com/download/",
+      "note": "Django 5.2 LTS is the selected branch for a prototype trial. Official support table lists extended support through April 2028. Pin a current patched release at implementation."
+    },
+    {
+      "id": "S34",
+      "title": "OpenAI API data controls",
+      "url": "https://developers.openai.com/api/docs/guides/your-data",
+      "note": "Default no training use does not mean zero retention or KU approval. Review actual account retention, permitted fields and location before using real data."
+    }
+  ],
+  "scope": [
+    [
+      "Campus work",
+      "Nine roles, inventory, requests, search, reservations, approvals, custody and audit",
+      "Live KU ERP, finance or procurement integration"
+    ],
+    [
+      "Asset life cycle",
+      "Transfers, maintenance, repair and retirement records",
+      "Vehicle scheduling and barcode/RFID hardware"
+    ],
+    [
+      "Reports",
+      "Cost records, conventional/AI reports and sustainability indicators",
+      "Purchasing and payment processing"
+    ],
+    [
+      "AI support",
+      "Classification, matching/ranking, sustainable actions and assistant",
+      "Training new models from scratch or autonomous approvals"
+    ],
+    [
+      "Delivery",
+      "Responsive website, hosted deployment, setup/restart instructions and documentation",
+      "Separate native iPhone/Android apps"
+    ]
+  ],
+  "roles": [
+    [
+      "Department representative",
+      "Approve release and receipt",
+      "Clear approval tasks and department controls"
+    ],
+    [
+      "Asset custodian",
+      "Maintain item records and confirm handover",
+      "Accurate condition, quantity, location and history"
+    ],
+    [
+      "Requester",
+      "Find items and submit requests",
+      "Suitable results and visible request status"
+    ],
+    [
+      "Business administrator",
+      "Configure workflows and handle exceptions",
+      "Consistent records and approval routes"
+    ],
+    [
+      "Procurement officer",
+      "Check reuse and procurement rules",
+      "Evidence that reuse is permitted and avoids a purchase"
+    ],
+    [
+      "Finance officer",
+      "Check values, costs and thresholds",
+      "Traceable figures and authorised decisions"
+    ],
+    [
+      "Maintenance staff",
+      "Inspect, repair and update condition",
+      "Work records, costs and safe condition"
+    ],
+    [
+      "Sustainability officer",
+      "Review actions, factors and indicators",
+      "Sourced measures and explicit uncertainty"
+    ],
+    [
+      "System administrator",
+      "Operate accounts, security and backups",
+      "Tested access and recovery; no automatic business approval"
+    ]
+  ],
+  "risks": [
+    {
+      "id": "R1",
+      "name": "KU baseline and access unconfirmed",
+      "l": 4,
+      "i": 4,
+      "owner": "Zayed",
+      "target": [
+        2,
+        4
+      ],
+      "why": "No verified process, owner or approved sample yet. This can block the operational comparison.",
+      "mit": "Arrange two interviews and a permitted sample. Record the current workflow.",
+      "trigger": "No verified baseline by the agreed evidence cut-off.",
+      "cont": "Use labelled synthetic cases and state that KU benefit remains unverified. Seek instructor direction."
+    },
+    {
+      "id": "R2",
+      "name": "AI recommends unsuitable items",
+      "l": 3,
+      "i": 4,
+      "owner": "Ghaith",
+      "target": [
+        2,
+        4
+      ],
+      "why": "Eligibility filters and ranking have not been tested.",
+      "mit": "Filter eligibility before ranking. Freeze labels, check outputs and require staff review.",
+      "trigger": "Any ineligible actionable result or failure of the matching targets.",
+      "cont": "Use classic search for task completion, investigate and retest AI. Keep the unmet requirement visible."
+    },
+    {
+      "id": "R3",
+      "name": "Restricted data or credentials exposed",
+      "l": 3,
+      "i": 5,
+      "owner": "Ghaith",
+      "target": [
+        1,
+        5
+      ],
+      "why": "Data routes and permissions are untested. Confidential disclosure is a severe consequence.",
+      "mit": "Synthetic data first, minimal fields, permission tests and protected secrets.",
+      "trigger": "Any unauthorised access, restricted prompt or exposed key.",
+      "cont": "Stop the affected route, revoke keys and preserve relevant logs. Involve the authorised owner where applicable."
+    },
+    {
+      "id": "R4",
+      "name": "Duplicate work removes the benefit",
+      "l": 3,
+      "i": 4,
+      "owner": "Zayed",
+      "target": [
+        2,
+        4
+      ],
+      "why": "KU record-entry obligations and staff acceptance are unknown.",
+      "mit": "Measure the whole request, including review, handover and reconciliation.",
+      "trigger": "No lower total handling effort or staff reject the workflow.",
+      "cont": "Redesign around the verified process or reconsider an existing product. Retain required approvals."
+    },
+    {
+      "id": "R5",
+      "name": "Hosting or AI limits interrupt work",
+      "l": 3,
+      "i": 3,
+      "owner": "Sultan",
+      "target": [
+        2,
+        2
+      ],
+      "why": "Real usage, file persistence and recovery have not been tested.",
+      "mit": "Agree a spending cap. Measure usage and test storage, backup and fallback.",
+      "trigger": "Failed availability check or projected spend exceeds the approved cap.",
+      "cont": "Recover or move to a tested option. A temporary local demo does not complete hosted deployment."
+    },
+    {
+      "id": "R6",
+      "name": "Work exceeds available time",
+      "l": 3,
+      "i": 5,
+      "owner": "Sultan",
+      "target": [
+        2,
+        5
+      ],
+      "why": "Available hours and task estimates remain unconfirmed.",
+      "mit": "Estimate dependencies with each owner. Integrate early and review weekly.",
+      "trigger": "Remaining effort exceeds confirmed capacity or a dependent task slips.",
+      "cont": "Reassign work and seek instructor agreement for any required-scope change. Record deadline risk."
+    }
+  ],
+  "wbs": [
+    [
+      "Requirements and design",
+      "Zayed with all",
+      20,
+      28
+    ],
+    [
+      "Core inventory and approval workflows",
+      "Sultan",
+      36,
+      48
+    ],
+    [
+      "Maintenance, life cycle and reports",
+      "Sultan and Zayed",
+      24,
+      32
+    ],
+    [
+      "AI functions and evaluation",
+      "Ghaith",
+      30,
+      44
+    ],
+    [
+      "Deployment, uploads and security",
+      "Ghaith and Sultan",
+      16,
+      24
+    ],
+    [
+      "Tests, integration and documentation",
+      "All",
+      24,
+      34
+    ]
+  ],
+  "assumptions": [
+    [
+      "AF01",
+      "Three-year decision horizon; steady annual activity",
+      "Simple, undiscounted comparison; no terminal value or price growth"
+    ],
+    [
+      "AF02–05",
+      "0.5 GB RAM; 0.05 vCPU; 1 GB volume; 1 GB monthly egress",
+      "App/database usage example only; test actual usage"
+    ],
+    [
+      "AF06",
+      "Two monitors in the illustrated request",
+      "A scenario, not a completed KU transaction"
+    ],
+    [
+      "AF07–08",
+      "USD 10/month AI; USD 5/month files and backups",
+      "Unapproved spending caps, not provider quotations"
+    ],
+    [
+      "AF09",
+      "AED 200 initial setup cash",
+      "Materials/configuration allowance excluding labour"
+    ],
+    [
+      "AF10",
+      "15% cash reserve spent upfront and each year",
+      "Conservative planning convention; separate from risk expected loss"
+    ],
+    [
+      "AF11",
+      "AED 25 additional cash per reused monitor",
+      "Local handling/materials; major repairs excluded from eligible stock"
+    ],
+    [
+      "AF12",
+      "40 annual new-monitor purchases after current reuse",
+      "Five proposed departments × eight purchases; all inputs unverified"
+    ],
+    [
+      "AF13",
+      "4, 8 or 12 extra purchases avoided yearly",
+      "10%, 20%, 30% of AF12; scenarios, not externally proven rates"
+    ],
+    [
+      "AF14",
+      "207 hours of development at AED 30/hour",
+      "180 base hours plus 15% effort reserve; time-value assumption, no salary paid"
+    ],
+    [
+      "AF15",
+      "24 support hours/year at AED 30/hour",
+      "Two hours/month; excludes transfer handling counted separately"
+    ],
+    [
+      "AF16",
+      "0.5 additional staff hour per reused monitor",
+      "Across all roles after baseline effort; applies per monitor, not per request"
+    ],
+    [
+      "AF17",
+      "Benefits recur uniformly after go-live",
+      "Simplifies payback; discrete transactions can recover costs later"
+    ],
+    [
+      "AR01",
+      "68 custom hours vs 32 integration hours for three components",
+      "Team engineering estimate; includes adaptation and tests"
+    ],
+    [
+      "AR02",
+      "36 base hours avoided; 41.4 with 15% reserve",
+      "Already reflected in 180/207 hours, never subtracted twice"
+    ],
+    [
+      "AS01",
+      "Eight weeks, three members, eight hours/week",
+      "192 hours of capacity, subject to availability/deadline confirmation"
+    ],
+    [
+      "AS02",
+      "150–210 estimated hours; 15% effort reserve",
+      "172.5–241.5 hours; 207-hour midpoint exceeds AS01 by 15"
+    ]
+  ],
+  "version": "3.0",
+  "status": "Complete desk-based feasibility analysis for team review; field evidence pending",
+  "finance_v3": {
+    "currency": "AED",
+    "fx": 3.6725,
+    "years": 3,
+    "baseline_purchases": 40,
+    "baseline_purchase_value": 13800,
+    "price": 345,
+    "handling": 25,
+    "upfront_base": 200,
+    "upfront_reserve": 30,
+    "upfront_cash": 229.99999999999997,
+    "annual_items": [
+      [
+        "Application and database hosting",
+        273.234,
+        "S11, S14; AF02–05"
+      ],
+      [
+        "AI usage allowance",
+        440.7,
+        "AF07; USD 10/month cap, not a quote"
+      ],
+      [
+        "Files and backup allowance",
+        220.35,
+        "AF08; USD 5/month cap, not a quote"
+      ]
+    ],
+    "annual_base": 934.284,
+    "annual_reserve": 140.1426,
+    "annual_fixed": 1074.4266,
+    "development_base_hours": 180,
+    "development_reserved_hours": 206.99999999999997,
+    "hour_rate": 30,
+    "annual_support_hours": 24,
+    "extra_hours_per_monitor": 0.5,
+    "upfront_time_value": 6209.999999999999,
+    "upfront_economic": 6439.999999999999,
+    "scenarios": [
+      {
+        "label": "No extra reuse",
+        "n": 0,
+        "reduction_pct": 0.0,
+        "benefit": 0,
+        "annual_cash_cost": 1074.4266,
+        "annual_net_cash": -1074.4266,
+        "year1_cash_cost": 1304.4266,
+        "year1_cash_net": -1304.4266,
+        "year1_cash_roi": -100.0,
+        "cash_payback_years": null,
+        "cash_payback_months": null,
+        "annual_economic_cost": 1794.4266,
+        "annual_economic_net": -1794.4266,
+        "year1_economic_cost": 8234.426599999999,
+        "year1_economic_net": -8234.426599999999,
+        "year1_economic_roi": -100.0,
+        "economic_payback_years": null,
+        "year3_economic_cost": 11823.2798,
+        "year3_economic_net": -11823.2798,
+        "year3_economic_roi": -100.0,
+        "net_cash_saving_pct": -7.785699999999999
+      },
+      {
+        "label": "Conservative",
+        "n": 4,
+        "reduction_pct": 10.0,
+        "benefit": 1380,
+        "annual_cash_cost": 1174.4266,
+        "annual_net_cash": 205.5734,
+        "year1_cash_cost": 1404.4266,
+        "year1_cash_net": -24.426600000000008,
+        "year1_cash_roi": -1.7392578579756328,
+        "cash_payback_years": 1.1188217930919078,
+        "cash_payback_months": 13.425861517102891,
+        "annual_economic_cost": 1954.4266,
+        "annual_economic_net": -574.4266,
+        "year1_economic_cost": 8394.426599999999,
+        "year1_economic_net": -7014.426599999999,
+        "year1_economic_roi": -83.56052097709687,
+        "economic_payback_years": null,
+        "year3_economic_cost": 12303.2798,
+        "year3_economic_net": -8163.279799999999,
+        "year3_economic_roi": -66.35043608453088,
+        "net_cash_saving_pct": 1.4896623188405798
+      },
+      {
+        "label": "Base planning case",
+        "n": 8,
+        "reduction_pct": 20.0,
+        "benefit": 2760,
+        "annual_cash_cost": 1274.4266,
+        "annual_net_cash": 1485.5734,
+        "year1_cash_cost": 1504.4266,
+        "year1_cash_net": 1255.5734,
+        "year1_cash_roi": 83.4586014365872,
+        "cash_payback_years": 0.15482237363700777,
+        "cash_payback_months": 1.8578684836440928,
+        "annual_economic_cost": 2114.4266,
+        "annual_economic_net": 645.5734000000002,
+        "year1_economic_cost": 8554.426599999999,
+        "year1_economic_net": -5794.426599999999,
+        "year1_economic_roi": -67.73600231720967,
+        "economic_payback_years": 9.975627868186633,
+        "year3_economic_cost": 12783.279799999998,
+        "year3_economic_net": -4503.279799999998,
+        "year3_economic_roi": -35.22789041979664,
+        "net_cash_saving_pct": 10.765024637681158
+      },
+      {
+        "label": "Higher reuse",
+        "n": 12,
+        "reduction_pct": 30.0,
+        "benefit": 4140,
+        "annual_cash_cost": 1374.4266,
+        "annual_net_cash": 2765.5734,
+        "year1_cash_cost": 1604.4266,
+        "year1_cash_net": 2535.5734,
+        "year1_cash_roi": 158.03611084483393,
+        "cash_payback_years": 0.08316539347681025,
+        "cash_payback_months": 0.997984721721723,
+        "annual_economic_cost": 2274.4266,
+        "annual_economic_net": 1865.5734000000002,
+        "year1_economic_cost": 8714.426599999999,
+        "year1_economic_net": -4574.426599999999,
+        "year1_economic_roi": -52.49257134141217,
+        "economic_payback_years": 3.452021775181828,
+        "year3_economic_cost": 13263.279799999998,
+        "year3_economic_net": -843.2797999999984,
+        "year3_economic_roi": -6.35800354600073,
+        "net_cash_saving_pct": 20.04038695652174
+      }
+    ],
+    "base": {
+      "label": "Base planning case",
+      "n": 8,
+      "reduction_pct": 20.0,
+      "benefit": 2760,
+      "annual_cash_cost": 1274.4266,
+      "annual_net_cash": 1485.5734,
+      "year1_cash_cost": 1504.4266,
+      "year1_cash_net": 1255.5734,
+      "year1_cash_roi": 83.4586014365872,
+      "cash_payback_years": 0.15482237363700777,
+      "cash_payback_months": 1.8578684836440928,
+      "annual_economic_cost": 2114.4266,
+      "annual_economic_net": 645.5734000000002,
+      "year1_economic_cost": 8554.426599999999,
+      "year1_economic_net": -5794.426599999999,
+      "year1_economic_roi": -67.73600231720967,
+      "economic_payback_years": 9.975627868186633,
+      "year3_economic_cost": 12783.279799999998,
+      "year3_economic_net": -4503.279799999998,
+      "year3_economic_roi": -35.22789041979664,
+      "net_cash_saving_pct": 10.765024637681158
+    },
+    "first_year_cash_break_even": 5,
+    "annual_cash_operating_break_even": 4,
+    "three_year_economic_break_even": 13,
+    "cash_flow": [
+      {
+        "year": 0,
+        "annual_net": -229.99999999999997,
+        "cumulative": -229.99999999999997,
+        "economic_annual": -6439.999999999999,
+        "economic_cumulative": -6439.999999999999
+      },
+      {
+        "year": 1,
+        "annual_net": 1485.5734,
+        "cumulative": 1255.5734,
+        "economic_annual": 645.5734000000002,
+        "economic_cumulative": -5794.426599999999
+      },
+      {
+        "year": 2,
+        "annual_net": 1485.5734,
+        "cumulative": 2741.1468,
+        "economic_annual": 645.5734000000002,
+        "economic_cumulative": -5148.853199999999
+      },
+      {
+        "year": 3,
+        "annual_net": 1485.5734,
+        "cumulative": 4226.7202,
+        "economic_annual": 645.5734000000002,
+        "economic_cumulative": -4503.279799999998
+      }
+    ],
+    "software_reuse": [
+      [
+        "Accounts and basic administration",
+        28,
+        12,
+        16
+      ],
+      [
+        "Data forms and validation",
+        24,
+        12,
+        12
+      ],
+      [
+        "Record lists and filters",
+        16,
+        8,
+        8
+      ]
+    ],
+    "software_custom_hours": 68,
+    "software_reused_hours": 32,
+    "software_hours_avoided": 36,
+    "whole_custom_hours": 216,
+    "whole_reused_hours": 180,
+    "whole_hours_reduction_pct": 16.666666666666664,
+    "software_reserved_hours_avoided": 41.4,
+    "software_time_value_avoided": 1242.0,
+    "time_value_sensitivity": [
+      {
+        "rate": 0,
+        "annual_net": 1485.5734,
+        "initial": 229.99999999999997,
+        "payback_years": 0.15482237363700777
+      },
+      {
+        "rate": 15,
+        "annual_net": 1065.5734,
+        "initial": 3334.9999999999995,
+        "payback_years": 3.1297703189662953
+      },
+      {
+        "rate": 30,
+        "annual_net": 645.5734,
+        "initial": 6439.999999999999,
+        "payback_years": 9.975627868186637
+      },
+      {
+        "rate": 60,
+        "annual_net": -194.4266,
+        "initial": 12649.999999999998,
+        "payback_years": null
+      }
+    ]
+  }
+}
