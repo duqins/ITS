@@ -2,7 +2,7 @@
 
 **Section review lead:** Zayed Alfadli  
 **Student ID:** 100064657  
-**Version:** 3.0, 22 September 2026
+**Version:** 3.0, 22 September 2026.
 **Repository revision:** 28 September 2026
 This file contains the completed analysis text for your assigned areas. Section and equation numbers follow the combined report. Review the claims, sources and assumptions, make your own corrections, and commit the reviewed file through your own account. The initial text was prepared with AI assistance; no member review is claimed yet.
 
