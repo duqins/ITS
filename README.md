@@ -44,4 +44,6 @@ All phase documents are written in Markdown under `docs/phaseN/sections/` so tha
 
 ## Phase 2 feasibility study
 
+The [member contributions and review workflow](docs/phase2/README.md) track the Version 3 review package, individual commits and the order of pull requests. Sultan's finance, schedule and risk contribution starts this integration; Zayed and Ghaith will submit their own files from their own accounts.
+
 See the [22 September feasibility working draft](docs/phase2/progress/2026-09-22/README.md) for the 18-page Word report and 30-slide presentation. They cover scope, stakeholders, three existing systems, technical and financial feasibility, data and AI, schedule, quantified risks and the recommendation. Sources, equations and numerical assumptions are traceable. Two interviews and measured KU results remain pending. The final feasibility submission is next week, with the exact day to confirm.
