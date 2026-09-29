@@ -1,0 +1,42 @@
+name: Phase 2 documentation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - phase2/progress-update
+  push:
+    branches:
+      - main
+      - 'phase2/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phase2-docs-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  phase2-documents:
+    name: Phase 2 document checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out the proposed changes
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: '24'
+      - name: Validate the available Phase 2 member sources
+        env:
+          REQUIRE_ALL_MEMBERS: ${{ github.base_ref == 'main' || github.ref == 'refs/heads/main' }}
+        run: |
+          if [ "$REQUIRE_ALL_MEMBERS" = "true" ]; then
+            node scripts/check-phase2.js --require-all
+          else
+            node scripts/check-phase2.js
+          fi

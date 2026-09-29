@@ -1,0 +1,7 @@
+# Monitor transfer illustration
+
+Created with the built-in image generation tool for a proposed process. It is not a photograph or a working system screenshot.
+
+## Prompt
+
+Create a wide, calm professional editorial illustration for a university software-engineering progress presentation. Landscape composition roughly 3:1 on a warm off-white background #FAFAF7, lots of clear space, crisp understated flat illustration with fine navy outlines and muted teal accents, no gradients, no glossy 3D, no clip-art embellishment. Show a proposed campus monitor-reuse process in four equally spaced visual scenes arranged in ONE horizontal row, without boxes or frames: scene1 a laptop with a simple request form and a pair of generic computer monitors shown beside it; scene2 a clean storage shelf holding two spare computer monitors with small item tags; scene3 two separate approval sheets with small simple check marks representing releasing and receiving departments, clearly two approvals; scene4 two computer monitors set up on office desks and a simple handover record sheet. Use a slim straight connecting arrow between consecutive scenes. Objects should be substantial and easy to recognise at classroom projection size. NO words, NO letters, NO numbers, NO university crests, NO logos, NO people, no other decorative elements. This is an illustrative proposal, not a photo or screenshot of an existing system. Keep all objects fully inside the canvas and leave equal open space above and below. Output a single image containing all four scenes.
