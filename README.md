@@ -49,7 +49,7 @@ Each member's contribution is written in Markdown under `docs/phaseN/sections/`.
 The **29 September final submission** includes the three reviewed individual contributions and two clearly labelled AI stakeholder simulations.
 
 - [Final Word report for Blackboard](docs/phase2/final/Dawra_Campus_Phase2_Feasibility_Study.docx)
-- [Final PowerPoint presentation](docs/phase2/final/Dawra_Campus_Phase2_Presentation.pptx)
+- [12-slide class presentation](docs/phase2/final/Dawra_Campus_Phase2_Presentation.pptx)
 - [Read the report on GitHub](docs/phase2/final/Dawra_Campus_Phase2_Feasibility_Study.md)
 - [Member contributions, sources and review status](docs/phase2/README.md)
 

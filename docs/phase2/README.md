@@ -5,7 +5,7 @@ The final submission combines the three reviewed member contributions with the i
 ## Final files
 
 - [Final Word report for Blackboard](final/Dawra_Campus_Phase2_Feasibility_Study.docx)
-- [Final PowerPoint presentation](final/Dawra_Campus_Phase2_Presentation.pptx)
+- [12-slide class presentation](final/Dawra_Campus_Phase2_Presentation.pptx)
 - [Read the final report on GitHub](final/Dawra_Campus_Phase2_Feasibility_Study.md)
 - [Submission contents and evidence status](final/README.md)
 - [Shared evidence and calculation inputs](evidence-and-calculations.json)

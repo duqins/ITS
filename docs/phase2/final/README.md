@@ -5,7 +5,7 @@ Prepared on **29 September 2026** for COSC336, Group 4, Khalifa University.
 ## Submission and presentation files
 
 - [Word report for Blackboard](Dawra_Campus_Phase2_Feasibility_Study.docx): 33 pages, including references and editable equations.
-- [PowerPoint presentation](Dawra_Campus_Phase2_Presentation.pptx): 52 slides, including the reference appendix, aligned with this final report.
+- [PowerPoint presentation](Dawra_Campus_Phase2_Presentation.pptx): 12 slides total for class, summarising the final report. Source IDs are visible on the slides and full source links are in the citation notes.
 - [Report text](Dawra_Campus_Phase2_Feasibility_Study.md): the combined report for reading on GitHub.
 - [Simulated stakeholder interviews](Simulated_Stakeholder_Interviews.md): the two classroom role-play records.
 - [Evidence and calculation inputs](../evidence-and-calculations.json): assumptions, dated sources, financial scenarios and risks.
@@ -16,7 +16,7 @@ Download the Word file and upload it to the Phase 2 Blackboard assignment. Check
 
 The report brings together the reviewed work of Sultan Almheiri (100065654), Zayed Alfadli (100064657) and Ghaith Alhinaai (100066185). It includes scope, stakeholder roles, the monitor scenario, market comparisons, public KU evidence, all six feasibility areas, software reuse, one-time and recurring costs, quantified benefits, ROI, payback, risk scores, mitigation, contingency actions and the final recommendation.
 
-There are 38 references and 16 numbered equations. The report and presentation use the same financial model. Source dates distinguish the 22 September baseline, later KU research and the 29 September revision. Figures labelled as assumptions or targets are not measured outcomes.
+The Word report contains 38 references and 16 numbered equations. The short presentation covers the scope, scenario, market comparison, simulated interviews, technical and AI plan, costs, benefits, ROI, main risks and recommendation. The full calculations, test plan and risk register remain in the report. Both files use the same financial model. Figures labelled as assumptions or targets are not measured outcomes.
 
 ## Interview and AI disclosure
 
