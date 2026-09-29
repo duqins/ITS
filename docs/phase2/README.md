@@ -1,93 +1,39 @@
-# Phase 2 contributions and review
+# Dawra Campus Phase 2 feasibility study
 
-Dawra Campus is our proposed KU asset reuse and life-cycle project. This folder collects the three members' contributions from the Version 3 review package. The analysis uses a **22 September 2026 source snapshot**; this contribution workflow was prepared on **28 September 2026**.
+The final submission combines the three reviewed member contributions with the instructor's latest feedback. The report revision is **29 September 2026**. The financial source baseline remains **22 September 2026**, with later KU research and technical clarifications dated in the references.
 
-## Where we are now
+## Final files
 
-- [Sultan's financial analysis, schedule and risks](sections/01-sultan-financial-schedule-risk.md) and the [shared calculation inputs](evidence-and-calculations.json) begin the member review process.
-- Zayed and Ghaith must review and commit their own prepared Markdown files through their own GitHub accounts. Missing files mean their contributions are pending.
-- The [published Word report and slides](progress/2026-09-22/README.md) are the earlier 18-page / 30-slide snapshot. The Version 3 team review package contains the newer 27-page report and 43-slide presentation; final publication must match the reviewed member sources.
-- Two interviews, the current KU workflow and baseline, and measured prototype results remain pending. A successful check or merge does not make these complete.
+- [Final Word report for Blackboard](final/Dawra_Campus_Phase2_Feasibility_Study.docx)
+- [Final PowerPoint presentation](final/Dawra_Campus_Phase2_Presentation.pptx)
+- [Read the final report on GitHub](final/Dawra_Campus_Phase2_Feasibility_Study.md)
+- [Submission contents and evidence status](final/README.md)
+- [Shared evidence and calculation inputs](evidence-and-calculations.json)
 
-## One contribution and one PR per person
+The [22 September materials](progress/2026-09-22/README.md) are an archived progress snapshot. Use the final files above for submission and presentation.
 
-| Member | Student ID | Contribution branch | Reviewer |
+## Individual contributions
+
+| Member | Student ID | Reviewed contribution | Merged PR |
 | --- | --- | --- | --- |
-| Sultan Almheiri | 100065654 | `phase2/sultan-feasibility-review` | Zayed |
-| Zayed Alfadli | 100064657 | `phase2/zayed-feasibility-review` | Ghaith |
-| Ghaith Alhinaai | 100066185 | `phase2/ghaith-feasibility-review` | Sultan |
+| Sultan Almheiri | 100065654 | [Financial analysis, schedule and consolidated risks](sections/01-sultan-financial-schedule-risk.md) | [#4](https://github.com/duqins/ITS/pull/4) |
+| Zayed Alfadli | 100064657 | [Scope, stakeholders, market and operational/legal analysis](sections/02-zayed-context-market-operational-legal.md) | [#5](https://github.com/duqins/ITS/pull/5) |
+| Ghaith Alhinaai | 100066185 | [Technical design, data, AI and evaluation](sections/03-ghaith-technical-data-ai.md) | [#6](https://github.com/duqins/ITS/pull/6) |
 
-Each member commits their own work. A teammate reviews it from their own account. Never mark an approval or interview complete on someone else's behalf.
+Each member's original commits and reviewed source file remain in the history. The final report consolidates those contributions and adds the later classroom role-play exercise. Member snapshots may retain earlier evidence-status wording; the final report records the current submission status.
 
-### Merge order
+## Evidence and recommendation
 
-1. Review Sultan's PR into `phase2/progress-update`. It includes the shared check and this workflow. Merge it after a teammate approves and the check passes.
-2. Zayed and Ghaith fetch that updated integration branch, then create their own branches and PRs using the steps below. They can work in parallel because they edit separate files.
-3. Each member PR needs a teammate approval and passing checks. Resolve comments and use **Create a merge commit** to preserve the individual commits.
-4. After all three contributions and the final report/slides agree, review the combined [Phase 2 PR #3](https://github.com/duqins/ITS/pull/3) into `main`. Merge only after its review and checks are complete.
+Two [AI stakeholder role-play interviews](final/Simulated_Stakeholder_Interviews.md) are included under the classroom approach the instructor allowed. They explore proposed requirements and are explicitly simulated. No real KU employee participated, and they do not validate actual KU demand, approval rules or savings.
 
-Do not merge PR #3 early. Separate teammate PRs can only be opened after their branches contain changes. Their branches are proposed names, not a claim that they already exist.
+The base monitor scenario assumes eight additional avoided purchases a year. It gives AED 1,485.57 annual net cash benefit, but the value of development and support time makes three-year ROI negative at -35.23%. The recommendation is to continue the academic prototype subject to the stated conditions. A live KU rollout still needs evidence and an institutional decision.
 
-## Zayed: make your contribution
+Hosted deployment, maintenance, retirement, sustainability reporting and all required AI functions remain in scope. Actual KU workflow, staff timings, provider usage and technical results remain to be measured.
 
-After Sultan's PR is merged, run these commands inside your own clone:
+## Review and checks
 
-```powershell
-git fetch origin
-git switch -c phase2/zayed-feasibility-review origin/phase2/progress-update
-git config user.name
-git config user.email
-```
+All three member PRs are merged into the integration history. Final publication goes through a pull request to `main`, with one actual teammate approval and passing **Phase 2 document checks**. Use a merge commit to retain individual contribution history.
 
-Check that the displayed identity is yours and that the email is verified on your GitHub account. If necessary, set your own identity locally with `git config user.name "YOUR NAME"` and `git config user.email "YOUR VERIFIED EMAIL"`.
+Run `node scripts/check-phase2.js --require-all` before merging. The check validates member IDs, local links, tables, citation identifiers, conflict markers and calculation-file JSON. It does not establish source accuracy, real interviews, test results or document layout. The final Word pages and presentation slides are reviewed separately.
 
-Copy `sections/02-zayed-context-market-operational-legal.md` from the team review package to `docs/phase2/sections/02-zayed-context-market-operational-legal.md` in your clone. Read it, correct it and record what you checked. Its context, market, operational and legal claims are your review responsibility. Replace the package-only `../Phase2_Feasibility_Study.md` link with `../README.md` so it works on GitHub. Preserve the source dates, citations, assumption labels, pending evidence and AI disclosure.
-
-```powershell
-node scripts/check-phase2.js
-git add docs/phase2/sections/02-zayed-context-market-operational-legal.md
-git commit -m "docs(phase2): add Zayed context and market analysis"
-git push -u origin phase2/zayed-feasibility-review
-```
-
-On GitHub, open **Pull requests → New pull request**. Set base to `phase2/progress-update` and compare to `phase2/zayed-feasibility-review`. Explain your actual review and remaining evidence. Ghaith reviews this PR.
-
-## Ghaith: make your contribution
-
-After Sultan's PR is merged, run these commands inside your own clone:
-
-```powershell
-git fetch origin
-git switch -c phase2/ghaith-feasibility-review origin/phase2/progress-update
-git config user.name
-git config user.email
-```
-
-Use your own name and a verified GitHub email, correcting the local Git configuration if needed. Copy `sections/03-ghaith-technical-data-ai.md` from the team review package to `docs/phase2/sections/03-ghaith-technical-data-ai.md`. Review the architecture, deployment, data, AI functions, evaluation targets and fallback. Replace the package-only `../Phase2_Feasibility_Study.md` link with `../README.md`. Keep untested targets labelled as targets and retain the AI disclosure.
-
-```powershell
-node scripts/check-phase2.js
-git add docs/phase2/sections/03-ghaith-technical-data-ai.md
-git commit -m "docs(phase2): add Ghaith technical data and AI analysis"
-git push -u origin phase2/ghaith-feasibility-review
-```
-
-Open a PR with base `phase2/progress-update` and compare `phase2/ghaith-feasibility-review`. Explain your actual review and any untested assumptions. Sultan reviews this PR.
-
-## What the reviewer checks
-
-- The author's ID and contribution are correct; the author can explain the material.
-- Statistics and prices have sources and dates. Assumed quantities are clearly labelled.
-- Equations, units and costs agree with the shared model. Cash savings and the value of time stay separate.
-- Interviews, tests and approvals are not claimed without records.
-- The AI-use paragraph remains accurate; comments and changes are resolved.
-
-Use GitHub's **Files changed → Review changes → Approve** after actually reviewing. An unchecked box or a suggested reviewer is not an approval.
-
-## Automatic checks and final publication
-
-Run `npm run check:phase2` or `node scripts/check-phase2.js`. No dependency installation is needed. GitHub runs the same **Phase 2 document checks** on pushes and pull requests.
-
-The check validates the available member files' IDs, local links, tables, citation identifiers, conflict markers and calculation-file JSON. It reports missing teammate files as pending while integration is in progress. For PRs into `main` and pushes to `main`, `--require-all` makes all three member files mandatory. Run `node scripts/check-phase2.js --require-all` locally before final integration. The check does not verify external sources, recalculate the finance model, prove interviews happened, approve the work or build the final Word/PPT files.
-
-Before the final merge, all three member files must be present and peer-reviewed. Reconcile their numbers and recommendations, update the Word report and presentation to match, inspect their layout, and confirm the submission date with the instructor. Keep the academic-prototype recommendation separate from any claim that a live KU rollout has been approved.
+The Phase 2 deadline in the current course brief is the lab week beginning **4 October 2026**, subject to the instructor's confirmed lab arrangements. Publishing on GitHub does not submit the Blackboard assignment.

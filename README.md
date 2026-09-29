@@ -26,15 +26,17 @@ src/                 Application source (from Phase 6)
 | Phase | Due (labs of week of) | Deliverable |
 |---|---|---|
 | 1 | 14 Sep 2026 | Initial Plan and Requirement Gathering Document |
-| 2 | Next week after the 22 Sep progress discussion; exact day to confirm | Feasibility Document |
-| 3 | 5 Oct 2026 | Requirements Document |
-| 4 & 5 | 26 Oct 2026 | Design Document |
-| 6 | 16 Nov 2026 | Draft Implementation |
-| 7 | 23 Nov 2026 | Test Cases |
-| 8 | 23 Nov 2026 | Final Project, Presentation and Demo |
+| 2 | 4 Oct 2026 | Feasibility Document |
+| 3 | 18 Oct 2026 | Requirements Document |
+| 4 & 5 | 1 Nov 2026 | Design Document |
+| 6 | 22 Nov 2026 | Draft Implementation |
+| 7 | 6 Dec 2026 | Test Cases |
+| 8 | 6 Dec 2026 | Final Project, Presentation and Demo |
+
+Phase 2 onward follows the tentative dates in the [current course project brief](docs/reference/Project-September2026.pdf). Confirm the exact lab submission arrangements with the instructor.
 
 ## Documents
-All phase documents are written in Markdown under `docs/phaseN/sections/` so that everyone can edit at the same time and git can merge the changes. The Word/PDF versions are generated for submission — see `docs/phase1/README.md`.
+Each member's contribution is written in Markdown under `docs/phaseN/sections/`. The team combines the reviewed sections into the submission files. Phase 1 build instructions are in `docs/phase1/README.md`; the current Phase 2 report and slides are in `docs/phase2/final/`.
 
 ## Working agreement
 - No direct commits to `main`; work on a branch and open a pull request.
@@ -44,6 +46,11 @@ All phase documents are written in Markdown under `docs/phaseN/sections/` so tha
 
 ## Phase 2 feasibility study
 
-The [member contributions and review workflow](docs/phase2/README.md) track the Version 3 review package, individual commits and the order of pull requests. Sultan's finance, schedule and risk contribution starts this integration; Zayed and Ghaith will submit their own files from their own accounts.
+The **29 September final submission** includes the three reviewed individual contributions and two clearly labelled AI stakeholder simulations.
 
-See the [22 September feasibility working draft](docs/phase2/progress/2026-09-22/README.md) for the 18-page Word report and 30-slide presentation. They cover scope, stakeholders, three existing systems, technical and financial feasibility, data and AI, schedule, quantified risks and the recommendation. Sources, equations and numerical assumptions are traceable. Two interviews and measured KU results remain pending. The final feasibility submission is next week, with the exact day to confirm.
+- [Final Word report for Blackboard](docs/phase2/final/Dawra_Campus_Phase2_Feasibility_Study.docx)
+- [Final PowerPoint presentation](docs/phase2/final/Dawra_Campus_Phase2_Presentation.pptx)
+- [Read the report on GitHub](docs/phase2/final/Dawra_Campus_Phase2_Feasibility_Study.md)
+- [Member contributions, sources and review status](docs/phase2/README.md)
+
+The report includes scope, stakeholders, market research, all six feasibility areas, costs, benefits, ROI, payback, quantified risks and the recommendation. Financial figures are labelled scenarios. The simulated interviews support the classroom analysis but do not establish actual KU procedures or measured benefits. The earlier progress package remains available as an archive.

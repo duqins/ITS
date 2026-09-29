@@ -1,5 +1,7 @@
 # Phase 2 feasibility study
 
+**Archived progress snapshot.** Use the [29 September final submission](../../final/README.md) for the current Word report and presentation.
+
 Expanded working draft prepared on 22 September 2026. It replaces the earlier short class progress document and nine-slide presentation. The final submission is next week; confirm the exact day with the instructor.
 
 ## Files

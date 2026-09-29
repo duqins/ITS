@@ -1,7 +1,7 @@
 {
-  "date": "22 September 2026",
+  "date": "29 September 2026",
   "brand": "Dawra Campus",
-  "brandStatus": "Proposed project brand for team confirmation",
+  "brandStatus": "Student project brand",
   "team": [
     [
       "Sultan Almheiri",
@@ -87,7 +87,7 @@
       "id": "S12",
       "title": "Render free services",
       "url": "https://render.com/docs/free",
-      "note": "Idle sleep and nonpersistent local files. A lasting upload store is still required."
+      "note": "Idle sleep and nonpersistent local files. A lasting upload store is still required. Hosting limitations rechecked against the official Render documentation on 29 September 2026."
     },
     {
       "id": "S13",
@@ -220,6 +220,30 @@
       "title": "OpenAI API data controls",
       "url": "https://developers.openai.com/api/docs/guides/your-data",
       "note": "Default no training use does not mean zero retention or KU approval. Review actual account retention, permitted fields and location before using real data."
+    },
+    {
+      "id": "S35",
+      "title": "KU Procurement and Contracts Department",
+      "url": "https://www.ku.ac.ae/about/procurement-and-contracts-department",
+      "note": "Public purchasing responsibilities, scope and procurement links. Added from the 28 September team review."
+    },
+    {
+      "id": "S36",
+      "title": "KU Environmental Sustainability Policy EHS 7600",
+      "url": "https://www.ku.ac.ae/sustainability/assets/attachments/EHS_7600_Environmental_Sustainability_Policy.pdf",
+      "note": "Sections 5.1.1 and 6 support EHS consultation on waste and recycling. Public policy is not evidence of acceptance of Dawra Campus."
+    },
+    {
+      "id": "S37",
+      "title": "KU sustainability initiatives",
+      "url": "https://www.ku.ac.ae/sustainability/initiative",
+      "note": "Public reduction, reuse and recycling activity supports local relevance, not a measured demand or saving for our system."
+    },
+    {
+      "id": "S38",
+      "title": "Abu Dhabi Procurement Standards linked by KU",
+      "url": "https://www.ku.ac.ae/wp-content/uploads/2025/01/Abu-Dhabi-Procurement-Standards.pdf",
+      "note": "Institutional procurement framework linked from S35. No inference is made about the name or functions of the internal KU asset system."
     }
   ],
   "scope": [
@@ -308,7 +332,7 @@
         4
       ],
       "why": "No verified process, owner or approved sample yet. This can block the operational comparison.",
-      "mit": "Arrange two interviews and a permitted sample. Record the current workflow.",
+      "mit": "Use the two simulated interviews to refine requirements. Confirm the actual workflow, owner and permitted records before a live pilot.",
       "trigger": "No verified baseline by the agreed evidence cut-off.",
       "cont": "Use labelled synthetic cases and state that KU benefit remains unverified. Seek instructor direction."
     },
@@ -513,8 +537,8 @@
       "172.5–241.5 hours; 207-hour midpoint exceeds AS01 by 15"
     ]
   ],
-  "version": "3.0",
-  "status": "Complete desk-based feasibility analysis for team review; field evidence pending",
+  "version": "4.0",
+  "status": "Final classroom feasibility submission; two AI simulations completed; institutional validation and measured results pending",
   "finance_v3": {
     "currency": "AED",
     "fx": 3.6725,
