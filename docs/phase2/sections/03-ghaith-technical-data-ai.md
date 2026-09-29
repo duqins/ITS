@@ -4,7 +4,7 @@
 **Student ID:** 100066185  
 **Version:** 3.0, 22 September 2026
 
-This file contains the completed analysis text for your assigned areas. Section and equation numbers follow the [combined report](../Phase2_Feasibility_Study.md). Review the claims, sources and assumptions, make your own corrections, and commit the reviewed file through your own account. The initial text was prepared with AI assistance; no member review is claimed yet.
+This file contains the completed analysis text for your assigned areas. Section and equation numbers follow the combined report supplied in the review package (repository copy pending team integration). Review the claims, sources and assumptions, make your own corrections, and commit the reviewed file through your own account. The initial text was prepared with AI assistance; no member review is claimed yet.
 
 **Project:** Dawra Campus is our proposed brand for a KU staff website for approved asset reuse and life-cycle records. The academic prototype also includes maintenance, retirement, sustainability reporting, hosted deployment and AI support.
 
