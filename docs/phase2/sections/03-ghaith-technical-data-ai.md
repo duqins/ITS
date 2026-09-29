@@ -4,7 +4,7 @@
 **Student ID:** 100066185  
 **Version:** 3.0, 22 September 2026
 
-This file contains the completed analysis text for your assigned areas. Section and equation numbers follow the combined report supplied in the review package (repository copy pending team integration). Review the claims, sources and assumptions, make your own corrections, and commit the reviewed file through your own account. The initial text was prepared with AI assistance; no member review is claimed yet.
+This section assesses the technical feasibility, software-component reuse, data requirements, AI evaluation and technical risks of Dawra Campus. Section and equation numbers follow the combined report supplied in the review package. The proposed technologies, effort estimates and evaluation targets remain subject to validation.
 
 **Project:** Dawra Campus is our proposed brand for a KU staff website for approved asset reuse and life-cycle records. The academic prototype also includes maintenance, retirement, sustainability reporting, hosted deployment and AI support.
 
@@ -86,35 +86,62 @@ Data/AI feasibility remains conditional on suitable labelled records, service ac
 
 # 9  Evaluation metrics and loss
 
-Use the same asset snapshot and requests for ordinary and AI search. Two team members independently label suitable items, resolve disagreements and freeze the evaluation set. Keep development examples separate. Ranked retrieval evaluation uses explicit relevance judgments. [S02, S20]
+All figures below are planned evaluation targets. No measured technical results are claimed.
 
-Equation: E2  Hit@3 (%) = 100 × (Σ h(q)) / (n)
+The synthetic dataset contains a planned 500 assets, 10 departments and 50 requests. The matching evaluation will use a fixed subset of 20 requests for which suitable assets exist. Classification will use 20 labelled asset records; these are a different evaluation set from the 20 matching requests.
 
-Team operational definition informed by ranked evaluation [S20]. h(q)=1 if request q has a useful top-three result, otherwise 0; n is the eligible request count. A failed response counts as a miss.
+Two team members will independently label suitable matches and correct asset categories, resolve disagreements and freeze the evaluation sets before testing. Development examples will remain separate. Classic search and AI matching will use the same asset snapshot, requests and eligibility rules. [S02, S20]
+
+## Metric definitions
+
+Equation: E2  Hit@3 (%) = 100 × (Requests with at least one useful result in the first three positions) / (Eligible requests tested)
+
+For the planned 20-request set, 16 successful requests gives Hit@3 = 80%. This measures request-level matching success, not the percentage of all returned items that are correct. A failed or invalid AI response counts as an unsuccessful request.
 
 Equation: E3  Top-three miss rate (%) = 100 − Hit@3 (%)
 
-Derived complement of E2; an evaluation error rate, not neural-network training loss.
+A Hit@3 result of 80% therefore gives a miss rate of 20%. This is an evaluation error rate, not a neural-network training loss.
 
-Equation: E4  Classification loss = (Wrong category predictions) / (Tested labelled assets)
+Equation: E4  Classification loss = (Incorrect category predictions) / (Labelled assets tested)
 
-Normalised zero-one loss [S21]. Missing or invalid predictions count as wrong. No custom-model training is proposed.
+Missing or invalid predictions count as incorrect. For 20 labelled assets, four incorrect predictions give a classification loss of 0.20 and 16 correct predictions. No custom-model training is proposed. [S21]
 
-| Planned check | Target from Phase 1 | Interpretation |
+## Planned acceptance checks
+
+| Check | Planned cases | Target |
 | --- | --- | --- |
-| Useful matching | At least 16 of 20 requests | 80% target Hit@3, not observed accuracy |
-| Additional AI value | At least 2 more successes than ordinary search | Same cases and eligibility rules |
-| Classification | At least 16 of 20 categories correct | Loss at most 4/20 = 0.20 |
-| Eligibility and authority | 0 ineligible actionable suggestions; 0 approval bypasses in 14 planned tests | Zero observed errors would not establish zero risk |
-| Fallback | 5 failure cases restore classic controls within 15 seconds | Outage, timeout, rate limit, malformed output and low confidence |
+| Useful matching | 20 eligible requests | At least 16 requests have a useful item in the first three results. |
+| Additional AI value | The same 20 requests, tested with classic search and AI | AI succeeds on at least two more requests than classic search. For example, 14 classic successes would require at least 16 AI successes. |
+| Classification | 20 labelled asset records | At least 16 correct categories; classification loss at most 0.20. |
+| Eligibility | Every actionable recommendation returned during the matching tests | Zero recommendations violate mandatory eligibility or access rules. |
+| Human approval | 14 base scenarios, defined below | All permitted actions follow the required approvals, and all unauthorised attempts are blocked. |
+| AI fallback | Five failure scenarios, defined below | The relevant classic controls are available within 15 seconds of the attempted AI request, with user input preserved. |
+| LLM assistant | Five request scenarios: confirmed, corrected, cancelled, unauthorised and incomplete | Proposed submissions require explicit confirmation; cancellation causes no submission; access and required-field checks remain enforced. |
+| Explainability | 20 sampled recommendations | Every recommendation shows its reasons and confidence information, or explicitly states that confidence is unavailable. Required model information is recorded. |
+| Generative reporting | Five generated summaries | Factual claims are traceable, numerical totals agree with conventional reports, and the relevant data owner reviews each summary before official use. |
 
-Requests with no suitable asset will be evaluated separately from the 20 eligible matching cases. The expected behaviour is to explain that no suitable item is available and avoid presenting an ineligible item as an actionable recommendation. We will report the number of these cases tested and the number that incorrectly produced an actionable match. These cases will not be added to the eligible-request denominator used for Hit@3.
+These targets follow the Phase 1 success criteria. [S02]
 
-Targets are proposed acceptance criteria [S02]. Also report model/version, prompts, paired wins/losses, errors, latency, usage cost and staff review minutes. A 20-case synthetic trial cannot prove campus-wide savings or statistical significance. [S19, S20]
+The 14 approval scenarios consist of one authorised and one unauthorised case for each of seven actions: transfer, donation, recycling, disposal, repair spending, financial-value changes and user-role changes. Where a scenario is repeated through both a standard interface and a supported assistant route, each execution will be recorded separately.
 
-# Technical risks to review
+The five fallback scenarios are service unavailability, timeout, rate limit, malformed output and insufficient confidence. Classic fallback success will be reported separately from AI matching success; a fallback response will not be counted as a successful AI result.
 
-The shared risk register is in Sultan’s section. These entries require technical input. Scores are provisional ordinal priorities, not probabilities. Target scores require checked controls. [S17, S18]
+## Additional proposed Phase 2 coverage
+
+The following case counts are proposals for team confirmation.
+
+| Check | Proposed cases | Expected behaviour |
+| --- | --- | --- |
+| No suitable asset | Five separate requests for which no eligible asset exists | Explain that no suitable item is available and produce zero ineligible actionable recommendations. Report these cases separately from the 20 eligible requests used for Hit@3. |
+| Sustainable-action advice | Five asset scenarios covering different conditions, demand and repair costs | Explain the proposed action using available evidence, identify missing information, and leave the final decision with the authorised human. |
+
+The sustainable-action checks explicitly cover the AI advice described in Section 8 and the Phase 1 sustainable-action requirement. Assistant and reporting checks cover the other AI functions beyond matching and classification.
+
+For each evaluation, record the actual number of cases executed, results, model/version, prompts, errors, latency, usage cost and staff review time. Report limitations and unmet targets. Small synthetic trials cannot establish campus-wide savings or statistical significance. [S19, S20]
+
+# Technical risks
+
+The shared risk register is in Sultan’s section. This section covers Ghaith's risks R2 and R3 and the technical aspects of R5, which Sultan owns. Scores are provisional ordinal priorities, not probabilities. Target scores require checked controls. [S17, S18]
 
 ## R2 AI recommends unsuitable items
 
@@ -150,8 +177,7 @@ Contingency: Recover or move to a tested option. A temporary local demo does not
 
 # Review and AI use
 
-AI assisted the initial drafting, source research, calculations and artifact preparation. You remain responsible for understanding and checking the text you commit. The calculations are planning scenarios, not measured KU results. Do not replace pending interviews or tests with invented records. Add any other relevant tool use and record your corrections during review.
-
+AI assisted the initial drafting, source research, calculations, document preparation and subsequent review. The student team remains responsible for understanding and checking the submitted claims, sources and calculations. The numerical examples are planning scenarios rather than measured KU results. Technical trials, stakeholder interviews and confirmation of the current KU process remain pending unless supported by separately recorded evidence.
 
 # References used in this part
 
