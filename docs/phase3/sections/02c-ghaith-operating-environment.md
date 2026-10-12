@@ -1,16 +1,19 @@
 ## 2.4 Operating Environment
 
-<!-- GUIDANCE (Ghaith). SRS template p.15: describe the environment the software runs in – hardware,
-operating system and versions, and other software it must coexist with. Use the technology candidates
-you selected in Phase 2 (sections 6 and 7 of the final report): Django 5.2 LTS server-rendered pages,
-PostgreSQL, a separate AI-service adapter, Render + Neon as hosting candidates, text-embedding-3-small
-for matching and gpt-4.1-mini-2025-04-14 for classification/assistant/explanations/reports, MiniLM as a
-local alternative. Say clearly that these are candidates still to be validated, as Phase 2 did. -->
-
-TODO Ghaith: short paragraph, then a table.
+Dawra Campus shall provide an English web interface for laptops and phones. The proposed environment below follows the technology choices from Phase 2. These choices still need testing before they are confirmed. The classic features, such as asset registration, search and approval workflows, shall run without a paid AI account or an AI API key, as required by NFR-09.
 
 <!-- widths: 2200,4400,2760 -->
 | Component | Environment | Status |
 |---|---|---|
+| User devices and browsers | Existing student or university computers running Windows, macOS or Linux, and phones running Android or iOS. Users access the system through a browser, such as Chrome, Edge, Firefox or Safari. No separate phone application is required. | Supported browser and operating-system combinations will be confirmed through testing. The tested versions will be recorded. |
+| Application server | Python with Django 5.2 LTS. Django will produce the web pages and manage forms, accounts and workflows. A separate AI adapter will connect the application to AI services. | Selected candidate from Phase 2. The team will test the application and record the Python version and patched Django release used. |
+| Database | PostgreSQL will store accounts, departments, assets, requests, approvals, transfers and other project records. The selected PostgreSQL version must work with the chosen Django release. | Candidate database. Its version, connections and data recovery process still need testing. |
+| File storage | Photos and documents will use persistent storage, meaning that uploaded files remain available after the application restarts or is redeployed. Access to files will follow the user's permissions. | Storage provider still to be selected. File access, recovery and retention after a restart or redeployment must be tested. |
+| Hosted AI services | The Phase 2 candidates are text-embedding-3-small for matching requests to assets and gpt-4.1-mini-2025-04-14 for category suggestions, the assistant, explanations and report text. Requests will pass through the AI adapter. | Approved access, cost, data handling and output quality still need checking. These services are not required to start the classic system. |
+| Local AI alternative | A MiniLM embedding model may be used locally for matching. It does not replace the model used for the assistant or generated reports. | Alternative candidate. Memory use and matching quality must be tested before adoption. |
+| Local development and grading | The application and database shall run on an existing student or grader's computer using the repository's setup instructions, configuration examples and synthetic test data. Classic features shall work without AI credentials. | Setup instructions and a fresh-install test are required under NFR-09. Hardware needs will be checked during the prototype trial. |
+| Hosting | Render is the proposed application host, with Neon providing the PostgreSQL database. Uploaded photos and documents require separate persistent storage. | Proposed hosting arrangement from Phase 2. Deployment, access controls, stored data and recovery must be tested. The first request after inactivity will be measured separately from normal use. |
 
-TODO Ghaith: rows for user devices and browsers, application server, database, file storage for photos and documents, AI services, local development setup (must run without an AI key – NFR-09), hosting.
+The setup guide shall record the tested operating systems, browsers, hardware and software versions so another team member or grader can repeat the setup. Any change to the proposed technologies shall include a recorded reason, as required by C-01.
+
+The prototype shall follow the AED 0 budget in C-02. Any service that introduces a cost requires instructor approval. If an AI service is unavailable or has not been configured, users shall be able to continue through the classic features, as required by BR-15 and NFR-09.
