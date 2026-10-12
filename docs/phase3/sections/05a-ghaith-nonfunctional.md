@@ -1,7 +1,7 @@
 # 5. Other Nonfunctional Requirements
 
 <!-- GUIDANCE (Ghaith). SRS template p.18–19. Refine your Phase 1 NFR-01 to NFR-12 into the template's
-headings. Keep the IDs and make every requirement measurable (Chapter 3 slide 9: "95% of searches
+headings. Keep the IDs and make every requirement measurable (Chapter 3 slide 11: "95% of searches
 return within 2 seconds", not "fast"). Keep the test conditions from Phase 1: 500 synthetic assets,
 10 departments, 50 requests, five concurrent users. -->
 

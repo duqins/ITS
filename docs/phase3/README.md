@@ -43,7 +43,7 @@ Run one command at a time. PowerShell does not accept `&&`.
 ## Rules that keep the document consistent
 
 - Use the requirement IDs already given in your file. Do not renumber other people's IDs.
-- Write requirements as "The system shall …" using the EARS patterns from the Chapter 3 slides (slide 22): *When* (event), *While* (state), *If … then* (unwanted behaviour), *Where* (optional feature).
+- Write requirements as "The system shall …" using the EARS patterns from the Chapter 3 slides (slide 23): *When* (event), *While* (state), *If … then* (unwanted behaviour), *Where* (optional feature).
 - Approval owners, states and business rules are defined once, in sections 4.2 and 5.5. Refer to them by ID (for example "BR-05", "TR-04") instead of writing different rules.
 - Put images in `docs/phase3/images/` as PNG and insert them with `![Figure 1. Caption](images/file.png)`.
 - Add any outside source you use to the References list in section 1.5 by telling Sultan, and keep the AI-use statement accurate (Appendix D).

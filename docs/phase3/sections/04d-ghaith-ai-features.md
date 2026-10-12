@@ -7,11 +7,11 @@ model-version tracking. Start from your Phase 1 AI-01 to AI-13 and refine them i
 the others are Essential (Must). Section 1.2 explains the priority labels.
 
 Each feature has three parts, exactly like the SRS template p.17–18:
-#### 4.x.1 Description and Priority      – what the feature does + "Priority: Essential (Must)"
-#### 4.x.2 Stimulus/Response Sequences   – numbered user action → system response pairs
-#### 4.x.3 Functional Requirements       – a table | ID | Requirement |
+### 4.x.1 Description and Priority      – what the feature does + "Priority: Essential (Must)"
+### 4.x.2 Stimulus/Response Sequences   – numbered user action → system response pairs
+### 4.x.3 Functional Requirements       – a table | ID | Requirement |
 
-Write requirements with EARS (Chapter 3 slide 22) and state acceptable error, as slide 27 asks for AI
+Write requirements with EARS (Chapter 3 slide 23) and state acceptable error, as slide 28 asks for AI
 systems (for example "at least 16 of 20 labelled requests have a useful asset in the top three" from
 your Phase 1 section 7). AI never approves anything: refer to BR-14 and BR-15 in section 5.5. -->
 
