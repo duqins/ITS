@@ -5,8 +5,8 @@ Section 4.1 shows the use-case model, section 4.2 defines the states that record
 ## 4.1 Use-Case Model
 
 <!-- GUIDANCE (Zayed). Phase 3 brief p.8: "Create use-case diagrams and detailed use-case descriptions."
-Follow the Chapter 3 slides: slide 18 (diagram notation), slide 20 (include/extend), slide 21
-(step-by-step method) and slide 17 (the description format). Your KU Eats layout template is a good model. -->
+Follow the Chapter 3 slides: slide 19 (diagram notation), slide 21 (include/extend), slide 22
+(step-by-step method) and slide 18 (the description format). Your KU Eats layout template is a good model. -->
 
 ### 4.1.1 Actors
 
@@ -35,7 +35,7 @@ TODO Zayed: insert the diagram image and one sentence explaining the boundary an
 
 ### 4.1.3 Use-Case Descriptions
 
-<!-- Write one description per use case in the slide 17 format. Copy this block for each:
+<!-- Write one description per use case in the slide 18 format. Copy this block for each:
 
 #### UC-04 Submit resource request
 
@@ -49,7 +49,7 @@ TODO Zayed: insert the diagram image and one sentence explaining the boundary an
 3a. …
 **Postcondition:** …
 
-Number alternatives after the step they branch from (3a, 4a), as on slide 17. Use the state names
+Number alternatives after the step they branch from (3a, 4a), as on slide 18. Use the state names
 from section 4.2 (for example "request becomes Pending department approval") and the business rule
 IDs from section 5.5. The related requirement IDs are listed in the table below so you don't have to
 search for them. -->
