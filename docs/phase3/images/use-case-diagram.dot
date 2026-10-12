@@ -1,6 +1,6 @@
 // Editable vector artwork: use-case-diagram.svg. Actor symbols there are UML stick figures.
 digraph UseCases {
-graph [layout=neato, overlap=true, splines=false, outputorder=edgesfirst, bgcolor="white"];
+graph [layout=neato, overlap=true, splines=true, outputorder=edgesfirst, bgcolor="white"];
 node [fontname="Arial",pin=true];
 edge [arrowhead=none];
 rq [shape=plaintext,label="Requester",pos="1.5,11.8!"];
@@ -8,7 +8,7 @@ ac [shape=plaintext,label="Asset custodian",pos="1.5,7.3!"];
 dr [shape=plaintext,label="Department\nrepresentative",pos="1.5,4.6!"];
 mt [shape=plaintext,label="Maintenance staff",pos="1.5,2!"];
 sa [shape=plaintext,label="System administrator",pos="19.6,13.75!"];
-ba [shape=plaintext,label="Business administrator",pos="19.6,11.05!"];
+ba [shape=plaintext,label="Business administrator",pos="21.1,12!"];
 proc [shape=plaintext,label="Procurement officer",pos="19.6,7.3!"];
 fin [shape=plaintext,label="Finance officer",pos="19.6,4.9!"];
 sus [shape=plaintext,label="Sustainability officer",pos="19.6,2!"];

@@ -8,16 +8,16 @@
 <text x="1080" y="90" font-size="36" font-weight="bold" text-anchor="middle">Dawra Campus</text>
 <polyline points="150,362 528.4356395544969,224.24942720216313" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="150,376 470.00323991252264,375.35999352017495" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="150,390 910.2059046423483,377.869054713154" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="rq:6" d="M 150 390 C 420 255 780 235 983.1065865693195 326.72555522485396" fill="none" stroke="#8A98A0" stroke-width="2"/>
 <polyline points="150,404 533.3962088514193,554.2913138697563" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="150,418 946.6614262059101,216.2921069819079" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="150,812 470.5450740841294,820.3341719261873" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="150,826 542.5509274138819,1001.8628154814191" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="150,840 910.2059046423483,827.869054713154" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="ac:9" d="M 150 840 C 430 690 780 700 975.3135429984007 778.7554608864519" fill="none" stroke="#8A98A0" stroke-width="2"/>
 <polyline points="150,854 590.5157269434092,1273.3709720501256" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="150,868 934.3519081652894,1019.8638800915772" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="150,1082 473.2287605216227,1061.3133593266161" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="150,1110 1343.343049546486,947.6702469366912" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="dr:8" d="M 150 1110 C 400 930 800 945 1050 945 C 1170 945 1230 925 1330 925" fill="none" stroke="#8A98A0" stroke-width="2"/>
 <polyline points="150,1138 936.5223889246145,1298.6513815675808" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="186,1355 472.3063184215288,1339.5740130160814" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="1960,1052 1647.3747867815762,963.7702176028004" fill="none" stroke="#8A98A0" stroke-width="2" />
@@ -25,13 +25,13 @@
 <polyline points="1924,825 1655.7549716998963,889.7934850966434" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="1960,1342 1269.8460953547208,1332.4806357979962" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="1960,1398 1543.252240188567,658.9673059343922" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1960,437 1600.7343920515193,231.8194194605343" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1960,465 1643.79294632449,559.862116102653" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1960,493 1173.124707682513,996.7810779549889" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="ba:1" d="M 2110 342 C 2000 345 1880 345 1770 330 C 1715 322.5 1710 240 1643.79294632449 220.13788389734697" fill="none" stroke="#8A98A0" stroke-width="2"/>
+<polyline points="2110,370 1628.1121686864617,554.7236686701897" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="ba:14" d="M 2110 398 C 1900 380 1810 540 1740 735 C 1705 832.5 1450 790 1165.4304719431145 995.5224369299729" fill="none" stroke="#8A98A0" stroke-width="2"/>
 <polyline points="1924,180 1690,180" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="2190,689.6666666666666 824.052903180709,809.7044418416953" fill="none" stroke="#698DAA" stroke-width="2" />
+<path data-connection="ai:2" d="M 2190 689.6666666666666 C 1520 660 920 680 744.9253151200658 774.0215900281129" fill="none" stroke="#698DAA" stroke-width="2"/>
 <polyline points="2190,652.2727272727273 1233.5717181628122,411.18956532203117" fill="none" stroke="#698DAA" stroke-width="2" />
-<polyline points="2206.923076923077,730 1184.9057898694607,1279.0175508965708" fill="none" stroke="#698DAA" stroke-width="2" />
+<path data-connection="ai:11" d="M 2206.923076923077 730 C 2050 690 1770 700 1710 1030 C 1700 1210 1450 1220 1222.6877452361334 1289.4565222889591" fill="none" stroke="#698DAA" stroke-width="2"/>
 <polyline points="2190,634.5454545454545 1203.013696195874,226.69987446110497" fill="none" stroke="#698DAA" stroke-width="2" />
 <polyline points="2190,668.8607594936709 1682.2276791867948,617.4407776391691" fill="none" stroke="#698DAA" stroke-width="2" />
 <polyline points="1090,435 1090,553" fill="none" stroke="#245E75" stroke-width="2.6" stroke-dasharray="9 6" marker-end="url(#open)"/>
@@ -113,8 +113,8 @@
 <text x="150" y="1478" font-size="27" font-weight="normal" text-anchor="middle">Maintenance staff</text>
 <g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="1960" cy="139" r="16"/><path d="M1960 155 L1960 227 M1924 180 L1996 180 M1960 227 L1930 271 M1960 227 L1990 271" fill="none"/></g>
 <text x="1960" y="303" font-size="27" font-weight="normal" text-anchor="middle">System administrator</text>
-<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="1960" cy="409" r="16"/><path d="M1960 425 L1960 497 M1924 450 L1996 450 M1960 497 L1930 541 M1960 497 L1990 541" fill="none"/></g>
-<text x="1960" y="573" font-size="27" font-weight="normal" text-anchor="middle">Business administrator</text>
+<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="2110" cy="314" r="16"/><path d="M2110 330 L2110 402 M2074 355 L2146 355 M2110 402 L2080 446 M2110 402 L2140 446" fill="none"/></g>
+<text x="2110" y="478" font-size="27" font-weight="normal" text-anchor="middle">Business administrator</text>
 <g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="1960" cy="784" r="16"/><path d="M1960 800 L1960 872 M1924 825 L1996 825 M1960 872 L1930 916 M1960 872 L1990 916" fill="none"/></g>
 <text x="1960" y="948" font-size="27" font-weight="normal" text-anchor="middle">Procurement officer</text>
 <g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="1960" cy="1024" r="16"/><path d="M1960 1040 L1960 1112 M1924 1065 L1996 1065 M1960 1112 L1930 1156 M1960 1112 L1990 1156" fill="none"/></g>
