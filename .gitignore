@@ -35,3 +35,6 @@ docs/**/*.pdf
 
 # Phase 2 feasibility working draft
 !docs/phase2/progress/2026-09-22/Phase2_Feasibility_Study.docx
+
+# Phase 3 SRS submission
+!docs/phase3/Dawra_Campus_Phase3_SRS.docx

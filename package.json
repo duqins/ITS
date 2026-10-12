@@ -5,7 +5,8 @@
   "description": "COSC 336 Group 4 – Intelligent, AI-Powered Circular Campus Resource Exchange and Asset Life Cycle Management System",
   "scripts": {
     "build:phase1": "node docs/phase1/build.js",
-    "check:phase2": "node scripts/check-phase2.js"
+    "check:phase2": "node scripts/check-phase2.js",
+    "build:phase3": "node docs/phase3/build.js"
   },
   "dependencies": {
     "docx": "^9.0.0"
