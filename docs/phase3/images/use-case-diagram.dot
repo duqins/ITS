@@ -1,6 +1,6 @@
 // Editable vector artwork: use-case-diagram.svg. Actor symbols there are UML stick figures.
 digraph UseCases {
-graph [layout=neato, overlap=true, splines=polyline, outputorder=edgesfirst, bgcolor="white"];
+graph [layout=neato, overlap=true, splines=false, outputorder=edgesfirst, bgcolor="white"];
 node [fontname="Arial",pin=true];
 edge [arrowhead=none];
 rq [shape=plaintext,label="Requester",pos="1.5,11.8!"];
@@ -62,5 +62,5 @@ ai -> uc13;
 uc6 -> elig [style=dashed,arrowhead=open,label="«include»"];
 uc7 -> elig [style=dashed,arrowhead=open,label="«include»"];
 uc8 -> notify [style=dashed,arrowhead=open,label="«include»"];
-uc6 -> uc4 [style=dashed,arrowhead=open,label="«extend»"];
+uc6 -> uc4 [style=dashed,arrowhead=open,label="«extend»\n{after request approval}"];
 }

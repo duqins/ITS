@@ -6,43 +6,45 @@
 <g font-family="Arial, sans-serif" fill="#203D47">
 <rect x="400" y="55" width="1360" height="1410" fill="white" stroke="#203D47" stroke-width="3"/>
 <text x="1080" y="90" font-size="36" font-weight="bold" text-anchor="middle">Dawra Campus</text>
-<polyline points="186,375 335,375 335,180 470,180" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,375 470,375" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,375 335,375 335,480 865,480 865,375 910,375" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,375 335,375 335,600 470,600" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,375 320,375 320,105 1090,105 1090,120" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,825 470,825" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,825 345,825 345,1050 470,1050" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,825 330,825 330,725 870,725 870,825 910,825" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,825 305,825 305,1330 470,1330" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,825 350,825 350,945 870,945 870,1050 910,1050" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,1095 360,1095 360,1050 470,1050" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,1095 360,1095 360,1190 1300,1190 1300,925 1330,925" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,1095 375,1095 375,1210 880,1210 880,1330 910,1330" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="186,1355 370,1355 370,1330 470,1330" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1924,1065 1795,1065 1795,945 1685,945" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1924,1065 1805,1065 1805,600 1690,600" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1924,825 1780,825 1780,925 1690,925" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1924,1355 1790,1355 1790,1440 1310,1440 1310,1330 1270,1330" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1924,1355 1815,1355 1815,630 1685,630" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1924,450 1720,450 1720,180 1690,180" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1924,450 1710,450 1710,600 1690,600" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="1924,450 1740,450 1740,1170 1290,1170 1290,1050 1270,1050" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,362 528.4356395544969,224.24942720216313" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,376 470.00323991252264,375.35999352017495" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,390 910.2059046423483,377.869054713154" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,404 533.3962088514193,554.2913138697563" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,418 946.6614262059101,216.2921069819079" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,812 470.5450740841294,820.3341719261873" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,826 542.5509274138819,1001.8628154814191" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,840 910.2059046423483,827.869054713154" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,854 590.5157269434092,1273.3709720501256" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,868 934.3519081652894,1019.8638800915772" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,1082 473.2287605216227,1061.3133593266161" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,1110 1343.343049546486,947.6702469366912" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,1138 936.5223889246145,1298.6513815675808" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="186,1355 472.3063184215288,1339.5740130160814" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,1052 1647.3747867815762,963.7702176028004" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,1108 1560.9738916916688,657.5438599541505" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1924,825 1655.7549716998963,889.7934850966434" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,1342 1269.8460953547208,1332.4806357979962" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,1398 1543.252240188567,658.9673059343922" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,437 1600.7343920515193,231.8194194605343" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,465 1643.79294632449,559.862116102653" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,493 1173.124707682513,996.7810779549889" fill="none" stroke="#8A98A0" stroke-width="2" />
 <polyline points="1924,180 1690,180" fill="none" stroke="#8A98A0" stroke-width="2" />
-<polyline points="2190,680 1800,680 1800,745 855,745 855,825 830,825" fill="none" stroke="#698DAA" stroke-width="2" />
-<polyline points="2190,680 1785,680 1785,375 1270,375" fill="none" stroke="#698DAA" stroke-width="2" />
-<polyline points="2190,680 1810,680 1810,1330 1270,1330" fill="none" stroke="#698DAA" stroke-width="2" />
-<polyline points="2190,680 1775,680 1775,280 1295,280 1295,180 1270,180" fill="none" stroke="#698DAA" stroke-width="2" />
-<polyline points="2190,680 1790,680 1790,600 1690,600" fill="none" stroke="#698DAA" stroke-width="2" />
+<polyline points="2190,689.6666666666666 824.052903180709,809.7044418416953" fill="none" stroke="#698DAA" stroke-width="2" />
+<polyline points="2190,652.2727272727273 1233.5717181628122,411.18956532203117" fill="none" stroke="#698DAA" stroke-width="2" />
+<polyline points="2206.923076923077,730 1184.9057898694607,1279.0175508965708" fill="none" stroke="#698DAA" stroke-width="2" />
+<polyline points="2190,634.5454545454545 1203.013696195874,226.69987446110497" fill="none" stroke="#698DAA" stroke-width="2" />
+<polyline points="2190,668.8607594936709 1682.2276791867948,617.4407776391691" fill="none" stroke="#698DAA" stroke-width="2" />
 <polyline points="1090,435 1090,553" fill="none" stroke="#245E75" stroke-width="2.6" stroke-dasharray="9 6" marker-end="url(#open)"/>
 <polyline points="830,600 935,600" fill="none" stroke="#245E75" stroke-width="2.6" stroke-dasharray="9 6" marker-end="url(#open)"/>
 <polyline points="1510,985 1510,1063" fill="none" stroke="#245E75" stroke-width="2.6" stroke-dasharray="9 6" marker-end="url(#open)"/>
-<polyline points="910,375 865,375 865,280 650,280 650,240" fill="none" stroke="#245E75" stroke-width="2.6" stroke-dasharray="9 6" marker-end="url(#open)"/>
+<polyline points="981.8033796513126,327.0492250727408 758.1966203486874,227.95077492725918" fill="none" stroke="#245E75" stroke-width="2.6" stroke-dasharray="9 6" marker-end="url(#open)"/>
 <text x="1153" y="510" font-size="22" font-weight="normal" text-anchor="middle">«include»</text>
 <text x="883" y="583" font-size="20" font-weight="normal" text-anchor="middle">«include»</text>
 <text x="1570" y="1040" font-size="22" font-weight="normal" text-anchor="middle">«include»</text>
-<text x="760" y="268" font-size="22" font-weight="normal" text-anchor="middle">«extend»</text>
-<text x="1020" y="305" font-size="21" font-weight="normal" text-anchor="middle">After request approval</text>
+<rect x="784" y="208" width="132" height="25" fill="white"/>
+<text x="850" y="230" font-size="22" font-weight="normal" text-anchor="middle">«extend»</text>
+<rect x="726" y="237" width="248" height="25" fill="white"/>
+<text x="850" y="257" font-size="21" font-weight="normal" text-anchor="middle">{after request approval}</text>
 <ellipse cx="1510" cy="180" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
 <text x="1510" y="156" font-size="24" font-weight="bold" text-anchor="middle">UC-01</text>
 <text x="1510" y="188" font-size="26" font-weight="normal" text-anchor="middle">Manage accounts</text>
