@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2440" height="1580" viewBox="0 0 2440 1580">
+<title>Dawra Campus full use-case diagram</title>
+<desc>Nine staff actors shown as stick figures and one external AI service. Associations show the initiating roles requested by the advisor. The system contains fourteen use cases, eligibility checking and notifications.</desc>
+<defs><marker id="open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L10 6 L1 11" fill="none" stroke="#245E75" stroke-width="1.6"/></marker></defs>
+<rect width="2440" height="1580" fill="white"/>
+<g font-family="Arial, sans-serif" fill="#203D47">
+<rect x="400" y="55" width="1360" height="1410" fill="white" stroke="#203D47" stroke-width="3"/>
+<text x="1080" y="90" font-size="36" font-weight="bold" text-anchor="middle">Dawra Campus</text>
+<polyline points="150,362 528.4356395544969,224.24942720216313" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,376 470.00323991252264,375.35999352017495" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="rq:6" d="M 150 390 C 420 255 780 235 983.1065865693195 326.72555522485396" fill="none" stroke="#8A98A0" stroke-width="2"/>
+<polyline points="150,404 533.3962088514193,554.2913138697563" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,418 946.6614262059101,216.2921069819079" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,812 470.5450740841294,820.3341719261873" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,826 542.5509274138819,1001.8628154814191" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="ac:9" d="M 150 840 C 430 690 780 700 975.3135429984007 778.7554608864519" fill="none" stroke="#8A98A0" stroke-width="2"/>
+<polyline points="150,854 590.5157269434092,1273.3709720501256" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,868 934.3519081652894,1019.8638800915772" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="150,1082 473.2287605216227,1061.3133593266161" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="dr:8" d="M 150 1110 C 400 930 800 945 1050 945 C 1170 945 1230 925 1330 925" fill="none" stroke="#8A98A0" stroke-width="2"/>
+<polyline points="150,1138 936.5223889246145,1298.6513815675808" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="186,1355 472.3063184215288,1339.5740130160814" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,1052 1647.3747867815762,963.7702176028004" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,1108 1560.9738916916688,657.5438599541505" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1924,825 1655.7549716998963,889.7934850966434" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,1342 1269.8460953547208,1332.4806357979962" fill="none" stroke="#8A98A0" stroke-width="2" />
+<polyline points="1960,1398 1543.252240188567,658.9673059343922" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="ba:1" d="M 2110 342 C 2000 345 1880 345 1770 330 C 1715 322.5 1710 240 1643.79294632449 220.13788389734697" fill="none" stroke="#8A98A0" stroke-width="2"/>
+<polyline points="2110,370 1628.1121686864617,554.7236686701897" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="ba:14" d="M 2110 398 C 1900 380 1810 540 1740 735 C 1705 832.5 1450 790 1165.4304719431145 995.5224369299729" fill="none" stroke="#8A98A0" stroke-width="2"/>
+<polyline points="1924,180 1690,180" fill="none" stroke="#8A98A0" stroke-width="2" />
+<path data-connection="ai:2" d="M 2190 689.6666666666666 C 1520 660 920 680 744.9253151200658 774.0215900281129" fill="none" stroke="#698DAA" stroke-width="2"/>
+<polyline points="2190,652.2727272727273 1233.5717181628122,411.18956532203117" fill="none" stroke="#698DAA" stroke-width="2" />
+<path data-connection="ai:11" d="M 2206.923076923077 730 C 2050 690 1770 700 1710 1030 C 1700 1210 1450 1220 1222.6877452361334 1289.4565222889591" fill="none" stroke="#698DAA" stroke-width="2"/>
+<polyline points="2190,634.5454545454545 1203.013696195874,226.69987446110497" fill="none" stroke="#698DAA" stroke-width="2" />
+<polyline points="2190,668.8607594936709 1682.2276791867948,617.4407776391691" fill="none" stroke="#698DAA" stroke-width="2" />
+<polyline points="1090,435 1090,553" fill="none" stroke="#245E75" stroke-width="2.6" stroke-dasharray="9 6" marker-end="url(#open)"/>
+<polyline points="830,600 935,600" fill="none" stroke="#245E75" stroke-width="2.6" stroke-dasharray="9 6" marker-end="url(#open)"/>
+<polyline points="1510,985 1510,1063" fill="none" stroke="#245E75" stroke-width="2.6" stroke-dasharray="9 6" marker-end="url(#open)"/>
+<polyline points="981.8033796513126,327.0492250727408 758.1966203486874,227.95077492725918" fill="none" stroke="#245E75" stroke-width="2.6" stroke-dasharray="9 6" marker-end="url(#open)"/>
+<text x="1153" y="510" font-size="22" font-weight="normal" text-anchor="middle">«include»</text>
+<text x="883" y="583" font-size="20" font-weight="normal" text-anchor="middle">«include»</text>
+<text x="1570" y="1040" font-size="22" font-weight="normal" text-anchor="middle">«include»</text>
+<rect x="784" y="208" width="132" height="25" fill="white"/>
+<text x="850" y="230" font-size="22" font-weight="normal" text-anchor="middle">«extend»</text>
+<rect x="726" y="237" width="248" height="25" fill="white"/>
+<text x="850" y="257" font-size="21" font-weight="normal" text-anchor="middle">{after request approval}</text>
+<ellipse cx="1510" cy="180" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="1510" y="156" font-size="24" font-weight="bold" text-anchor="middle">UC-01</text>
+<text x="1510" y="188" font-size="26" font-weight="normal" text-anchor="middle">Manage accounts</text>
+<text x="1510" y="217" font-size="26" font-weight="normal" text-anchor="middle">and roles</text>
+<ellipse cx="650" cy="825" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="650" y="801" font-size="24" font-weight="bold" text-anchor="middle">UC-02</text>
+<text x="650" y="833" font-size="26" font-weight="normal" text-anchor="middle">Register asset</text>
+<ellipse cx="650" cy="1050" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="650" y="1026" font-size="24" font-weight="bold" text-anchor="middle">UC-03</text>
+<text x="650" y="1058" font-size="26" font-weight="normal" text-anchor="middle">Publish asset listing</text>
+<ellipse cx="650" cy="180" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="650" y="156" font-size="24" font-weight="bold" text-anchor="middle">UC-04</text>
+<text x="650" y="188" font-size="26" font-weight="normal" text-anchor="middle">Submit resource</text>
+<text x="650" y="217" font-size="26" font-weight="normal" text-anchor="middle">request</text>
+<ellipse cx="650" cy="375" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="650" y="351" font-size="24" font-weight="bold" text-anchor="middle">UC-05</text>
+<text x="650" y="383" font-size="26" font-weight="normal" text-anchor="middle">Search and filter</text>
+<text x="650" y="412" font-size="26" font-weight="normal" text-anchor="middle">assets</text>
+<ellipse cx="1090" cy="375" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="1090" y="351" font-size="24" font-weight="bold" text-anchor="middle">UC-06</text>
+<text x="1090" y="383" font-size="26" font-weight="normal" text-anchor="middle">Review ranked</text>
+<text x="1090" y="412" font-size="26" font-weight="normal" text-anchor="middle">matches</text>
+<ellipse cx="650" cy="600" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="650" y="576" font-size="24" font-weight="bold" text-anchor="middle">UC-07</text>
+<text x="650" y="608" font-size="26" font-weight="normal" text-anchor="middle">Reserve asset</text>
+<ellipse cx="1510" cy="925" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="1510" y="901" font-size="24" font-weight="bold" text-anchor="middle">UC-08</text>
+<text x="1510" y="933" font-size="26" font-weight="normal" text-anchor="middle">Approve workflow</text>
+<text x="1510" y="962" font-size="26" font-weight="normal" text-anchor="middle">step</text>
+<ellipse cx="1090" cy="825" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="1090" y="801" font-size="24" font-weight="bold" text-anchor="middle">UC-09</text>
+<text x="1090" y="833" font-size="26" font-weight="normal" text-anchor="middle">Confirm handover</text>
+<text x="1090" y="862" font-size="26" font-weight="normal" text-anchor="middle">and receipt</text>
+<ellipse cx="650" cy="1330" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="650" y="1306" font-size="24" font-weight="bold" text-anchor="middle">UC-10</text>
+<text x="650" y="1338" font-size="26" font-weight="normal" text-anchor="middle">Manage maintenance</text>
+<text x="650" y="1367" font-size="26" font-weight="normal" text-anchor="middle">work</text>
+<ellipse cx="1090" cy="1330" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="1090" y="1306" font-size="24" font-weight="bold" text-anchor="middle">UC-11</text>
+<text x="1090" y="1338" font-size="26" font-weight="normal" text-anchor="middle">Decide end-of-life</text>
+<text x="1090" y="1367" font-size="26" font-weight="normal" text-anchor="middle">action</text>
+<ellipse cx="1090" cy="180" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="1090" y="156" font-size="24" font-weight="bold" text-anchor="middle">UC-12</text>
+<text x="1090" y="188" font-size="26" font-weight="normal" text-anchor="middle">Ask the campus</text>
+<text x="1090" y="217" font-size="26" font-weight="normal" text-anchor="middle">assistant</text>
+<ellipse cx="1510" cy="600" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="1510" y="576" font-size="24" font-weight="bold" text-anchor="middle">UC-13</text>
+<text x="1510" y="608" font-size="26" font-weight="normal" text-anchor="middle">Generate and</text>
+<text x="1510" y="637" font-size="26" font-weight="normal" text-anchor="middle">review report</text>
+<ellipse cx="1090" cy="1050" rx="180" ry="60" fill="white" stroke="#203D47" stroke-width="2.5"/>
+<text x="1090" y="1026" font-size="24" font-weight="bold" text-anchor="middle">UC-14</text>
+<text x="1090" y="1058" font-size="26" font-weight="normal" text-anchor="middle">View asset history</text>
+<text x="1090" y="1087" font-size="26" font-weight="normal" text-anchor="middle">and audit log</text>
+<ellipse cx="1090" cy="600" rx="155" ry="47" fill="#F0F5F8" stroke="#203D47" stroke-width="2.5"/>
+<text x="1090" y="609" font-size="26" font-weight="normal" text-anchor="middle">Check eligibility</text>
+<ellipse cx="1510" cy="1110" rx="155" ry="47" fill="#F0F5F8" stroke="#203D47" stroke-width="2.5"/>
+<text x="1510" y="1119" font-size="26" font-weight="normal" text-anchor="middle">Send notification</text>
+<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="150" cy="334" r="16"/><path d="M150 350 L150 422 M114 375 L186 375 M150 422 L120 466 M150 422 L180 466" fill="none"/></g>
+<text x="150" y="498" font-size="27" font-weight="normal" text-anchor="middle">Requester</text>
+<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="150" cy="784" r="16"/><path d="M150 800 L150 872 M114 825 L186 825 M150 872 L120 916 M150 872 L180 916" fill="none"/></g>
+<text x="150" y="948" font-size="27" font-weight="normal" text-anchor="middle">Asset custodian</text>
+<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="150" cy="1054" r="16"/><path d="M150 1070 L150 1142 M114 1095 L186 1095 M150 1142 L120 1186 M150 1142 L180 1186" fill="none"/></g>
+<text x="150" y="1218" font-size="27" font-weight="normal" text-anchor="middle">Department</text>
+<text x="150" y="1247" font-size="27" font-weight="normal" text-anchor="middle">representative</text>
+<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="150" cy="1314" r="16"/><path d="M150 1330 L150 1402 M114 1355 L186 1355 M150 1402 L120 1446 M150 1402 L180 1446" fill="none"/></g>
+<text x="150" y="1478" font-size="27" font-weight="normal" text-anchor="middle">Maintenance staff</text>
+<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="1960" cy="139" r="16"/><path d="M1960 155 L1960 227 M1924 180 L1996 180 M1960 227 L1930 271 M1960 227 L1990 271" fill="none"/></g>
+<text x="1960" y="303" font-size="27" font-weight="normal" text-anchor="middle">System administrator</text>
+<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="2110" cy="314" r="16"/><path d="M2110 330 L2110 402 M2074 355 L2146 355 M2110 402 L2080 446 M2110 402 L2140 446" fill="none"/></g>
+<text x="2110" y="478" font-size="27" font-weight="normal" text-anchor="middle">Business administrator</text>
+<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="1960" cy="784" r="16"/><path d="M1960 800 L1960 872 M1924 825 L1996 825 M1960 872 L1930 916 M1960 872 L1990 916" fill="none"/></g>
+<text x="1960" y="948" font-size="27" font-weight="normal" text-anchor="middle">Procurement officer</text>
+<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="1960" cy="1024" r="16"/><path d="M1960 1040 L1960 1112 M1924 1065 L1996 1065 M1960 1112 L1930 1156 M1960 1112 L1990 1156" fill="none"/></g>
+<text x="1960" y="1188" font-size="27" font-weight="normal" text-anchor="middle">Finance officer</text>
+<g fill="white" stroke="#203D47" stroke-width="3.2"><circle cx="1960" cy="1314" r="16"/><path d="M1960 1330 L1960 1402 M1924 1355 L1996 1355 M1960 1402 L1930 1446 M1960 1402 L1990 1446" fill="none"/></g>
+<text x="1960" y="1478" font-size="27" font-weight="normal" text-anchor="middle">Sustainability officer</text>
+<rect x="2190" y="630" width="220" height="100" fill="#F2F6FA" stroke="#476A85" stroke-width="2.5"/>
+<text x="2300" y="666" font-size="26" font-weight="normal" text-anchor="middle">«system»</text>
+<text x="2300" y="704" font-size="30" font-weight="normal" text-anchor="middle">AI service</text>
+<text x="1080" y="1530" font-size="25" font-weight="normal" text-anchor="middle">Solid lines: initiating roles or external-system participation. Dashed arrows: «include» / «extend».</text>
+</g></svg>
