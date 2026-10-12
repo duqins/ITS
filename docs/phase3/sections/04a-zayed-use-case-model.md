@@ -8,21 +8,20 @@ Section 4.1 shows the use-case model, section 4.2 defines the states that record
 
 ### 4.1.1 Actors
 
-The nine roles in section 2.3 are primary actors. Staff user is their common, general actor: every role can sign in, view its authorised dashboard and notifications, search permitted published listings, and use the desirable assistant when available. The specialist roles inherit those common interactions while retaining their own department and record restrictions. One person can perform several roles, but BR-02 still prevents self-approval. The external AI service is a supporting actor; it returns suggestions and never authorises a business action. KU EHS consultation is recorded evidence in the end-of-life workflow, not a tenth application role.
+The nine roles in section 2.3 are primary actors. Every role can sign in, view its authorised dashboard and notifications, search permitted published listings, and use the desirable assistant when available, while retaining its own department and record restrictions. The diagram shows the roles that initiate each use case; other participants and approval stages are explained in the descriptions below. One person can perform several roles, but BR-02 still prevents self-approval. The external AI service is a supporting actor; it returns suggestions and never authorises a business action. KU EHS consultation is recorded evidence in the end-of-life workflow, not a tenth application role.
 
 <!-- widths: 2200,1500,5660 -->
 | Actor | Type | Goal in the system |
 |---|---|---|
-| Staff user | General actor | Access common staff functions using an active account and authorised department assignment. |
-| Department representative | Primary; specialises Staff user | Confirm records and decide the assigned department stages for listings, requests, transfers and spending. |
-| Asset custodian | Primary; specialises Staff user | Maintain assets and listings, confirm holds, record handover/receipt and support maintenance and retirement records. |
-| Requester | Primary; specialises Staff user | Find an eligible resource, obtain request approval and seek a reservation and transfer. |
-| Business administrator | Primary; specialises Staff user | Authorise role assignments, maintain business settings, route exceptions and review operational reports and audit records. |
-| Procurement officer | Primary; specialises Staff user | Decide procurement-controlled transfer stages and inspect relevant policy and reuse reports. |
-| Finance officer | Primary; specialises Staff user | Decide required financial stages and review financial reports and write-offs. |
-| Maintenance staff | Primary; specialises Staff user | Inspect assigned assets and complete approved maintenance with recorded costs and outcomes. |
-| Sustainability officer | Primary; specialises Staff user | Review reuse-first end-of-life decisions and verify sustainability reporting. |
-| System administrator | Primary; specialises Staff user | Maintain accounts and apply authorised roles while preserving the business-approval boundary. |
+| Department representative | Primary | Confirm records and decide the assigned department stages for listings, requests, transfers and spending. |
+| Asset custodian | Primary | Maintain assets and listings, confirm holds, record handover/receipt and support maintenance and retirement records. |
+| Requester | Primary | Find an eligible resource, obtain request approval and seek a reservation and transfer. |
+| Business administrator | Primary | Authorise role assignments, maintain business settings, route exceptions and review operational reports and audit records. |
+| Procurement officer | Primary | Decide procurement-controlled transfer stages and inspect relevant policy and reuse reports. |
+| Finance officer | Primary | Decide required financial stages and review financial reports and write-offs. |
+| Maintenance staff | Primary | Inspect assigned assets and complete approved maintenance with recorded costs and outcomes. |
+| Sustainability officer | Primary | Review reuse-first end-of-life decisions and verify sustainability reporting. |
+| System administrator | Primary | Maintain accounts and apply authorised roles while preserving the business-approval boundary. |
 | AI service | Secondary; external system | Return category suggestions, eligible-match rankings, optional action advice and assistant answers, and draft report text when requested. |
 
 <!-- pagebreak -->
@@ -31,7 +30,9 @@ The nine roles in section 2.3 are primary actors. Staff user is their common, ge
 
 ![Figure 1. Dawra Campus use-case diagram](images/use-case-diagram.png)
 
-The rectangle is the Dawra Campus system boundary; staff actors and the external AI service are outside it. Solid association lines show participation, not unrestricted permission. Staff user represents the common interactions inherited by all nine roles; the role-specific associations are summarised in the table below. The two supporting use cases are Check eligibility and Send notification. Check eligibility is always included when ranking or reserving; Send notification is included when an approval decision changes the workflow. Review ranked matches optionally extends an approved resource request. AI classification can fall back to manual entry, and sustainable-action advice is desirable, so neither is modelled as a mandatory AI dependency.
+Every role can also search (UC-05) and use the assistant (UC-12); to keep the diagram readable these are shown for the Requester only.
+
+The rectangle is the Dawra Campus system boundary; staff actors and the external AI service are outside it. Solid lines show initiating roles or external-system participation, not unrestricted permission. Approval-stage participation is represented through UC-08 rather than extra connections to each workflow. Other participants remain documented in the use-case descriptions. Check eligibility is always included when ranking or reserving; Send notification is included when an approval decision changes the workflow. Review ranked matches optionally extends an approved resource request. AI classification can fall back to manual entry, and sustainable-action advice is desirable, so neither is modelled as a mandatory AI dependency.
 
 <!-- pagebreak -->
 ### 4.1.3 Use-Case Descriptions
@@ -405,5 +406,4 @@ The descriptions below define proposed prototype behaviour using the existing re
 5a. Any user tries to edit or delete an audit entry: the system refuses. A correction is a new traceable entry referring to the original under BR-17.
 
 **Postcondition:** The user has inspected permitted history or audit evidence. Reading or exporting it does not alter the underlying asset, decisions or original audit entries.
-
 
