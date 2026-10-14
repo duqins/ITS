@@ -53,7 +53,7 @@ Semantic matching compares the meaning of a request with asset descriptions, so 
 | AI-03.3 | If information needed for a mandatory eligibility check is missing, then the system shall identify the missing information and withhold that item as an actionable recommendation until the check can be completed. Missing costs or sustainability figures shall be marked as unknown rather than assumed to be zero. |
 | AI-03.4 | Across the 20-request matching test, the system shall show zero items that fail mandatory eligibility checks as actionable recommendations. |
 
-The matching tests use the Phase 1 dataset of 500 synthetic assets, 10 departments and 50 requests. Two team members shall label suitable assets independently and resolve differences before fixing the 20-request evaluation set. Classic search and AI matching shall use the same requests and asset snapshot. Failed AI responses count as unsuccessful requests. Cases with no suitable asset shall be tested separately and excluded from the 20-request usefulness calculation. These numbers are acceptance targets, not measured results.
+The matching tests use the Phase 1 dataset of 500 synthetic assets, 10 departments and 50 requests. Two of us will label suitable assets independently and resolve differences before fixing the 20-request evaluation set. Classic search and AI matching shall use the same requests and asset snapshot. Failed AI responses count as unsuccessful requests. Cases with no suitable asset shall be tested separately and excluded from the 20-request usefulness calculation. These numbers are acceptance targets, not measured results.
 
 ## 4.19 Ranking, Explanations and Confidence
 

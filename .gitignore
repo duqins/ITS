@@ -38,3 +38,4 @@ docs/**/*.pdf
 
 # Phase 3 SRS submission
 !docs/phase3/Dawra_Campus_Phase3_SRS.docx
+!docs/phase3/Dawra_Campus_Phase3_SRS.pdf

@@ -52,6 +52,4 @@ For this phase, our analysis models are the use-case diagram and descriptions in
 | Zayed Alfadli (100064657) | 2.3; 3.1; 4.1 | phase3/zayed |
 | Ghaith Alhinaai (100066185) | 2.4; 3.2–3.4; 4.17–4.23; 5.1–5.4 | phase3/ghaith |
 
-**AI use.** Sultan used Claude AI to help with building the document and organising the repository.
-
-TODO Sultan at integration: add one line each for Zayed's and Ghaith's AI use, based on what they report.
+**AI use.** We used AI tools to help prepare this document, build it from our files and organise the repository. Each of us reviewed our own sections and is responsible for their content.
