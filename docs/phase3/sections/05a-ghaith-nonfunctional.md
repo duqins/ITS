@@ -2,7 +2,7 @@
 
 These requirements describe how well the system must work, including its speed, safety, security and ease of use. They retain the Phase 1 requirement IDs. The numerical values are acceptance targets, not results already achieved.
 
-Unless a requirement states otherwise, testing shall use 500 synthetic assets across 10 departments, 50 requests and five concurrent users. The team shall record the hardware, operating system, browser, software versions and network conditions used so the tests can be repeated.
+Unless a requirement states otherwise, testing shall use 500 synthetic assets across 10 departments, 50 requests and five concurrent users. We will record the hardware, operating system, browser, software versions and network conditions used so the tests can be repeated.
 
 ## 5.1 Performance Requirements
 
@@ -12,7 +12,7 @@ Unless a requirement states otherwise, testing shall use 500 synthetic assets ac
 | NFR-02 | The system shall display classic search and filter results within 2 seconds for at least 95 of 100 measured searches under the stated test conditions. Time shall be measured from submitting the search until its results are displayed. AI processing time shall be measured separately. | Essential (Must) |
 | NFR-11 | With 2,000 assets, 200 requests and five concurrent users, the system shall display classic search results within 3 seconds for at least 95 of 100 measured searches while preserving data integrity. This test shall be reported separately from NFR-02. | Desirable (Should) |
 
-For each tested AI request, the team shall record the response time and whether the request succeeded, failed or timed out. The system shall provide the relevant classic alternative within the 15-second limit in NFR-07 and AI-13.2, including any retries.
+For each tested AI request, we will record the response time and whether the request succeeded, failed or timed out. The system shall provide the relevant classic alternative within the 15-second limit in NFR-07 and AI-13.2, including any retries.
 
 Normal search performance and the first request after hosting inactivity shall be measured and reported separately, as agreed in Phase 2. Hosting startup time shall not be presented as AI processing time. The AI fallback test shall begin when the user submits an AI request through the running application. Any proposed change to the acceptance targets requires instructor agreement.
 
