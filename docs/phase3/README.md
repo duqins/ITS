@@ -1,6 +1,6 @@
 # Phase 3 – Software Requirements Specification (SRS)
 
-Due: Tuesday 13 October 2026, 3:00 PM (Blackboard). Weight: 10%.
+Due: Tuesday 13 October 2026, 3:00 PM (Blackboard). Resubmission after TA feedback: Friday 16 October 2026, 6:00 PM. Weight: 10%.
 
 The document follows the course SRS template (project description appendix, pp. 13–19) and covers everything Phase 3 asks for on p. 8: actors and permissions, business rules and approval stages, asset/request/transfer/maintenance states, functional and non-functional requirements, AI and sustainability requirements, a use-case diagram with detailed use-case descriptions, and prioritisation.
 
@@ -44,7 +44,7 @@ Run one command at a time. PowerShell does not accept `&&`.
 
 - Use the requirement IDs already given in your file. Do not renumber other people's IDs.
 - Write requirements as "The system shall …" using the EARS patterns from the Chapter 3 slides (slide 23): *When* (event), *While* (state), *If … then* (unwanted behaviour), *Where* (optional feature).
-- Approval owners, states and business rules are defined once, in sections 4.2 and 5.5. Refer to them by ID (for example "BR-05", "TR-04") instead of writing different rules.
+- Approval owners, states and business rules are defined once, in sections 4.1 and 5.5. Refer to them by ID (for example "BR-05", "TR-04") instead of writing different rules.
 - Put images in `docs/phase3/images/` as PNG and insert them with `![Figure 1. Caption](images/file.png)`.
 - Add any outside source you use to the References list in section 1.5 by telling Sultan, and keep the AI-use statement accurate (Appendix D).
 
