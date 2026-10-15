@@ -18,13 +18,13 @@ Each file in `sections/` has one owner. Write only your own files. The file name
 | 2.5–2.7 Constraints, user documentation, assumptions | `02d-sultan-constraints-assumptions.md` | Sultan |
 | 3.1 User interfaces | `03a-zayed-user-interfaces.md` | **Zayed** |
 | 3.2–3.4 Hardware, software and communication interfaces | `03b-ghaith-system-interfaces.md` | **Ghaith** |
-| 4.1 Use-case model (diagram and descriptions) | `04a-zayed-use-case-model.md` | **Zayed** |
-| 4.2 Record states | `04b-sultan-record-states.md` | Sultan |
-| 4.3–4.16 Classic system features | `04c-sultan-classic-features.md` | Sultan |
-| 4.17–4.23 AI features | `04d-ghaith-ai-features.md` | **Ghaith** |
+| 4.1 Record states | `04b-sultan-record-states.md` | Sultan |
+| 4.2–4.15 Classic system features | `04c-sultan-classic-features.md` | Sultan |
+| 4.16–4.22 AI features | `04d-ghaith-ai-features.md` | **Ghaith** |
 | 5.1–5.4 Non-functional requirements | `05a-ghaith-nonfunctional.md` | **Ghaith** |
 | 5.5 Business rules and approval stages | `05b-sultan-business-rules.md` | Sultan |
 | 6 Sustainability, data, prioritisation, traceability | `06-sultan-other-requirements.md` | Sultan |
+| 7 Use-case model (diagram and descriptions) | `06b-zayed-use-case-model.md` | **Zayed** |
 | Appendices: glossary, TBD list, AI use | `07-sultan-appendices.md` | Sultan |
 
 Your file already has the headings and table columns. Grey `<!-- ... -->` comments explain what to write; they are never printed. Lines starting with `TODO` are not printed either. Delete them as you finish each part.

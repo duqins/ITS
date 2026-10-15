@@ -1,12 +1,10 @@
-# 4. System Features
+# 7. Use-Case Model
 
-Section 4.1 shows the use-case model, section 4.2 defines the states that records move through, and sections 4.3 to 4.23 specify the requirements feature by feature.
-
-## 4.1 Use-Case Model
+This section shows how people use the features specified in sections 4 to 6. Each use case lists the requirements it covers.
 
 
 
-### 4.1.1 Actors
+## 7.1 Actors
 
 The nine roles in section 2.3 are primary actors. Every role can sign in, view its authorised dashboard and notifications, search permitted published listings, and use the desirable assistant when available, while retaining its own department and record restrictions. The diagram shows the roles that initiate each use case; other participants and approval stages are explained in the descriptions below. One person can perform several roles, but BR-02 still prevents self-approval. The external AI service is a supporting actor; it returns suggestions and never authorises a business action. KU EHS consultation is recorded evidence in the end-of-life workflow, not a tenth application role.
 
@@ -25,7 +23,7 @@ The nine roles in section 2.3 are primary actors. Every role can sign in, view i
 | AI service | Secondary; external system | Return category suggestions, eligible-match rankings, optional action advice and assistant answers, and draft report text when requested. |
 
 <!-- pagebreak -->
-### 4.1.2 Use-Case Diagram
+## 7.2 Use-Case Diagram
 
 
 ![Figure 1. Dawra Campus use-case diagram](images/use-case-diagram.png)
@@ -35,31 +33,31 @@ Every role can also search (UC-05) and use the assistant (UC-12); to keep the di
 The rectangle is the Dawra Campus system boundary; staff actors and the external AI service are outside it. Solid lines show initiating roles or external-system participation, not unrestricted permission. Approval-stage participation is represented through UC-08 rather than extra connections to each workflow. Other participants remain documented in the use-case descriptions. Check eligibility is always included when ranking or reserving; Send notification is included when an approval decision changes the workflow. Review ranked matches optionally extends an approved resource request. AI classification can fall back to manual entry, and sustainable-action advice is desirable, so neither is modelled as a mandatory AI dependency.
 
 <!-- pagebreak -->
-### 4.1.3 Use-Case Descriptions
+## 7.3 Use-Case Descriptions
 
 
 <!-- widths: 900,2700,2700,3060 -->
 | ID | Use case | Main actors | Related requirements |
 |---|---|---|---|
-| UC-01 | Manage accounts and roles | Business administrator, System administrator | 4.3 (FR-01, FR-02), BR-01, BR-02 |
-| UC-02 | Register asset | Asset custodian, Department representative, AI service | 4.5 (FR-04, FR-05), 4.17 (AI-01) |
-| UC-03 | Publish asset listing | Department representative, Asset custodian | 4.6 (FR-06), BR-04 |
-| UC-04 | Submit resource request | Requester, Department representative | 4.7 (FR-07), BR-03 |
-| UC-05 | Search and filter assets | Requester, all staff users | 4.8 (FR-08) |
-| UC-06 | Review ranked matches | Requester, AI service | 4.18–4.19 (AI-02 to AI-05) |
-| UC-07 | Reserve asset | Requester, Asset custodian | 4.9 (FR-09), BR-11, BR-12 |
-| UC-08 | Approve workflow step | Department representative, Finance officer, Procurement officer, Sustainability officer; Business administrator and Asset custodian for their assigned stages | 4.10 (FR-10), BR-01 to BR-10 |
-| UC-09 | Confirm handover and receipt | Asset custodian, Department representative | 4.11 (FR-11), BR-13 |
-| UC-10 | Manage maintenance work | Asset custodian, Maintenance staff, Department representative; Finance officer when required | 4.12 (FR-12, FR-13), BR-07 |
-| UC-11 | Decide end-of-life action | Sustainability officer, Finance officer, Department representative, Asset custodian, AI service | 4.13 (FR-14), 4.20 (AI-06), BR-08, BR-09 |
-| UC-12 | Ask the campus assistant | All staff users, AI service | 4.21 (AI-07, AI-08) |
-| UC-13 | Generate and review report | Business administrator, Finance officer, Procurement officer, Sustainability officer, AI service | 4.16 (FR-17), 4.22 (AI-09, AI-10), 6.1 |
-| UC-14 | View asset history and audit log | Asset custodian, Business administrator | 4.14 (FR-15, FR-18) |
+| UC-01 | Manage accounts and roles | Business administrator, System administrator | 4.2 (FR-01, FR-02), BR-01, BR-02 |
+| UC-02 | Register asset | Asset custodian, Department representative, AI service | 4.4 (FR-04, FR-05), 4.16 (AI-01) |
+| UC-03 | Publish asset listing | Department representative, Asset custodian | 4.5 (FR-06), BR-04 |
+| UC-04 | Submit resource request | Requester, Department representative | 4.6 (FR-07), BR-03 |
+| UC-05 | Search and filter assets | Requester, all staff users | 4.7 (FR-08) |
+| UC-06 | Review ranked matches | Requester, AI service | 4.17–4.18 (AI-02 to AI-05) |
+| UC-07 | Reserve asset | Requester, Asset custodian | 4.8 (FR-09), BR-11, BR-12 |
+| UC-08 | Approve workflow step | Department representative, Finance officer, Procurement officer, Sustainability officer; Business administrator and Asset custodian for their assigned stages | 4.9 (FR-10), BR-01 to BR-10 |
+| UC-09 | Confirm handover and receipt | Asset custodian, Department representative | 4.10 (FR-11), BR-13 |
+| UC-10 | Manage maintenance work | Asset custodian, Maintenance staff, Department representative; Finance officer when required | 4.11 (FR-12, FR-13), BR-07 |
+| UC-11 | Decide end-of-life action | Sustainability officer, Finance officer, Department representative, Asset custodian, AI service | 4.12 (FR-14), 4.19 (AI-06), BR-08, BR-09 |
+| UC-12 | Ask the campus assistant | All staff users, AI service | 4.20 (AI-07, AI-08) |
+| UC-13 | Generate and review report | Business administrator, Finance officer, Procurement officer, Sustainability officer, AI service | 4.15 (FR-17), 4.21 (AI-09, AI-10), 6.1 |
+| UC-14 | View asset history and audit log | Asset custodian, Business administrator | 4.13 (FR-15, FR-18) |
 
 The descriptions below define proposed prototype behaviour using the existing requirement IDs and states. They do not report an implemented or observed KU workflow. Approval owners are defined in Table 5.2; thresholds and special-handling rules retain their Appendix C status. Each alternative is numbered after the main step from which it branches.
 
 <!-- pagebreak -->
-#### UC-01 Manage accounts and roles
+### UC-01 Manage accounts and roles
 
 **Actors:** System administrator, Business administrator; affected Staff user.
 
@@ -86,7 +84,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** The account and approved roles are recorded and active where authorised, with an audit trail. Failed or rejected assignments grant no additional access. Business settings under FR-03 remain restricted to the Business administrator.
 
 <!-- pagebreak -->
-#### UC-02 Register asset
+### UC-02 Register asset
 
 **Actors:** Asset custodian, Department representative; AI service supports classification when available.
 
@@ -111,7 +109,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** A valid confirmed asset is available to its authorised department users, with quantities, confirmation and history recorded. A draft asset cannot be published or reserved.
 
 <!-- pagebreak -->
-#### UC-03 Publish asset listing
+### UC-03 Publish asset listing
 
 **Actors:** Asset custodian, Department representative of the owning department.
 
@@ -135,7 +133,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** Only an approved listing is visible for reuse. Its quantity, restrictions and verification status are shown, while release evidence and decisions remain traceable.
 
 <!-- pagebreak -->
-#### UC-04 Submit resource request
+### UC-04 Submit resource request
 
 **Actors:** Requester (initiator), receiving Department representative.
 
@@ -161,7 +159,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** A submitted request has a traceable department decision. Matching and reservation require department approval; fulfilment requires an approved transfer and confirmed receipt through UC-09. Submission or an AI suggestion alone grants no approval.
 
 <!-- pagebreak -->
-#### UC-05 Search and filter assets
+### UC-05 Search and filter assets
 
 **Actors:** Staff user, especially Requester.
 
@@ -184,7 +182,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** The user has inspected authorised results. Searching or selecting a result does not create a reservation, approval or ownership change.
 
 <!-- pagebreak -->
-#### UC-06 Review ranked matches
+### UC-06 Review ranked matches
 
 **Actors:** Requester; AI service (supporting).
 
@@ -209,7 +207,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** The reviewed recommendation and user response are recorded. Selecting a result does not reserve it or bypass approval. This use case optionally extends UC-04 after department approval.
 
 <!-- pagebreak -->
-#### UC-07 Reserve asset
+### UC-07 Reserve asset
 
 **Actors:** Requester, releasing Asset custodian or Department representative.
 
@@ -235,7 +233,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** A successful reservation holds the quantity for the configured period; it is not transfer approval. Rejected, expired or cancelled holds leave no duplicate allocation.
 
 <!-- pagebreak -->
-#### UC-08 Approve workflow step
+### UC-08 Approve workflow step
 
 **Actors:** Department representative, Finance officer, Procurement officer, Sustainability officer; Business administrator for role authorisation; Asset custodian for record/hold confirmations in Table 5.2.
 
@@ -248,7 +246,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 2. The system shows the record version, creator, relevant asset and quantity, costs, evidence, prior decisions and any AI suggestion.
 3. The system checks that the user may decide this stage and that earlier required stages have been completed.
 4. The approver reviews the evidence and confirms Approve.
-5. The system records Approved (AT-02) with the user, role, time and approved record version, and advances the parent record according to section 4.2 and Table 5.2.
+5. The system records Approved (AT-02) with the user, role, time and approved record version, and advances the parent record according to section 4.1 and Table 5.2.
 6. The system performs Send notification to the users involved and creates the next required task where applicable. A transfer reaches Approved (TR-04) only after both department stages and any required policy stages.
 
 **Alternative and exception flows:**
@@ -260,7 +258,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** One authorised decision is recorded and the parent follows its allowed transition. No earlier stage, required approver or human decision is bypassed.
 
 <!-- pagebreak -->
-#### UC-09 Confirm handover and receipt
+### UC-09 Confirm handover and receipt
 
 **Actors:** Releasing and receiving Asset custodians; Department representatives inspect decisions and resolve disputes.
 
@@ -285,7 +283,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** Ownership, custody and location change only after a valid receipt. An unresolved dispute leaves ownership unchanged and remains visible to the responsible users.
 
 <!-- pagebreak -->
-#### UC-10 Manage maintenance work
+### UC-10 Manage maintenance work
 
 **Actors:** Asset custodian, Maintenance staff, owning Department representative; Finance officer where the spending threshold applies.
 
@@ -311,7 +309,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** Completed work has approved spending, recorded costs and a resulting condition. An unrepairable item moves to a reviewed end-of-life process rather than being disposed of automatically.
 
 <!-- pagebreak -->
-#### UC-11 Decide end-of-life action
+### UC-11 Decide end-of-life action
 
 **Actors:** Department representative or Asset custodian proposes and records completion; Sustainability officer reviews; Finance officer approves write-off; AI service optionally provides advice.
 
@@ -337,7 +335,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** A completed final action has independent Sustainability and Finance decisions and completion evidence. Rejected proposals do not authorise disposal and restore the asset's previous state.
 
 <!-- pagebreak -->
-#### UC-12 Ask the campus assistant
+### UC-12 Ask the campus assistant
 
 **Actors:** Staff user; AI service (supporting).
 
@@ -360,7 +358,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** The user receives a reviewable answer or a classic alternative. An assistant response alone changes no record, role, ownership or approval state.
 
 <!-- pagebreak -->
-#### UC-13 Generate and review report
+### UC-13 Generate and review report
 
 **Actors:** Business administrator, Finance officer, Procurement officer, Sustainability officer; AI service supports generated narrative.
 
@@ -385,7 +383,7 @@ The descriptions below define proposed prototype behaviour using the existing re
 **Postcondition:** A traceable report is available with its actual review status. Official figures derive from the defined records and formulas; unaccepted AI suggestions and unfulfilled requests do not count as realised benefits.
 
 <!-- pagebreak -->
-#### UC-14 View asset history and audit log
+### UC-14 View asset history and audit log
 
 **Actors:** Asset custodian, Business administrator; other staff only where their role permits access to the underlying record.
 

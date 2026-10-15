@@ -22,13 +22,13 @@ We follow the SRS template from the project description. Every requirement has a
 <!-- widths: 2000,7360 -->
 | ID | What it is |
 |---|---|
-| FR-nn.m | Classic functional requirement (sections 4.3–4.16) |
-| AI-nn.m | AI requirement (sections 4.17–4.23) |
+| FR-nn.m | Classic functional requirement (sections 4.2–4.15) |
+| AI-nn.m | AI requirement (sections 4.16–4.22) |
 | SU-nn | Sustainability requirement (section 6.1) |
 | NFR-nn | Non-functional requirement (section 5) |
 | BR-nn | Business rule (section 5.5) |
-| UC-nn, UI-nn, SI-nn | Use case (4.1), screen (3.1), software interface (3.3) |
-| AS, LS, RQ, RV, TR, MW, EL, AT | States of assets, listings, requests, reservations, transfers, maintenance jobs, end-of-life actions and approvals (section 4.2) |
+| UC-nn, UI-nn, SI-nn | Use case (7.3), screen (3.1), software interface (3.3) |
+| AS, LS, RQ, RV, TR, MW, EL, AT | States of assets, listings, requests, reservations, transfers, maintenance jobs, end-of-life actions and approvals (section 4.1) |
 | TBD-n | Something we still need the instructors to confirm (Appendix C) |
 
 **How requirements are written.** "Shall" means the system must do it. We use the EARS patterns from the Chapter 3 slides: *The system shall …*, *When …*, *While …*, *If … then …* and *Where …*.
@@ -49,12 +49,12 @@ We follow the SRS template from the project description. Every requirement has a
 <!-- widths: 2600,3400,3360 -->
 | Reader | Why they read it | Where to start |
 |---|---|---|
-| Lab instructors (our client) | Check the scope, priorities and open questions | 1.4, 2, 4.1, 6.4, Appendix C |
-| Our team as developers | Design and build the system | 2, 4.2, 5.5, then 4.3–4.23 and 5.1–5.4 |
-| Our team as testers (Phase 7) | Write test cases; every "shall" is something to test | 4.2, 4.3–4.23, 5, 6.1 |
-| Whoever designs the screens | Plan the pages and user journeys | 2.3, 3.1, 4.1 |
+| Lab instructors (our client) | Check the scope, priorities and open questions | 1.4, 2, 6.4, 7, Appendix C |
+| Our team as developers | Design and build the system | 2, 4.1, 5.5, then 4.2–4.22 and 5.1–5.4 |
+| Our team as testers (Phase 7) | Write test cases; every "shall" is something to test | 4.1, 4.2–4.22, 5, 6.1 |
+| Whoever designs the screens | Plan the pages and user journeys | 2.3, 3.1, 7 |
 
-Section 2 describes the product. Section 3 covers its interfaces. Section 4 has the use cases, the states and the requirements for each feature. Section 5 has the quality requirements and the business rules, including who approves what. Section 6 covers sustainability, data, priorities and traceability. The appendices have the glossary, the open questions and our AI-use note.
+Section 2 describes the product. Section 3 covers its interfaces. Section 4 has the states and the requirements for each feature. Section 5 has the quality requirements and the business rules, including who approves what. Section 6 covers sustainability, data, priorities and traceability. Section 7 has the use-case diagram and the use-case descriptions. The appendices have the glossary, the open questions and our AI-use note.
 
 ## 1.4 Product Scope
 

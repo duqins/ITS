@@ -10,7 +10,7 @@
 | Transfer | Moving an item from one department to another, after approval |
 | Custodian | The person responsible for an item's condition and location |
 | Department representative | The person who approves listings, requests, receipts and spending for a department |
-| Approval task | One decision waiting for someone with the right role (section 4.2.8) |
+| Approval task | One decision waiting for someone with the right role (section 4.1.8) |
 | Work order | A repair or maintenance job, from report to completion |
 | End-of-life action | What happens to an item that leaves service: keep, donate, take apart, recycle or dispose |
 | Compatibility score | How well an item fits a request, from 0 to 100; not a probability and not an approval |
@@ -25,7 +25,7 @@
 
 # Appendix B: Analysis Models
 
-For this phase, our analysis models are the use-case diagram and descriptions in section 4.1 and the state tables in section 4.2. The other diagrams come later, as the project description sets out: context and data-flow diagrams in Phase 4, and the UML class, sequence, activity and state diagrams, the ER diagram and the AI workflow diagram in Phase 5. They will use the same IDs as this document.
+For this phase, our analysis models are the use-case diagram and descriptions in section 7 and the state tables in section 4.1. The other diagrams come later, as the project description sets out: context and data-flow diagrams in Phase 4, and the UML class, sequence, activity and state diagrams, the ER diagram and the AI workflow diagram in Phase 5. They will use the same IDs as this document.
 
 # Appendix C: To Be Determined List
 
@@ -48,8 +48,8 @@ For this phase, our analysis models are the use-case diagram and descriptions in
 <!-- widths: 2200,4300,2860 -->
 | Member | Sections | Branch |
 |---|---|---|
-| Sultan Almheiri (100065654) | 1; 2.1–2.2; 2.5–2.7; 4.2–4.16; 5.5; 6; Appendices A–D; document build | phase3/sultan-requirements |
-| Zayed Alfadli (100064657) | 2.3; 3.1; 4.1 | phase3/zayed |
-| Ghaith Alhinaai (100066185) | 2.4; 3.2–3.4; 4.17–4.23; 5.1–5.4 | phase3/ghaith |
+| Sultan Almheiri (100065654) | 1; 2.1–2.2; 2.5–2.7; 4.1–4.15; 5.5; 6; Appendices A–D; document build | phase3/sultan-requirements |
+| Zayed Alfadli (100064657) | 2.3; 3.1; 7 | phase3/zayed |
+| Ghaith Alhinaai (100066185) | 2.4; 3.2–3.4; 4.16–4.22; 5.1–5.4 | phase3/ghaith |
 
-**AI use.** We used AI tools to help prepare this document, build it from our files and organise the repository. Each of us reviewed our own sections and is responsible for their content.
+**AI use.**  We used Claude (Anthropic) as a writing and checking assistant. All requirements, design decisions and analysis are our own and build on our Phase 1 and Phase 2 work. Claude helped us organise our sections, refine the wording of drafts we had written, and keep requirement IDs and cross-references consistent. It also generated the Word document and slides from our files, so the content of both comes from our work and Claude only handled the formatting. To verify the result, we checked it against the project description and the Chapter 3 slides, ran a check that every ID we refer to exists, and read the final document page by page. Each of us reviewed, edited and approved our own sections, and a teammate reviewed every change in a GitHub pull request before it was merged.

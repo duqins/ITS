@@ -1,8 +1,12 @@
-## 4.2 Record States
+# 4. System Features
+
+Section 4.1 defines the states that records move through, and sections 4.2 to 4.22 specify the requirements feature by feature. The use cases showing how people use these features are in section 7.
+
+## 4.1 Record States
 
 The project description asks for the states of assets, requests, transfers and maintenance. These tables list every state, what it means and what can come next. A record is always in exactly one state. If someone tries a change that isn't in the "Next states" column, the system blocks it and logs the attempt (FR-05.2). The state names are the labels users see on screen, and we will turn these tables into UML state diagrams in Phase 5.
 
-### 4.2.1 Asset Life-Cycle States
+### 4.1.1 Asset Life-Cycle States
 
 How many units are available, reserved or allocated is tracked separately from the state (FR-05.3). That way a batch of chairs can be in service while some of them are listed for reuse.
 
@@ -20,7 +24,7 @@ How many units are available, reserved or allocated is tracked separately from t
 | AS-09 | Disassembled | Taken apart; usable parts registered as new assets | None (final) |
 | AS-10 | Disposed | Disposed of as the last option | None (final) |
 
-### 4.2.2 Listing States
+### 4.1.2 Listing States
 
 <!-- widths: 800,2200,4060,2300 -->
 | ID | State | Meaning | Next states |
@@ -32,7 +36,7 @@ How many units are available, reserved or allocated is tracked separately from t
 | LS-05 | Withdrawn | Removed by the owning department (not allowed during an approved transfer, BR-19) | LS-01 |
 | LS-06 | Closed | All offered quantity has been transferred | None (final) |
 
-### 4.2.3 Request States
+### 4.1.3 Request States
 
 <!-- widths: 800,2300,4060,2200 -->
 | ID | State | Meaning | Next states |
@@ -48,7 +52,7 @@ How many units are available, reserved or allocated is tracked separately from t
 | RQ-09 | Cancelled | Withdrawn by the requester | None (final) |
 | RQ-10 | Expired | The required-by date passed before fulfilment | None (final) |
 
-### 4.2.4 Reservation States
+### 4.1.4 Reservation States
 
 <!-- widths: 800,2200,4060,2300 -->
 | ID | State | Meaning | Next states |
@@ -60,7 +64,7 @@ How many units are available, reserved or allocated is tracked separately from t
 | RV-05 | Expired | The hold period ended without a transfer | None (final) |
 | RV-06 | Cancelled | The requester or the releasing side cancelled it | None (final) |
 
-### 4.2.5 Transfer States
+### 4.1.5 Transfer States
 
 <!-- widths: 800,2300,4060,2200 -->
 | ID | State | Meaning | Next states |
@@ -75,7 +79,7 @@ How many units are available, reserved or allocated is tracked separately from t
 | TR-08 | Rejected | An approver refused the transfer, with a reason | None (final) |
 | TR-09 | Cancelled | Cancelled before completion; the held quantity returns to the listing | None (final) |
 
-### 4.2.6 Maintenance Work Order States
+### 4.1.6 Maintenance Work Order States
 
 <!-- widths: 800,2300,4060,2200 -->
 | ID | State | Meaning | Next states |
@@ -90,7 +94,7 @@ How many units are available, reserved or allocated is tracked separately from t
 | MW-08 | Rejected | Spending was not approved, with a reason | None (final) |
 | MW-09 | Cancelled | The work order was withdrawn | None (final) |
 
-### 4.2.7 End-of-Life Action States
+### 4.1.7 End-of-Life Action States
 
 <!-- widths: 800,2300,4060,2200 -->
 | ID | State | Meaning | Next states |
@@ -102,7 +106,7 @@ How many units are available, reserved or allocated is tracked separately from t
 | EL-05 | Completed | Date, recipient or destination, quantity and evidence recorded; the asset enters its final state | None (final) |
 | EL-06 | Rejected | The asset returns to its previous state | None (final) |
 
-### 4.2.8 Approval Task States
+### 4.1.8 Approval Task States
 
 <!-- widths: 800,2200,4060,2300 -->
 | ID | State | Meaning | Next states |
