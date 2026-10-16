@@ -30,7 +30,7 @@ Business rules are the policies the system has to follow, like who can approve w
 
 ### 5.5.2 Approval Stages
 
-Table 5.2 lists every approval in the system, in order. The approver must have the right role for that department, and BR-01 and BR-02 always apply. The states of an approval are in section 4.2.8.
+Table 5.2 lists every approval in the system, in order. The approver must have the right role for that department, and BR-01 and BR-02 always apply. The states of an approval are in section 4.1.8.
 
 **Table 5.2 Approval stages**
 

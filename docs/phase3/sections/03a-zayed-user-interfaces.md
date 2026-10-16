@@ -27,7 +27,7 @@ Dawra Campus shall provide a responsive English website usable in laptop and pho
 
 ### 3.1.1 Interface Standards
 
-- The system shall use the exact state names in section 4.2, such as Pending department approval, Published and Disputed, and show the next responsible role where an action is outstanding. Colour alone shall not communicate status.
+- The system shall use the exact state names in section 4.1, such as Pending department approval, Published and Disputed, and show the next responsible role where an action is outstanding. Colour alone shall not communicate status.
 - The system shall show the user's active department and role, consistent navigation, a page title and the unread-notification count. On narrow screens, tables shall remain readable through wrapping or controlled horizontal scrolling.
 - Before an approval, rejection, withdrawal, cancellation, handover, receipt or end-of-life completion, the system shall show a confirmation containing the affected record and consequential changes. Rejections, requests for changes and cancellations shall require a reason under BR-20.
 - The system shall label generated content as AI suggestion or AI draft, show confidence separately from compatibility, and allow acceptance, correction or rejection where the workflow permits. Unavailable confidence or model-version information shall be marked as unavailable.

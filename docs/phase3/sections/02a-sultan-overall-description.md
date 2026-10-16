@@ -10,12 +10,12 @@ The table shows who and what sits outside the system and how they connect to it.
 | Outside the system | How it connects |
 |---|---|
 | Staff in the nine roles | Use the website in a browser (section 2.3) |
-| AI service provider | Gets only the fields it needs for a task and sends back suggestions, scores, explanations and draft text through one AI adapter (sections 3.3 and 4.17–4.23) |
+| AI service provider | Gets only the fields it needs for a task and sends back suggestions, scores, explanations and draft text through one AI adapter (sections 3.3 and 4.16–4.22) |
 | KU's current asset register | Not connected. Staff update it using the transfer and end-of-life records we export (FR-11.7) |
 | Finance, Procurement and EHS offices | Take part through the Finance officer, Procurement officer and Sustainability officer roles, and set the policy values in Appendix C |
 | Hosting and database provider | Runs the website, database and file storage (section 2.4) |
 
-Inside, the system is split into these parts, covered one by one in sections 4.3 to 4.23: accounts and access; departments and settings; asset records; listings, requests, search and reservations; approvals; transfers; inspections and maintenance; end-of-life actions; history, audit and notifications; reports and sustainability; and the AI services.
+Inside, the system is split into these parts, covered one by one in sections 4.2 to 4.22: accounts and access; departments and settings; asset records; listings, requests, search and reservations; approvals; transfers; inspections and maintenance; end-of-life actions; history, audit and notifications; reports and sustainability; and the AI services.
 
 ## 2.2 Product Functions
 

@@ -15,34 +15,50 @@ An internal campus platform that registers, publishes, matches, transfers, maint
 ## Repository layout
 ```
 docs/
-  phase1/            Phase 1 deliverable
+  phase1/            Phase 1: initial plan and requirement gathering
     sections/        The document, one Markdown file per section (edit these)
     build.js         Generates the .docx from the sections (npm run build:phase1)
+  phase2/            Phase 2: feasibility study (final report and slides in final/)
+  phase3/            Phase 3: requirements document (SRS)
+    sections/        One Markdown file per section (edit these)
+    build.js         Generates the .docx from the sections (npm run build:phase3)
+    presentation/    Phase 3 class presentation
   reference/         Course project description and lab slides
 src/                 Application source (from Phase 6)
 ```
 
 ## Phase schedule
-| Phase | Due (labs of week of) | Deliverable |
+| Phase | Due | Deliverable |
 |---|---|---|
-| 1 | 14 Sep 2026 | Initial Plan and Requirement Gathering Document |
-| 2 | 4 Oct 2026 | Feasibility Document |
-| 3 | 18 Oct 2026 | Requirements Document |
-| 4 & 5 | 1 Nov 2026 | Design Document |
-| 6 | 22 Nov 2026 | Draft Implementation |
-| 7 | 6 Dec 2026 | Test Cases |
-| 8 | 6 Dec 2026 | Final Project, Presentation and Demo |
+| 1 | Labs of the week of 14 Sep 2026 | Initial Plan and Requirement Gathering Document |
+| 2 | Tue 29 Sep 2026 | Feasibility Document |
+| 3 | Tue 13 Oct 2026, resubmission Fri 16 Oct 2026, 6 PM | Requirements Document |
+| 4 & 5 | Labs of the week of 26 Oct 2026 | Design Document |
+| 6 | Labs of the week of 16 Nov 2026 | Draft Implementation |
+| 7 | Labs of the week of 23 Nov 2026 | Test Cases |
+| 8 | Labs of the week of 23 Nov 2026 | Final Project, Presentation and Demo |
 
-Phase 2 onward follows the tentative dates in the [current course project brief](docs/reference/Project-September2026.pdf). Confirm the exact lab submission arrangements with the instructor.
+Phases 2 and 3 show the Blackboard due dates. The other dates come from the [lab slides](docs/reference/COSC336_Circular_Campus_Project_Fall2026.pdf) (p. 4) and may change, so we confirm each one with the lab instructors.
 
 ## Documents
-Each member's contribution is written in Markdown under `docs/phaseN/sections/`. The team combines the reviewed sections into the submission files. Phase 1 build instructions are in `docs/phase1/README.md`; the current Phase 2 report and slides are in `docs/phase2/final/`.
+Each member's contribution is written in Markdown under `docs/phaseN/sections/`. The team combines the reviewed sections into the submission files. Phase 1 build instructions are in `docs/phase1/README.md`, the Phase 2 report and slides are in `docs/phase2/final/`, and the Phase 3 instructions are in `docs/phase3/README.md`.
 
 ## Working agreement
 - No direct commits to `main`; work on a branch and open a pull request.
 - Conventional Commits (`feat`, `fix`, `docs`, `test`, `refactor`, `chore`), one logical change per commit.
 - Everyone commits under their own GitHub account – commit history is 10 % of each phase grade.
 - Never commit secrets; API keys go in `.env` (ignored).
+
+## Phase 3 requirements document (SRS)
+
+Our Software Requirements Specification, updated for the resubmission after TA feedback (due 16 October 2026).
+
+- [SRS (Word)](docs/phase3/Dawra_Campus_Phase3_SRS.docx)
+- [SRS (PDF)](docs/phase3/Dawra_Campus_Phase3_SRS.pdf)
+- [Class presentation](docs/phase3/presentation/Dawra_Campus_Phase3_Presentation.pptx)
+- [Section files and who wrote each one](docs/phase3/README.md)
+
+It covers actors and permissions, record states, the classic and AI features with numbered requirements, non-functional requirements, business rules, priorities checked against our Phase 2 plan, and the use-case model (diagram and use-case descriptions).
 
 ## Phase 2 feasibility study
 
