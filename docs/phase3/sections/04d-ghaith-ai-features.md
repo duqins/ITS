@@ -65,7 +65,7 @@ The system puts eligible matches in a useful order and explains why each item wa
 
 ### 4.18.2 Stimulus/Response Sequences
 
-1. The system receives the eligible matches from section 4.17 and ranks them using documented factors and weights.
+1. The system receives the eligible matches from section 4.17 and ranks them using the weights in Table 4.1.
 2. The Requester opens a recommendation. The system shows its compatibility score, explanation, relevant asset details and confidence information.
 3. The Requester chooses the top result or another eligible item. The system records the selection and, when the user overrides the recommended order, the reason.
 4. If the user requests a reservation, the system starts the normal reservation workflow under section 4.8.
@@ -78,9 +78,45 @@ The system puts eligible matches in a useful order and explains why each item wa
 | AI-04.1 | The system shall show each recommended match with a compatibility score from 0 to 100, an explanation of the main matching factors and references to the relevant asset and request details. |
 | AI-04.2 | The system shall identify assumptions, missing information and unresolved non-mandatory concerns in the explanation. Mandatory constraints shall remain subject to BR-14. |
 | AI-04.3 | The system shall display confidence separately from the compatibility score, explain the basis of the confidence information and mark it as unavailable when no supported measure exists. Neither value shall be presented as a guaranteed probability of correctness. |
-| AI-05.1 | The system shall rank eligible matches using documented factors and weights, including how missing information and tied scores are handled. |
+| AI-05.1 | The system shall calculate the compatibility score (0 to 100) by adding the factor points in Table 4.1 and rank eligible matches from highest to lowest score. Ties and missing information shall be handled as stated under Table 4.1. |
 | AI-05.2 | The system shall allow the user to choose another eligible item instead of the highest-ranked result and shall record the selected item and the user's reason for overriding the recommendation. |
 | AI-05.3 | In a review of 20 sampled recommendations, the system shall show the matching reasons, relevant inputs and confidence information or its unavailability for every recommendation. |
+| AI-05.4 | The system shall apply the confidence thresholds in Table 4.2 to every match and classification suggestion that has a confidence value. If no confidence value is available, the system shall show the result with a "Confidence unavailable – check carefully" label, as required by AI-04.3. |
+
+### 4.18.4 Ranking Weights and Confidence Thresholds
+
+We rank only matches that already passed the eligibility checks in section 4.17 (BR-14). The AI service gives the meaning-match similarity and the explanation; the system adds up the points below, so the same inputs always give the same score.
+
+**Table 4.1 Ranking weights**
+
+<!-- widths: 3000,1100,5260 -->
+| Factor | Points | How the points are given |
+|---|---|---|
+| Functional purpose and meaning match | 30 | Similarity between the request and the listing text (0 to 1), multiplied by 30. |
+| Technical compatibility | 20 | Share of the requested specifications that the item meets or exceeds, multiplied by 20. |
+| Condition | 15 | Two or more levels above the minimum requested condition: 15; one level above: 10; equal to the minimum: 5. Levels: New, Good, Fair, Poor. |
+| Location and transfer cost | 10 | Same building: 10; another building with no transfer cost: 6; transfer cost needed: 2. |
+| Availability and required-by date | 10 | Available now: 10; available within 5 working days: 6; available later but before the required-by date: 2. |
+| Sustainability benefit | 10 | Estimated remaining useful life of 3 years or more: 10; 1 to 3 years: 6; less than 1 year: 2. |
+| Estimated repair cost | 5 | No repair needed: 5; repair estimate below 25% of the item's value: 3; 25% or more: 0. |
+| **Total** | **100** | |
+
+- **Ties:** if two matches have the same score, the one available earlier ranks first, then the one in the nearer building.
+- **Missing information:** a factor with missing optional information gets 0 points and is shown as "unknown" in the explanation. Missing costs are not assumed to be zero (AI-03.3). If information needed for a mandatory check is missing, the item is not ranked at all.
+- **Fairness:** no factor uses personal characteristics or department names (NFR-12).
+
+**Table 4.2 Confidence thresholds**
+
+<!-- widths: 2300,2100,4960 -->
+| AI task | Confidence (0 to 1) | What the system does |
+|---|---|---|
+| Matching (4.17–4.18) | 0.75 or more | Shows the match normally. |
+| Matching (4.17–4.18) | 0.50 to 0.74 | Shows the match with a "Check carefully" label. |
+| Matching (4.17–4.18) | Below 0.50 | Insufficient confidence: the match is not shown as a recommendation, and the system offers classic search and filters (AI-13.1, NFR-07). |
+| Classification (4.16) | 0.60 or more | Fills in the suggested value for the user to accept, correct or reject (AI-01.3). |
+| Classification (4.16) | Below 0.60 | Insufficient confidence: the suggestion is listed as an option only, nothing is filled in, and the user enters the value manually. |
+
+These are our starting values. We will check them with the 20-request matching test (AI-02.2) and the 20-asset classification test (AI-01.5), and record any change with its reason.
 
 ## 4.19 Sustainable-Action Recommendation
 
@@ -192,7 +228,7 @@ The system records how AI outputs were produced and how users responded to them.
 | AI-12.1 | For each AI output, the system shall record the task, input record references, output, generation time, model or deployment identifier, available model version, and any score or confidence information used. |
 | AI-12.2 | If model-version or confidence information is unavailable, then the system shall mark it as unavailable rather than create a value. |
 | AI-12.3 | When a user accepts, corrects, rejects or overrides an AI output, the system shall record the user, time, original output, response and any corrected values. Corrections, rejections and overrides shall include a reason and follow the audit rules in FR-18 and BR-17. |
-| AI-13.1 | If AI is unavailable, rate-limited, returns invalid output or falls below the documented confidence threshold for its task, then the system shall explain the issue and offer the relevant classic search, filters, form or report. |
+| AI-13.1 | If AI is unavailable, rate-limited, returns invalid output or falls below the confidence threshold for its task in Table 4.2, then the system shall explain the issue and offer the relevant classic search, filters, form or report. |
 | AI-13.2 | If an AI request fails or remains unanswered, then the system shall display a failure or timeout message and make the classic alternative available within 15 seconds of the original request, including any retries. It shall preserve entered data and allow the classic workflow to continue. |
 | AI-13.3 | The system shall pass all five planned fallback tests: unavailable service, timeout, rate limit, malformed output and insufficient confidence. Each test shall preserve user input and provide the relevant classic alternative within 15 seconds. |
 | AI-13.4 | When AI credentials are absent or AI services are disabled, the system shall allow the classic features to start and operate without a paid AI account or AI API key, as required by NFR-09. |
