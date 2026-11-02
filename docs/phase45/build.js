@@ -20,6 +20,7 @@ const FONT = "Calibri";
 const ACCENT = "1F6F5C";
 const TOTAL_W = 9360;
 const MAX_IMG_W = 620; // pixels at 96 dpi, about 6.45 inches
+const MAX_IMG_H = 830; // keeps a tall figure and its caption on one page
 const ROOT = __dirname;
 const OUT_NAME = "Dawra_Campus_Phase4-5_Design_Document.docx";
 const HEADER_TEXT = "Design Document for Dawra Campus, COSC 336 Group 4";
@@ -90,7 +91,7 @@ function image(caption, rel, file) {
   const ext = path.extname(full).slice(1).toLowerCase().replace("jpeg", "jpg");
   const buf = fs.readFileSync(full);
   const { w, h } = imageSize(buf, ext);
-  const scale = Math.min(1, MAX_IMG_W / w);
+  const scale = Math.min(1, MAX_IMG_W / w, MAX_IMG_H / h);
   return [
     new Paragraph({ alignment: AlignmentType.CENTER, keepNext: true, children: [new ImageRun({ type: ext, data: buf, transformation: { width: Math.round(w * scale), height: Math.round(h * scale) } })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 200 }, children: inline(caption, { italics: true, size: 19 }) }),
