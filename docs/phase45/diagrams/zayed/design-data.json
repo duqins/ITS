@@ -43,7 +43,7 @@
         ],
         [
           "Estimated value *",
-          "AED 450.00"
+          "AED 250.00"
         ],
         [
           "Condition *",
@@ -73,9 +73,9 @@
       "ai": "Category: Electronics / Monitors. Tags: display, HDMI, office. Description: 24-inch FHD monitor with stand.",
       "confidence": "0.86",
       "reason": "The title and specifications identify a monitor. Screen size and HDMI are stated in the supplied text.",
-      "decision": "Accept, edit or reject each suggestion before confirming the asset. Confirmation records the user and time; it does not publish a listing.",
+      "decision": "Accept, edit or reject each suggestion before confirming the asset. Confirmation records the user and time. it does not publish a listing.",
       "down": "Classification unavailable. Your fields are preserved. Select category and enter description manually.",
-      "low": "Confidence 0.54, below 0.60. Category is an option only. No suggested value is filled in; choose it manually.",
+      "low": "Confidence 0.54, below 0.60. Category is an option only. No suggested value is filled in. choose it manually.",
       "actions": [
         "Accept suggestions",
         "Edit suggestions",
@@ -148,7 +148,7 @@
       "confidence": null,
       "reason": "The draft uses your stated monitor requirement. The assistant cannot infer a required-by date or approve department need.",
       "decision": "Check and correct the fields, then submit to the department. Submission creates RQ-02. Search and reservation do not bypass department approval.",
-      "down": "Assistant unavailable. Continue with the normal request form; your entered fields remain.",
+      "down": "Assistant unavailable. Continue with the normal request form. your entered fields remain.",
       "low": "Confidence unavailable - check carefully. The draft cannot supply missing fields. Confirm the date and specifications yourself.",
       "actions": [
         "Review AI draft",
@@ -200,19 +200,19 @@
           "Available now / collection required"
         ]
       ],
-      "ai": "Compatibility 87/100. Meaning 27/30; technical 20/20; condition 5/15; location 10/10; availability 10/10; useful life 10/10; repair 5/5.",
+      "ai": "Compatibility 87/100. Meaning 27/30. technical 20/20. condition 5/15. location 10/10. availability 10/10. useful life 10/10. repair 5/5.",
       "confidence": "0.82",
-      "reason": "Similarity 0.90; all requested specifications met; condition equals minimum; same building; available now; estimated life 3 years; no repair needed.",
+      "reason": "Similarity 0.90. all requested specifications met. condition equals minimum. same building. available now. estimated life 3 years. no repair needed.",
       "decision": "Inspect evidence and choose any eligible result. Selection alone holds nothing. Request reservation, then wait for independent releasing-side confirmation.",
       "down": "AI ranking unavailable. Eligible keyword and filter results remain available without AI scores. Current quantity is checked again when reserving.",
-      "low": "Confidence 0.62: Check carefully. Below 0.50 the result is withheld as an AI recommendation; use classic search. Unsupported confidence is labelled unavailable.",
+      "low": "Confidence 0.62: Check carefully. Below 0.50 the result is withheld as an AI recommendation. use classic search. Unsupported confidence is labelled unavailable.",
       "actions": [
         "Inspect asset",
         "Choose another eligible match",
         "Request reservation"
       ],
       "refs": "UC-05 to UC-07; FR-08.1 to FR-09.7; AI-02 to AI-05; AI-13; NFR-07; BR-11 to BR-16; RQ-03, RV-01",
-      "detail": "All mandatory checks passed: access, quantity, condition, specifications and date. Missing mandatory data excludes an item. Optional unknowns are labelled and earn 0 factor points. Another eligible example: AST-0071, compatibility 83, confidence unavailable; choosing it requires an override reason."
+      "detail": "All mandatory checks passed: access, quantity, condition, specifications and date. Missing mandatory data excludes an item. Optional unknowns are labelled and earn 0 factor points. Another eligible example: AST-0071, compatibility 83, confidence unavailable. choosing it requires an override reason."
     },
     {
       "id": "UI-08",
@@ -249,7 +249,7 @@
         ],
         [
           "Estimated asset value",
-          "AED 450.00 (synthetic estimate)"
+          "AED 250.00 (synthetic estimate)"
         ],
         [
           "Transfer cost",
@@ -284,7 +284,7 @@
         "Reject"
       ],
       "refs": "UC-08; FR-10.1 to FR-10.7; FR-11.1, FR-11.2; BR-01, BR-02, BR-05, BR-06, BR-20; AT-01 to AT-04; TR-01 to TR-04",
-      "detail": "TBD-1 has no confirmed value in Phase 3. Do not infer that AED 450 bypasses Finance. A required unresolved policy stage stays pending. Self-approval and stale record versions are refused."
+      "detail": "TBD-1 has no confirmed value in Phase 3. AED 250 is not evidence that Finance approval can be skipped. A required unresolved policy stage stays pending. Self-approval and stale record versions are refused."
     },
     {
       "id": "UI-09",
@@ -347,15 +347,15 @@
       "ai": "Earlier match evidence: compatibility 87/100. No AI assessment of the physical handover or receipt.",
       "confidence": "0.82 (earlier match only)",
       "reason": "The earlier recommendation explained fit to the request. The receiving custodian must inspect actual quantity and condition.",
-      "decision": "Releasing custodian records handover only after TR-04. Receiving custodian confirms receipt after TR-05, or records a discrepancy. Ownership changes at valid receipt. A valid receipt restores In service (AS-02) or In storage (AS-03) under the new owner, and completes TR-06 / RQ-06.",
+      "decision": "The releasing custodian records handover after TR-04. The receiving custodian confirms receipt after TR-05 or records a discrepancy. Valid receipt changes the owner, restores AS-02 or AS-03, and completes TR-06 / RQ-06.",
       "down": "AI unavailable. Use recorded approvals, handover evidence and physical inspection to complete the normal transfer workflow.",
-      "low": "Earlier match confidence 0.62: Check carefully. Receipt relies on inspection and evidence; no new AI confidence is invented.",
+      "low": "Earlier match confidence 0.62: Check carefully. Receipt relies on inspection and evidence. no new AI confidence is invented.",
       "actions": [
         "Confirm receipt",
         "Record discrepancy"
       ],
       "refs": "UC-09; FR-11.1 to FR-11.7; BR-11, BR-13, BR-20; TR-04 to TR-09; AS-02, AS-03, AS-05; RQ-05, RQ-06",
-      "detail": "This is the receiving view. Releasing users see Record handover at TR-04. A discrepancy creates TR-07 and retains the owner; resolution permits receipt or return with cancellation. Duplicate receipt makes no second update. Receipt saves the new owner, custody, location and AS-02 or AS-03 together with the transfer and request states."
+      "detail": "Receipt saves ownership, custody, location and state together. A discrepancy keeps the owner and sets TR-07. Resolution permits receipt or return and cancellation. A repeated receipt makes no second update."
     },
     {
       "id": "UI-10",
@@ -396,7 +396,7 @@
         ],
         [
           "Parts / labour",
-          "Fan: AED 80.00 / 1 hour: AED 100.00"
+          "Fan: AED 80.00. Labour: AED 100.00. Synthetic fan mass: 0.10 kg."
         ],
         [
           "Actual total",
@@ -417,10 +417,10 @@
       ],
       "ai": "Optional sustainable-action advice: repair. Inspect the fan before replacing the complete computer.",
       "confidence": null,
-      "reason": "The inspection identifies one replaceable part. Demand, repairability and the AED 180 estimate support a repair proposal; they do not approve spending.",
+      "reason": "The inspection identifies one replaceable part. Demand, repairability and the AED 180 estimate support a repair proposal. they do not approve spending.",
       "decision": "Record work only after required cost approvals. Save actual cost and outcome. Any increase returns to MW-03 before completion. Not repairable starts EL-01.",
       "down": "Action advice unavailable. Continue inspection and approved work using the recorded assessment and costs.",
-      "low": "Confidence unavailable - check carefully. The SRS defines no numeric cutoff for action advice; insufficient evidence requires manual assessment.",
+      "low": "Confidence unavailable - check carefully. The SRS defines no numeric cutoff for action advice. insufficient evidence requires manual assessment.",
       "actions": [
         "Save work progress",
         "Return for cost approval",
@@ -428,7 +428,7 @@
         "Mark not repairable"
       ],
       "refs": "UC-10, UC-11; FR-12.1, FR-12.2; FR-13.1 to FR-13.7; AI-06; BR-07; MW-01 to MW-09; EL-01",
-      "detail": "The sample assumes all applicable cost approvals have been recorded, without inventing a TBD-2 value. The custodian reports defects; department and conditional Finance approvers use UI-08. Unsafe or Not working assets cannot be published or reserved."
+      "detail": "The sample assumes all applicable cost approvals have been recorded, without inventing a TBD-2 value. The custodian reports defects. department and conditional Finance approvers use UI-08. Unsafe or Not working assets cannot be published or reserved. For the S06 example, the new fan weighs a synthetic 0.10 kg. The Section 12 F1 IT-material factor of 24.86548 kg CO2e per kg is a parts proxy. Parts emissions are about 2.49 kg CO2e, not a measured footprint."
     },
     {
       "id": "UI-13",
@@ -457,11 +457,11 @@
         ],
         [
           "Avoided purchases",
-          "2 confirmed fulfilled requests / AED 900.00 estimated"
+          "2 fulfilled requests. Two 24-inch Dell P2422H monitors. AED 690 (2 x AED 345)."
         ],
         [
           "Net financial savings",
-          "AED 720.00 estimated / costs AED 180.00"
+          "Estimated AED 510 (AED 690 minus AED 180)."
         ],
         [
           "Reuse cohort",
@@ -477,30 +477,30 @@
         ],
         [
           "Estimated carbon reduction",
-          "N/A / emission factors missing"
+          "About 253.5 to 651.5 kg CO2e (estimated). Transport 0. Fan parts about 2.49."
         ],
         [
           "Sources",
-          "Completed TRF-0007, TRF-0008; MWO-0012"
+          "TRF-0007 / REQ-0014 and TRF-0008 / REQ-0016, one monitor each. MWO-0012. Section 12 Tables 12.1 to 12.3."
         ],
         [
           "Owner review",
           "Sustainability pending; Finance pending; Business administration pending"
         ]
       ],
-      "ai": "AI-generated draft: Two confirmed fulfilled requests avoided an estimated AED 900 in purchases. After AED 180 attributable costs, estimated net savings are AED 720. Carbon is N/A.",
+      "ai": "AI-generated draft: Two fulfilled requests reused one 24-inch monitor each. Avoided purchases: AED 690. Net savings: AED 510 after AED 180 costs. Carbon reduction: about 253.5 to 651.5 kg CO2e after fan parts. Collection stayed in one building. Asset-life extension remains N/A.",
       "confidence": null,
-      "reason": "All claims use snapshot S06. Confidence unavailable; factual support is checked against the linked conventional totals, not a generated certainty score.",
+      "reason": "The two monitor factors give 256 to 654 kg CO2e. Deduct about 2.49 for the new fan. Same-building collection has no van trip. Values follow S06 and Section 12.",
       "decision": "Review only your own domain. Sustainability reviews indicators, Finance reviews money, Business administration reviews operations. A mixed report stays Draft until every owner reviews.",
       "down": "Narrative generation unavailable. Conventional totals and their sources remain available for the same owner review.",
-      "low": "Confidence unavailable - check carefully. Unsupported claims or totals that disagree with S06 keep the narrative in Draft; no numeric cutoff is defined.",
+      "low": "Confidence unavailable - check carefully. Unsupported claims or totals that disagree with S06 keep the narrative in Draft. no numeric cutoff is defined.",
       "actions": [
         "Open source records",
         "Return draft with comments",
         "Approve sustainability figures"
       ],
-      "refs": "UC-13; FR-17.1 to FR-17.4; AI-09, AI-10, AI-12, AI-13; SU-01 to SU-09; BR-10, BR-18",
-      "detail": "All values are synthetic, not KU outcomes. Money figures are estimates. Snapshot S06 contains 3 distinct diverted items, 2 confirmed fulfilled requests, 4 cohort items and 1 successful closed repair. Missing inputs show N/A. Applied period and department filters persist across views and AI states."
+      "refs": "UC-13; FR-17.1 to FR-17.4; AI-09, AI-10, AI-12, AI-13; SU-01 to SU-09; BR-10, BR-18; design section 12 Tables 12.1 to 12.3",
+      "detail": "Synthetic assumptions: fan mass 0.10 kg and the F1 IT-material proxy 24.86548 kg CO2e per kg. Parts = 0.10 x 24.86548 = about 2.49 kg CO2e. Carbon = 256 to 654 minus 2.49 = about 253.5 to 651.5 kg CO2e. New monitors cost AED 345 each. Filters preserve the scope across views."
     },
     {
       "id": "UI-12",
@@ -570,21 +570,21 @@
   ],
   "screen_notes": {
     "UI-03": "Verification records who checked the item and when. HDMI and DisplayPort are video connections used to check whether the monitor fits the request. FHD means Full HD, a screen resolution of 1920 x 1080. A duplicate is a possible second record for the same item.",
-    "UI-06": "An assistant draft is a proposed set of fields that the requester must check. Submission sends the request to department approval; it does not approve the request. A required-by date is the date when the item is needed.",
+    "UI-06": "An assistant draft is a proposed set of fields that the requester must check. Submission sends the request to department approval. it does not approve the request. A required-by date is the date when the item is needed.",
     "UI-07": "Eligibility means passing every required check before an item can be offered. Similarity measures how closely the item description matches the request. Each factor contributes points to compatibility. Unknown optional details earn zero points. An override reason explains why the requester chose another eligible ranked item.",
     "UI-08": "A threshold is the value that makes an extra approval necessary. TBD-1 is the existing Phase 3 name for the transfer-value threshold that KU Finance must set. Procurement reviews categories controlled by purchasing rules. An independent approver is someone other than the requester or record creator. Version v3 means the third saved revision.",
-    "UI-09": "Handover records the releasing custodian giving the item to the receiving side. Receipt records the receiving custodian checking and accepting it. A discrepancy is a difference in quantity or condition. Ownership is the department recorded as owning the item; custody identifies the person responsible for it.",
+    "UI-09": "Handover records the releasing custodian giving the item to the receiving side. Receipt records the receiving custodian checking and accepting it. A discrepancy is a difference in quantity or condition. Ownership is the department recorded as owning the item. custody identifies the person responsible for it.",
     "UI-10": "A work order records the maintenance job, costs and outcome. Labour is the cost of staff time. TBD-2 is the existing Phase 3 repair-spending threshold that KU Finance must set. End-of-life review decides the next action for an item that is no longer suitable for its current use.",
-    "UI-13": "Deduplicated means each item is counted once. The reuse cohort is the group of listed items used to calculate the reuse rate. Net savings means estimated avoided purchases minus related costs. Apply filters changes the period and department scope. Only October 2026 for Engineering and Computing has sample data; other scopes show no example snapshot.",
+    "UI-13": "Each diverted item is counted once. The reuse cohort is the group of listed items used to calculate the reuse rate. Net savings subtract related costs from avoided purchases. Filters select the period and departments. Other scopes show no example snapshot.",
     "UI-12": "A supporting record is a permitted system record used as evidence for the answer. A proposal is a draft action that the user must check. Desirable means this feature is optional in the project scope. It follows the same access checks and approval steps as the normal forms."
   },
   "diagram_notes": {
     "figure-9-1-use-case-diagram": "The Phase 3 diagram is reproduced unchanged, with its nine staff roles and fourteen use-case IDs. A use case is a task the system helps someone complete. An actor is a staff role or outside service that takes part. An include link identifies a step used as part of another task. An extend link identifies additional behaviour under a condition. The existing links are kept. The drawing shows the main starting roles and the outside AI service. All nine staff roles may also search and use the assistant within their permissions, as described in Phase 3. Other permitted participants and approval stages remain in the Phase 3 use-case descriptions.",
     "figure-9-2-register": "The custodian, who is responsible for the item, checks and confirms the values. Suggested values stay separate from confirmed values. Unsupported input means content the AI cannot process. Unsupported inputs, confidence below 0.60 and AI service failure preserve manual entry. A transaction saves related changes as one unit, so a failed save cannot leave half of the asset update applied. The audit record stores who acted, their role, time, reason and values before and after the change (FR-18.1). Model and version identify the AI system used, when that information is available.",
-    "figure-9-3-request-approval": "A request becomes Open only after an independent department decision: the approver cannot be its requester or creator. Notifications go only to people allowed to see the record. Material changes are changes to important fields, such as quantity, specifications or the required-by date. These return an approved request to RQ-02 for department review. A stale version is an older saved revision; it cannot be used to approve a record that has since changed. Optional assistant drafting follows the same stages.",
-    "figure-9-4-match-reserve": "The alt frame shows two alternative paths. A usable AI result follows the first. Disabled AI, service failure, timeout, unusable output, rate limiting or confidence below 0.50 selects classic keyword search and filters. A timeout means the waiting limit has been reached. Rate limiting means the AI service restricts how many requests it accepts. Fallback uses the same eligibility checks and does not need an AI reply. It warns the requester and appears within 15 seconds of the original attempt, including retries. Classic results have no invented AI score. Confidence from 0.50 to below 0.75 needs a Check carefully warning; missing confidence is labelled unavailable. The separate 5-second matching target in NFR-16 remains unchanged. Missing required data removes an item from the results. The requester selects an item, then an independent releasing-side person confirms the hold. A hold sets units aside temporarily. A locked quantity check prevents two requests from holding the same units. If stock has changed or saving fails, no extra units are held.",
-    "figure-9-5-transfer": "The opt frame contains extra steps that apply only when their condition is met. Finance and Procurement approvals are conditional; both are needed when both rules apply. An unresolved rule stays pending. Handover records the releasing custodian giving the item to the receiving side. Receipt records the receiving custodian checking and accepting it. Ownership changes only on valid receipt, once. Repeated receipt confirmation returns the saved result without changing ownership or quantity again. If a related save fails, rollback undoes the attempted changes so quantity and ownership stay consistent. Each decision records the person, role, time, saved version, reason and audit evidence. Valid receipt also restores the asset from AS-05 to In service (AS-02) or In storage (AS-03) under the receiving owner, as UC-09 requires. A discrepancy records TR-07 and notifies both department representatives without changing the owner.",
-    "figure-9-6-request-activity": "Each action names the responsible role. Connector A joins the two printed parts of this one activity. A confirmed reservation temporarily holds the item. The required department and policy approvals must finish before the transfer reaches TR-04. Exception paths handle rejection, cancellation or other problems. They release held units once and notify people allowed to see the record. A dispute is an unresolved disagreement about the handover or receipt; ownership stays unchanged until it is resolved. RQ-07 means the requester explicitly closed the request. AI cannot close it automatically. Valid receipt restores AS-02 or AS-03 under the new owner, alongside TR-06 and RQ-06.",
+    "figure-9-3-request-approval": "A request becomes Open only after an independent department decision: the approver cannot be its requester or creator. Notifications go only to people allowed to see the record. Material changes are changes to important fields, such as quantity, specifications or the required-by date. These return an approved request to RQ-02 for department review. A stale version is an older saved revision. it cannot be used to approve a record that has since changed. Optional assistant drafting follows the same stages.",
+    "figure-9-4-match-reserve": "The alt frame shows two alternative paths. A usable AI result follows the first. Disabled AI, service failure, timeout, unusable output, rate limiting or confidence below 0.50 selects classic keyword search and filters. A timeout means the waiting limit has been reached. Rate limiting means the AI service restricts how many requests it accepts. Fallback uses the same eligibility checks and does not need an AI reply. It warns the requester and appears within 15 seconds of the original attempt, including retries. Classic results have no invented AI score. Confidence from 0.50 to below 0.75 needs a Check carefully warning. missing confidence is labelled unavailable. The separate 5-second matching target in NFR-16 remains unchanged. Missing required data removes an item from the results. The requester selects an item, then an independent releasing-side person confirms the hold. A hold sets units aside temporarily. A locked quantity check prevents two requests from holding the same units. If stock has changed or saving fails, no extra units are held.",
+    "figure-9-5-transfer": "The opt frame contains extra steps that apply only when their condition is met. Finance and Procurement approvals are conditional. both are needed when both rules apply. An unresolved rule stays pending. Handover records the releasing custodian giving the item to the receiving side. Receipt records the receiving custodian checking and accepting it. Ownership changes only on valid receipt, once. Repeated receipt confirmation returns the saved result without changing ownership or quantity again. If a related save fails, rollback undoes the attempted changes so quantity and ownership stay consistent. Each decision records the person, role, time, saved version, reason and audit evidence. Valid receipt also restores the asset from AS-05 to In service (AS-02) or In storage (AS-03) under the receiving owner, as UC-09 requires. A discrepancy records TR-07 and notifies both department representatives without changing the owner.",
+    "figure-9-6-request-activity": "Each action names the responsible role. Connector A joins the two printed parts of this one activity. A confirmed reservation temporarily holds the item. The required department and policy approvals must finish before the transfer reaches TR-04. Exception paths handle rejection, cancellation or other problems. They release held units once and notify people allowed to see the record. A dispute is an unresolved disagreement about the handover or receipt. ownership stays unchanged until it is resolved. RQ-07 means the requester explicitly closed the request. AI cannot close it automatically. Valid receipt restores AS-02 or AS-03 under the new owner, alongside TR-06 and RQ-06.",
     "figure-9-7-maintenance-activity": "Maintenance means inspecting or repairing an item. Unsafe or Not working items cannot be published or reserved. The same block applies in AS-04 Under maintenance and AS-06 Retired. A higher repair cost needs new approval before completion. End-of-life review decides what happens to an item no longer suitable for its current use. Every final action needs Sustainability review and Finance write-off, which authorises removing its recorded value from the accounts. Required environmental, health and safety (EHS) checks must be complete. Where data erasure is required, evidence must show that stored data was securely removed. Recycling or disposal records why earlier reuse-first options do not work. Retain means keeping the asset. EL-06 rejects the retirement proposal, not the decision to keep the item. Record that reason and restore the previous AS-02 or AS-03 state. This uses the existing SRS rejection path because the SRS has no separate completed-retention state. EL-05 and AS-07 to AS-10 apply only after a final action is completed."
   },
   "sequences": [
@@ -1135,5 +1135,24 @@
       ],
       "refs": "UC-08, UC-09; FR-10, FR-11; BR-02, BR-05, BR-06, BR-13"
     }
-  ]
+  ],
+  "snapshot": {
+    "id": "S06",
+    "monitors": 2,
+    "unitReplacementAed": 345,
+    "avoidedAed": 690,
+    "relatedCostAed": 180,
+    "netSavingsAed": 510,
+    "lowFactorKg": 128,
+    "highFactorKg": 327,
+    "transportKg": 0,
+    "fanMassKg": 0.1,
+    "partsFactorKgPerKg": 24.86548,
+    "partsKg": 2.486548,
+    "carbonLowKg": 253.513452,
+    "carbonHighKg": 651.513452,
+    "rangeText": "about 253.5 to 651.5 kg CO2e",
+    "reference": "Section 12 Tables 12.1 to 12.3; origin/phase45/sultan 7691fcf",
+    "assumption": "Synthetic fan mass 0.10 kg. F1 IT material factor used as a parts proxy. Same-building collection uses no van trip."
+  }
 }

@@ -5,7 +5,7 @@ import json
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-DATA=json.loads((HERE/'design-data.json').read_text())
+DATA=json.loads((HERE/'design-data.json').read_text(encoding='utf-8'))
 SCREENS={s['id']:s for s in DATA['screens']}
 
 def table(headers,rows,widths):
@@ -26,18 +26,20 @@ All shown records, scores and outputs are made-up examples, called synthetic dat
 
 '''
 
-def screen(section,title,s,figure,notes=None,field_rows=None):
+def screen(section,title,s,figure,notes=None,field_rows=None,fields_title=None):
  name,caption=figure
  level='###' if section.count('.')>1 else '##'
  text='<!-- pagebreak -->\n'+level+' '+section+' '+title+'\n\n'
  text+=f"**Screen:** {s['id']}. **Role:** {s['role']} in {s['dept']}. **Example state:** {s['state']}.\n\n"
- text+=f'![{caption}](images/{name}.png)\n\n'
- text+='<!-- pagebreak -->\n'+level+'# '+s['id']+' Fields and decisions\n\n'
+ figure_id,figure_title=caption.split(' ',2)[1:]
+ text+=f'![Figure {figure_id}a {figure_title} top half](images/{name}-top.png)\n\n<!-- pagebreak -->\n\n![Figure {figure_id}b {figure_title} bottom half](images/{name}-bottom.png)\n\n'
+ text+='<!-- pagebreak -->\n'+level+'# '+(fields_title or s['id']+' Fields and decisions')+'\n\n'
  text+=(notes or DATA['screen_notes'][s['id']])+'\n\n'
+ text+='**Table 7.'+str(int(name.split('-')[2]))+' '+s['id']+' '+('report fields' if fields_title else 'fields')+'**\n\n'
  text+=table(['Field','Synthetic example'],field_rows or s['fields'],[2600,6760])
  confidence=s['confidence']+'.' if s['confidence'] else 'Unavailable - check carefully.'
  text+=f"**AI result:** {s['ai']}\n\n**Confidence:** {confidence} Model/version unavailable in this example.\n\n**Reason:** {s['reason']}\n\n**Human decision:** {s['decision']}\n\n**Low or unavailable confidence:** {s['low']}\n\n**AI unavailable:** {s['down']}\n\n"
- detail=s['detail'].replace('Do not infer that AED 450 bypasses Finance.','AED 450 is not evidence that Finance approval can be skipped.')
+ detail=s['detail']
  text+=detail+'\n\n**Phase 3 references:** '+s['refs']+'.\n\n'
  return text
 
@@ -54,8 +56,8 @@ report=deepcopy(SCREENS['UI-13'])
 report['title']='Review report draft'
 report['decision']='Compare each written claim with snapshot S06 and its source records. Sustainability reviews environmental figures, Finance reviews money and Business administration reviews operations. Return unsupported claims with comments. The mixed report stays Draft until all owners review it.'
 report['down']='AI narrative unavailable. No new AI draft is generated. Conventional totals and linked records remain available for the same owner review.'
-report['detail']='The report view uses the same S06 records as the dashboard. AI-written text is labelled Draft. Estimated savings and missing carbon or life-extension inputs remain labelled. The Sustainability officer can approve only the sustainability figures.'
-md+=screen('7.7','Reports',report,('figure-7-8-ui-13-reports','Figure 7.8 Report draft and source review UI-13'),field_rows=[report['fields'][i] for i in [0,1,2,4,5,8,9,10,11]])
+report['detail']='The report uses the same S06 monitor records, prices and carbon assumptions as the dashboard. AI-written text stays Draft until its owners review it. Carbon is an estimated range after fan-part emissions. Asset-life extension remains N/A because retirement dates are missing. The Sustainability officer can approve only the sustainability figures.'
+md+=screen('7.7','Reports',report,('figure-7-8-ui-13-reports','Figure 7.8 Report draft and source review UI-13'),notes='The report view uses the same filters and snapshot as the dashboard in 7.6.',field_rows=[report['fields'][i] for i in [0,1,2,4,5,8,9,10,11]],fields_title='UI-13 Report fields and decisions')
 md+=screen('7.8','Campus Assistant',SCREENS['UI-12'],('figure-7-9-ui-12','Figure 7.9 Campus assistant UI-12'))
 md+='<!-- pagebreak -->\n'
 (ROOT/'sections/07-zayed-mockups.md').write_text(md,encoding='utf-8')
@@ -71,12 +73,13 @@ A use case is a task the system helps someone complete. An actor is a staff role
 
 ![Figure 9.1 Dawra Campus use-case diagram from Phase 3](images/figure-9-1-use-case-diagram.png)
 
-An include link identifies a step used as part of another task. Check eligibility is included in UC-06 and UC-07; Send notification is included in UC-08. An extend link identifies additional behaviour under a condition. The existing extend link from UC-06 to UC-04 is retained.
+An include link identifies a step used as part of another task. Check eligibility is included in UC-06 and UC-07. Send notification is included in UC-08. An extend link identifies additional behaviour under a condition. The existing extend link from UC-06 to UC-04 is retained.
 
 Every staff role may also search (UC-05) and use the assistant (UC-12) within its access rights. Phase 3 draws these shared tasks for the Requester to keep the figure readable. Other permitted participants and approval stages stay in the Phase 3 use-case descriptions. AI supplies advice and drafts; it cannot approve a task.
 
 **Phase 3 references:** SRS sections 2.3 and 7; UC-01 to UC-14; BR-01, BR-02, BR-15.
 
+<!-- pagebreak -->
 ### 9.1.1 Use cases and responsible roles
 
 '''
@@ -96,13 +99,14 @@ coverage=[
 ('UC-13','Generate and review report','Business, Finance and Sustainability owners; Procurement view'),
 ('UC-14','View asset history and audit log','Custodian history; Business administrator audit access'),
 ]
+md+='**Table 9.1 Use cases and responsible roles**\n\n'
 md+=table(['ID','Existing use case','Who may act'],coverage,[900,2700,5760])
 md+='''<!-- pagebreak -->
 ## 9.2 Sequence Diagrams
 
 We use four sequences for the four assigned scenarios. Their participants are people and parts of one Django application, not new separately deployed services. Django is the framework used to build the web application. PostgreSQL is the database that stores its records. The server runs the application and contacts the outside AI service. Section 11 defines the detailed architecture, meaning how the software parts fit together.
 
-Solid arrows show requests or decisions; dashed open arrows show replies. A lifeline is the dashed vertical line under a participant. Narrow boxes show when a participant handles a message. An alt frame separates alternative paths. An opt frame contains steps used only when its condition applies. Each sequence is enlarged in two consecutive printed parts so its labels remain readable.
+Solid arrows show requests or decisions. Dashed open arrows show replies. A lifeline is the dashed vertical line under a participant. Narrow boxes show when a participant handles a message. An alt frame separates alternative paths. An opt frame contains steps used only when its condition applies. Each sequence is enlarged in two consecutive printed parts so its labels remain readable.
 
 A transaction saves related changes together. An atomic transaction saves all of them or none. State, quantity and AuditLog evidence must save successfully together. Otherwise, rollback undoes the attempted changes. Repeating a confirmation returns the saved result without creating a second receipt or hold. The application also checks access, approval independence and the latest record version before changes.
 
@@ -125,7 +129,7 @@ for i,(seq,title) in enumerate(zip(DATA['sequences'],titles),1):
 md+='''<!-- pagebreak -->
 ## 9.3 Activity Diagrams
 
-An activity diagram shows the steps in a process and the choices between them. Each action names the responsible role. Filled circles start the process; a circle with a filled centre ends it. Rounded boxes are actions. Diamonds are decisions. A guard is a written condition, such as [approve], that selects the next path. Connector A joins the two printed parts of each activity.
+An activity diagram shows the steps in a process and the choices between them. Each action names the responsible role. Filled circles start the process. A circle with a filled centre ends it. Rounded boxes are actions. Diamonds are decisions. A guard is a written condition, such as [approve], that selects the next path. Connector A joins the two printed parts of each activity.
 
 '''
 activities=[(6,'figure-9-6-request-activity','Request to transfer','UC-04 to UC-09; FR-07 to FR-11; BR-02, BR-11 to BR-16'),(7,'figure-9-7-maintenance-activity','Maintenance to end of life','UC-10, UC-11; FR-12 to FR-14; AI-06; BR-07 to BR-09')]
