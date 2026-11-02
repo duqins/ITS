@@ -27,8 +27,8 @@ These design choices explain the diagrams:
 - **The final approver.** approverId in Transfer is the user who gave the final approval. Every stage before it is stored in Approval, following Table 5.2 of the SRS.
 - **Transfer details.** Transfer records the releasing and receiving departments, the receiving custodian, the new location, the planned date and the delivery arrangement (FR-11.1). It also keeps assetId and requestId, which its Reservation already links to. These are copies for fast lookup, and they must match the reservation. The lab diagram has them too.
 - **AI suggestions.** Every AI output that is not a match is kept in AiSuggestion: category suggestions, sustainable-action advice, assistant answers and report drafts. Each row keeps its confidence, explanation, model version and the user's response (AI-12). assetId is filled only when the suggestion is about one asset.
-- **Attachments.** Photos and documents for assets, transfers, inspections, repairs and end-of-life actions are kept in Attachment, with one owner for each file (FR-04.1, FR-11.1, FR-12.1). The file itself is in storage, and the table keeps its key (section 6.4).
-- **Location and asset age.** location is made of campus, building and room. assetAge is not stored. It is worked out from purchaseDate and today's date.
+- **Attachments.** Photos and documents for assets, transfers, inspections, repairs and end-of-life actions are kept in Attachment, with one owner for each file (FR-04.1, FR-11.1, FR-12.1). The file itself is in storage, and the table keeps its key (section 6.4). This is also how one asset keeps several photos. Attachment has its own key and is not a weak entity, because a file can belong to five kinds of record, not to one owner.
+- **Location and asset age.** location is a composite attribute made of campus, building and room. assetAge is a derived attribute and is not stored. It is worked out from purchaseDate and today's date.
 
 ## 8.2 Relationships and Cardinalities
 

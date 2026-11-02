@@ -11,8 +11,9 @@ We use the notation from the lab slides:
 - **Composition (filled diamond).** A user's role assignments, a request's specification and an asset's attachments cannot exist without their owner. RequestSpecification is kept inside the ResourceRequest table, so it is not a separate entity in section 8. Attachments of transfers, inspections, repairs and end-of-life actions work the same way (Table 8.1, rows 41 to 45).
 - **Generalization (hollow triangle).** ITAsset and FurnitureAsset are kinds of Asset with extra attributes. ITAsset knows whether the device stores data, which decides if a data-erasure record is needed (BR-09).
 - **Derived attribute.** /assetAge is worked out from purchaseDate and is not stored.
+- **Navigability (open arrow).** The arrow points to the class that the other class refers to. For example, a ResourceRequest knows the User who submitted it, so the arrow on "submits" points to User. Each arrow follows a foreign key in section 8.
 
-Condition is an enumeration with the values New, Good, Fair, Poor and Not working (FR-04.1). AssetStatus, ListingStatus, RequestStatus, ReservationStatus, TransferStatus, WorkOrderStatus, EndOfLifeStatus and ApprovalStatus hold the state codes from SRS section 4.1. Sections 10.2 to 10.5 show four of them.
+Location is a value made of campus, building and room. Condition is an enumeration with the values New, Good, Fair, Poor and Not working (FR-04.1). AssetStatus, ListingStatus, RequestStatus, ReservationStatus, TransferStatus, WorkOrderStatus, EndOfLifeStatus and ApprovalStatus hold the state codes from SRS section 4.1. Sections 10.2 to 10.5 show four of them.
 
 ![Figure 10.1 Class diagram: people and access](images/class-people.png)
 

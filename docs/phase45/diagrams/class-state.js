@@ -86,7 +86,9 @@ function assoc(boxes, e) {
   const pts = route(p1, e.as, p2, e.bs, e.mid);
   s += poly(pts);
   const q = pt(A, e.as, e.af);
-  s += mult(e.kind ? dm2(q, e.as) : q, e.as, e.ma, e.belowA) + mult(p2, e.bs, e.mb, e.belowB);
+  // a plain association is navigable toward A, the class the other one refers to
+  if (!e.kind) s += navArrow(q, e.as);
+  s += mult(e.kind ? dm2(q, e.as) : nudge(q, e.as, e.belowA), e.as, e.ma, e.belowA) + mult(p2, e.bs, e.mb, e.belowB);
   if (e.name) {
     let best = -1, bi = 0;
     for (let i = 0; i < pts.length - 1; i++) {
@@ -105,6 +107,18 @@ function assoc(boxes, e) {
 function dm2(p, side) {
   const d = { top: [0, -1], bottom: [0, 1], left: [-1, 0], right: [1, 0] }[side];
   return { x: p.x + d[0] * 22, y: p.y + d[1] * 22 };
+}
+// open arrowhead touching the box edge (navigability)
+function navArrow(p, side) {
+  const d = { top: [0, -1], bottom: [0, 1], left: [-1, 0], right: [1, 0] }[side];
+  const L = 14, W = 7, px = -d[1], py = d[0];
+  const b = { x: p.x + d[0] * L, y: p.y + d[1] * L };
+  return `<polyline points="${b.x + px * W},${b.y + py * W} ${p.x},${p.y} ${b.x - px * W},${b.y - py * W}" fill="none" stroke="#333" stroke-width="1.6"/>`;
+}
+// multiplicity next to an arrowhead moves clear of it
+function nudge(p, side, below) {
+  if (side === "top" || side === "bottom") return { x: p.x + 5, y: p.y };
+  return { x: p.x, y: p.y + (below ? 5 : -5) };
 }
 // generalization: subclasses joined to one hollow triangle under the superclass
 function generalization(sup, subs, joinY) {
@@ -144,7 +158,7 @@ const C1 = 20, C2 = 350, C3 = 680;
   const D = cls("Department", C1, 30, ["- name: String", "- code: String"], []);
   const Cat = cls("Category", C2, 30, ["- name: String", "- unit: String", "- emissionFactor: Range"], ["+ isSpecialHandling(): bool"]);
   const MV = cls("ModelVersion", 720, 30, ["- modelName: String", "- version: String"], [], { w: 250 });
-  const L = cls("Listing", C1, 330, ["- quantity: int", "- availableFrom: Date", "- status: ListingStatus"], ["+ submitForRelease(): void", "+ publish(): void", "+ withdraw(reason: String): void"]);
+  const L = cls("Listing", 10, 330, ["- quantity: int", "- availableFrom: Date", "- status: ListingStatus"], ["+ submitForRelease(): void", "+ publish(): void", "+ withdraw(reason: String): void"], { w: 240 });
   const A = cls("Asset", C2, 330, ["- name: String", "- condition: Condition", "- status: AssetStatus", "- quantity: int", "- location: Location", "- purchaseDate: Date", "- /assetAge: int"], ["+ register(): void", "+ confirm(by: User): void", "+ changeStatus(to: AssetStatus): void", "+ reserve(qty: int): void", "+ release(qty: int): void"]);
   const AS = cls("AiSuggestion", 720, 330, ["- task: String", "- suggestion: String", "- confidence: Decimal", "- userResponse: String"], ["+ accept(): void", "+ correct(value: String): void", "+ reject(reason: String): void"], { w: 250 });
   const IT = cls("ITAsset", C1, 820, ["- serialNumber: String", "- storesData: bool"], ["+ needsDataErasure(): bool"]);
@@ -170,7 +184,7 @@ const C1 = 20, C2 = 350, C3 = 680;
   const R = cls("ResourceRequest", C3, 190, ["- status: RequestStatus", "- requiredBy: Date"], ["+ submit(): void", "+ approve(by: User): void", "+ cancel(reason: String): void", "+ expire(): void"]);
   const T = cls("Transfer", C2, 480, ["- quantity: int", "- toLocation: Location", "- plannedDate: Date", "- status: TransferStatus"], ["+ handOver(): void", "+ confirmReceipt(): void", "+ dispute(note: String): void", "+ cancel(reason: String): void"]);
   const RS = cls("RequestSpecification", C3, 480, ["- specifications: String", "- quantity: int", "- minCondition: Condition", "- urgency: Urgency"], []);
-  const Lr = cls("Listing", C1, 820, [], [], { ref: true });
+  const Lr = cls("Listing", C1, 820, [], [], { ref: true, w: 230 });
   const Res = cls("Reservation", C2, 820, ["- quantity: int", "- expiresAt: DateTime", "- status: ReservationStatus"], ["+ confirm(by: User): void", "+ cancel(reason: String): void", "+ expire(): void"]);
   classFigure("class-requests.svg", 1010, bottom(Res) + 25, [Ar, MV, Ur, M, R, T, RS, Lr, Res], [
     { a: "Asset", as: "bottom", af: 0.5, b: "MatchRecommendation", bs: "left", bf: { abs: 250 }, ma: "1", mb: "0..*", name: "matched in", seg: 0 },
@@ -181,7 +195,7 @@ const C1 = 20, C2 = 350, C3 = 680;
     { a: "Asset", as: "bottom", af: 0.25, b: "Transfer", bs: "left", bf: { abs: 560 }, ma: "1", mb: "0..*", name: "moved by", seg: 0 },
     { a: "ResourceRequest", as: "left", af: { abs: 335 }, b: "Transfer", bs: "right", bf: { abs: 560 }, mid: 650, ma: "1", mb: "0..*", name: "fulfilled by", seg: 1, rot: true },
     { a: "Reservation", as: "top", af: 0.5, b: "Transfer", bs: "bottom", bf: 0.5, ma: "1", mb: "0..1", name: "becomes" },
-    { a: "Listing", as: "right", af: { abs: 870 }, b: "Reservation", bs: "left", bf: { abs: 870 }, ma: "1", mb: "0..*", name: "held by" },
+    { a: "Listing", as: "right", af: { abs: 845 }, b: "Reservation", bs: "left", bf: { abs: 845 }, ma: "1", mb: "0..*", name: "held by" },
     { a: "ResourceRequest", as: "right", af: { abs: 300 }, b: "Reservation", bs: "right", bf: { abs: 900 }, mid: 985, ma: "1", mb: "0..*", name: "places", seg: 1, rot: true },
   ]);
 }

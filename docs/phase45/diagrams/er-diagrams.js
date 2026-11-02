@@ -151,7 +151,7 @@ const ref = (name, x, y, pk, w) => box(name, x, y, ["PK " + pk], { ref: true, w 
 // ---------- Figure 8.3: assets, requests and matching ----------
 {
   const Cat = box("Category", C2, 30, ["PK categoryId", "name", "unit", "emissionFactor"]);
-  const A = box("Asset", C1, 240, ["PK assetId", "FK ownerDepartmentId", "FK categoryId", "FK custodianId", "name", "condition", "status", "quantity", "location", "assetAge (derived)"]);
+  const A = box("Asset", C1, 240, ["PK assetId", "FK ownerDepartmentId", "FK categoryId", "FK custodianId", "name", "condition", "status", "quantity", "location (composite)", "assetAge (derived)"]);
   const MV = box("ModelVersion", C2, 240, ["PK modelVersionId", "task", "modelName", "version"]);
   const R = box("ResourceRequest", C3, 240, ["PK requestId", "FK requesterId", "FK categoryId", "quantity", "requiredBy", "status"]);
   const M = box("MatchRecommendation", C2, 480, ["PK matchId", "FK assetId", "FK requestId", "FK modelVersionId", "score", "confidence", "explanation"]);
