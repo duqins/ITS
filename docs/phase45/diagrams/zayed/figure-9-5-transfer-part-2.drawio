@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" version="24.7.17">
+  <diagram name="Figure 9.5 Transfer approvals handover and receipt (2 of 2)" id="figure-9-5-transfer-part-2">
+    <mxGraphModel page="1" pageWidth="900" pageHeight="910" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Figure 9.5 Transfer approvals handover and receipt (2 of 2)" style="text;strokeColor=none;fillColor=none;align=center;fontSize=22;fontStyle=1;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="93.04999999999995" y="8" width="713.9000000000001" height="27.5" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="" style="fillColor=#f0f5f1;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="4" y="58" width="152" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Requester and&#10;custodians" style="text;strokeColor=none;fillColor=none;align=center;fontSize=17;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="19.224999999999994" y="73.58" width="121.55000000000001" height="42.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="" style="fillColor=#f0f5f1;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="189" y="58" width="152" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="Transfer module" style="text;strokeColor=none;fillColor=none;align=center;fontSize=17;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="194.875" y="83.78" width="140.25" height="21.25" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="" style="fillColor=#f0f5f1;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="374" y="58" width="152" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="Releasing /&#10;receiving&#10;representatives" style="text;strokeColor=none;fillColor=none;align=center;fontSize=17;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="379.875" y="63.379999999999995" width="140.25" height="63.75" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="" style="fillColor=#f0f5f1;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="559" y="58" width="152" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="Finance /&#10;Procurement" style="text;strokeColor=none;fillColor=none;align=center;fontSize=17;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="583.575" y="73.58" width="102.85000000000001" height="42.5" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="" style="fillColor=#f0f5f1;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="744" y="58" width="152" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="PostgreSQL&#10;records and audit" style="text;strokeColor=none;fillColor=none;align=center;fontSize=17;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="740.525" y="73.58" width="158.95000000000002" height="42.5" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="7 All approvals complete -&gt; TR-04; allocate approved quantity" style="text;strokeColor=none;fillColor=none;align=center;fontSize=18;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="240.54999999999995" y="152" width="603.9000000000001" height="22.5" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=block;endFill=1;dashed=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="265" y="181" as="sourcePoint" />
+            <mxPoint x="820" y="181" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="15" value="" style="fillColor=#cfdfd4;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="816" y="181" width="8" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="" style="text;strokeColor=none;fillColor=none;align=center;fontSize=16;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="820.0" y="176.44" width="0.0" height="20.0" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="8 Releasing custodian confirms handover and&#10;condition" style="text;strokeColor=none;fillColor=none;align=center;fontSize=18;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="30.0" y="201" width="425.70000000000005" height="45.0" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=block;endFill=1;dashed=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="252" as="sourcePoint" />
+            <mxPoint x="265" y="252" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="19" value="" style="fillColor=#cfdfd4;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="261" y="252" width="8" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="" style="text;strokeColor=none;fillColor=none;align=center;fontSize=16;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="265.0" y="247.44" width="0.0" height="20.0" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="9 TR-05 / AS-05; releasing department remains owner" style="text;strokeColor=none;fillColor=none;align=center;fontSize=18;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="290.04999999999995" y="272" width="504.90000000000003" height="22.5" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=block;endFill=1;dashed=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="265" y="301" as="sourcePoint" />
+            <mxPoint x="820" y="301" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23" value="" style="fillColor=#cfdfd4;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="816" y="301" width="8" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="" style="text;strokeColor=none;fillColor=none;align=center;fontSize=16;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="820.0" y="296.44" width="0.0" height="20.0" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="10 Receiving custodian confirms quantity and&#10;condition" style="text;strokeColor=none;fillColor=none;align=center;fontSize=18;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="30.0" y="321" width="435.6" height="45.0" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=block;endFill=1;dashed=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="372" as="sourcePoint" />
+            <mxPoint x="265" y="372" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="27" value="" style="fillColor=#cfdfd4;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="261" y="372" width="8" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="28" value="" style="text;strokeColor=none;fillColor=none;align=center;fontSize=16;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="265.0" y="367.44" width="0.0" height="20.0" as="geometry" />
+        </mxCell>
+        <mxCell id="29" value="11a Atomic receipt: TR-06 / RQ-06; AS-02 or AS-03; new owner,&#10;custody, location" style="text;strokeColor=none;fillColor=none;align=center;fontSize=18;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="240.54999999999995" y="435" width="603.9000000000001" height="45.0" as="geometry" />
+        </mxCell>
+        <mxCell id="30" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=block;endFill=1;dashed=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="265" y="486" as="sourcePoint" />
+            <mxPoint x="820" y="486" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="31" value="" style="fillColor=#cfdfd4;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="816" y="486" width="8" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="32" value="" style="text;strokeColor=none;fillColor=none;align=center;fontSize=16;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="820.0" y="481.44" width="0.0" height="20.0" as="geometry" />
+        </mxCell>
+        <mxCell id="33" value="12a Confirm completed receipt and restored&#10;asset state" style="text;strokeColor=none;fillColor=none;align=center;fontSize=18;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="30.0" y="506" width="415.8" height="45.0" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="265" y="557" as="sourcePoint" />
+            <mxPoint x="80" y="557" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="35" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=none;endFill=1;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="10" y="580" as="sourcePoint" />
+            <mxPoint x="890" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="36" value="[quantity or condition differs]" style="text;strokeColor=none;fillColor=none;align=left;fontSize=15;fontStyle=1;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="22" y="587" width="255.75000000000003" height="18.75" as="geometry" />
+        </mxCell>
+        <mxCell id="37" value="11b Save TR-07 and reason; keep owner; append audit" style="text;strokeColor=none;fillColor=none;align=center;fontSize=18;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="290.04999999999995" y="620" width="504.90000000000003" height="22.5" as="geometry" />
+        </mxCell>
+        <mxCell id="38" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=block;endFill=1;dashed=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="265" y="649" as="sourcePoint" />
+            <mxPoint x="820" y="649" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="39" value="" style="fillColor=#cfdfd4;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="816" y="649" width="8" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="40" value="" style="text;strokeColor=none;fillColor=none;align=center;fontSize=16;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="820.0" y="644.44" width="0.0" height="20.0" as="geometry" />
+        </mxCell>
+        <mxCell id="41" value="12b Notify both representatives to resolve or&#10;arrange return" style="text;strokeColor=none;fillColor=none;align=center;fontSize=18;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="134.74999999999997" y="669" width="445.50000000000006" height="45.0" as="geometry" />
+        </mxCell>
+        <mxCell id="42" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=block;endFill=1;dashed=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="265" y="720" as="sourcePoint" />
+            <mxPoint x="450" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="43" value="" style="fillColor=#cfdfd4;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="446" y="720" width="8" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="44" value="" style="text;strokeColor=none;fillColor=none;align=center;fontSize=16;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="450.0" y="715.44" width="0.0" height="20.0" as="geometry" />
+        </mxCell>
+        <mxCell id="45" value="" style="fillColor=none;strokeColor=#6e8378;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="10" y="392" width="880" height="353" as="geometry" />
+        </mxCell>
+        <mxCell id="46" value="" style="fillColor=white;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="10" y="392" width="42" height="27" as="geometry" />
+        </mxCell>
+        <mxCell id="47" value="alt" style="text;strokeColor=none;fillColor=none;align=center;fontSize=15;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="18.625" y="395.6" width="24.750000000000004" height="18.75" as="geometry" />
+        </mxCell>
+        <mxCell id="48" value="[agreed receipt]" style="text;strokeColor=none;fillColor=none;align=left;fontSize=15;fontStyle=1;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="64" y="397" width="132.0" height="18.75" as="geometry" />
+        </mxCell>
+        <mxCell id="49" value="" style="fillColor=#fff6e3;strokeColor=#385247;align=center;verticalAlign=middle;;fontFamily=Arial;fontSize=16;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="15" y="765" width="870" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="50" value="Dispute resolution permits receipt, or return with TR-09 and released quantity. Rejection&#10;-&gt; TR-08; pre-handover cancellation -&gt; TR-09. Record reasons, release held units once and&#10;notify." style="text;strokeColor=none;fillColor=none;align=center;fontSize=17;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="33.924999999999955" y="775.88" width="832.1500000000001" height="63.75" as="geometry" />
+        </mxCell>
+        <mxCell id="51" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=none;endFill=1;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="132" as="sourcePoint" />
+            <mxPoint x="80" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=none;endFill=1;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="265" y="132" as="sourcePoint" />
+            <mxPoint x="265" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="53" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=none;endFill=1;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="132" as="sourcePoint" />
+            <mxPoint x="450" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="54" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=none;endFill=1;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="635" y="132" as="sourcePoint" />
+            <mxPoint x="635" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="55" value="" style="edgeStyle=none;rounded=0;strokeColor=#243b33;endArrow=none;endFill=1;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="132" as="sourcePoint" />
+            <mxPoint x="820" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="56" value="Dawra Campus | Zayed Alfadli 100064657 | UC-08, UC-09; FR-10, FR-11; BR-02, BR-05, BR-06, BR-13" style="text;strokeColor=none;fillColor=none;align=center;fontSize=13;;fontFamily=Arial;whiteSpace=wrap;html=0;" vertex="1" parent="1">
+          <mxGeometry x="110.375" y="879" width="679.25" height="16.25" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
