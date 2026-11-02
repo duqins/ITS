@@ -8,7 +8,6 @@ class Diagram:
   self.name,self.title,self.w,self.h=name,title,w,h
   self.svg=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}"><defs><marker id="arrow" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#243b33"/></marker><marker id="open" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#243b33"/></marker></defs><rect width="100%" height="100%" fill="white"/>']
   self.mx=ET.Element('mxfile',host='app.diagrams.net',version='24.7.17');di=ET.SubElement(self.mx,'diagram',name=title,id=name);self.model=ET.SubElement(di,'mxGraphModel',page='1',pageWidth=str(w),pageHeight=str(h),grid='1',gridSize='10');self.root=ET.SubElement(self.model,'root');ET.SubElement(self.root,'mxCell',id='0');ET.SubElement(self.root,'mxCell',id='1',parent='0');self.i=1
-  self.text(w/2,30,title,22,bold=True)
  def cell(self,value,x,y,w,h,style):
   self.i+=1;c=ET.SubElement(self.root,'mxCell',id=str(self.i),value=value,style=style+';fontFamily=Arial;'+('fontSize=16;' if 'fontSize=' not in style else '')+'whiteSpace=wrap;html=0;',vertex='1',parent='1');ET.SubElement(c,'mxGeometry',x=str(x),y=str(y),width=str(w),height=str(h),**{'as':'geometry'});return str(self.i)
  def text(self,x,y,t,size=16,bold=False,anchor='middle'):
@@ -41,6 +40,5 @@ class Diagram:
   # Keep connector strokes under nodes and their labels.
   edge_items=[s for s in self.svg if s.startswith('<polyline')]
   self.svg=self.svg[:1]+edge_items+[s for s in self.svg[1:] if not s.startswith('<polyline')]
-  self.text(self.w/2,self.h-18,'Dawra Campus | Zayed Alfadli 100064657 | '+refs,13)
   (ROOT/'images'/f'{self.name}.svg').write_text(''.join(self.svg)+'</svg>',encoding='utf-8');ET.indent(self.mx);ET.ElementTree(self.mx).write(ROOT/'diagrams'/'zayed'/f'{self.name}.drawio',encoding='utf-8',xml_declaration=True)
   CAT.append(dict(name=self.name,title=self.title,caption=caption,refs=refs,explanation=explanation))

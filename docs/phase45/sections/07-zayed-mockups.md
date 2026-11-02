@@ -16,12 +16,18 @@ All shown records, scores and outputs are made-up examples, called synthetic dat
 
 **Screen:** UI-03. **Role:** Asset custodian in Engineering. **Example state:** Draft (AS-01).
 
-![Figure 7.1 Asset registration UI-03](images/figure-7-1-ui-03.png)
+![Figure 7.1a Asset registration UI-03 top half](images/figure-7-1-ui-03-top.png)
+
+<!-- pagebreak -->
+
+![Figure 7.1b Asset registration UI-03 bottom half](images/figure-7-1-ui-03-bottom.png)
 
 <!-- pagebreak -->
 ### UI-03 Fields and decisions
 
 Verification records who checked the item and when. HDMI and DisplayPort are video connections used to check whether the monitor fits the request. FHD means Full HD, a screen resolution of 1920 x 1080. A duplicate is a possible second record for the same item.
+
+**Table 7.1 UI-03 fields**
 
 <!-- widths: 2600,6760 -->
 | Field | Synthetic example |
@@ -34,7 +40,7 @@ Verification records who checked the item and when. HDMI and DisplayPort are vid
 | Owner / custodian * | Engineering / Demo Custodian A |
 | Building / room * | Main Campus A / A-210 |
 | Purchase date * | 15 Sep 2023 |
-| Estimated value * | AED 450.00 |
+| Estimated value * | AED 250.00 |
 | Condition * | Good |
 | Technical specifications * | 24-inch, 1920 x 1080, HDMI, DisplayPort |
 | Initial confirmed state * | In storage (AS-03) |
@@ -48,9 +54,9 @@ Verification records who checked the item and when. HDMI and DisplayPort are vid
 
 **Reason:** The title and specifications identify a monitor. Screen size and HDMI are stated in the supplied text.
 
-**Human decision:** Accept, edit or reject each suggestion before confirming the asset. Confirmation records the user and time; it does not publish a listing.
+**Human decision:** Accept, edit or reject each suggestion before confirming the asset. Confirmation records the user and time. it does not publish a listing.
 
-**Low or unavailable confidence:** Confidence 0.54, below 0.60. Category is an option only. No suggested value is filled in; choose it manually.
+**Low or unavailable confidence:** Confidence 0.54, below 0.60. Category is an option only. No suggested value is filled in. choose it manually.
 
 **AI unavailable:** Classification unavailable. Your fields are preserved. Select category and enter description manually.
 
@@ -63,12 +69,18 @@ JPG/PNG: up to 5 files, 5 MB each. PDF: 10 MB each. A possible duplicate require
 
 **Screen:** UI-06. **Role:** Requester in Computing. **Example state:** Draft (RQ-01).
 
-![Figure 7.2 Request submission UI-06](images/figure-7-2-ui-06.png)
+![Figure 7.2a Request submission UI-06 top half](images/figure-7-2-ui-06-top.png)
+
+<!-- pagebreak -->
+
+![Figure 7.2b Request submission UI-06 bottom half](images/figure-7-2-ui-06-bottom.png)
 
 <!-- pagebreak -->
 ### UI-06 Fields and decisions
 
-An assistant draft is a proposed set of fields that the requester must check. Submission sends the request to department approval; it does not approve the request. A required-by date is the date when the item is needed.
+An assistant draft is a proposed set of fields that the requester must check. Submission sends the request to department approval. it does not approve the request. A required-by date is the date when the item is needed.
+
+**Table 7.2 UI-06 fields**
 
 <!-- widths: 2600,6760 -->
 | Field | Synthetic example |
@@ -96,7 +108,7 @@ An assistant draft is a proposed set of fields that the requester must check. Su
 
 **Low or unavailable confidence:** Confidence unavailable - check carefully. The draft cannot supply missing fields. Confirm the date and specifications yourself.
 
-**AI unavailable:** Assistant unavailable. Continue with the normal request form; your entered fields remain.
+**AI unavailable:** Assistant unavailable. Continue with the normal request form. your entered fields remain.
 
 Positive whole quantity and a future required-by date are required. Changes to quantity, specifications or date after approval return the request to RQ-02.
 
@@ -107,12 +119,18 @@ Positive whole quantity and a future required-by date are required. Changes to q
 
 **Screen:** UI-07. **Role:** Requester in Computing. **Example state:** Open (RQ-03).
 
-![Figure 7.3 Recommendation review UI-07](images/figure-7-3-ui-07.png)
+![Figure 7.3a Recommendation review UI-07 top half](images/figure-7-3-ui-07-top.png)
+
+<!-- pagebreak -->
+
+![Figure 7.3b Recommendation review UI-07 bottom half](images/figure-7-3-ui-07-bottom.png)
 
 <!-- pagebreak -->
 ### UI-07 Fields and decisions
 
 Eligibility means passing every required check before an item can be offered. Similarity measures how closely the item description matches the request. Each factor contributes points to compatibility. Unknown optional details earn zero points. An override reason explains why the requester chose another eligible ranked item.
+
+**Table 7.3 UI-07 fields**
 
 <!-- widths: 2600,6760 -->
 | Field | Synthetic example |
@@ -126,19 +144,19 @@ Eligibility means passing every required check before an item can be offered. Si
 | Condition / verified | Good / 30 Oct 2026 |
 | Availability / restrictions | Available now / collection required |
 
-**AI result:** Compatibility 87/100. Meaning 27/30; technical 20/20; condition 5/15; location 10/10; availability 10/10; useful life 10/10; repair 5/5.
+**AI result:** Compatibility 87/100. Meaning 27/30. technical 20/20. condition 5/15. location 10/10. availability 10/10. useful life 10/10. repair 5/5.
 
 **Confidence:** 0.82. Model/version unavailable in this example.
 
-**Reason:** Similarity 0.90; all requested specifications met; condition equals minimum; same building; available now; estimated life 3 years; no repair needed.
+**Reason:** Similarity 0.90. all requested specifications met. condition equals minimum. same building. available now. estimated life 3 years. no repair needed.
 
 **Human decision:** Inspect evidence and choose any eligible result. Selection alone holds nothing. Request reservation, then wait for independent releasing-side confirmation.
 
-**Low or unavailable confidence:** Confidence 0.62: Check carefully. Below 0.50 the result is withheld as an AI recommendation; use classic search. Unsupported confidence is labelled unavailable.
+**Low or unavailable confidence:** Confidence 0.62: Check carefully. Below 0.50 the result is withheld as an AI recommendation. use classic search. Unsupported confidence is labelled unavailable.
 
 **AI unavailable:** AI ranking unavailable. Eligible keyword and filter results remain available without AI scores. Current quantity is checked again when reserving.
 
-All mandatory checks passed: access, quantity, condition, specifications and date. Missing mandatory data excludes an item. Optional unknowns are labelled and earn 0 factor points. Another eligible example: AST-0071, compatibility 83, confidence unavailable; choosing it requires an override reason.
+All mandatory checks passed: access, quantity, condition, specifications and date. Missing mandatory data excludes an item. Optional unknowns are labelled and earn 0 factor points. Another eligible example: AST-0071, compatibility 83, confidence unavailable. choosing it requires an override reason.
 
 **Phase 3 references:** UC-05 to UC-07; FR-08.1 to FR-09.7; AI-02 to AI-05; AI-13; NFR-07; BR-11 to BR-16; RQ-03, RV-01.
 
@@ -147,12 +165,18 @@ All mandatory checks passed: access, quantity, condition, specifications and dat
 
 **Screen:** UI-08. **Role:** Department representative in Engineering. **Example state:** Pending release approval (TR-01).
 
-![Figure 7.4 Assigned transfer approval UI-08](images/figure-7-4-ui-08.png)
+![Figure 7.4a Assigned transfer approval UI-08 top half](images/figure-7-4-ui-08-top.png)
+
+<!-- pagebreak -->
+
+![Figure 7.4b Assigned transfer approval UI-08 bottom half](images/figure-7-4-ui-08-bottom.png)
 
 <!-- pagebreak -->
 ### UI-08 Fields and decisions
 
 A threshold is the value that makes an extra approval necessary. TBD-1 is the existing Phase 3 name for the transfer-value threshold that KU Finance must set. Procurement reviews categories controlled by purchasing rules. An independent approver is someone other than the requester or record creator. Version v3 means the third saved revision.
+
+**Table 7.4 UI-08 fields**
 
 <!-- widths: 2600,6760 -->
 | Field | Synthetic example |
@@ -163,7 +187,7 @@ A threshold is the value that makes an extra approval necessary. TBD-1 is the ex
 | Approver | Demo Representative C (independent) |
 | Asset / quantity | AST-0042 / 1 monitor |
 | From / to | Engineering / Computing |
-| Estimated asset value | AED 450.00 (synthetic estimate) |
+| Estimated asset value | AED 250.00 (synthetic estimate) |
 | Transfer cost | AED 0.00 / collection within same building |
 | Evidence | verification-0042.pdf; request REQ-0018 |
 | Next stage | Computing receipt approval (TR-02) |
@@ -182,7 +206,7 @@ A threshold is the value that makes an extra approval necessary. TBD-1 is the ex
 
 **AI unavailable:** AI explanation unavailable. Review the asset, request, quantities and evidence directly. Approval rules are unchanged.
 
-TBD-1 has no confirmed value in Phase 3. AED 450 is not evidence that Finance approval can be skipped. A required unresolved policy stage stays pending. Self-approval and stale record versions are refused.
+TBD-1 has no confirmed value in Phase 3. AED 250 is not evidence that Finance approval can be skipped. A required unresolved policy stage stays pending. Self-approval and stale record versions are refused.
 
 **Phase 3 references:** UC-08; FR-10.1 to FR-10.7; FR-11.1, FR-11.2; BR-01, BR-02, BR-05, BR-06, BR-20; AT-01 to AT-04; TR-01 to TR-04.
 
@@ -191,12 +215,18 @@ TBD-1 has no confirmed value in Phase 3. AED 450 is not evidence that Finance ap
 
 **Screen:** UI-09. **Role:** Asset custodian in Computing. **Example state:** Handed over (TR-05).
 
-![Figure 7.5 Handover and receipt UI-09](images/figure-7-5-ui-09.png)
+![Figure 7.5a Handover and receipt UI-09 top half](images/figure-7-5-ui-09-top.png)
+
+<!-- pagebreak -->
+
+![Figure 7.5b Handover and receipt UI-09 bottom half](images/figure-7-5-ui-09-bottom.png)
 
 <!-- pagebreak -->
 #### UI-09 Fields and decisions
 
-Handover records the releasing custodian giving the item to the receiving side. Receipt records the receiving custodian checking and accepting it. A discrepancy is a difference in quantity or condition. Ownership is the department recorded as owning the item; custody identifies the person responsible for it.
+Handover records the releasing custodian giving the item to the receiving side. Receipt records the receiving custodian checking and accepting it. A discrepancy is a difference in quantity or condition. Ownership is the department recorded as owning the item. custody identifies the person responsible for it.
+
+**Table 7.5 UI-09 fields**
 
 <!-- widths: 2600,6760 -->
 | Field | Synthetic example |
@@ -220,13 +250,13 @@ Handover records the releasing custodian giving the item to the receiving side. 
 
 **Reason:** The earlier recommendation explained fit to the request. The receiving custodian must inspect actual quantity and condition.
 
-**Human decision:** Releasing custodian records handover only after TR-04. Receiving custodian confirms receipt after TR-05, or records a discrepancy. Ownership changes at valid receipt. A valid receipt restores In service (AS-02) or In storage (AS-03) under the new owner, and completes TR-06 / RQ-06.
+**Human decision:** The releasing custodian records handover after TR-04. The receiving custodian confirms receipt after TR-05 or records a discrepancy. Valid receipt changes the owner, restores AS-02 or AS-03, and completes TR-06 / RQ-06.
 
-**Low or unavailable confidence:** Earlier match confidence 0.62: Check carefully. Receipt relies on inspection and evidence; no new AI confidence is invented.
+**Low or unavailable confidence:** Earlier match confidence 0.62: Check carefully. Receipt relies on inspection and evidence. no new AI confidence is invented.
 
 **AI unavailable:** AI unavailable. Use recorded approvals, handover evidence and physical inspection to complete the normal transfer workflow.
 
-This is the receiving view. Releasing users see Record handover at TR-04. A discrepancy creates TR-07 and retains the owner; resolution permits receipt or return with cancellation. Duplicate receipt makes no second update. Receipt saves the new owner, custody, location and AS-02 or AS-03 together with the transfer and request states.
+Receipt saves ownership, custody, location and state together. A discrepancy keeps the owner and sets TR-07. Resolution permits receipt or return and cancellation. A repeated receipt makes no second update.
 
 **Phase 3 references:** UC-09; FR-11.1 to FR-11.7; BR-11, BR-13, BR-20; TR-04 to TR-09; AS-02, AS-03, AS-05; RQ-05, RQ-06.
 
@@ -235,12 +265,18 @@ This is the receiving view. Releasing users see Record handover at TR-04. A disc
 
 **Screen:** UI-10. **Role:** Maintenance staff in Engineering. **Example state:** In progress (MW-05).
 
-![Figure 7.6 Maintenance tracking UI-10](images/figure-7-6-ui-10.png)
+![Figure 7.6a Maintenance tracking UI-10 top half](images/figure-7-6-ui-10-top.png)
+
+<!-- pagebreak -->
+
+![Figure 7.6b Maintenance tracking UI-10 bottom half](images/figure-7-6-ui-10-bottom.png)
 
 <!-- pagebreak -->
 ### UI-10 Fields and decisions
 
 A work order records the maintenance job, costs and outcome. Labour is the cost of staff time. TBD-2 is the existing Phase 3 repair-spending threshold that KU Finance must set. End-of-life review decides the next action for an item that is no longer suitable for its current use.
+
+**Table 7.6 UI-10 fields**
 
 <!-- widths: 2600,6760 -->
 | Field | Synthetic example |
@@ -252,7 +288,7 @@ A work order records the maintenance job, costs and outcome. Labour is the cost 
 | Assigned technician | Demo Technician E |
 | Approved estimate | AED 180.00 / department decision recorded |
 | Finance stage | Required if TBD-2 applies; must be resolved before work |
-| Parts / labour | Fan: AED 80.00 / 1 hour: AED 100.00 |
+| Parts / labour | Fan: AED 80.00. Labour: AED 100.00. Synthetic fan mass: 0.10 kg. |
 | Actual total | AED 180.00 |
 | Outcome / condition | Passed test / Good |
 | Return state | In service (AS-02), previous state |
@@ -262,15 +298,15 @@ A work order records the maintenance job, costs and outcome. Labour is the cost 
 
 **Confidence:** Unavailable - check carefully. Model/version unavailable in this example.
 
-**Reason:** The inspection identifies one replaceable part. Demand, repairability and the AED 180 estimate support a repair proposal; they do not approve spending.
+**Reason:** The inspection identifies one replaceable part. Demand, repairability and the AED 180 estimate support a repair proposal. they do not approve spending.
 
 **Human decision:** Record work only after required cost approvals. Save actual cost and outcome. Any increase returns to MW-03 before completion. Not repairable starts EL-01.
 
-**Low or unavailable confidence:** Confidence unavailable - check carefully. The SRS defines no numeric cutoff for action advice; insufficient evidence requires manual assessment.
+**Low or unavailable confidence:** Confidence unavailable - check carefully. The SRS defines no numeric cutoff for action advice. insufficient evidence requires manual assessment.
 
 **AI unavailable:** Action advice unavailable. Continue inspection and approved work using the recorded assessment and costs.
 
-The sample assumes all applicable cost approvals have been recorded, without inventing a TBD-2 value. The custodian reports defects; department and conditional Finance approvers use UI-08. Unsafe or Not working assets cannot be published or reserved.
+The sample assumes all applicable cost approvals have been recorded, without inventing a TBD-2 value. The custodian reports defects. department and conditional Finance approvers use UI-08. Unsafe or Not working assets cannot be published or reserved. For the S06 example, the new fan weighs a synthetic 0.10 kg. The Section 12 F1 IT-material factor of 24.86548 kg CO2e per kg is a parts proxy. Parts emissions are about 2.49 kg CO2e, not a measured footprint.
 
 **Phase 3 references:** UC-10, UC-11; FR-12.1, FR-12.2; FR-13.1 to FR-13.7; AI-06; BR-07; MW-01 to MW-09; EL-01.
 
@@ -279,12 +315,18 @@ The sample assumes all applicable cost approvals have been recorded, without inv
 
 **Screen:** UI-13. **Role:** Sustainability officer in Authorised departments. **Example state:** Draft.
 
-![Figure 7.7 Sustainability dashboard UI-13](images/figure-7-7-ui-13-dashboard.png)
+![Figure 7.7a Sustainability dashboard UI-13 top half](images/figure-7-7-ui-13-dashboard-top.png)
+
+<!-- pagebreak -->
+
+![Figure 7.7b Sustainability dashboard UI-13 bottom half](images/figure-7-7-ui-13-dashboard-bottom.png)
 
 <!-- pagebreak -->
 ### UI-13 Fields and decisions
 
-Deduplicated means each item is counted once. The reuse cohort is the group of listed items used to calculate the reuse rate. Net savings means estimated avoided purchases minus related costs. Apply filters changes the period and department scope. Only October 2026 for Engineering and Computing has sample data; other scopes show no example snapshot.
+Each diverted item is counted once. The reuse cohort is the group of listed items used to calculate the reuse rate. Net savings subtract related costs from avoided purchases. Filters select the period and departments. Other scopes show no example snapshot.
+
+**Table 7.7 UI-13 fields**
 
 <!-- widths: 2600,6760 -->
 | Field | Synthetic example |
@@ -293,42 +335,48 @@ Deduplicated means each item is counted once. The reuse cohort is the group of l
 | Period | 01 Oct 2026 to 31 Oct 2026 |
 | Department filter | Engineering and Computing (authorised) |
 | Waste diverted | 3 items / reuse 2, repair 1; deduplicated |
-| Avoided purchases | 2 confirmed fulfilled requests / AED 900.00 estimated |
-| Net financial savings | AED 720.00 estimated / costs AED 180.00 |
+| Avoided purchases | 2 fulfilled requests. Two 24-inch Dell P2422H monitors. AED 690 (2 x AED 345). |
+| Net financial savings | Estimated AED 510 (AED 690 minus AED 180). |
 | Reuse cohort | 2 of 4 listed items / 50% |
 | Repair success | 1 of 1 closed work orders / 100% |
 | Asset-life extension | N/A / retirement dates missing |
-| Estimated carbon reduction | N/A / emission factors missing |
-| Sources | Completed TRF-0007, TRF-0008; MWO-0012 |
+| Estimated carbon reduction | About 253.5 to 651.5 kg CO2e (estimated). Transport 0. Fan parts about 2.49. |
+| Sources | TRF-0007 / REQ-0014 and TRF-0008 / REQ-0016, one monitor each. MWO-0012. Section 12 Tables 12.1 to 12.3. |
 | Owner review | Sustainability pending; Finance pending; Business administration pending |
 
-**AI result:** AI-generated draft: Two confirmed fulfilled requests avoided an estimated AED 900 in purchases. After AED 180 attributable costs, estimated net savings are AED 720. Carbon is N/A.
+**AI result:** AI-generated draft: Two fulfilled requests reused one 24-inch monitor each. Avoided purchases: AED 690. Net savings: AED 510 after AED 180 costs. Carbon reduction: about 253.5 to 651.5 kg CO2e after fan parts. Collection stayed in one building. Asset-life extension remains N/A.
 
 **Confidence:** Unavailable - check carefully. Model/version unavailable in this example.
 
-**Reason:** All claims use snapshot S06. Confidence unavailable; factual support is checked against the linked conventional totals, not a generated certainty score.
+**Reason:** The two monitor factors give 256 to 654 kg CO2e. Deduct about 2.49 for the new fan. Same-building collection has no van trip. Values follow S06 and Section 12.
 
 **Human decision:** Review only your own domain. Sustainability reviews indicators, Finance reviews money, Business administration reviews operations. A mixed report stays Draft until every owner reviews.
 
-**Low or unavailable confidence:** Confidence unavailable - check carefully. Unsupported claims or totals that disagree with S06 keep the narrative in Draft; no numeric cutoff is defined.
+**Low or unavailable confidence:** Confidence unavailable - check carefully. Unsupported claims or totals that disagree with S06 keep the narrative in Draft. no numeric cutoff is defined.
 
 **AI unavailable:** Narrative generation unavailable. Conventional totals and their sources remain available for the same owner review.
 
-All values are synthetic, not KU outcomes. Money figures are estimates. Snapshot S06 contains 3 distinct diverted items, 2 confirmed fulfilled requests, 4 cohort items and 1 successful closed repair. Missing inputs show N/A. Applied period and department filters persist across views and AI states.
+Synthetic assumptions: fan mass 0.10 kg and the F1 IT-material proxy 24.86548 kg CO2e per kg. Parts = 0.10 x 24.86548 = about 2.49 kg CO2e. Carbon = 256 to 654 minus 2.49 = about 253.5 to 651.5 kg CO2e. New monitors cost AED 345 each. Filters preserve the scope across views.
 
-**Phase 3 references:** UC-13; FR-17.1 to FR-17.4; AI-09, AI-10, AI-12, AI-13; SU-01 to SU-09; BR-10, BR-18.
+**Phase 3 references:** UC-13; FR-17.1 to FR-17.4; AI-09, AI-10, AI-12, AI-13; SU-01 to SU-09; BR-10, BR-18; design section 12 Tables 12.1 to 12.3.
 
 <!-- pagebreak -->
 ## 7.7 Reports
 
 **Screen:** UI-13. **Role:** Sustainability officer in Authorised departments. **Example state:** Draft.
 
-![Figure 7.8 Report draft and source review UI-13](images/figure-7-8-ui-13-reports.png)
+![Figure 7.8a Report draft and source review UI-13 top half](images/figure-7-8-ui-13-reports-top.png)
 
 <!-- pagebreak -->
-### UI-13 Fields and decisions
 
-Deduplicated means each item is counted once. The reuse cohort is the group of listed items used to calculate the reuse rate. Net savings means estimated avoided purchases minus related costs. Apply filters changes the period and department scope. Only October 2026 for Engineering and Computing has sample data; other scopes show no example snapshot.
+![Figure 7.8b Report draft and source review UI-13 bottom half](images/figure-7-8-ui-13-reports-bottom.png)
+
+<!-- pagebreak -->
+### UI-13 Report fields and decisions
+
+The report view uses the same filters and snapshot as the dashboard in 7.6.
+
+**Table 7.8 UI-13 report fields**
 
 <!-- widths: 2600,6760 -->
 | Field | Synthetic example |
@@ -336,40 +384,46 @@ Deduplicated means each item is counted once. The reuse cohort is the group of l
 | Report type | Sustainability and resource exchange |
 | Period | 01 Oct 2026 to 31 Oct 2026 |
 | Department filter | Engineering and Computing (authorised) |
-| Avoided purchases | 2 confirmed fulfilled requests / AED 900.00 estimated |
-| Net financial savings | AED 720.00 estimated / costs AED 180.00 |
+| Avoided purchases | 2 fulfilled requests. Two 24-inch Dell P2422H monitors. AED 690 (2 x AED 345). |
+| Net financial savings | Estimated AED 510 (AED 690 minus AED 180). |
 | Asset-life extension | N/A / retirement dates missing |
-| Estimated carbon reduction | N/A / emission factors missing |
-| Sources | Completed TRF-0007, TRF-0008; MWO-0012 |
+| Estimated carbon reduction | About 253.5 to 651.5 kg CO2e (estimated). Transport 0. Fan parts about 2.49. |
+| Sources | TRF-0007 / REQ-0014 and TRF-0008 / REQ-0016, one monitor each. MWO-0012. Section 12 Tables 12.1 to 12.3. |
 | Owner review | Sustainability pending; Finance pending; Business administration pending |
 
-**AI result:** AI-generated draft: Two confirmed fulfilled requests avoided an estimated AED 900 in purchases. After AED 180 attributable costs, estimated net savings are AED 720. Carbon is N/A.
+**AI result:** AI-generated draft: Two fulfilled requests reused one 24-inch monitor each. Avoided purchases: AED 690. Net savings: AED 510 after AED 180 costs. Carbon reduction: about 253.5 to 651.5 kg CO2e after fan parts. Collection stayed in one building. Asset-life extension remains N/A.
 
 **Confidence:** Unavailable - check carefully. Model/version unavailable in this example.
 
-**Reason:** All claims use snapshot S06. Confidence unavailable; factual support is checked against the linked conventional totals, not a generated certainty score.
+**Reason:** The two monitor factors give 256 to 654 kg CO2e. Deduct about 2.49 for the new fan. Same-building collection has no van trip. Values follow S06 and Section 12.
 
 **Human decision:** Compare each written claim with snapshot S06 and its source records. Sustainability reviews environmental figures, Finance reviews money and Business administration reviews operations. Return unsupported claims with comments. The mixed report stays Draft until all owners review it.
 
-**Low or unavailable confidence:** Confidence unavailable - check carefully. Unsupported claims or totals that disagree with S06 keep the narrative in Draft; no numeric cutoff is defined.
+**Low or unavailable confidence:** Confidence unavailable - check carefully. Unsupported claims or totals that disagree with S06 keep the narrative in Draft. no numeric cutoff is defined.
 
 **AI unavailable:** AI narrative unavailable. No new AI draft is generated. Conventional totals and linked records remain available for the same owner review.
 
-The report view uses the same S06 records as the dashboard. AI-written text is labelled Draft. Estimated savings and missing carbon or life-extension inputs remain labelled. The Sustainability officer can approve only the sustainability figures.
+The report uses the same S06 monitor records, prices and carbon assumptions as the dashboard. AI-written text stays Draft until its owners review it. Carbon is an estimated range after fan-part emissions. Asset-life extension remains N/A because retirement dates are missing. The Sustainability officer can approve only the sustainability figures.
 
-**Phase 3 references:** UC-13; FR-17.1 to FR-17.4; AI-09, AI-10, AI-12, AI-13; SU-01 to SU-09; BR-10, BR-18.
+**Phase 3 references:** UC-13; FR-17.1 to FR-17.4; AI-09, AI-10, AI-12, AI-13; SU-01 to SU-09; BR-10, BR-18; design section 12 Tables 12.1 to 12.3.
 
 <!-- pagebreak -->
 ## 7.8 Campus Assistant
 
 **Screen:** UI-12. **Role:** Requester in Computing. **Example state:** Draft proposal.
 
-![Figure 7.9 Campus assistant UI-12](images/figure-7-9-ui-12.png)
+![Figure 7.9a Campus assistant UI-12 top half](images/figure-7-9-ui-12-top.png)
+
+<!-- pagebreak -->
+
+![Figure 7.9b Campus assistant UI-12 bottom half](images/figure-7-9-ui-12-bottom.png)
 
 <!-- pagebreak -->
 ### UI-12 Fields and decisions
 
 A supporting record is a permitted system record used as evidence for the answer. A proposal is a draft action that the user must check. Desirable means this feature is optional in the project scope. It follows the same access checks and approval steps as the normal forms.
+
+**Table 7.9 UI-12 fields**
 
 <!-- widths: 2600,6760 -->
 | Field | Synthetic example |

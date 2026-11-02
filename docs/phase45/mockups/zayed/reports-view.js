@@ -11,15 +11,15 @@ if(reportView){
   <div class="pending-note">${icon('clock')}Draft S06. Sustainability, Finance and Business administration reviews are pending.</div>
   <section class="group"><div class="group-title">${icon('file')}<h2>AI-generated report draft</h2></div>
   <p class="view-description">Synthetic October 2026 example. Verify each statement against the source totals.</p>
-  <p>Two fulfilled requests avoided an estimated AED 900 in purchases. After AED 180 in related costs, estimated net savings are AED 720.</p>
+  <p>Two fulfilled requests each received one 24-inch Dell P2422H monitor. Avoided purchases are an estimated AED 690 (2 x AED 345). After AED 180 related costs, estimated net savings are AED 510.</p>
   <p>Three distinct items were diverted from waste: two through reuse and one through repair. The reuse rate is 50% (2 of 4 listed items). One of one closed repairs succeeded.</p>
-  <p>Carbon reduction and asset-life extension are N/A because emission factors and retirement dates are missing.</p></section>
+  <p>Estimated carbon reduction is about 253.5 to 651.5 kg CO2e. The gross range is 256 to 654, less about 2.49 for the new fan. Same-building collection uses no van trip. Asset-life extension remains N/A because retirement dates are missing.</p></section>
   <div class="group-title">${icon('check')}<h2>Source and review evidence</h2></div>
   <div class="table-wrap"><table class="data-table"><thead><tr><th>Claim</th><th>Source / basis</th><th>Data owner</th></tr></thead><tbody>
-  <tr><td>Two fulfilled requests</td><td>TRF-0007, TRF-0008; reviewer confirmations</td><td>Business administration</td></tr>
-  <tr><td>AED 720 estimated savings</td><td>AED 900 avoided purchases less AED 180 related costs; S06</td><td>Finance</td></tr>
+  <tr><td>Two monitors in two fulfilled requests</td><td>TRF-0007 / REQ-0014 and TRF-0008 / REQ-0016. Reviewer confirmations</td><td>Business administration</td></tr>
+  <tr><td>AED 510 estimated savings</td><td>AED 690 avoided purchases minus AED 180 related costs. S06</td><td>Finance</td></tr>
   <tr><td>3 items; 50% reuse; 100% repair</td><td>Distinct items; 2 of 4 listed items; MWO-0012</td><td>Sustainability</td></tr>
-  <tr><td>Carbon and life extension N/A</td><td>Required inputs missing; no AI estimate used</td><td>Sustainability</td></tr>
+  <tr><td>About 253.5 to 651.5 kg CO2e</td><td>Section 12: 2 x (128 to 327) minus 0.10 x 24.86548. Synthetic fan mass and IT-material proxy. Transport 0.</td><td>Sustainability</td></tr><tr><td>Life extension N/A</td><td>Retirement dates missing.</td><td>Sustainability</td></tr>
   </tbody></table></div>
   `;
  };
