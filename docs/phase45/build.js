@@ -5,7 +5,9 @@
 // such as "1." or "2a.", "> " notes, | pipe | tables |, **bold**, *italic* and images
 // written as ![Figure caption](images/file.png) (PNG or JPG, relative to docs/phase45).
 // "<!-- widths: a,b,c -->" above a table sets column widths (DXA, total about 9360).
-// "<!-- pagebreak -->" starts a new page. Other HTML comments, including multi-line
+// "<!-- pagebreak -->" starts a new page. "<!-- page: a3-landscape -->" (or a4-landscape,
+// a3-portrait) directly above an image puts that figure alone on a page of that size.
+// Other HTML comments, including multi-line
 // guidance comments, are not printed. Lines starting with "TODO" are not printed but
 // are listed as a warning, so unfinished sections are easy to find.
 
@@ -13,7 +15,7 @@ const fs = require("fs");
 const path = require("path");
 const {
   Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell,
-  WidthType, ShadingType, LevelFormat, PageBreak, TableOfContents, PageNumber, Footer, Header, ImageRun,
+  WidthType, ShadingType, LevelFormat, PageBreak, TableOfContents, PageNumber, Footer, Header, ImageRun, PageOrientation,
 } = require("docx");
 
 const FONT = "Calibri";
@@ -24,6 +26,14 @@ const MAX_IMG_H = 830; // keeps a tall figure and its caption on one page
 const ROOT = __dirname;
 const OUT_NAME = "Dawra_Campus_Phase4-5_Design_Document.docx";
 const HEADER_TEXT = "Design Document for Dawra Campus, COSC 336 Group 4";
+// page sizes in twips (portrait width and height; docx swaps them for landscape) and the
+// largest image that fits under the header with its caption, in pixels at 96 dpi
+const PAGES = {
+  "a4-portrait": { width: 11906, height: 16838, landscape: false, maxW: MAX_IMG_W, maxH: MAX_IMG_H },
+  "a4-landscape": { width: 11906, height: 16838, landscape: true, maxW: 930, maxH: 540 },
+  "a3-portrait": { width: 16838, height: 23811, landscape: false, maxW: 930, maxH: 1290 },
+  "a3-landscape": { width: 16838, height: 23811, landscape: true, maxW: 1390, maxH: 820 },
+};
 
 const todos = [];
 
@@ -53,18 +63,20 @@ const pageBreak = () => new Paragraph({ children: [new PageBreak()] });
 
 function table(headers, rows, widths) {
   const ws = widths && widths.length === headers.length ? widths : headers.map(() => Math.floor(TOTAL_W / headers.length));
-  const cell = (text, w, isHead) => new TableCell({
+  // a short table stays on one page, so no row is left alone at the top of the next page
+  const keepTogether = rows.length <= 12;
+  const cell = (text, w, isHead, keepNext) => new TableCell({
     width: { size: w, type: WidthType.DXA },
     shading: isHead ? { type: ShadingType.CLEAR, fill: ACCENT, color: "auto" } : undefined,
     margins: { top: 60, bottom: 60, left: 100, right: 100 },
-    children: [new Paragraph({ spacing: { after: 0 }, children: inline(text, { size: 19, bold: isHead || undefined, color: isHead ? "FFFFFF" : undefined }) })],
+    children: [new Paragraph({ keepNext, spacing: { after: 0 }, children: inline(text, { size: 19, bold: isHead || undefined, color: isHead ? "FFFFFF" : undefined }) })],
   });
   return new Table({
     width: { size: ws.reduce((a, b) => a + b, 0), type: WidthType.DXA },
     columnWidths: ws,
     rows: [
-      new TableRow({ tableHeader: true, cantSplit: true, children: headers.map((h, i) => cell(h, ws[i], true)) }),
-      ...rows.map((r) => new TableRow({ cantSplit: true, children: headers.map((_, i) => cell(r[i] ?? "", ws[i], false)) })),
+      new TableRow({ tableHeader: true, cantSplit: true, children: headers.map((h, i) => cell(h, ws[i], true, keepTogether)) }),
+      ...rows.map((r, n) => new TableRow({ cantSplit: true, children: headers.map((_, i) => cell(r[i] ?? "", ws[i], false, keepTogether && n < rows.length - 1)) })),
     ],
   });
 }
@@ -82,7 +94,7 @@ function imageSize(buf, ext) {
   throw new Error("cannot read JPEG size");
 }
 
-function image(caption, rel, file, pageBreakBefore = false) {
+function image(caption, rel, file, pageBreakBefore = false, page = PAGES["a4-portrait"]) {
   const full = path.join(ROOT, rel);
   if (!fs.existsSync(full)) {
     todos.push(`${file}: image not found: ${rel}`);
@@ -91,7 +103,7 @@ function image(caption, rel, file, pageBreakBefore = false) {
   const ext = path.extname(full).slice(1).toLowerCase().replace("jpeg", "jpg");
   const buf = fs.readFileSync(full);
   const { w, h } = imageSize(buf, ext);
-  const scale = Math.min(1, MAX_IMG_W / w, MAX_IMG_H / h);
+  const scale = Math.min(1, page.maxW / w, page.maxH / h);
   return [
     new Paragraph({ alignment: AlignmentType.CENTER, keepNext: true, pageBreakBefore, children: [new ImageRun({ type: ext, data: buf, transformation: { width: Math.round(w * scale), height: Math.round(h * scale) } })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 200 }, children: inline(caption, { italics: true, size: 19 }) }),
@@ -107,11 +119,19 @@ function parseMarkdown(md, file, { titlePage = false } = {}) {
   let i = 0;
   // a page break is attached to the next heading or figure, so it can never leave an empty page
   let breakNext = false;
+  // a figure on its own page size; the page change itself starts a new page
+  let pendingPage = null;
   while (i < lines.length) {
     const t = lines[i].trim();
     const wm = t.match(/^<!--\s*widths:\s*([\d,\s]+)\s*-->$/);
     if (wm) { widths = wm[1].split(",").map((n) => parseInt(n.trim(), 10)); i++; continue; }
     if (/^<!--\s*pagebreak\s*-->$/.test(t)) { breakNext = true; i++; continue; }
+    const pm = t.match(/^<!--\s*page:\s*([a-z0-9-]+)\s*-->$/);
+    if (pm) {
+      if (!PAGES[pm[1]]) todos.push(`${file}: unknown page size ${pm[1]}`);
+      else { pendingPage = pm[1]; breakNext = false; }
+      i++; continue;
+    }
     if (t === "") { i++; continue; }
     const startsFigureOrHeading = /^!\[[^\]]*\]\([^)]+\)$/.test(t) || /^#{1,4}\s/.test(t);
     if (breakNext && !titlePage && !startsFigureOrHeading) out.push(pageBreak());
@@ -132,6 +152,10 @@ function parseMarkdown(md, file, { titlePage = false } = {}) {
     }
 
     const im = t.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (im && pendingPage) {
+      out.push({ __page: pendingPage }, ...image(im[1], im[2], file, false, PAGES[pendingPage]), { __page: "a4-portrait" });
+      pendingPage = null; i++; continue;
+    }
     if (im) { out.push(...image(im[1], im[2], file, pb)); i++; continue; }
 
     const hm = t.match(/^(#{1,4})\s+(.*)$/);
@@ -175,6 +199,33 @@ for (const f of files) {
   }
 }
 
+// Splits the content into Word sections, so a figure marked with a page size gets a page of
+// that size and the text after it goes back to A4 portrait. Every section repeats the header
+// and footer, and page numbers continue.
+function toSections(items) {
+  const sections = [];
+  let page = "a4-portrait", kids = [];
+  const close = () => {
+    if (!kids.length) return;
+    const p = PAGES[page];
+    sections.push({
+      properties: { page: {
+        size: { width: p.width, height: p.height, orientation: p.landscape ? PageOrientation.LANDSCAPE : PageOrientation.PORTRAIT },
+        margin: { top: 1300, bottom: 1300, left: 1440, right: 1440 },
+      } },
+      headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: HEADER_TEXT, font: FONT, size: 16, color: "666666" })] })] }) },
+      footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Page ", font: FONT, size: 16 }), new TextRun({ children: [PageNumber.CURRENT], font: FONT, size: 16 })] })] }) },
+      children: kids,
+    });
+    kids = [];
+  };
+  for (const item of items) {
+    if (item && item.__page) { close(); page = item.__page; } else kids.push(item);
+  }
+  close();
+  return sections;
+}
+
 const doc = new Document({
   creator: "COSC 336 Group 4",
   title: "Design Document for Dawra Campus",
@@ -188,12 +239,7 @@ const doc = new Document({
     ],
   },
   numbering: { config: [{ reference: "bullets", levels: [{ level: 0, format: LevelFormat.BULLET, text: "•", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 720, hanging: 360 } } } }] }] },
-  sections: [{
-    properties: { page: { margin: { top: 1300, bottom: 1300, left: 1440, right: 1440 } } },
-    headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: HEADER_TEXT, font: FONT, size: 16, color: "666666" })] })] }) },
-    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Page ", font: FONT, size: 16 }), new TextRun({ children: [PageNumber.CURRENT], font: FONT, size: 16 })] })] }) },
-    children,
-  }],
+  sections: toSections(children),
 });
 
 Packer.toBuffer(doc).then((buf) => {
