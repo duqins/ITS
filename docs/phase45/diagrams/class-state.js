@@ -1,4 +1,4 @@
-// Draws the section 10 class diagrams and state diagrams as SVG files.
+// Draws the section 10 class diagram and state diagrams as SVG files.
 // Usage from the repository root: node docs/phase45/diagrams/class-state.js docs/phase45/images
 const fs = require("fs");
 const path = require("path");
@@ -11,221 +11,134 @@ function write(file, w, h, body) {
   console.log("wrote " + file);
 }
 
-// ---------- shared routing (same rules as the ER diagrams) ----------
-function pt(b, side, f) {
-  const along = (len, start) => (typeof f === "object" ? f.abs : start + len * f);
-  if (side === "top") return { x: along(b.w, b.x), y: b.y };
-  if (side === "bottom") return { x: along(b.w, b.x), y: b.y + b.h };
-  if (side === "left") return { x: b.x, y: along(b.h, b.y) };
-  return { x: b.x + b.w, y: along(b.h, b.y) };
-}
-const horiz = (s) => s === "left" || s === "right";
-function route(a, as, b, bs, mid) {
-  if (horiz(as) && horiz(bs)) {
-    if (a.y === b.y && as !== bs) return [a, b];
-    const mx = mid !== undefined ? mid : (a.x + b.x) / 2;
-    return [a, { x: mx, y: a.y }, { x: mx, y: b.y }, b];
-  }
-  if (!horiz(as) && !horiz(bs)) {
-    if (a.x === b.x && as !== bs) return [a, b];
-    const my = mid !== undefined ? mid : (a.y + b.y) / 2;
-    return [a, { x: a.x, y: my }, { x: b.x, y: my }, b];
-  }
-  if (horiz(as)) return [a, { x: b.x, y: a.y }, b];
-  return [a, { x: a.x, y: b.y }, b];
-}
+// line helper used by the state diagrams
 const poly = (pts, extra = "") => `<polyline points="${pts.map((p) => `${p.x},${p.y}`).join(" ")}" fill="none" stroke="#333" stroke-width="1.6"${extra}/>`;
 
-// ---------- class diagrams ----------
-const CH = 32, CR = 21;
-function cls(name, x, y, attrs, ops, opts = {}) {
-  const w = opts.w || 270;
-  const h = CH + attrs.length * CR + 10 + (ops.length ? ops.length * CR + 10 : 0);
-  return { name, x, y, w, h, attrs, ops, ref: !!opts.ref, stereo: opts.stereo };
-}
-function drawCls(c) {
-  const stroke = c.ref ? "#9a9a9a" : "#333", dash = c.ref ? ' stroke-dasharray="6 4"' : "", text = c.ref ? "#666" : "#111";
-  let s = `<rect x="${c.x}" y="${c.y}" width="${c.w}" height="${c.h}" fill="#fff" stroke="${stroke}" stroke-width="1.6"${dash}/>`;
-  s += `<rect x="${c.x}" y="${c.y}" width="${c.w}" height="${CH}" fill="${c.ref ? "#f4f4f4" : "#eaf2e3"}" stroke="${stroke}" stroke-width="1.6"${dash}/>`;
-  s += `<text x="${c.x + c.w / 2}" y="${c.y + 22}" text-anchor="middle" font-family="${FONT}" font-size="17" font-weight="700" fill="${text}">${esc(c.name)}</text>`;
-  let y = c.y + CH + 4;
-  c.attrs.forEach((a) => { y += CR; s += `<text x="${c.x + 9}" y="${y - 5}" font-family="${FONT}" font-size="15" fill="${text}">${esc(a)}</text>`; });
-  if (c.ops.length) {
-    y += 6;
-    s += `<line x1="${c.x}" y1="${y}" x2="${c.x + c.w}" y2="${y}" stroke="${stroke}" stroke-width="1.2"${dash}/>`;
-    y += 4;
-    c.ops.forEach((o) => { y += CR; s += `<text x="${c.x + 9}" y="${y - 5}" font-family="${FONT}" font-size="15" fill="${text}">${esc(o)}</text>`; });
-  }
-  return s;
-}
-function mult(p, side, text, below) {
-  let x = p.x, y = p.y, anchor = "start";
-  if (side === "right") { x = p.x + 7; y = below ? p.y + 19 : p.y - 8; }
-  if (side === "left") { x = p.x - 7; y = below ? p.y + 19 : p.y - 8; anchor = "end"; }
-  if (side === "top") { x = p.x + 8; y = p.y - 9; }
-  if (side === "bottom") { x = p.x + 8; y = p.y + 21; }
-  return `<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="${FONT}" font-size="15" font-weight="700" fill="#1F3864">${esc(text)}</text>`;
-}
-function diamond(p, side, filled) {
-  const d = { top: [0, -1], bottom: [0, 1], left: [-1, 0], right: [1, 0] }[side];
-  const L = 22, W = 8;
-  const tip = p, mid = { x: p.x + d[0] * L / 2, y: p.y + d[1] * L / 2 }, end = { x: p.x + d[0] * L, y: p.y + d[1] * L };
-  const px = -d[1], py = d[0];
-  return { svg: `<path d="M${tip.x} ${tip.y} L${mid.x + px * W} ${mid.y + py * W} L${end.x} ${end.y} L${mid.x - px * W} ${mid.y - py * W} Z" fill="${filled ? "#333" : "#fff"}" stroke="#333" stroke-width="1.6"/>`, end };
-}
-function assoc(boxes, e) {
-  const A = boxes[e.a], B = boxes[e.b];
-  let p1 = pt(A, e.as, e.af);
-  const p2 = pt(B, e.bs, e.bf);
-  let s = "";
-  if (e.kind === "aggr" || e.kind === "comp") {
-    const dm = diamond(p1, e.as, e.kind === "comp");
-    s += dm.svg;
-    p1 = dm.end;
-  }
-  const pts = route(p1, e.as, p2, e.bs, e.mid);
-  s += poly(pts);
-  const q = pt(A, e.as, e.af);
-  // a plain association is navigable toward A, the class the other one refers to
-  if (!e.kind) s += navArrow(q, e.as);
-  s += mult(e.kind ? dm2(q, e.as) : nudge(q, e.as, e.belowA), e.as, e.ma, e.belowA) + mult(p2, e.bs, e.mb, e.belowB);
-  if (e.name) {
-    let best = -1, bi = 0;
-    for (let i = 0; i < pts.length - 1; i++) {
-      const len = Math.abs(pts[i + 1].x - pts[i].x) + Math.abs(pts[i + 1].y - pts[i].y);
-      if (len > best) { best = len; bi = i; }
+// ---------- class diagram (Figure 10.1) ----------
+// One figure: every class appears once and every relationship of Table 8.1 is drawn,
+// plus the composition ResourceRequest-RequestSpecification and the generalization of Asset.
+// Printed alone on an A3 landscape page, so 19 px text prints at about 7 pt.
+const CW = 2810, CHT = 1650, CF = 19, CN = 23, CR = 25, CH = 38;
+// name: [x, y, width, attributes, operations]
+const CLASSES = {
+  Department: [1360, 680, 190, ["- name: String","- code: String"], ["+ deactivate(): void"]],
+  User: [860, 490, 360, ["- name: String","- email: String","- accountStatus: AccountStatus"], ["+ signIn(password: String): bool","+ hasRole(r: Role, d: Department): bool","+ deactivate(): void"]],
+  Role: [1480, 160, 270, ["- name: String"], ["+ allows(action: String): bool"]],
+  UserRole: [1380, 390, 250, ["- status: RoleStatus"], ["+ authorise(by: User): void","+ apply(by: User): void","+ remove(): void"]],
+  Notification: [1090, 220, 190, ["- message: String","- sentAt: DateTime","- readAt: DateTime"], ["+ markRead(): void"]],
+  AuditLog: [650, 150, 370, ["- action: String","- recordType: String","- recordId: int","- role: String","- createdAt: DateTime"], ["+ record(actor: User, action: String): void"]],
+  Category: [1790, 380, 260, ["- name: String","- unit: String","- emissionFactor: Range"], ["+ isSpecialHandling(): bool"]],
+  ModelVersion: [2150, 420, 210, ["- modelName: String","- version: String"], []],
+  Listing: [260, 1420, 300, ["- quantity: int","- availableFrom: Date","- status: ListingStatus"], ["+ submitForRelease(): void","+ publish(): void","+ withdraw(reason: String): void"]],
+  Asset: [1820, 740, 340, ["- name: String","- condition: Condition","- status: AssetStatus","- quantity: int","- location: Location","- purchaseDate: Date","- /assetAge: int"], ["+ register(): void","+ confirm(by: User): void","+ changeStatus(to: AssetStatus): void","+ reserve(qty: int): void","+ release(qty: int): void"]],
+  ITAsset: [2230, 1290, 260, ["- serialNumber: String","- storesData: bool"], ["+ needsDataErasure(): bool"]],
+  FurnitureAsset: [2570, 1290, 200, ["- material: String","- dimensions: String"], []],
+  AiSuggestion: [2240, 710, 270, ["- task: String","- suggestion: String","- confidence: Decimal","- userResponse: String"], ["+ accept(): void","+ correct(value: String): void","+ reject(reason: String): void"]],
+  Attachment: [1400, 1300, 260, ["- fileName: String","- fileType: String","- sizeKB: int"], ["+ openLink(by: User): String"]],
+  MatchRecommendation: [2020, 20, 290, ["- score: Decimal","- confidence: Decimal","- explanation: String"], ["+ accept(): void","+ override(reason: String): void","+ summarize(): String"]],
+  ResourceRequest: [450, 450, 270, ["- status: RequestStatus","- requiredBy: Date"], ["+ submit(): void","+ approve(by: User): void","+ cancel(reason: String): void","+ expire(): void"]],
+  RequestSpecification: [60, 450, 260, ["- specifications: String","- quantity: int","- minCondition: Condition","- urgency: Urgency"], []],
+  Reservation: [100, 670, 270, ["- quantity: int","- expiresAt: DateTime","- status: ReservationStatus"], ["+ confirm(by: User): void","+ cancel(reason: String): void","+ expire(): void"]],
+  Transfer: [880, 820, 270, ["- quantity: int","- toLocation: Location","- plannedDate: Date","- status: TransferStatus"], ["+ handOver(): void","+ confirmReceipt(): void","+ dispute(note: String): void","+ cancel(reason: String): void"]],
+  Approval: [370, 970, 380, ["- stage: String","- decision: Decision","- reason: String","- approverRole: String","- recordVersion: int","- status: ApprovalStatus"], ["+ approve(by: User): void","+ reject(by: User, reason: String): void","+ requestChanges(by: User, r: String): void","+ withdraw(): void"]],
+  MaintenanceRecord: [1780, 1380, 310, ["- estimatedCost: Decimal","- actualCost: Decimal","- conditionAfter: Condition","- status: WorkOrderStatus"], ["+ assess(cost: Decimal): void","+ start(): void","+ complete(after: Condition): void"]],
+  EndOfLifeAction: [1080, 1160, 240, ["- action: EndOfLifeType","- destination: String","- status: EndOfLifeStatus"], ["+ propose(): void","+ complete(): void"]],
+  SustainabilityImpact: [700, 1350, 300, ["- wasteDivertedKg: Decimal","- avoidedPurchaseAED: Decimal","- co2eLowKg: Decimal","- co2eHighKg: Decimal"], ["+ calculate(): void"]],
+  Inspection: [1410, 990, 270, ["- inspectedOn: DateTime","- conditionFound: Condition","- safeToUse: bool"], ["+ record(): void"]],
+};
+// [Table 8.1 row, class 1, name, multiplicity 1, multiplicity 2, class 2, kind, line from class 1 to class 2,
+//  multiplicity 1 label, multiplicity 2 label, name label]; a label is [x, y, anchor] with s = start, e = end, m = middle.
+// The arrow (or the diamond of an aggregation or composition) sits at class 1, the class the other one refers to.
+const ASSOC = [
+  [1, "Department", "employs", "1", "0..*", "User", "aggr", [[1390, 680], [1390, 620], [1220, 620]], [1399, 643, "s"], [1228, 641, "s"], [1305, 641, "m"]],
+  [2, "Department", "owns", "1", "0..*", "Asset", "aggr", [[1550, 770], [1820, 770]], [1590, 791, "s"], [1812, 791, "e"], [1685, 791, "m"]],
+  [3, "Department", "scopes", "1", "0..*", "UserRole", "", [[1460, 680], [1460, 548]], [1469, 667, "s"], [1469, 571, "s"], [1468, 640, "s"]],
+  [4, "User", "holds", "1", "0..*", "UserRole", "comp", [[1220, 520], [1380, 520]], [1260, 541, "s"], [1372, 541, "e"], [1300, 541, "m"]],
+  [5, "Role", "used in", "1", "0..*", "UserRole", "", [[1600, 268], [1600, 390]], [1609, 291, "s"], [1609, 377, "s"], [1608, 335, "s"]],
+  [6, "User", "submits", "1", "0..*", "ResourceRequest", "", [[860, 590], [720, 590]], [834, 611, "e"], [728, 611, "s"], [790, 583, "m"]],
+  [7, "User", "is custodian of", "1", "0..*", "Asset", "", [[1220, 570], [1390, 570], [1390, 610], [1850, 610], [1850, 740]], [1246, 591, "s"], [1859, 727, "s"], [1620, 631, "m"]],
+  [8, "User", "gives final approval", "0..1", "0..*", "Transfer", "", [[1040, 698], [1040, 820]], [1049, 721, "s"], [1049, 807, "s"], [1048, 747, "s"]],
+  [9, "User", "decides", "0..1", "0..*", "Approval", "", [[860, 670], [720, 670], [720, 970]], [834, 691, "e"], [729, 957, "s"], [728, 826, "s"]],
+  [10, "User", "receives", "1", "0..*", "Notification", "", [[1120, 490], [1120, 378]], [1129, 477, "s"], [1129, 401, "s"], [1128, 440, "s"]],
+  [11, "User", "performs", "0..1", "0..*", "AuditLog", "", [[950, 490], [950, 358]], [959, 477, "s"], [959, 381, "s"], [958, 430, "s"]],
+  [12, "Category", "classifies", "1", "0..*", "Asset", "", [[1950, 538], [1950, 740]], [1959, 561, "s"], [1959, 727, "s"], [1958, 645, "s"]],
+  [13, "Category", "classifies", "1", "0..*", "ResourceRequest", "", [[1820, 380], [1820, 110], [610, 110], [610, 450]], [1829, 367, "s"], [619, 437, "s"], [1215, 131, "m"]],
+  [14, "Asset", "is offered in", "1", "0..*", "Listing", "", [[1990, 1098], [1990, 1340], [2150, 1340], [2150, 1630], [620, 1630], [620, 1600], [560, 1600]], [1999, 1121, "s"], [568, 1621, "s"], [2158, 1491, "s"]],
+  [15, "Listing", "is held by", "1", "0..*", "Reservation", "", [[330, 1420], [330, 878]], [339, 1407, "s"], [339, 901, "s"], [322, 1155, "e"]],
+  [16, "ResourceRequest", "places", "1", "0..*", "Reservation", "", [[480, 658], [480, 710], [370, 710]], [489, 681, "s"], [378, 731, "s"], [442, 731, "m"]],
+  [17, "Reservation", "becomes", "1", "0..1", "Transfer", "", [[370, 850], [880, 850]], [396, 871, "s"], [872, 871, "e"], [625, 871, "m"]],
+  [18, "Asset", "is matched in", "1", "0..*", "MatchRecommendation", "", [[2090, 740], [2090, 228]], [2099, 727, "s"], [2099, 251, "s"], [2098, 567, "s"]],
+  [19, "ResourceRequest", "receives", "1", "0..*", "MatchRecommendation", "", [[540, 450], [540, 90], [2020, 90]], [549, 437, "s"], [2012, 111, "e"], [532, 276, "e"]],
+  [20, "ModelVersion", "produces", "1", "0..*", "MatchRecommendation", "", [[2250, 420], [2250, 228]], [2259, 407, "s"], [2259, 251, "s"], [2258, 330, "s"]],
+  [21, "Asset", "is moved by", "1", "0..*", "Transfer", "", [[1820, 920], [1150, 920]], [1794, 941, "e"], [1158, 941, "s"], [1485, 941, "m"]],
+  [22, "ResourceRequest", "is fulfilled by", "1", "0..*", "Transfer", "", [[690, 658], [690, 780], [900, 780], [900, 820]], [699, 681, "s"], [909, 807, "s"], [795, 773, "m"]],
+  [23, "ResourceRequest", "needs", "0..1", "0..*", "Approval", "", [[580, 658], [580, 970]], [589, 681, "s"], [589, 957, "s"], [588, 820, "s"]],
+  [24, "Listing", "needs", "0..1", "0..*", "Approval", "", [[410, 1420], [410, 1278]], [419, 1407, "s"], [419, 1301, "s"], [418, 1355, "s"]],
+  [25, "Transfer", "needs", "0..1", "0..*", "Approval", "", [[880, 1050], [750, 1050]], [854, 1071, "e"], [758, 1071, "s"], [815, 1043, "m"]],
+  [26, "MaintenanceRecord", "needs", "0..1", "0..*", "Approval", "", [[1780, 1570], [660, 1570], [660, 1278]], [1754, 1591, "e"], [669, 1301, "s"], [1220, 1591, "m"]],
+  [27, "EndOfLifeAction", "needs", "0..1", "0..*", "Approval", "", [[1080, 1250], [750, 1250]], [1054, 1271, "e"], [758, 1271, "s"], [915, 1271, "m"]],
+  [28, "Asset", "checks", "1", "0..*", "Inspection", "", [[1820, 1020], [1680, 1020]], [1794, 1013, "e"], [1688, 1013, "s"], [1750, 1013, "m"]],
+  [29, "Asset", "has", "1", "0..*", "MaintenanceRecord", "", [[1910, 1098], [1910, 1380]], [1919, 1121, "s"], [1919, 1367, "s"], [1918, 1245, "s"]],
+  [30, "Inspection", "leads to", "0..1", "0..*", "MaintenanceRecord", "", [[1680, 1120], [1810, 1120], [1810, 1380]], [1706, 1141, "s"], [1819, 1367, "s"], [1818, 1256, "s"]],
+  [31, "Asset", "ends with", "1", "0..*", "EndOfLifeAction", "", [[1820, 970], [1270, 970], [1270, 1160]], [1794, 991, "e"], [1279, 1147, "s"], [1278, 1071, "s"]],
+  [32, "Transfer", "creates", "0..1", "0..1", "SustainabilityImpact", "", [[970, 1078], [970, 1350]], [979, 1101, "s"], [979, 1337, "s"], [978, 1220, "s"]],
+  [33, "MaintenanceRecord", "creates", "0..1", "0..1", "SustainabilityImpact", "", [[1780, 1490], [1000, 1490]], [1754, 1511, "e"], [1008, 1511, "s"], [1390, 1511, "m"]],
+  [34, "EndOfLifeAction", "creates", "0..1", "0..1", "SustainabilityImpact", "", [[1110, 1343], [1110, 1400], [1000, 1400]], [1119, 1366, "s"], [1008, 1421, "s"], [1088, 1421, "m"]],
+  [35, "Department", "releases", "1", "0..*", "Transfer", "", [[1360, 760], [1120, 760], [1120, 820]], [1334, 781, "e"], [1129, 807, "s"], [1240, 781, "m"]],
+  [36, "Department", "receives", "1", "0..*", "Transfer", "", [[1390, 813], [1390, 870], [1150, 870]], [1399, 836, "s"], [1158, 891, "s"], [1234, 891, "m"]],
+  [37, "User", "receives as custodian", "1", "0..*", "Transfer", "", [[970, 698], [970, 820]], [979, 721, "s"], [979, 807, "s"], [962, 747, "e"]],
+  [38, "User", "inspects", "1", "0..*", "Inspection", "", [[1220, 670], [1290, 670], [1290, 1020], [1410, 1020]], [1246, 691, "s"], [1402, 1041, "e"], [1298, 851, "s"]],
+  [39, "ModelVersion", "produces", "1", "0..*", "AiSuggestion", "", [[2270, 518], [2270, 710]], [2279, 541, "s"], [2279, 697, "s"], [2278, 620, "s"]],
+  [40, "Asset", "gets", "0..1", "0..*", "AiSuggestion", "", [[2160, 1000], [2270, 1000], [2270, 943]], [2186, 1021, "s"], [2279, 966, "s"], [2248, 1021, "m"]],
+  [41, "Asset", "has", "0..1", "0..*", "Attachment", "comp", [[1820, 1070], [1750, 1070], [1750, 1330], [1660, 1330]], [1788, 1063, "e"], [1668, 1351, "s"], [1742, 1206, "e"]],
+  [42, "Transfer", "has", "0..1", "0..*", "Attachment", "", [[1150, 1050], [1370, 1050], [1370, 1240], [1430, 1240], [1430, 1300]], [1176, 1071, "s"], [1439, 1287, "s"], [1227, 1071, "m"]],
+  [43, "Inspection", "has", "0..1", "0..*", "Attachment", "", [[1530, 1148], [1530, 1300]], [1539, 1171, "s"], [1539, 1287, "s"], [1538, 1230, "s"]],
+  [44, "MaintenanceRecord", "has", "0..1", "0..*", "Attachment", "", [[1780, 1430], [1660, 1430]], [1754, 1451, "e"], [1668, 1451, "s"], [1720, 1423, "m"]],
+  [45, "EndOfLifeAction", "has", "0..1", "0..*", "Attachment", "", [[1290, 1343], [1290, 1400], [1400, 1400]], [1299, 1366, "s"], [1392, 1421, "e"], [1329, 1421, "m"]],
+  ["c1", "ResourceRequest", "owns", "1", "1", "RequestSpecification", "comp", [[450, 550], [320, 550]], [410, 571, "e"], [328, 571, "s"], [366, 571, "m"]],
+];
+// generalization: one hollow triangle under Asset, joined to both subclasses
+const GEN = { x: 2080, joinY: 1220, subs: ["ITAsset", "FurnitureAsset"] };
+{
+  const box = (n) => { const [x, y, w, a, op] = CLASSES[n]; return { x, y, w, h: CH + a.length * CR + 10 + (op.length ? op.length * CR + 10 : 0), a, op }; };
+  const line = (pts) => `<polyline points="${pts.map((p) => p.join(",")).join(" ")}" fill="none" stroke="#333" stroke-width="2"/>`;
+  const side = (b, p) => (p[1] === b.y ? [0, -1] : p[1] === b.y + b.h ? [0, 1] : p[0] === b.x ? [-1, 0] : [1, 0]);
+  const ANCH = { s: "start", e: "end", m: "middle" };
+  const label = (l, text, style) => `<text x="${l[0]}" y="${l[1]}" text-anchor="${ANCH[l[2]]}" font-family="${FONT}" font-size="${CF}" ${style}>${esc(text)}</text>`;
+  let lines = "", marks = "", labels = "", boxes = "";
+  for (const [row, a, name, ma, mb, b, kind, pts, la, lb, ln] of ASSOC) {
+    lines += line(pts);
+    const p = pts[0], [dx, dy] = side(box(a), p), px = -dy, py = dx;
+    if (kind) {
+      // diamond at the whole: hollow for aggregation, filled for composition
+      const m = [p[0] + dx * 12, p[1] + dy * 12], e = [p[0] + dx * 24, p[1] + dy * 24];
+      marks += `<path d="M${p[0]} ${p[1]} L${m[0] + px * 9} ${m[1] + py * 9} L${e[0]} ${e[1]} L${m[0] - px * 9} ${m[1] - py * 9} Z" fill="${kind === "comp" ? "#333" : "#fff"}" stroke="#333" stroke-width="2"/>`;
+    } else {
+      // open arrowhead: the association is navigable toward class 1
+      const q = [p[0] + dx * 16, p[1] + dy * 16];
+      marks += `<polyline points="${q[0] + px * 8},${q[1] + py * 8} ${p[0]},${p[1]} ${q[0] - px * 8},${q[1] - py * 8}" fill="none" stroke="#333" stroke-width="2"/>`;
     }
-    if (e.seg !== undefined) bi = e.seg;
-    const q1 = pts[bi], q2 = pts[bi + 1], vertical = q1.x === q2.x;
-    const mx = (q1.x + q2.x) / 2, my = (q1.y + q2.y) / 2;
-    if (vertical && e.rot) s += `<text x="${mx - 6}" y="${my}" transform="rotate(-90 ${mx - 6} ${my})" text-anchor="middle" font-family="${FONT}" font-size="14" font-style="italic" fill="#444">${esc(e.name)}</text>`;
-    else s += `<text x="${vertical ? mx + 7 : mx}" y="${vertical ? my + 5 : my + 18}" text-anchor="${vertical ? "start" : "middle"}" font-family="${FONT}" font-size="14" font-style="italic" fill="#444">${esc(e.name)}</text>`;
+    labels += label(la, ma, 'font-weight="700" fill="#1F3864"') + label(lb, mb, 'font-weight="700" fill="#1F3864"') + label(ln, name, 'font-style="italic" fill="#444"');
   }
-  return s;
-}
-// multiplicity next to a diamond sits a little further out
-function dm2(p, side) {
-  const d = { top: [0, -1], bottom: [0, 1], left: [-1, 0], right: [1, 0] }[side];
-  return { x: p.x + d[0] * 22, y: p.y + d[1] * 22 };
-}
-// open arrowhead touching the box edge (navigability)
-function navArrow(p, side) {
-  const d = { top: [0, -1], bottom: [0, 1], left: [-1, 0], right: [1, 0] }[side];
-  const L = 14, W = 7, px = -d[1], py = d[0];
-  const b = { x: p.x + d[0] * L, y: p.y + d[1] * L };
-  return `<polyline points="${b.x + px * W},${b.y + py * W} ${p.x},${p.y} ${b.x - px * W},${b.y - py * W}" fill="none" stroke="#333" stroke-width="1.6"/>`;
-}
-// multiplicity next to an arrowhead moves clear of it
-function nudge(p, side, below) {
-  if (side === "top" || side === "bottom") return { x: p.x + 5, y: p.y };
-  return { x: p.x, y: p.y + (below ? 5 : -5) };
-}
-// generalization: subclasses joined to one hollow triangle under the superclass
-function generalization(sup, subs, joinY) {
-  const cx = sup.x + sup.w / 2, base = sup.y + sup.h;
-  let s = `<path d="M${cx} ${base} L${cx - 11} ${base + 18} L${cx + 11} ${base + 18} Z" fill="#fff" stroke="#333" stroke-width="1.6"/>`;
-  s += poly([{ x: cx, y: base + 18 }, { x: cx, y: joinY }]);
-  for (const c of subs) s += poly([{ x: c.x + c.w / 2, y: c.y }, { x: c.x + c.w / 2, y: joinY }, { x: cx, y: joinY }]);
-  return s;
-}
-function classFigure(file, w, h, list, edges, extra = "") {
-  const boxes = Object.fromEntries(list.map((b) => [b.name, b]));
-  write(file, w, h, edges.map((e) => assoc(boxes, e)).join("\n") + extra + list.map(drawCls).join("\n"));
-}
-const bottom = (b) => b.y + b.h;
-const C1 = 20, C2 = 350, C3 = 680;
-
-// Figure 10.1 people and access
-{
-  const Role = cls("Role", C1, 30, ["- name: String"], ["+ allows(action: String): bool"]);
-  const UR = cls("UserRole", C2, 30, ["- status: RoleStatus"], ["+ authorise(by: User): void", "+ apply(by: User): void", "+ remove(): void"]);
-  const D = cls("Department", C3, 30, ["- name: String", "- code: String"], ["+ deactivate(): void"]);
-  const N = cls("Notification", C1, 320, ["- message: String", "- sentAt: DateTime", "- readAt: DateTime"], ["+ markRead(): void"]);
-  const U = cls("User", C2, 320, ["- name: String", "- email: String", "- accountStatus: AccountStatus"], ["+ signIn(password: String): bool", "+ hasRole(r: Role, d: Department): bool", "+ deactivate(): void"]);
-  const AL = cls("AuditLog", C2, 620, ["- action: String", "- recordType: String", "- recordId: int", "- role: String", "- beforeValue: String", "- afterValue: String", "- reason: String", "- createdAt: DateTime"], ["+ record(actor: User, action: String): void"], { w: 315 });
-  classFigure("class-people.svg", 970, bottom(AL) + 25, [Role, UR, D, N, U, AL], [
-    { a: "Role", as: "right", af: { abs: 80 }, b: "UserRole", bs: "left", bf: { abs: 80 }, ma: "1", mb: "0..*", name: "used in" },
-    { a: "Department", as: "left", af: { abs: 80 }, b: "UserRole", bs: "right", bf: { abs: 80 }, ma: "1", mb: "0..*", name: "scopes" },
-    { a: "User", as: "top", af: 0.5, b: "UserRole", bs: "bottom", bf: 0.5, ma: "1", mb: "0..*", name: "holds", kind: "comp" },
-    { a: "Department", as: "bottom", af: 0.3, b: "User", bs: "right", bf: { abs: 370 }, ma: "1", mb: "0..*", name: "employs", kind: "aggr", seg: 0 },
-    { a: "User", as: "left", af: { abs: 370 }, b: "Notification", bs: "right", bf: { abs: 370 }, ma: "1", mb: "0..*", name: "receives" },
-    { a: "User", as: "bottom", af: 0.5, b: "AuditLog", bs: "top", bf: 0.5, ma: "0..1", mb: "0..*", name: "performs" },
-  ]);
-}
-
-// Figure 10.2 assets and listings
-{
-  const D = cls("Department", C1, 30, ["- name: String", "- code: String"], []);
-  const Cat = cls("Category", C2, 30, ["- name: String", "- unit: String", "- emissionFactor: Range"], ["+ isSpecialHandling(): bool"]);
-  const MV = cls("ModelVersion", 720, 30, ["- modelName: String", "- version: String"], [], { w: 250 });
-  const L = cls("Listing", 10, 330, ["- quantity: int", "- availableFrom: Date", "- status: ListingStatus"], ["+ submitForRelease(): void", "+ publish(): void", "+ withdraw(reason: String): void"], { w: 240 });
-  const A = cls("Asset", C2, 330, ["- name: String", "- condition: Condition", "- status: AssetStatus", "- quantity: int", "- location: Location", "- purchaseDate: Date", "- /assetAge: int"], ["+ register(): void", "+ confirm(by: User): void", "+ changeStatus(to: AssetStatus): void", "+ reserve(qty: int): void", "+ release(qty: int): void"]);
-  const AS = cls("AiSuggestion", 720, 330, ["- task: String", "- suggestion: String", "- confidence: Decimal", "- userResponse: String"], ["+ accept(): void", "+ correct(value: String): void", "+ reject(reason: String): void"], { w: 250 });
-  const IT = cls("ITAsset", C1, 820, ["- serialNumber: String", "- storesData: bool"], ["+ needsDataErasure(): bool"]);
-  const FU = cls("FurnitureAsset", C2, 820, ["- material: String", "- dimensions: String"], []);
-  const AT = cls("Attachment", 720, 570, ["- fileName: String", "- fileType: String", "- sizeKB: int"], ["+ openLink(by: User): String"], { w: 250 });
-  const joinY = 790;
-  classFigure("class-assets.svg", 990, bottom(IT) + 25, [D, Cat, MV, L, A, AS, IT, FU, AT], [
-    { a: "Department", as: "bottom", af: 0.8, b: "Asset", bs: "top", bf: 0.2, mid: 260, ma: "1", mb: "0..*", name: "owns", kind: "aggr", seg: 1 },
-    { a: "Category", as: "bottom", af: 0.6, b: "Asset", bs: "top", bf: 0.6, ma: "1", mb: "0..*", name: "classifies" },
-    { a: "Asset", as: "left", af: { abs: 380 }, b: "Listing", bs: "right", bf: { abs: 380 }, ma: "1", mb: "0..*", name: "offered in" },
-    { a: "Asset", as: "right", af: { abs: 380 }, b: "AiSuggestion", bs: "left", bf: { abs: 380 }, ma: "0..1", mb: "0..*", name: "gets" },
-    { a: "ModelVersion", as: "bottom", af: 0.5, b: "AiSuggestion", bs: "top", bf: 0.5, ma: "1", mb: "0..*", name: "produces" },
-    { a: "Asset", as: "right", af: { abs: 600 }, b: "Attachment", bs: "left", bf: { abs: 600 }, ma: "0..1", mb: "0..*", name: "has", kind: "comp" },
-  ], generalization(A, [IT, FU], joinY));
-}
-
-// Figure 10.3 requests, matching and transfers
-{
-  const Ar = cls("Asset", C1, 30, [], [], { ref: true });
-  const MV = cls("ModelVersion", C2, 30, [], [], { ref: true });
-  const Ur = cls("User", C3, 30, [], [], { ref: true });
-  const M = cls("MatchRecommendation", C2, 190, ["- score: Decimal", "- confidence: Decimal", "- explanation: String"], ["+ accept(): void", "+ override(reason: String): void", "+ summarize(): String"]);
-  const R = cls("ResourceRequest", C3, 190, ["- status: RequestStatus", "- requiredBy: Date"], ["+ submit(): void", "+ approve(by: User): void", "+ cancel(reason: String): void", "+ expire(): void"]);
-  const T = cls("Transfer", C2, 480, ["- quantity: int", "- toLocation: Location", "- plannedDate: Date", "- status: TransferStatus"], ["+ handOver(): void", "+ confirmReceipt(): void", "+ dispute(note: String): void", "+ cancel(reason: String): void"]);
-  const RS = cls("RequestSpecification", C3, 480, ["- specifications: String", "- quantity: int", "- minCondition: Condition", "- urgency: Urgency"], []);
-  const Lr = cls("Listing", C1, 820, [], [], { ref: true, w: 230 });
-  const Res = cls("Reservation", C2, 820, ["- quantity: int", "- expiresAt: DateTime", "- status: ReservationStatus"], ["+ confirm(by: User): void", "+ cancel(reason: String): void", "+ expire(): void"]);
-  classFigure("class-requests.svg", 1010, bottom(Res) + 25, [Ar, MV, Ur, M, R, T, RS, Lr, Res], [
-    { a: "Asset", as: "bottom", af: 0.5, b: "MatchRecommendation", bs: "left", bf: { abs: 250 }, ma: "1", mb: "0..*", name: "matched in", seg: 0 },
-    { a: "ModelVersion", as: "bottom", af: 0.5, b: "MatchRecommendation", bs: "top", bf: 0.5, ma: "1", mb: "0..*", name: "produces" },
-    { a: "User", as: "bottom", af: 0.5, b: "ResourceRequest", bs: "top", bf: 0.5, ma: "1", mb: "0..*", name: "submits" },
-    { a: "ResourceRequest", as: "left", af: { abs: 250 }, b: "MatchRecommendation", bs: "right", bf: { abs: 250 }, ma: "1", mb: "0..*", name: "receives" },
-    { a: "ResourceRequest", as: "bottom", af: 0.5, b: "RequestSpecification", bs: "top", bf: 0.5, ma: "1", mb: "1", name: "owns", kind: "comp" },
-    { a: "Asset", as: "bottom", af: 0.25, b: "Transfer", bs: "left", bf: { abs: 560 }, ma: "1", mb: "0..*", name: "moved by", seg: 0 },
-    { a: "ResourceRequest", as: "left", af: { abs: 335 }, b: "Transfer", bs: "right", bf: { abs: 560 }, mid: 650, ma: "1", mb: "0..*", name: "fulfilled by", seg: 1, rot: true },
-    { a: "Reservation", as: "top", af: 0.5, b: "Transfer", bs: "bottom", bf: 0.5, ma: "1", mb: "0..1", name: "becomes" },
-    { a: "Listing", as: "right", af: { abs: 845 }, b: "Reservation", bs: "left", bf: { abs: 845 }, ma: "1", mb: "0..*", name: "held by" },
-    { a: "ResourceRequest", as: "right", af: { abs: 300 }, b: "Reservation", bs: "right", bf: { abs: 900 }, mid: 985, ma: "1", mb: "0..*", name: "places", seg: 1, rot: true },
-  ]);
-}
-
-// Figure 10.4 approvals and life cycle
-{
-  const Ap = cls("Approval", C2, 30, ["- stage: String", "- decision: Decision", "- reason: String", "- approverRole: String", "- recordVersion: int", "- status: ApprovalStatus"], ["+ approve(by: User): void", "+ reject(by: User, reason: String): void", "+ requestChanges(by: User, r: String): void", "+ withdraw(): void"], { w: 300 });
-  const Rr = cls("ResourceRequest", C1, 60, [], [], { ref: true, w: 230 });
-  const Lr = cls("Listing", C3 + 50, 60, [], [], { ref: true, w: 225 });
-  const MR = cls("MaintenanceRecord", C1, 390, ["- estimatedCost: Decimal", "- actualCost: Decimal", "- conditionAfter: Condition", "- status: WorkOrderStatus"], ["+ assess(cost: Decimal): void", "+ start(): void", "+ complete(after: Condition): void"]);
-  const Tr = cls("Transfer", C2, 390, [], [], { ref: true, w: 300 });
-  const EL = cls("EndOfLifeAction", C3, 390, ["- action: EndOfLifeType", "- destination: String", "- status: EndOfLifeStatus"], ["+ propose(): void", "+ complete(): void"]);
-  const SI = cls("SustainabilityImpact", C2, 640, ["- wasteDivertedKg: Decimal", "- avoidedPurchaseAED: Decimal", "- co2eLowKg: Decimal", "- co2eHighKg: Decimal"], ["+ calculate(): void"], { w: 300 });
-  const I = cls("Inspection", C1, 900, ["- inspectedOn: DateTime", "- conditionFound: Condition", "- safeToUse: bool"], ["+ record(): void"]);
-  const Ar = cls("Asset", C2, 960, [], [], { ref: true, w: 300 });
-  const sib = bottom(SI) + 30;
-  classFigure("class-lifecycle.svg", 980, bottom(I) + 25, [Ap, Rr, Lr, MR, Tr, EL, SI, I, Ar], [
-    { a: "ResourceRequest", as: "right", af: { abs: 76 }, b: "Approval", bs: "left", bf: { abs: 76 }, ma: "0..1", mb: "0..*", name: "needs" },
-    { a: "Listing", as: "left", af: { abs: 76 }, b: "Approval", bs: "right", bf: { abs: 76 }, ma: "0..1", mb: "0..*", name: "needs" },
-    { a: "Transfer", as: "top", af: 0.5, b: "Approval", bs: "bottom", bf: 0.5, ma: "0..1", mb: "0..*", name: "needs" },
-    { a: "MaintenanceRecord", as: "top", af: 0.5, b: "Approval", bs: "bottom", bf: 0.12, mid: 350, ma: "0..1", mb: "0..*", name: "needs", seg: 1 },
-    { a: "EndOfLifeAction", as: "top", af: 0.5, b: "Approval", bs: "bottom", bf: 0.88, mid: 350, ma: "0..1", mb: "0..*", name: "needs", seg: 1 },
-    { a: "Transfer", as: "bottom", af: 0.5, b: "SustainabilityImpact", bs: "top", bf: 0.5, ma: "0..1", mb: "0..1", name: "creates" },
-    { a: "MaintenanceRecord", as: "bottom", af: 0.8, b: "SustainabilityImpact", bs: "left", bf: { abs: 740 }, ma: "0..1", mb: "0..1", name: "creates", seg: 0 },
-    { a: "EndOfLifeAction", as: "bottom", af: 0.2, b: "SustainabilityImpact", bs: "right", bf: { abs: 740 }, ma: "0..1", mb: "0..1", name: "creates", seg: 0 },
-    { a: "Inspection", as: "top", af: 0.2, b: "MaintenanceRecord", bs: "bottom", bf: 0.2, ma: "0..1", mb: "0..*", name: "leads to" },
-    { a: "Asset", as: "top", af: 0.25, b: "MaintenanceRecord", bs: "bottom", bf: 0.55, mid: sib, ma: "1", mb: "0..*", name: "has", seg: 1 },
-    { a: "Asset", as: "top", af: 0.75, b: "EndOfLifeAction", bs: "bottom", bf: 0.75, mid: sib, ma: "1", mb: "0..*", name: "ends with", seg: 1 },
-    { a: "Asset", as: "left", af: { abs: 990 }, b: "Inspection", bs: "right", bf: { abs: 990 }, ma: "1", mb: "0..*", name: "checks" },
-  ]);
+  const A = box("Asset"), base = A.y + A.h;
+  marks += `<path d="M${GEN.x} ${base} L${GEN.x - 13} ${base + 20} L${GEN.x + 13} ${base + 20} Z" fill="#fff" stroke="#333" stroke-width="2"/>`;
+  lines += line([[GEN.x, base + 20], [GEN.x, GEN.joinY]]);
+  for (const s of GEN.subs) { const b = box(s), cx = b.x + b.w / 2; lines += line([[cx, b.y], [cx, GEN.joinY], [GEN.x, GEN.joinY]]); }
+  for (const n of Object.keys(CLASSES)) {
+    const b = box(n);
+    boxes += `<rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" fill="#fff" stroke="#333" stroke-width="2"/>`;
+    boxes += `<rect x="${b.x}" y="${b.y}" width="${b.w}" height="${CH}" fill="#eaf2e3" stroke="#333" stroke-width="2"/>`;
+    boxes += `<text x="${b.x + b.w / 2}" y="${b.y + 27}" text-anchor="middle" font-family="${FONT}" font-size="${CN}" font-weight="700" fill="#111">${esc(n)}</text>`;
+    let y = b.y + CH + 4;
+    b.a.forEach((t) => { y += CR; boxes += `<text x="${b.x + 12}" y="${y - 6}" font-family="${FONT}" font-size="${CF}" fill="#111">${esc(t)}</text>`; });
+    if (b.op.length) {
+      y += 6;
+      boxes += `<line x1="${b.x}" y1="${y}" x2="${b.x + b.w}" y2="${y}" stroke="#333" stroke-width="1.5"/>`;
+      y += 4;
+      b.op.forEach((t) => { y += CR; boxes += `<text x="${b.x + 12}" y="${y - 6}" font-family="${FONT}" font-size="${CF}" fill="#111">${esc(t)}</text>`; });
+    }
+  }
+  write("class-diagram.svg", CW, CHT, [lines, marks, boxes, labels].join("\n"));
 }
 
 // ---------- state diagrams ----------
@@ -282,7 +195,7 @@ class StateDiagram {
   write(file, w, h) { write(file, w, h, this.lines + this.boxes + this.labels); }
 }
 
-// Figure 10.5 asset states
+// Figure 10.2 asset states
 {
   const g = new StateDiagram();
   const s1 = state("AS-01", "Draft", 40, 80);
@@ -331,7 +244,7 @@ class StateDiagram {
   g.write("state-asset.svg", 920, 740);
 }
 
-// Figure 10.6 resource request states
+// Figure 10.3 resource request states
 {
   const g = new StateDiagram();
   const X = 340, W = 230;
@@ -370,7 +283,7 @@ class StateDiagram {
   g.write("state-request.svg", 970, 820);
 }
 
-// Figure 10.7 transfer states
+// Figure 10.4 transfer states
 {
   const g = new StateDiagram();
   const s1 = state("TR-01", "Pending release approval", 360, 80, 230, 66);
@@ -409,7 +322,7 @@ class StateDiagram {
   g.write("state-transfer.svg", 940, 800);
 }
 
-// Figure 10.8 approval task states
+// Figure 10.5 approval task states
 {
   const g = new StateDiagram();
   const p = state("AT-01", "Pending", 360, 60, 210);
