@@ -73,15 +73,15 @@
       "ai": "Category: Electronics / Monitors. Tags: display, HDMI, office. Description: 24-inch FHD monitor with stand.",
       "confidence": "0.86",
       "reason": "The title and specifications identify a monitor. Screen size and HDMI are stated in the supplied text.",
-      "decision": "Accept, edit or reject each suggestion before confirming the asset. Confirmation records the user and time. it does not publish a listing.",
+      "decision": "Accept, edit or reject each suggestion before submitting the asset for confirmation by a second user (BR-02). Confirmation records the user and time. It does not publish a listing.",
       "down": "Classification unavailable. Your fields are preserved. Select category and enter description manually.",
-      "low": "Confidence 0.54, below 0.60. Category is an option only. No suggested value is filled in. choose it manually.",
+      "low": "Confidence 0.54, below 0.60. Category is an option only. No suggested value is filled in. Choose it manually.",
       "actions": [
         "Accept suggestions",
         "Edit suggestions",
         "Reject suggestions",
         "Save draft",
-        "Confirm asset"
+        "Submit for confirmation"
       ],
       "refs": "UC-02; FR-04.1 to FR-04.6; FR-05.1; AI-01.1 to AI-01.4; AI-12.1 to AI-13.4; BR-15; AS-01, AS-03",
       "detail": "JPG/PNG: up to 5 files, 5 MB each. PDF: 10 MB each. A possible duplicate requires a separate confirmation. Invalid required fields keep AS-01."
@@ -148,7 +148,7 @@
       "confidence": null,
       "reason": "The draft uses your stated monitor requirement. The assistant cannot infer a required-by date or approve department need.",
       "decision": "Check and correct the fields, then submit to the department. Submission creates RQ-02. Search and reservation do not bypass department approval.",
-      "down": "Assistant unavailable. Continue with the normal request form. your entered fields remain.",
+      "down": "Assistant unavailable. Continue with the normal request form. Your entered fields remain.",
       "low": "Confidence unavailable - check carefully. The draft cannot supply missing fields. Confirm the date and specifications yourself.",
       "actions": [
         "Review AI draft",
@@ -200,19 +200,19 @@
           "Available now / collection required"
         ]
       ],
-      "ai": "Compatibility 87/100. Meaning 27/30. technical 20/20. condition 5/15. location 10/10. availability 10/10. useful life 10/10. repair 5/5.",
-      "confidence": "0.82",
-      "reason": "Similarity 0.90. all requested specifications met. condition equals minimum. same building. available now. estimated life 3 years. no repair needed.",
+      "ai": "Compatibility 87/100. Meaning 27/30. Technical 20/20. Condition 5/15. Location 10/10. Availability 10/10. Useful life 10/10. Repair 5/5.",
+      "confidence": null,
+      "reason": "Similarity 0.90. All requested specifications met. Condition equals minimum. Same building. Available now. Estimated life 3 years. No repair needed.",
       "decision": "Inspect evidence and choose any eligible result. Selection alone holds nothing. Request reservation, then wait for independent releasing-side confirmation.",
       "down": "AI ranking unavailable. Eligible keyword and filter results remain available without AI scores. Current quantity is checked again when reserving.",
-      "low": "Confidence 0.62: Check carefully. Below 0.50 the result is withheld as an AI recommendation. use classic search. Unsupported confidence is labelled unavailable.",
+      "low": "The current embedding model returns no confidence, so every match shows Confidence unavailable - check carefully. If a later model version returns one, 0.50 to below 0.75 is marked Check carefully and below 0.50 the result is withheld. Use classic search.",
       "actions": [
         "Inspect asset",
         "Choose another eligible match",
         "Request reservation"
       ],
       "refs": "UC-05 to UC-07; FR-08.1 to FR-09.7; AI-02 to AI-05; AI-13; NFR-07; BR-11 to BR-16; RQ-03, RV-01",
-      "detail": "All mandatory checks passed: access, quantity, condition, specifications and date. Missing mandatory data excludes an item. Optional unknowns are labelled and earn 0 factor points. Another eligible example: AST-0071, compatibility 83, confidence unavailable. choosing it requires an override reason."
+      "detail": "All mandatory checks passed: access, quantity, condition, specifications and date. Missing mandatory data excludes an item. Optional unknowns are labelled and earn 0 factor points. Another eligible example: AST-0071, compatibility 83, confidence unavailable. Choosing it requires an override reason."
     },
     {
       "id": "UI-08",
@@ -273,11 +273,11 @@
         ]
       ],
       "ai": "Linked match: compatibility 87/100. HDMI and date requirements met. This is advisory evidence attached to v3.",
-      "confidence": "0.82",
+      "confidence": null,
       "reason": "The recommendation references AST-0042 and REQ-0018. It does not verify policy authority or decide the transfer.",
       "decision": "Review this version and decide only your assigned stage. Both departments must approve, with conditional Finance and Procurement stages before TR-04.",
       "down": "AI explanation unavailable. Review the asset, request, quantities and evidence directly. Approval rules are unchanged.",
-      "low": "Linked confidence 0.62: Check carefully. Confidence cannot remove a required approval or make an ineligible transfer valid.",
+      "low": "Linked match confidence is unavailable. Confidence cannot remove a required approval or make an ineligible transfer valid.",
       "actions": [
         "Approve assigned stage",
         "Request changes",
@@ -345,11 +345,11 @@
         ]
       ],
       "ai": "Earlier match evidence: compatibility 87/100. No AI assessment of the physical handover or receipt.",
-      "confidence": "0.82 (earlier match only)",
+      "confidence": null,
       "reason": "The earlier recommendation explained fit to the request. The receiving custodian must inspect actual quantity and condition.",
       "decision": "The releasing custodian records handover after TR-04. The receiving custodian confirms receipt after TR-05 or records a discrepancy. Valid receipt changes the owner, restores AS-02 or AS-03, and completes TR-06 / RQ-06.",
       "down": "AI unavailable. Use recorded approvals, handover evidence and physical inspection to complete the normal transfer workflow.",
-      "low": "Earlier match confidence 0.62: Check carefully. Receipt relies on inspection and evidence. no new AI confidence is invented.",
+      "low": "Earlier match confidence is unavailable. Receipt relies on inspection and evidence. No new AI confidence is shown.",
       "actions": [
         "Confirm receipt",
         "Record discrepancy"
@@ -417,10 +417,10 @@
       ],
       "ai": "Optional sustainable-action advice: repair. Inspect the fan before replacing the complete computer.",
       "confidence": null,
-      "reason": "The inspection identifies one replaceable part. Demand, repairability and the AED 180 estimate support a repair proposal. they do not approve spending.",
+      "reason": "The inspection identifies one replaceable part. Demand, repairability and the AED 180 estimate support a repair proposal. They do not approve spending.",
       "decision": "Record work only after required cost approvals. Save actual cost and outcome. Any increase returns to MW-03 before completion. Not repairable starts EL-01.",
       "down": "Action advice unavailable. Continue inspection and approved work using the recorded assessment and costs.",
-      "low": "Confidence unavailable - check carefully. The SRS defines no numeric cutoff for action advice. insufficient evidence requires manual assessment.",
+      "low": "Confidence unavailable - check carefully. If no inspection or cost record is cited, the advice is marked uncertain (section 4). Insufficient evidence requires manual assessment.",
       "actions": [
         "Save work progress",
         "Return for cost approval",
@@ -428,7 +428,7 @@
         "Mark not repairable"
       ],
       "refs": "UC-10, UC-11; FR-12.1, FR-12.2; FR-13.1 to FR-13.7; AI-06; BR-07; MW-01 to MW-09; EL-01",
-      "detail": "The sample assumes all applicable cost approvals have been recorded, without inventing a TBD-2 value. The custodian reports defects. department and conditional Finance approvers use UI-08. Unsafe or Not working assets cannot be published or reserved. For the S06 example, the new fan weighs a synthetic 0.10 kg. The Section 12 F1 IT-material factor of 24.86548 kg CO2e per kg is a parts proxy. Parts emissions are about 2.49 kg CO2e, not a measured footprint."
+      "detail": "The sample assumes all applicable cost approvals have been recorded and leaves the TBD-2 value open. The custodian reports defects. Department and conditional Finance approvers use UI-08. Unsafe or Not working assets cannot be published or reserved. For the October snapshot S06 used in 7.6 and 7.7, MWO-0012 reached Completed (MW-06) before the snapshot was taken, and the new fan weighs a synthetic 0.10 kg. The section 12 F1 IT-material factor of 24.86548 kg CO2e per kg is a parts proxy. Parts emissions are about 2.49 kg CO2e, not a measured footprint."
     },
     {
       "id": "UI-13",
@@ -477,30 +477,30 @@
         ],
         [
           "Estimated carbon reduction",
-          "About 253.5 to 651.5 kg CO2e (estimated). Transport 0. Fan parts about 2.49."
+          "About 253.6 to 651.5 kg CO2e (estimated). Transport 0. Fan parts about 2.49."
         ],
         [
           "Sources",
-          "TRF-0007 / REQ-0014 and TRF-0008 / REQ-0016, one monitor each. MWO-0012. Section 12 Tables 12.1 to 12.3."
+          "TRF-0007 / REQ-0014 and TRF-0008 / REQ-0016, one monitor each. MWO-0012. Section 12, Tables 12.1 to 12.3."
         ],
         [
           "Owner review",
           "Sustainability pending; Finance pending; Business administration pending"
         ]
       ],
-      "ai": "AI-generated draft: Two fulfilled requests reused one 24-inch monitor each. Avoided purchases: AED 690. Net savings: AED 510 after AED 180 costs. Carbon reduction: about 253.5 to 651.5 kg CO2e after fan parts. Collection stayed in one building. Asset-life extension remains N/A.",
+      "ai": "AI-generated draft: Two fulfilled requests reused one 24-inch monitor each. Avoided purchases: AED 690. Net savings: AED 510 after AED 180 costs. Carbon reduction: about 253.6 to 651.5 kg CO2e after fan parts. Collection stayed in one building. Asset-life extension remains N/A.",
       "confidence": null,
-      "reason": "The two monitor factors give 256 to 654 kg CO2e. Deduct about 2.49 for the new fan. Same-building collection has no van trip. Values follow S06 and Section 12.",
+      "reason": "The two monitor factors give 256.1 to 654 kg CO2e, less about 2.49 for the new fan. Same-building collection has no van trip.",
       "decision": "Review only your own domain. Sustainability reviews indicators, Finance reviews money, Business administration reviews operations. A mixed report stays Draft until every owner reviews.",
       "down": "Narrative generation unavailable. Conventional totals and their sources remain available for the same owner review.",
-      "low": "Confidence unavailable - check carefully. Unsupported claims or totals that disagree with S06 keep the narrative in Draft. no numeric cutoff is defined.",
+      "low": "Confidence unavailable - check carefully. Unsupported claims or totals that disagree with S06 keep the narrative in Draft. No numeric cutoff is defined.",
       "actions": [
         "Open source records",
         "Return draft with comments",
         "Approve sustainability figures"
       ],
       "refs": "UC-13; FR-17.1 to FR-17.4; AI-09, AI-10, AI-12, AI-13; SU-01 to SU-09; BR-10, BR-18; design section 12 Tables 12.1 to 12.3",
-      "detail": "Synthetic assumptions: fan mass 0.10 kg and the F1 IT-material proxy 24.86548 kg CO2e per kg. Parts = 0.10 x 24.86548 = about 2.49 kg CO2e. Carbon = 256 to 654 minus 2.49 = about 253.5 to 651.5 kg CO2e. New monitors cost AED 345 each. Filters preserve the scope across views."
+      "detail": "Synthetic assumptions: fan mass 0.10 kg and the F1 IT-material proxy 24.86548 kg CO2e per kg. Parts = 0.10 x 24.86548 = about 2.49 kg CO2e. Carbon = 256.1 to 654 minus 2.49 = about 253.6 to 651.5 kg CO2e. New monitors cost AED 345 each. Filters preserve the scope across views."
     },
     {
       "id": "UI-12",
@@ -565,26 +565,26 @@
         "Open classic search"
       ],
       "refs": "UC-12, UC-04; UI-12; AI-07.1 to AI-08.4; AI-11 to AI-13; BR-01, BR-03, BR-15",
-      "detail": "Desirable feature. All nine roles can use the assistant within their existing permissions. The server rechecks access and input on confirmation. Cancellation leaves the target record unchanged. The answer shows supporting records and unavailable model information honestly."
+      "detail": "Desirable feature. All nine roles can use the assistant within their existing permissions. The server rechecks access and input on confirmation. Cancellation leaves the target record unchanged. The answer shows supporting records and labels unavailable model information."
     }
   ],
   "screen_notes": {
     "UI-03": "Verification records who checked the item and when. HDMI and DisplayPort are video connections used to check whether the monitor fits the request. FHD means Full HD, a screen resolution of 1920 x 1080. A duplicate is a possible second record for the same item.",
-    "UI-06": "An assistant draft is a proposed set of fields that the requester must check. Submission sends the request to department approval. it does not approve the request. A required-by date is the date when the item is needed.",
+    "UI-06": "An assistant draft is a proposed set of fields that the requester must check. Submission sends the request to department approval. It does not approve the request. A required-by date is the date when the item is needed.",
     "UI-07": "Eligibility means passing every required check before an item can be offered. Similarity measures how closely the item description matches the request. Each factor contributes points to compatibility. Unknown optional details earn zero points. An override reason explains why the requester chose another eligible ranked item.",
     "UI-08": "A threshold is the value that makes an extra approval necessary. TBD-1 is the existing Phase 3 name for the transfer-value threshold that KU Finance must set. Procurement reviews categories controlled by purchasing rules. An independent approver is someone other than the requester or record creator. Version v3 means the third saved revision.",
-    "UI-09": "Handover records the releasing custodian giving the item to the receiving side. Receipt records the receiving custodian checking and accepting it. A discrepancy is a difference in quantity or condition. Ownership is the department recorded as owning the item. custody identifies the person responsible for it.",
+    "UI-09": "Handover records the releasing custodian giving the item to the receiving side. Receipt records the receiving custodian checking and accepting it. A discrepancy is a difference in quantity or condition. Ownership is the department recorded as owning the item. Custody identifies the person responsible for it.",
     "UI-10": "A work order records the maintenance job, costs and outcome. Labour is the cost of staff time. TBD-2 is the existing Phase 3 repair-spending threshold that KU Finance must set. End-of-life review decides the next action for an item that is no longer suitable for its current use.",
-    "UI-13": "Each diverted item is counted once. The reuse cohort is the group of listed items used to calculate the reuse rate. Net savings subtract related costs from avoided purchases. Filters select the period and departments. Other scopes show no example snapshot.",
+    "UI-13": "Each diverted item is counted once. The reuse cohort is the group of listed items used to calculate the reuse rate. Net savings subtract attributable costs from avoided purchases. Filters select the period and departments. Other scopes show no example snapshot.",
     "UI-12": "A supporting record is a permitted system record used as evidence for the answer. A proposal is a draft action that the user must check. Desirable means this feature is optional in the project scope. It follows the same access checks and approval steps as the normal forms."
   },
   "diagram_notes": {
     "figure-9-1-use-case-diagram": "The Phase 3 diagram is reproduced unchanged, with its nine staff roles and fourteen use-case IDs. A use case is a task the system helps someone complete. An actor is a staff role or outside service that takes part. An include link identifies a step used as part of another task. An extend link identifies additional behaviour under a condition. The existing links are kept. The drawing shows the main starting roles and the outside AI service. All nine staff roles may also search and use the assistant within their permissions, as described in Phase 3. Other permitted participants and approval stages remain in the Phase 3 use-case descriptions.",
-    "figure-9-2-register": "The custodian, who is responsible for the item, checks and confirms the values. Suggested values stay separate from confirmed values. Unsupported input means content the AI cannot process. Unsupported inputs, confidence below 0.60 and AI service failure preserve manual entry. A transaction saves related changes as one unit, so a failed save cannot leave half of the asset update applied. The audit record stores who acted, their role, time, reason and values before and after the change (FR-18.1). Model and version identify the AI system used, when that information is available.",
-    "figure-9-3-request-approval": "A request becomes Open only after an independent department decision: the approver cannot be its requester or creator. Notifications go only to people allowed to see the record. Material changes are changes to important fields, such as quantity, specifications or the required-by date. These return an approved request to RQ-02 for department review. A stale version is an older saved revision. it cannot be used to approve a record that has since changed. Optional assistant drafting follows the same stages.",
-    "figure-9-4-match-reserve": "The alt frame shows two alternative paths. A usable AI result follows the first. Disabled AI, service failure, timeout, unusable output, rate limiting or confidence below 0.50 selects classic keyword search and filters. A timeout means the waiting limit has been reached. Rate limiting means the AI service restricts how many requests it accepts. Fallback uses the same eligibility checks and does not need an AI reply. It warns the requester and appears within 15 seconds of the original attempt, including retries. Classic results have no invented AI score. Confidence from 0.50 to below 0.75 needs a Check carefully warning. missing confidence is labelled unavailable. The separate 5-second matching target in NFR-16 remains unchanged. Missing required data removes an item from the results. The requester selects an item, then an independent releasing-side person confirms the hold. A hold sets units aside temporarily. A locked quantity check prevents two requests from holding the same units. If stock has changed or saving fails, no extra units are held.",
-    "figure-9-5-transfer": "The opt frame contains extra steps that apply only when their condition is met. Finance and Procurement approvals are conditional. both are needed when both rules apply. An unresolved rule stays pending. Handover records the releasing custodian giving the item to the receiving side. Receipt records the receiving custodian checking and accepting it. Ownership changes only on valid receipt, once. Repeated receipt confirmation returns the saved result without changing ownership or quantity again. If a related save fails, rollback undoes the attempted changes so quantity and ownership stay consistent. Each decision records the person, role, time, saved version, reason and audit evidence. Valid receipt also restores the asset from AS-05 to In service (AS-02) or In storage (AS-03) under the receiving owner, as UC-09 requires. A discrepancy records TR-07 and notifies both department representatives without changing the owner.",
-    "figure-9-6-request-activity": "Each action names the responsible role. Connector A joins the two printed parts of this one activity. A confirmed reservation temporarily holds the item. The required department and policy approvals must finish before the transfer reaches TR-04. Exception paths handle rejection, cancellation or other problems. They release held units once and notify people allowed to see the record. A dispute is an unresolved disagreement about the handover or receipt. ownership stays unchanged until it is resolved. RQ-07 means the requester explicitly closed the request. AI cannot close it automatically. Valid receipt restores AS-02 or AS-03 under the new owner, alongside TR-06 and RQ-06.",
+    "figure-9-2-register": "The custodian who creates the record reviews the suggested values and submits it. A second eligible user, another Asset custodian or a Department representative who did not create the record, then confirms it through UC-08 (BR-02). Only that confirmation moves the asset from Draft (AS-01) to In service (AS-02) or In storage (AS-03). Suggested values stay separate from confirmed values. Unsupported input means content the AI cannot process. Unsupported inputs, confidence below 0.60 and AI service failure preserve manual entry. A suggestion without a confidence value is shown with the label \"Confidence unavailable - check carefully\" instead of being treated as low confidence (AI-05.4). A transaction saves related changes as one unit, so a failed save cannot leave half of the asset update applied. The audit record stores who acted, their role, time, reason and values before and after the change (FR-18.1). Model and version identify the AI system used, when that information is available.",
+    "figure-9-3-request-approval": "A request becomes Open only after an independent department decision: the approver cannot be its requester or creator. Notifications go only to people allowed to see the record. Material changes are changes to important fields, such as quantity, specifications or the required-by date. These return an approved request to RQ-02 for department review. A stale version is an older saved revision. It cannot be used to approve a record that has since changed. Optional assistant drafting follows the same stages.",
+    "figure-9-4-match-reserve": "The alt frame shows two alternative paths. A usable AI result follows the first. The AI provider returns only embedding vectors. The application then works out the meaning similarity, applies the fixed SRS weights, builds the explanation and saves the MatchRecommendation. Disabled AI, service failure, timeout, unusable output, rate limiting or confidence below 0.50 selects classic keyword search and filters. A timeout means the waiting limit has been reached. Rate limiting means the AI service restricts how many requests it accepts. Fallback uses the same eligibility checks and does not need an AI reply. It warns the requester and appears within 15 seconds of the original user request, including retries. Classic results have no invented AI score. Confidence from 0.50 to below 0.75 needs a Check carefully warning. Missing confidence is labelled \"Confidence unavailable - check carefully\". The separate 5-second matching target in NFR-16 remains unchanged. Missing required data removes an item from the results. The requester selects an item, then an independent releasing-side person confirms the hold. A hold sets units aside temporarily. A locked quantity check prevents two requests from holding the same units. If stock has changed or saving fails, no extra units are held.",
+    "figure-9-5-transfer": "The releasing department representative decides first. The receiving department representative decides only after release approval, when the transfer has moved from TR-01 Pending release approval to TR-02 Pending receipt approval (BR-05). The opt frame contains extra steps that apply only when their condition is met. Finance and Procurement approvals are conditional. Both are needed when both rules apply. An unresolved rule stays pending. Handover records the releasing custodian giving the item to the receiving side. Receipt records the receiving custodian checking and accepting it. Ownership changes only on valid receipt, once. Repeated receipt confirmation returns the saved result without changing ownership or quantity again. If a related save fails, rollback undoes the attempted changes so quantity and ownership stay consistent. Each decision records the person, role, time, saved version, reason and audit evidence. Valid receipt also restores the asset from AS-05 to In service (AS-02) or In storage (AS-03) under the receiving owner, as UC-09 requires. A discrepancy records TR-07 and notifies both department representatives without changing the owner.",
+    "figure-9-6-request-activity": "Actions name the responsible role where a person acts. Actions without a role are updates the system records. Connector A joins the two printed parts of this one activity. A confirmed reservation temporarily holds the item. The releasing representative approves before the receiving representative (BR-05). The required department and policy approvals must finish before the transfer reaches TR-04. Exception paths handle rejection, cancellation or other problems. They release held units once and notify people allowed to see the record. A dispute is an unresolved disagreement about the handover or receipt. Ownership stays unchanged until it is resolved. RQ-07 means the requester explicitly closed the request. AI cannot close it automatically. Valid receipt restores AS-02 or AS-03 under the new owner, alongside TR-06 and RQ-06.",
     "figure-9-7-maintenance-activity": "Maintenance means inspecting or repairing an item. Unsafe or Not working items cannot be published or reserved. The same block applies in AS-04 Under maintenance and AS-06 Retired. A higher repair cost needs new approval before completion. End-of-life review decides what happens to an item no longer suitable for its current use. Every final action needs Sustainability review and Finance write-off, which authorises removing its recorded value from the accounts. Required environmental, health and safety (EHS) checks must be complete. Where data erasure is required, evidence must show that stored data was securely removed. Recycling or disposal records why earlier reuse-first options do not work. Retain means keeping the asset. EL-06 rejects the retirement proposal, not the decision to keep the item. Record that reason and restore the previous AS-02 or AS-03 state. This uses the existing SRS rejection path because the SRS has no separate completed-retention state. EL-05 and AS-07 to AS-10 apply only after a final action is completed."
   },
   "sequences": [
@@ -594,7 +594,11 @@
       "participants": [
         [
           "u",
-          "Asset custodian"
+          "Asset custodian\n(creator)"
+        ],
+        [
+          "conf",
+          "Second custodian\nor Department\nrepresentative"
         ],
         [
           "web",
@@ -630,55 +634,55 @@
           "msg",
           "app",
           "ai",
-          "3 Send permitted asset content; start 15 s deadline"
+          "3 Send permitted asset content; 15 s from the user request"
         ],
         [
           "begin",
           "alt",
-          "[usable response; confidence >= 0.60]"
+          "[usable response; confidence >= 0.60 or unavailable]"
         ],
         [
           "msg",
           "ai",
           "app",
-          "4 Return suggested values and supported confidence",
+          "4 Return suggested values and available confidence",
           true
         ],
         [
           "msg",
           "app",
           "db",
-          "5 Record output, model/version or unavailable"
+          "5 Record output, confidence and model/version, or unavailable"
         ],
         [
           "msg",
           "app",
           "web",
-          "6 Show suggestions >= 0.60 for review",
+          "6 Fill suggestions for review; label missing confidence \"Confidence unavailable - check carefully\"",
           true
         ],
         [
           "otherwise",
-          "[response confidence < 0.60 or unavailable]"
+          "[usable response; confidence < 0.60]"
         ],
         [
           "msg",
           "ai",
           "app",
-          "4b Return low or unavailable confidence; do not fill fields",
+          "4b Return suggested values with confidence below 0.60",
           true
         ],
         [
           "msg",
           "app",
           "db",
-          "5b Record suggestion, confidence and model or unavailable"
+          "5b Record suggestion, confidence and model/version, or unavailable"
         ],
         [
           "msg",
           "app",
           "web",
-          "6b Keep entered values; show option only for manual review",
+          "6b Do not fill fields; keep entered values; list suggestions as options only",
           true
         ],
         [
@@ -699,40 +703,65 @@
           "msg",
           "u",
           "web",
-          "7 Accept, edit or reject; confirm exact values"
+          "7 Accept, edit or reject suggestions; submit the record"
         ],
         [
           "msg",
           "web",
           "app",
-          "8 Confirm asset; repeat validation and duplicate check"
+          "8 Submit; repeat validation and duplicate check"
         ],
         [
           "msg",
           "app",
           "db",
-          "9 Transaction: AS-01 to AS-02/AS-03; AI response; audit"
+          "9 Save reviewed values and AI responses; record stays AS-01"
         ],
         [
           "msg",
-          "db",
           "app",
-          "10 Commit one record and confirmation evidence",
+          "web",
+          "10 Show Draft awaiting independent confirmation",
           true
         ],
         [
           "msg",
           "app",
-          "web",
-          "11 Show state and saved verification details",
+          "conf",
+          "11 Assign confirmation to an eligible user other than the creator (BR-02)"
+        ],
+        [
+          "msg",
+          "conf",
+          "app",
+          "12 Check evidence; confirm the asset (UC-08)"
+        ],
+        [
+          "msg",
+          "app",
+          "db",
+          "13 Verify confirmer is not the creator; transaction: AS-01 to AS-02/AS-03; audit"
+        ],
+        [
+          "msg",
+          "db",
+          "app",
+          "14 Commit one record and confirmation evidence",
+          true
+        ],
+        [
+          "msg",
+          "app",
+          "conf",
+          "15 Show confirmed state and saved verification details",
           true
         ],
         [
           "note",
-          "Invalid fields retain AS-01. Duplicate warning needs confirmation. Correction/rejection needs a reason."
+          "Invalid fields retain AS-01. Duplicate warning needs confirmation. Correction/rejection needs a reason. A rejected or ineligible confirmation keeps AS-01 with the reason."
         ]
       ],
-      "refs": "UC-02; UI-03; FR-04; AI-01, AI-12, AI-13; AS-01 to AS-03"
+      "refs": "UC-02, UC-08; UI-03; FR-04; AI-01, AI-05.4, AI-12, AI-13; AS-01 to AS-03; BR-02"
     },
     {
       "name": "figure-9-3-request-approval",
@@ -817,8 +846,7 @@
           "msg",
           "app",
           "rq",
-          "9 Notify decision and next step",
-          true
+          "9 Notify decision and next step"
         ],
         [
           "otherwise",
@@ -834,8 +862,7 @@
           "msg",
           "app",
           "rq",
-          "9b Notify rejection and reason",
-          true
+          "9b Notify rejection and reason"
         ],
         [
           "otherwise",
@@ -851,8 +878,7 @@
           "msg",
           "app",
           "rq",
-          "9c Notify required edits; resubmission creates a new task",
-          true
+          "9c Notify required edits; resubmission creates a new task"
         ],
         [
           "end"
@@ -906,7 +932,7 @@
           "msg",
           "app",
           "ai",
-          "3 Rank eligible items if AI enabled; 15 s including retries"
+          "3 Request embedding vectors for eligible items; 15 s from the user request"
         ],
         [
           "begin",
@@ -917,14 +943,26 @@
           "msg",
           "ai",
           "app",
-          "4a Return similarity, reasons, confidence and model",
+          "4a Return embedding vectors",
           true
         ],
         [
           "msg",
           "app",
+          "app",
+          "5a Work out similarity; apply fixed SRS weights; build the explanation"
+        ],
+        [
+          "msg",
+          "app",
+          "db",
+          "6a Save MatchRecommendation with score, confidence and model"
+        ],
+        [
+          "msg",
+          "app",
           "rq",
-          "5a Show ranked eligible matches and confidence warning",
+          "7a Show ranked eligible matches and confidence labels",
           true
         ],
         [
@@ -949,43 +987,43 @@
         ],
         [
           "note",
-          ">= 0.75: normal. 0.50 to < 0.75: Check carefully. Unavailable confidence: label unavailable.\nFallback: withhold unusable AI recommendations; classic results have no fabricated AI score."
+          ">= 0.75: normal. 0.50 to < 0.75: Check carefully. No confidence value: \"Confidence unavailable - check carefully\".\nFallback: withhold unusable AI recommendations; classic results have no fabricated AI score."
         ],
         [
           "msg",
           "rq",
           "app",
-          "6 Choose item; override reason if another ranked result"
+          "8 Choose item; override reason if another ranked result"
         ],
         [
           "msg",
           "app",
           "db",
-          "7 Recheck RQ-03, LS-03, quantity; save RV-01 / RQ-04"
+          "9 Recheck RQ-03, LS-03, quantity; save RV-01 / RQ-04"
         ],
         [
           "msg",
           "app",
           "ac",
-          "8 Request independent hold confirmation; verify if >90 days"
+          "10 Request independent hold confirmation; verify if >90 days"
         ],
         [
           "msg",
           "ac",
           "app",
-          "9 Confirm stock, condition and proposed 5-working-day hold"
+          "11 Confirm stock, condition and proposed 5-working-day hold"
         ],
         [
           "msg",
           "app",
           "db",
-          "10 Atomic lock: recheck units; save RV-02 and audit"
+          "12 Atomic lock: recheck units; save RV-02 and audit"
         ],
         [
           "msg",
           "app",
           "rq",
-          "11 Show held units, expiry and pending transfer approval",
+          "13 Show held units, expiry and pending transfer approval",
           true
         ],
         [
@@ -997,19 +1035,31 @@
     },
     {
       "name": "figure-9-5-transfer",
-      "title": "Figure 9.5 Transfer approvals handover and receipt",
+      "title": "Figure 9.5 Transfer approvals, handover and receipt",
       "participants": [
         [
           "rq",
-          "Requester and\ncustodians"
+          "Requester"
+        ],
+        [
+          "rc",
+          "Releasing\ncustodian"
+        ],
+        [
+          "vc",
+          "Receiving\ncustodian"
         ],
         [
           "app",
-          "Transfer module"
+          "Transfer\nmodule"
         ],
         [
-          "dept",
-          "Releasing / receiving\nrepresentatives"
+          "rr",
+          "Releasing\nrepresentative"
+        ],
+        [
+          "vr",
+          "Receiving\nrepresentative"
         ],
         [
           "policy",
@@ -1036,15 +1086,32 @@
         [
           "msg",
           "app",
-          "dept",
-          "3 Release decision, then receipt decision; BR-02 checks"
+          "rr",
+          "3 Assign release decision (TR-01); BR-02 independence check"
         ],
         [
           "msg",
-          "dept",
+          "rr",
           "app",
-          "4 Approved current stages: TR-01 to TR-02",
-          true
+          "4 Approve release with reason and version"
+        ],
+        [
+          "msg",
+          "app",
+          "db",
+          "5 Save release approval; TR-01 Pending release approval becomes TR-02 Pending receipt approval"
+        ],
+        [
+          "msg",
+          "app",
+          "vr",
+          "6 Assign receipt decision (TR-02); BR-02 independence check"
+        ],
+        [
+          "msg",
+          "vr",
+          "app",
+          "7 Approve receipt with reason and version"
         ],
         [
           "begin",
@@ -1055,14 +1122,13 @@
           "msg",
           "app",
           "policy",
-          "5 Create applicable policy tasks: TR-03"
+          "8 Create applicable policy tasks: TR-03"
         ],
         [
           "msg",
           "policy",
           "app",
-          "6 Each required independent decision recorded",
-          true
+          "9 Record each required independent decision"
         ],
         [
           "end"
@@ -1071,25 +1137,25 @@
           "msg",
           "app",
           "db",
-          "7 All approvals complete -> TR-04; allocate approved quantity"
+          "10 All approvals complete: TR-04; allocate approved quantity"
         ],
         [
           "msg",
-          "rq",
+          "rc",
           "app",
-          "8 Releasing custodian confirms handover and condition"
+          "11 Confirm handover, quantity and condition"
         ],
         [
           "msg",
           "app",
           "db",
-          "9 TR-05 / AS-05; releasing department remains owner"
+          "12 TR-05 / AS-05; releasing department remains owner"
         ],
         [
           "msg",
-          "rq",
+          "vc",
           "app",
-          "10 Receiving custodian confirms quantity and condition"
+          "13 Confirm received quantity and condition"
         ],
         [
           "begin",
@@ -1100,13 +1166,13 @@
           "msg",
           "app",
           "db",
-          "11a Atomic receipt: TR-06 / RQ-06; AS-02 or AS-03; new owner, custody, location"
+          "14a Atomic receipt: TR-06 / RQ-06; AS-02 or AS-03; new owner, custody, location"
         ],
         [
           "msg",
           "app",
-          "rq",
-          "12a Confirm completed receipt and restored asset state",
+          "vc",
+          "15a Confirm completed receipt and restored asset state",
           true
         ],
         [
@@ -1117,13 +1183,19 @@
           "msg",
           "app",
           "db",
-          "11b Save TR-07 and reason; keep owner; append audit"
+          "14b Save TR-07 and reason; keep owner; append audit"
         ],
         [
           "msg",
           "app",
-          "dept",
-          "12b Notify both representatives to resolve or arrange return"
+          "rr",
+          "15b Notify releasing representative to resolve or arrange return"
+        ],
+        [
+          "msg",
+          "app",
+          "vr",
+          "16b Notify receiving representative to resolve or arrange return"
         ],
         [
           "end"
@@ -1143,16 +1215,16 @@
     "avoidedAed": 690,
     "relatedCostAed": 180,
     "netSavingsAed": 510,
-    "lowFactorKg": 128,
+    "lowFactorKg": 128.057222,
     "highFactorKg": 327,
     "transportKg": 0,
     "fanMassKg": 0.1,
     "partsFactorKgPerKg": 24.86548,
     "partsKg": 2.486548,
-    "carbonLowKg": 253.513452,
+    "carbonLowKg": 253.627896,
     "carbonHighKg": 651.513452,
-    "rangeText": "about 253.5 to 651.5 kg CO2e",
-    "reference": "Section 12 Tables 12.1 to 12.3; origin/phase45/sultan 7691fcf",
+    "rangeText": "about 253.6 to 651.5 kg CO2e",
+    "reference": "Section 12, Tables 12.1 to 12.3",
     "assumption": "Synthetic fan mass 0.10 kg. F1 IT material factor used as a parts proxy. Same-building collection uses no van trip."
   }
 }
