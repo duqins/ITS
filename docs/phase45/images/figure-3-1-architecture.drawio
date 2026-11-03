@@ -191,7 +191,7 @@
         <mxCell id="bucket" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Private file bucket&lt;/b&gt;&lt;br&gt;Photos and&lt;br&gt;documents&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
           <mxGeometry x="355" y="1310" width="285" height="125" as="geometry" />
         </mxCell>
-        <mxCell id="provider" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;AI Provider&lt;/b&gt;&lt;br&gt;gpt-4.1-mini&lt;br&gt;text-embedding-&lt;br&gt;3-small&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F4EFFA;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+        <mxCell id="provider" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;AI Provider&lt;/b&gt;&lt;br&gt;gpt-4.1-mini-&lt;br&gt;2025-04-14&lt;br&gt;text-embedding-&lt;br&gt;3-small&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F4EFFA;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
           <mxGeometry x="675" y="1265" width="290" height="170" as="geometry" />
         </mxCell>
         <mxCell id="django-title" value="Django app on Render" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Arial;fontSize=27;fontColor=#19354D;fontStyle=1;" vertex="1" parent="1">

@@ -4,6 +4,8 @@ AI can suggest, explain and prepare drafts. It cannot approve transfers, spendin
 
 **Design choice.** Classic and AI-assisted actions use the same approval workflow. A separate workflow for AI actions would duplicate the role checks, approval stages and audit rules. We use one workflow so that both routes apply the same controls. AI can reduce preparation work, but it does not remove the time needed for human review.
 
+**Why a person decides.** Each point in Tables 5.1 and 5.2 either moves ownership or money, changes who can do what, or is hard to undo, such as a transfer, a write-off or a role change. These are the decisions that BR-15 keeps with people. Figures 9.6, 9.7 and 11.3 show where they sit in the workflows.
+
 Reviewing an AI suggestion is different from approving a business action. For example, accepting a category suggestion helps complete an asset draft; the asset still needs the confirmation required by SRS Table 5.2.
 
 ## 5.1 Human Review of AI Outputs
@@ -50,7 +52,7 @@ Financial values are entered or confirmed by users who have permission to edit t
 
 An avoided purchase requires a fulfilled request and a human confirmation that a new purchase would otherwise have been needed. The system records the reviewer, quantity and replacement-cost estimate with its source (BR-18, SU-03). An AI recommendation or a completed transfer alone is not enough to count an avoided purchase.
 
-**Role to confirm.** BR-18 identifies an authorised reviewer but does not name a specific role. The team must confirm that permission before implementation. Until it is assigned, the system must not accept an avoided-purchase confirmation or count the claim.
+The receiving department's Department representative gives this confirmation after receipt (section 6.2).
 
 ## 5.4 Enforcement and Audit Records
 

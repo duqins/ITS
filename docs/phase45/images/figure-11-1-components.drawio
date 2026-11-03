@@ -118,10 +118,10 @@
         <mxCell id="reports-assistant" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=open;endFill=0;dashed=1;dashPattern=5 4;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="760" y="755" as="sourcePoint" />
-            <mxPoint x="635" y="955" as="targetPoint" />
+            <mxPoint x="635" y="943" as="targetPoint" />
             <Array as="points">
               <mxPoint x="730" y="755" />
-              <mxPoint x="730" y="955" />
+              <mxPoint x="730" y="943" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -157,10 +157,10 @@
         </mxCell>
         <mxCell id="assistant-adapter" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=open;endFill=0;dashed=1;dashPattern=5 4;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="635" y="955" as="sourcePoint" />
+            <mxPoint x="635" y="967" as="sourcePoint" />
             <mxPoint x="665" y="1100" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="675" y="955" />
+              <mxPoint x="675" y="967" />
               <mxPoint x="675" y="1100" />
             </Array>
           </mxGeometry>
@@ -189,19 +189,19 @@
         <mxCell id="notify" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«component»&lt;/b&gt;&lt;br&gt;Notifications&lt;br&gt;In-app updates&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="760" y="435" width="265" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="classification" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Classification service&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="classification" value="&lt;div style=&quot;line-height:1.18&quot;&gt;«component» &lt;b&gt;Classification service&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="115" y="690" width="520" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="matching" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Semantic matching engine&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="matching" value="&lt;div style=&quot;line-height:1.18&quot;&gt;«component» &lt;b&gt;Semantic matching engine&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="115" y="750" width="520" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="ranking" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Ranking model: fixed SRS points&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="ranking" value="&lt;div style=&quot;line-height:1.18&quot;&gt;«component» &lt;b&gt;Ranking model&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="115" y="810" width="520" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="advice" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Sustainable-action engine&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="advice" value="&lt;div style=&quot;line-height:1.18&quot;&gt;«component» &lt;b&gt;Sustainable-action engine&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="115" y="870" width="520" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="assistant" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Assistant and report drafts&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="assistant" value="&lt;div style=&quot;line-height:1.18&quot;&gt;«component» &lt;b&gt;Assistant and report drafts&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="115" y="930" width="520" height="50" as="geometry" />
         </mxCell>
         <mxCell id="reports" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«component»&lt;/b&gt;&lt;br&gt;Reporting&lt;br&gt;Fixed calculations&lt;br&gt;Reviewed summaries&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
@@ -228,8 +228,8 @@
         <mxCell id="provider-wire" value="HTTPS / JSON" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=24;fontColor=#6E4AA5;fontStyle=0;" vertex="1" parent="1">
           <mxGeometry x="270" y="1185" width="210" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="stores-wire" value="SQL / TLS&lt;br&gt;HTTPS" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=24;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
-          <mxGeometry x="785" y="1115" width="215" height="65" as="geometry" />
+        <mxCell id="stores-wire" value="SQL / TLS, HTTPS" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=24;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="775" y="1186" width="235" height="40" as="geometry" />
         </mxCell>
         <mxCell id="legend" value="Dashed arrow: uses a component or service; results return to the caller." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=23;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
           <mxGeometry x="35" y="1370" width="1030" height="32" as="geometry" />

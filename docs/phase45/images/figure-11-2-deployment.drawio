@@ -5,8 +5,8 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="render" value="" style="rounded=0;html=1;fillColor=#F7FAFC;strokeColor=#A5B4C4;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="35" y="260" width="1030" height="420" as="geometry" />
+        <mxCell id="render" value="" style="shape=cube;size=16;rounded=0;html=1;fillColor=#F7FAFC;strokeColor=#A5B4C4;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="19" y="244" width="1046" height="436" as="geometry" />
         </mxCell>
         <mxCell id="client-server" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=open;endFill=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
@@ -48,26 +48,26 @@
             <mxPoint x="550" y="1175" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="client" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«device» User computer&lt;/b&gt;&lt;br&gt;Browser&lt;br&gt;No AI key or database credentials&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F3F6F8;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=27;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="275" y="25" width="550" height="125" as="geometry" />
+        <mxCell id="client" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«device» User computer&lt;/b&gt;&lt;br&gt;Browser&lt;br&gt;No AI key or database credentials&lt;/div&gt;" style="shape=cube;size=16;rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F3F6F8;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=27;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="259" y="9" width="566" height="141" as="geometry" />
         </mxCell>
         <mxCell id="app" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«artifact» Django application&lt;/b&gt;&lt;br&gt;Pages, business rules, approvals, reports and notifications&lt;br&gt;AI modules and adapter: Pattern A (ask and wait)&lt;br&gt;Role checks and audit apply to classic and AI actions&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=27;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="85" y="350" width="930" height="170" as="geometry" />
         </mxCell>
-        <mxCell id="config" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Server environment: database, file and AI service credentials&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="config" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«artifact» Environment variables: database, file and AI keys&lt;/b&gt;&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="85" y="565" width="930" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="db" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«database» Neon&lt;/b&gt;&lt;br&gt;PostgreSQL&lt;br&gt;Business and AI records&lt;br&gt;ModelVersion / AuditLog&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F3F6F8;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="40" y="815" width="310" height="190" as="geometry" />
+        <mxCell id="db" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«database» Neon&lt;/b&gt;&lt;br&gt;PostgreSQL&lt;br&gt;Business and AI records&lt;br&gt;ModelVersion / AuditLog&lt;/div&gt;" style="shape=cube;size=16;rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F3F6F8;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="24" y="799" width="326" height="206" as="geometry" />
         </mxCell>
-        <mxCell id="files" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«storage» Files&lt;/b&gt;&lt;br&gt;Private S3-compatible&lt;br&gt;Photos and documents&lt;br&gt;Versioned uploads&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F3F6F8;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="395" y="815" width="310" height="190" as="geometry" />
+        <mxCell id="files" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«storage» Files&lt;/b&gt;&lt;br&gt;Private S3-compatible&lt;br&gt;Photos and documents&lt;br&gt;Versioned uploads&lt;/div&gt;" style="shape=cube;size=16;rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F3F6F8;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="379" y="799" width="326" height="206" as="geometry" />
         </mxCell>
-        <mxCell id="provider" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«external service» AI&lt;/b&gt;&lt;br&gt;gpt-4.1-mini-2025-04-14&lt;br&gt;text-embedding-3-small&lt;br&gt;15 s, then classic&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F4EFFA;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=23;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="750" y="815" width="310" height="190" as="geometry" />
+        <mxCell id="provider" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«external service» AI&lt;/b&gt;&lt;br&gt;gpt-4.1-mini-2025-04-14&lt;br&gt;text-embedding-3-small&lt;br&gt;15 s, then classic&lt;/div&gt;" style="shape=cube;size=16;rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F4EFFA;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=23;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="734" y="799" width="326" height="206" as="geometry" />
         </mxCell>
-        <mxCell id="backup" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«storage» Private backup bucket&lt;/b&gt;&lt;br&gt;Separate from the uploads bucket&lt;br&gt;Database: nightly at 02:00 UAE; files: weekly&lt;/div&gt;" style="rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F3F6F8;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="245" y="1175" width="610" height="125" as="geometry" />
+        <mxCell id="backup" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;«storage» Private backup bucket&lt;/b&gt;&lt;br&gt;Separate from the uploads bucket&lt;br&gt;Database: nightly at 02:00 UAE; files: weekly&lt;/div&gt;" style="shape=cube;size=16;rounded=0;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F3F6F8;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="229" y="1159" width="626" height="141" as="geometry" />
         </mxCell>
         <mxCell id="render-title" value="«executionEnvironment» Render web service" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=29;fontColor=#19354D;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="55" y="280" width="990" height="45" as="geometry" />
@@ -84,7 +84,7 @@
         <mxCell id="ai-protocol" value="HTTPS / JSON" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=26;fontColor=#6E4AA5;fontStyle=0;" vertex="1" parent="1">
           <mxGeometry x="775" y="725" width="260" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="backup-note" value="Backup copies follow section 6.5.&lt;br&gt;System administrator manages restore." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=23;fontColor=#617083;fontStyle=0;" vertex="1" parent="1">
+        <mxCell id="backup-note" value="Backup copies follow section 6.5.&lt;br&gt;System administrator manages restore." style="shape=note;size=16;html=1;strokeColor=#617083;fillColor=#FFFDF2;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=23;fontColor=#617083;fontStyle=0;" vertex="1" parent="1">
           <mxGeometry x="615" y="1065" width="440" height="78" as="geometry" />
         </mxCell>
         <mxCell id="legend" value="Solid: application connection   |   Dashed: scheduled backup copy" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=25;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
