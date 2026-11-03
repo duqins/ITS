@@ -4,26 +4,17 @@ This section shows what the system stores and how the records link to each other
 
 ## 8.1 Entity-Relationship Diagram
 
-Figure 8.1 is the core ER diagram from the lab ("ER solution: core entities"). We kept its six entities and their keys. We added the three links that the lab slide mentions but does not draw: each recommendation belongs to one request, each transfer is for one asset, and each transfer records the user who gave the final approval. We also turned modelVersion into a link to the ModelVersion table, which we added to the figure, so every recommendation points to the exact model that made it. Each line has a name, read from the first entity to the second, for example "Department owns Asset".
+Figure 8.1 is our full ER diagram. It shows all 21 entities and all 45 relationships of Table 8.1, and each entity appears once. It keeps the six core entities from the lab diagram ("ER solution: core entities") with their keys: Department, User, ResourceRequest, Asset, MatchRecommendation and Transfer. The other entities are added around them. We drew the three links that the lab slide mentions but does not draw: each recommendation belongs to one request, each transfer is for one asset, and each transfer records the user who gave the final approval. We also turned modelVersion into a link to the ModelVersion table, so every recommendation points to the exact model that made it. Each box shows the primary key, all foreign keys and a few main attributes. Table 8.2 lists every attribute. Each line has a name and a cardinality at both ends. The name is read from the first entity to the second, as in Table 8.1, for example "Department owns Asset".
 
-![Figure 8.1 Core ER diagram (from the lab)](images/erd-core.png)
+<!-- page: a3-landscape -->
+![Figure 8.1 Entity-relationship diagram](images/erd-full.png)
 
-Figures 8.2 to 8.5 show the full design with every entity, key and relationship and the main attributes. Table 8.2 lists every attribute. We split it into four parts so it is easy to read. Grey dashed boxes belong to another part and only show where a link goes.
-
-![Figure 8.2 Users, roles and access](images/erd-users.png)
-
-![Figure 8.3 Assets, requests and matching](images/erd-assets-requests.png)
-
-![Figure 8.4 Approvals, maintenance and end of life](images/erd-approvals-lifecycle.png)
-
-![Figure 8.5 AI suggestions, attachments and transfer details](images/erd-ai-attachments.png)
-
-These design choices explain the diagrams:
+These design choices explain the diagram:
 
 - **One approval belongs to one record.** An approval is for a request, a listing, a transfer, a maintenance record or an end-of-life action. Only one of these five keys is filled in each approval. Attachment works the same way with its five owner keys. We use real foreign keys here, not a record type and an ID, so the database itself checks every link. Notification and AuditLog use recordType and recordId instead, because they can point to any table and no rule depends on them. The other stages in SRS Table 5.2 are kept on their own records: a role assignment in UserRole.status, the confirmation of a new asset in its state and verifiedOn, a hold in Reservation.status, and the owners' review of an official report in AuditLog, with AI report drafts also kept in AiSuggestion.
 - **One impact comes from one action.** Each sustainability impact comes from exactly one completed transfer, repair or end-of-life action. It keeps the carbon saving as a low and a high value, because the factors we use give a range (section 12).
 - **Several roles per user.** A user can hold several roles in different departments through UserRole. This is how one person can be a requester in one department and a custodian in another (SRS section 2.3).
-- **Who did what.** Most actions are kept in AuditLog with the person who did them, so most tables do not need a "done by" key. We keep a direct key only where the SRS asks for it: the requester, the custodian, the final approver, the receiving custodian (FR-11.1) and the inspector (FR-12.1). Entries made by the system itself have no user, which is why AuditLog has 0..1 on the user side. AuditLog also keeps the role that was used (FR-18.1) and the reviewer who confirms an avoided purchase (BR-18, SU-03).
+- **Who did what.** Most actions are kept in AuditLog with the person who did them, so most tables do not need a "done by" key. We keep a direct key only where the SRS asks for it: the requester, the custodian, the approver of each stage (FR-10.6), the final approver, the receiving custodian (FR-11.1) and the inspector (FR-12.1). Entries made by the system itself have no user, which is why AuditLog has 0..1 on the user side. AuditLog also keeps the role that was used (FR-18.1) and the reviewer who confirms an avoided purchase (BR-18, SU-03).
 - **Versions.** Each request, listing, transfer, repair and end-of-life action keeps a version number. An approval stores the version it was given for and the approver's role, so a decision on an older version is refused (FR-10.6, FR-10.7).
 - **The final approver.** approverId in Transfer is the user who gave the final approval. Every stage before it is stored in Approval, following Table 5.2 of the SRS.
 - **Transfer details.** Transfer records the releasing and receiving departments, the receiving custodian, the new location, the planned date and the delivery arrangement (FR-11.1). It also keeps assetId and requestId, which its Reservation already links to. These are copies for fast lookup, and they must match the reservation. The lab diagram has them too.
@@ -67,7 +58,7 @@ Table 8.1 lists all 45 relationships. "1 to 0..*" means one record on the left c
 | 25 | Transfer | needs | 0..1 to 0..* | Approval | The release, receipt and policy approvals of a transfer (BR-05, BR-06). |
 | 26 | MaintenanceRecord | needs | 0..1 to 0..* | Approval | The cost approvals of a repair (BR-07). |
 | 27 | EndOfLifeAction | needs | 0..1 to 0..* | Approval | The sustainability and finance approvals (BR-08). |
-| 28 | Asset | checks | 1 to 0..* | Inspection | An asset can be inspected many times. |
+| 28 | Inspection | checks | 0..* to 1 | Asset | An asset can be inspected many times. |
 | 29 | Asset | has | 1 to 0..* | MaintenanceRecord | An asset can have many repairs. |
 | 30 | Inspection | leads to | 0..1 to 0..* | MaintenanceRecord | A repair can start from an inspection or be reported directly. |
 | 31 | Asset | ends with | 1 to 0..* | EndOfLifeAction | Each end-of-life action is for one asset. |
@@ -88,7 +79,7 @@ Table 8.1 lists all 45 relationships. "1 to 0..*" means one record on the left c
 
 ## 8.3 Data Dictionary
 
-Table 8.2 describes each entity. Every entity has its own ID as the primary key, and its foreign keys are shown in the ER diagrams. IDs and quantities are whole numbers, money is in AED with two decimals, and dates are stored with the time. The Source column gives the Phase 3 IDs each entity comes from.
+Table 8.2 describes each entity. Every entity has its own ID as the primary key, and its foreign keys are shown in the ER diagram (Figure 8.1). IDs and quantities are whole numbers, money is in AED with two decimals, and dates are stored with the time. The Source column gives the Phase 3 IDs each entity comes from.
 
 **Table 8.2 Data dictionary**
 
