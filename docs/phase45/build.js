@@ -43,7 +43,7 @@ function inline(text, base = {}) {
 }
 
 const HEADINGS = [HeadingLevel.HEADING_1, HeadingLevel.HEADING_2, HeadingLevel.HEADING_3, HeadingLevel.HEADING_4];
-const heading = (level, text) => new Paragraph({ heading: HEADINGS[level - 1], keepNext: true, children: [new TextRun({ text, font: FONT })] });
+const heading = (level, text, pageBreakBefore = false) => new Paragraph({ heading: HEADINGS[level - 1], keepNext: true, pageBreakBefore, children: [new TextRun({ text, font: FONT })] });
 const para = (text, extra = {}) => new Paragraph({ spacing: { after: 120, line: 276 }, children: inline(text, extra) });
 const bullet = (text) => new Paragraph({ numbering: { reference: "bullets", level: 0 }, spacing: { after: 60, line: 276 }, children: inline(text) });
 const step = (num, text) => new Paragraph({ indent: { left: 720, hanging: 432 }, spacing: { after: 60, line: 276 }, children: [new TextRun({ text: `${num}\t`, font: FONT, size: 22 }), ...inline(text)] });
@@ -82,7 +82,7 @@ function imageSize(buf, ext) {
   throw new Error("cannot read JPEG size");
 }
 
-function image(caption, rel, file) {
+function image(caption, rel, file, pageBreakBefore = false) {
   const full = path.join(ROOT, rel);
   if (!fs.existsSync(full)) {
     todos.push(`${file}: image not found: ${rel}`);
@@ -93,7 +93,7 @@ function image(caption, rel, file) {
   const { w, h } = imageSize(buf, ext);
   const scale = Math.min(1, MAX_IMG_W / w, MAX_IMG_H / h);
   return [
-    new Paragraph({ alignment: AlignmentType.CENTER, keepNext: true, children: [new ImageRun({ type: ext, data: buf, transformation: { width: Math.round(w * scale), height: Math.round(h * scale) } })] }),
+    new Paragraph({ alignment: AlignmentType.CENTER, keepNext: true, pageBreakBefore, children: [new ImageRun({ type: ext, data: buf, transformation: { width: Math.round(w * scale), height: Math.round(h * scale) } })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 200 }, children: inline(caption, { italics: true, size: 19 }) }),
   ];
 }
@@ -105,11 +105,18 @@ function parseMarkdown(md, file, { titlePage = false } = {}) {
   const out = [];
   let widths = null;
   let i = 0;
+  // a page break is attached to the next heading or figure, so it can never leave an empty page
+  let breakNext = false;
   while (i < lines.length) {
     const t = lines[i].trim();
     const wm = t.match(/^<!--\s*widths:\s*([\d,\s]+)\s*-->$/);
     if (wm) { widths = wm[1].split(",").map((n) => parseInt(n.trim(), 10)); i++; continue; }
-    if (/^<!--\s*pagebreak\s*-->$/.test(t)) { out.push(pageBreak()); i++; continue; }
+    if (/^<!--\s*pagebreak\s*-->$/.test(t)) { breakNext = true; i++; continue; }
+    if (t === "") { i++; continue; }
+    const startsFigureOrHeading = /^!\[[^\]]*\]\([^)]+\)$/.test(t) || /^#{1,4}\s/.test(t);
+    if (breakNext && !titlePage && !startsFigureOrHeading) out.push(pageBreak());
+    const pb = breakNext && !titlePage && startsFigureOrHeading;
+    breakNext = false;
     if (t.startsWith("<!--")) { while (i < lines.length && !lines[i].includes("-->")) i++; i++; continue; }
     if (t === "") { i++; continue; }
     if (/^TODO\b/.test(t)) { todos.push(`${file}: ${t.slice(0, 90)}`); i++; continue; }
@@ -125,7 +132,7 @@ function parseMarkdown(md, file, { titlePage = false } = {}) {
     }
 
     const im = t.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
-    if (im) { out.push(...image(im[1], im[2], file)); i++; continue; }
+    if (im) { out.push(...image(im[1], im[2], file, pb)); i++; continue; }
 
     const hm = t.match(/^(#{1,4})\s+(.*)$/);
     if (hm) {
@@ -133,7 +140,7 @@ function parseMarkdown(md, file, { titlePage = false } = {}) {
       if (titlePage) {
         const size = [40, 30, 26, 24][level - 1];
         out.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: level === 1 ? 1600 : 0, after: [240, 200, 600, 200][level - 1] }, children: [new TextRun({ text, font: FONT, size, bold: level !== 3, color: level <= 2 ? ACCENT : undefined })] }));
-      } else out.push(heading(level, text));
+      } else out.push(heading(level, text, pb));
       i++; continue;
     }
 
@@ -146,8 +153,10 @@ function parseMarkdown(md, file, { titlePage = false } = {}) {
     i++;
     while (i < lines.length && lines[i].trim() !== "" && !/^(#|- |>|\||<!--|!\[|TODO\b|\d+[a-z]?\.\s)/.test(lines[i].trim())) { buf.push(lines[i].trim()); i++; }
     if (titlePage) buf.forEach((l) => out.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 80 }, children: inline(l, { size: 24 }) })));
+    else if (/^\*\*Table \d/.test(buf[0])) out.push(new Paragraph({ keepNext: true, spacing: { after: 120, line: 276 }, children: inline(buf.join(" ")) })); // a table caption stays with its table
     else out.push(para(buf.join(" ")));
   }
+  if (breakNext) out.push(pageBreak());
   return out;
 }
 
