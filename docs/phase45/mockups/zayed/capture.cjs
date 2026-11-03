@@ -9,10 +9,17 @@ const screens=[['UI-03','figure-7-1-ui-03'],['UI-06','figure-7-2-ui-06'],['UI-07
  const browser=await chromium.launch({channel:'chrome',headless:true});
  const page=await browser.newPage({viewport:{width:1180,height:900},deviceScaleFactor:1.6});
  const errors=[],checks=[];page.on('pageerror',e=>errors.push(e.message));
- for(const [id,name,view] of screens){
+ const requested=process.env.DAWRA_CAPTURE_SCREENS?.split(',');
+ for(const [id,name,view] of screens.filter(([id])=>!requested||requested.includes(id))){
   const url='file:///'+path.join(__dirname,'index.html').replaceAll('\\','/')+'?screen='+id+(view?'&view='+view:'');
   await page.goto(url);await page.evaluate(()=>document.fonts.ready);
-  await page.locator('#app').screenshot({path:path.join(root,'images',name+'.png')});
+  if(qa){
+   const bounds=await page.locator('#app').boundingBox();
+   await page.setViewportSize({width:1180,height:Math.ceil(bounds.y+bounds.height+5)});
+   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+   await page.locator('#app').screenshot({path:path.join(qa,name+'-normal.png'),animations:'disabled'});
+   await page.setViewportSize({width:1180,height:900});
+  }
   const desktop=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));
   await page.selectOption('#mode','down');
   if(!await page.locator('.ai').innerText().then(t=>t.includes('unavailable')))throw Error('Missing fallback: '+id);
@@ -23,9 +30,16 @@ const screens=[['UI-03','figure-7-1-ui-03'],['UI-06','figure-7-2-ui-06'],['UI-07
   const mobile=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));
   if(view&&qa)await page.screenshot({path:path.join(qa,name+'-mobile.png'),fullPage:true});
   if(desktop.width!==desktop.scroll||mobile.width!==mobile.scroll)throw Error('Page overflow: '+id+' '+view);
-  checks.push({id,view,desktop,mobile});await page.setViewportSize({width:1180,height:900});
+  await page.setViewportSize({width:1180,height:900});await page.goto(url);await page.evaluate(()=>document.fonts.ready);
+  const print=await require('./print-capture.cjs')({page,root,name});
+  checks.push({id,view,desktop,mobile,print});await page.setViewportSize({width:1180,height:900});
  }
  await browser.close();if(errors.length)throw Error(errors.join('\n'));
- if(qa)fs.writeFileSync(path.join(qa,'browser-checks.json'),JSON.stringify({errors,checks},null,2));
- console.log('Captured nine views across the eight required mockup headings; no browser errors or page overflow.');
+ if(qa){
+  const file=path.join(qa,'browser-checks.json');
+  const previous=requested&&fs.existsSync(file)?JSON.parse(fs.readFileSync(file,'utf8')).checks:[];
+  const merged=previous.filter(old=>!checks.some(now=>now.id===old.id&&now.view===old.view)).concat(checks);
+  fs.writeFileSync(file,JSON.stringify({errors,checks:merged},null,2));
+ }
+ console.log('Captured nine views and eighteen readable print halves. No browser errors or page overflow.');
 })().catch(e=>{console.error(e);process.exit(1)});
