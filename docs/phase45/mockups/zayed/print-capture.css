@@ -1,0 +1,32 @@
+/* Narrow export layout for readable top and bottom print captures. */
+.app.print-capture{width:760px;max-width:760px;margin:0;border-radius:0;font-size:16px}
+.print-capture .sidebar,.print-capture .workspace-name{display:none}
+.print-capture .shell{display:block}
+.print-capture .top{height:82px;padding:12px 18px;gap:15px}
+.print-capture .logo{width:235px}
+.print-capture main{padding:18px}
+.print-capture .heading{gap:14px;margin-bottom:12px}
+.print-capture .heading h1{font-size:26px}
+.print-capture .status{white-space:normal;max-width:240px}
+.print-capture .lead{margin-bottom:14px}
+.print-capture .layout{grid-template-columns:minmax(0,1fr) 240px;gap:16px}
+.print-capture .fields{gap:11px 14px}
+.print-capture .group{margin-bottom:17px}
+.print-capture .group-title{margin-bottom:11px;padding-bottom:9px}
+.print-capture .field label{margin-bottom:4px}
+.print-capture .capture-value{padding:7px 9px;border:1px solid #7b94a6;border-radius:5px;min-height:38px;color:var(--navy);background:var(--paper);overflow-wrap:anywhere}
+.print-capture .readonly{padding-bottom:5px}
+.print-capture .ai{padding:13px}
+.print-capture .ai-heading{flex-wrap:wrap}
+.print-capture .small-tag{margin-left:0}
+.print-capture .ai p{line-height:1.45}
+.print-capture .data-table{line-height:1.4}
+.print-capture .data-table td,.print-capture .data-table th{padding:9px 7px}
+.print-capture .actions{gap:7px;margin-top:15px;padding-top:13px}
+.print-capture .down{margin-top:13px;padding:11px}
+.print-capture .synthetic{flex-wrap:wrap;gap:5px;margin-top:12px;padding-top:10px}
+.print-capture .report-filters{gap:10px;margin-bottom:16px;padding-bottom:12px}
+.print-capture .report-view-tabs{margin-bottom:14px}
+.print-capture .filter-buttons{max-width:240px}
+.print-capture .journey{flex-wrap:wrap;gap:9px;margin-bottom:17px}
+.print-capture .journey li{flex:1 1 40%}

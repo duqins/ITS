@@ -75,6 +75,6 @@ for number,name in [(6,'figure-9-6-request-activity'),(7,'figure-9-7-maintenance
  body=''.join(ET.tostring(child,encoding='unicode') for child in original)
  for part,(left,width) in enumerate(((0,590),(590,560)),1):
   x=(720-width)/2
-  svg=f'<svg xmlns="http://www.w3.org/2000/svg" width="560" height="747" viewBox="0 0 720 960"><rect width="720" height="960" fill="white"/><text x="360" y="26" text-anchor="middle" font-family="Arial" font-size="19" font-weight="bold">Figure 9.{number} Activity diagram ({part} of 2)</text><svg x="{x}" y="43" width="{width}" height="902" viewBox="{left} 48 {width} 902">{body}</svg></svg>'
+  svg=f'<svg xmlns="http://www.w3.org/2000/svg" width="560" height="716" viewBox="0 0 720 920"><rect width="720" height="920" fill="white"/><svg x="{x}" y="0" width="{width}" height="902" viewBox="{left} 48 {width} 902">{body}</svg></svg>'
   (ROOT/'images'/f'{name}-part-{part}.svg').write_text(svg,encoding='utf-8')
 print('Exported eight sequence parts and four activity parts; original content is preserved.')

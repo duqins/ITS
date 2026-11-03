@@ -15,3 +15,5 @@ We use the same IDs as our Phase 3 SRS: requirement IDs (FR, AI, NFR, SU and BR)
 - Dell Technologies, product carbon footprint for the Dell P2422H monitor, 2024.
 - Steelcase, Environmental Product Declaration for the Leap chair (NSF EPD11372), 5 October 2026.
 - Casala, Environmental Product Declaration for Onyx IV 3530/10, 11 December 2025.
+- IBM, Carbon Design System, Forms pattern, https://www.carbondesignsystem.com/building-blocks/core/patterns/forms.
+- Mikhail Sharanda, Manrope typeface, SIL Open Font License.
