@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="app.diagrams.net" type="device">
   <diagram id="figure-11-3-ai-workflow" name="Figure 11.3 AI recommendation workflow">
-    <mxGraphModel dx="1100" dy="1480" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1100" pageHeight="1480">
+    <mxGraphModel dx="1100" dy="1540" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1100" pageHeight="1540">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -72,53 +72,43 @@
         <mxCell id="score-show" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=open;endFill=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="365" y="1065" as="sourcePoint" />
-            <mxPoint x="365" y="1110" as="targetPoint" />
+            <mxPoint x="365" y="1095" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="classic-show" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=open;endFill=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="930" y="985" as="sourcePoint" />
-            <mxPoint x="665" y="1152" as="targetPoint" />
+            <mxPoint x="380" y="1110" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="930" y="1152" />
+              <mxPoint x="930" y="1110" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="show-choice" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=open;endFill=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="365" y="1195" as="sourcePoint" />
-            <mxPoint x="365" y="1240" as="targetPoint" />
+            <mxPoint x="365" y="1255" as="sourcePoint" />
+            <mxPoint x="365" y="1300" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="choice-finish" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=open;endFill=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="365" y="1350" as="sourcePoint" />
-            <mxPoint x="365" y="1400" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="ai-failure" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=open;endFill=0;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="665" y="550" as="sourcePoint" />
-            <mxPoint x="790" y="880" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="750" y="550" />
-              <mxPoint x="750" y="880" />
-            </Array>
+            <mxPoint x="365" y="1410" as="sourcePoint" />
+            <mxPoint x="365" y="1460" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="start" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#19354D;strokeColor=#19354D;strokeWidth=2;fontFamily=Arial;fontSize=27;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="350" y="10" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="request" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Requester asks for matches&lt;/b&gt;&lt;br&gt;Check access and approved ResourceRequest&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="request" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Requester asks for matches&lt;/b&gt;&lt;br&gt;Check access and request approval&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="65" y="75" width="600" height="85" as="geometry" />
         </mxCell>
-        <mxCell id="eligibility" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Apply classic eligibility checks&lt;/b&gt;&lt;br&gt;Published, permitted, available, enough quantity,&lt;br&gt;condition, technical compatibility and required date&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="eligibility" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Apply classic eligibility checks&lt;/b&gt;&lt;br&gt;Published, available, quantity,&lt;br&gt;condition, specifications and date&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="65" y="205" width="600" height="100" as="geometry" />
         </mxCell>
         <mxCell id="any-eligible" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Eligible&lt;/b&gt;&lt;br&gt;items?&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="165" y="350" width="400" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="none" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Show no match&lt;/b&gt;&lt;br&gt;Explain missing checks.&lt;br&gt;User decides next step.&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F3F6F8;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=24;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="none" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Show no match&lt;/b&gt;&lt;br&gt;Explain why&lt;br&gt;User decides next step&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F3F6F8;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=24;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="790" y="345" width="280" height="115" as="geometry" />
         </mxCell>
         <mxCell id="none-end" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#19354D;strokeColor=#19354D;strokeWidth=2;fontFamily=Arial;fontSize=27;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;fillColor=#FFFFFF;" vertex="1" parent="1">
@@ -127,53 +117,57 @@
         <mxCell id="none-end-dot" value="" style="ellipse;html=1;fillColor=#19354D;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="921" y="511" width="18" height="18" as="geometry" />
         </mxCell>
-        <mxCell id="ai" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Ask AI for meaning similarity&lt;/b&gt;&lt;br&gt;One 15-second budget for the whole request.&lt;br&gt;Retain the eligible classic results.&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F4EFFA;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="ai" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Ask AI for embedding vectors&lt;/b&gt;&lt;br&gt;Then work out meaning similarity&lt;br&gt;One 15-second limit for the request&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F4EFFA;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="65" y="495" width="600" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="validate" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Check output and confidence&lt;/b&gt;&lt;br&gt;Remove invalid and below-0.50 AI suggestions.&lt;br&gt;Label 0.50 ≤ c &amp;lt; 0.75 or unavailable confidence.&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F4EFFA;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="validate" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Check output and confidence&lt;/b&gt;&lt;br&gt;Withhold below 0.50&lt;br&gt;Label below 0.75 or unavailable&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#F4EFFA;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="65" y="650" width="600" height="105" as="geometry" />
         </mxCell>
         <mxCell id="usable" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Usable AI&lt;/b&gt;&lt;br&gt;matches?&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="165" y="800" width="400" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="classic" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Classic fallback&lt;/b&gt;&lt;br&gt;Keep entered data.&lt;br&gt;Use search and filters.&lt;br&gt;No invented AI scores.&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=24;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="classic" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Classic fallback&lt;/b&gt;&lt;br&gt;Keep entered data&lt;br&gt;Search and filters&lt;br&gt;No AI scores&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=24;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="790" y="845" width="280" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="score" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Apply fixed SRS weights&lt;/b&gt;&lt;br&gt;Build score and factor explanation.&lt;br&gt;Save MatchRecommendation linked to ModelVersion.&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=24;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+        <mxCell id="score" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Apply fixed SRS weights&lt;/b&gt;&lt;br&gt;Save score, explanation and model version&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=24;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="65" y="945" width="600" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="show" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Show results and limitations&lt;/b&gt;&lt;br&gt;Score and confidence are separate.&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="65" y="1110" width="600" height="85" as="geometry" />
+        <mxCell id="show" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Show results&lt;/b&gt;&lt;br&gt;Separate score and confidence if AI used&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="65" y="1170" width="600" height="85" as="geometry" />
         </mxCell>
-        <mxCell id="choice" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Requester chooses an eligible item&lt;/b&gt;&lt;br&gt;Record choice and any AI override reason.&lt;br&gt;A choice is not a hold or transfer approval.&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="65" y="1240" width="600" height="110" as="geometry" />
+        <mxCell id="choice" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Requester chooses an item&lt;/b&gt;&lt;br&gt;Override reason if not the top item&lt;br&gt;No hold or approval yet&lt;/div&gt;" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="65" y="1300" width="600" height="110" as="geometry" />
         </mxCell>
         <mxCell id="end" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#19354D;strokeColor=#19354D;strokeWidth=2;fontFamily=Arial;fontSize=27;fontColor=#19354D;align=center;verticalAlign=middle;spacing=8;fillColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="350" y="1400" width="30" height="30" as="geometry" />
+          <mxGeometry x="350" y="1460" width="30" height="30" as="geometry" />
         </mxCell>
         <mxCell id="end-dot" value="" style="ellipse;html=1;fillColor=#19354D;strokeColor=none;" vertex="1" parent="1">
-          <mxGeometry x="356" y="1406" width="18" height="18" as="geometry" />
+          <mxGeometry x="356" y="1466" width="18" height="18" as="geometry" />
         </mxCell>
-        <mxCell id="no-eligible" value="No" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=25;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
+        <mxCell id="no-eligible" value="[no]" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=25;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
           <mxGeometry x="610" y="360" width="100" height="33" as="geometry" />
         </mxCell>
-        <mxCell id="yes-eligible" value="Yes" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=25;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
+        <mxCell id="yes-eligible" value="[yes]" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=25;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
           <mxGeometry x="390" y="458" width="100" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="yes-usable" value="Yes" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=25;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
+        <mxCell id="yes-usable" value="[yes]" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=25;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
           <mxGeometry x="390" y="906" width="100" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="no-usable" value="No" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=25;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
-          <mxGeometry x="595" y="811" width="100" height="32" as="geometry" />
+        <mxCell id="no-usable" value="[no, or AI failed]" style="text;html=1;strokeColor=none;fillColor=white;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=25;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="545" y="806" width="240" height="34" as="geometry" />
         </mxCell>
-        <mxCell id="failure-note" value="AI off, timeout,&lt;br&gt;rate limit, malformed&lt;br&gt;response or deadline&lt;br&gt;reached at any AI step" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=24;fontColor=#6E4AA5;fontStyle=0;" vertex="1" parent="1">
-          <mxGeometry x="780" y="585" width="310" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="confidence-note" value="Normal display: confidence ≥ 0.75.&lt;br&gt;Unavailable: check carefully.&lt;br&gt;Rules use full precision&lt;br&gt;before display rounding." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=23;fontColor=#6E4AA5;fontStyle=0;" vertex="1" parent="1">
-          <mxGeometry x="700" y="1215" width="380" height="130" as="geometry" />
+        <mxCell id="end-note" value="A separate hold request starts the approval workflow." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=24;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="65" y="1500" width="1000" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="end-note" value="A separate hold request rechecks eligibility and starts the human approval workflow." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=24;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
-          <mxGeometry x="65" y="1440" width="1000" height="32" as="geometry" />
+              <mxCell id="merge" value="" style="rhombus;whiteSpace=wrap;html=1;fillColor=white;strokeColor=#19354D;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="350" y="1095" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="merge-show" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=open;endFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="365" y="1125" as="sourcePoint" />
+            <mxPoint x="365" y="1170" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
