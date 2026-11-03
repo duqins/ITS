@@ -30,7 +30,8 @@ The section numbers 1 to 7 come from the Phase 4 lab slides (slide 23), so the g
 
 - Put images in `images/` as PNG and add them with `![Figure 3.1 Caption](images/file.png)`. Number figures by section (Figure 3.1, 3.2, and so on).
 - Use the entity names from the ER diagram in section 8 (for example ResourceRequest, MatchRecommendation).
-- The diagrams in sections 1, 2, 8 and 10 are SVG files in `images/`. They are drawn by the scripts in `diagrams/` (for example `er-diagrams.js`) and turned into PNG by `diagrams/render-svg.ps1`.
+- The diagrams in sections 1, 2, 3, 8, 10 and 11 are draw.io files in `images/` (for example `erd-full.drawio`). Open one in draw.io to change it, then run `node docs/phase45/diagrams/drawio-svg.js docs/phase45/images/erd-full.drawio` to write the SVG and `powershell -File docs/phase45/diagrams/render-svg.ps1 -Dir docs/phase45/images -Only erd-full` to turn it into the PNG.
+- The diagrams in sections 1, 2, 8 and 10 were first drawn as SVG files. `diagrams/svg2drawio.js` turned them into these draw.io files.
 
 ## Build the Word file
 

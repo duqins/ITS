@@ -1,5 +1,6 @@
-// Turns the hand-written draw.io files in docs/phase45/images into SVG files that render-svg.ps1 can render.
-// It covers the parts those files use: rectangles, cubes, ellipses, diamonds, text and straight-line edges.
+// Turns the draw.io files in docs/phase45/images into SVG files that render-svg.ps1 can render.
+// It covers the parts those files use: rectangles, cubes, notes, ellipses, diamonds, triangles, DFD process boxes
+// (swimlanes), text, one-line labels and straight-line edges, with dashes, opacity and rotation.
 // Usage from the repository root: node docs/phase45/diagrams/drawio-svg.js docs/phase45/images/figure-11-3-ai-workflow.drawio
 const fs = require("fs");
 
@@ -68,22 +69,52 @@ function cubeDepthSvg(c) {
   return [top, left].map((p, i) => `<polygon points="${p}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round"/><polygon points="${p}" fill="#000" fill-opacity="${i ? 0.1 : 0.05}" stroke="none"/>`).join("");
 }
 
+// A one-line label (a text shape without whiteSpace=wrap) is drawn as SVG text on its baseline,
+// which sits 0.95 font sizes below the top of its box; bold parts of the label are <b> tags.
+function lineTextSvg(c) {
+  const st = c.style, { x, y, w } = c.geo, size = Number(st.fontSize || 11), fstyle = Number(st.fontStyle || 0);
+  const anchor = { center: "middle", right: "end" }[st.align] || "start";
+  const tx = anchor === "middle" ? x + w / 2 : anchor === "end" ? x + w : x;
+  const body = c.value.replace(/<b>/g, '<tspan font-weight="700">').replace(/<\/b>/g, "</tspan>");
+  return `<text x="${tx}" y="${y + 0.95 * size}"${anchor === "start" ? "" : ` text-anchor="${anchor}"`} font-family="${st.fontFamily || "Arial"}, Arial, sans-serif" font-size="${size}"` +
+    `${fstyle & 1 ? ' font-weight="700"' : ""}${fstyle & 2 ? ' font-style="italic"' : ""} fill="${st.fontColor || "#000"}">${body}</text>`;
+}
+
 function vertexSvg(c) {
+  const s = vertexShapeSvg(c), st = c.style, g = c.geo;
+  return st.rotation ? `<g transform="rotate(${st.rotation} ${g.x + g.w / 2} ${g.y + g.h / 2})">${s}</g>` : s;
+}
+
+function vertexShapeSvg(c) {
   const st = c.style, box = st.shape === "cube" ? cubeFront(c) : c.geo;
+  if (st.text && st.whiteSpace !== "wrap") return lineTextSvg(c);
   const { x, y, w, h } = box;
   const sw = Number(st.strokeWidth || 1);
   const fill = color(st.fillColor, st.text ? "none" : "#fff"), stroke = color(st.strokeColor, st.text ? "none" : "#000");
+  // draw.io measures dashes in stroke widths; opacity is a percentage
+  const extra = (st.dashed === "1" ? ` stroke-dasharray="${(st.dashPattern || "3 3").split(" ").map((d) => d * sw).join(" ")}"` : "") + (st.opacity ? ` opacity="${st.opacity / 100}"` : "");
+  const radius = () => (st.rounded !== "1" ? 0 : st.absoluteArcSize === "1" ? Math.min(w / 2, h / 2, Number(st.arcSize || 10) / 2) : Math.min(w, h) * Number(st.arcSize || 10) / 100);
   let s = "";
   if (st.ellipse) s += `<ellipse cx="${x + w / 2}" cy="${y + h / 2}" rx="${w / 2}" ry="${h / 2}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
   else if (st.rhombus) s += `<polygon points="${x + w / 2},${y} ${x + w},${y + h / 2} ${x + w / 2},${y + h} ${x},${y + h / 2}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+  else if (st.triangle) {
+    // draw.io's triangle points east unless direction says otherwise
+    const p = { north: [[x + w / 2, y], [x + w, y + h], [x, y + h]], south: [[x + w / 2, y + h], [x, y], [x + w, y]], west: [[x, y + h / 2], [x + w, y + h], [x + w, y]] }[st.direction] || [[x + w, y + h / 2], [x, y], [x, y + h]];
+    s += `<polygon points="${p.map((q) => q.join(",")).join(" ")}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+  }
+  else if (st.swimlane) {
+    // a DFD process: the body, then the header band of startSize with the top corners rounded
+    const r = radius(), k = Number(st.startSize || 23);
+    s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${color(st.swimlaneFillColor, "#fff")}" stroke="${stroke}" stroke-width="${sw}"/>`;
+    s += `<path d="M${x} ${y + k} V${y + r} Q${x} ${y} ${x + r} ${y} H${x + w - r} Q${x + w} ${y} ${x + w} ${y + r} V${y + k} Z" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+  }
   else if (st.shape === "note") {
     // UML note: a rectangle with a folded top-right corner
     const k = Number(st.size || 14);
     s += `<path d="M${x} ${y} H${x + w - k} L${x + w} ${y + k} V${y + h} H${x} Z" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><path d="M${x + w - k} ${y} V${y + k} H${x + w}" fill="none" stroke="${stroke}" stroke-width="${sw}"/>`;
   }
   else if (fill !== "none" || stroke !== "none") {
-    const r = st.rounded === "1" ? Math.min(w, h) * Number(st.arcSize || 10) / 100 : 0;
-    s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+    s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${radius()}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"${extra}/>`;
   }
   if (c.value.replace(/<[^>]+>/g, "").trim()) {
     const pad = Number(st.spacing || 2);

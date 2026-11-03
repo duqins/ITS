@@ -1,4 +1,54 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="945" height="420" viewBox="0 0 945 420">
 <rect width="100%" height="100%" fill="#fff"/>
-<polyline points="465,30 465,60" fill="none" stroke="#333" stroke-width="1.6"/><path d="M465 60 L470.5 49 L459.5 49 Z" fill="#333"/><polyline points="405,122 405,180 120,180 120,300" fill="none" stroke="#333" stroke-width="1.6"/><path d="M120 300 L125.5 289 L114.5 289 Z" fill="#333"/><polyline points="120,362 120,384" fill="none" stroke="#333" stroke-width="1.6"/><path d="M120 384 L125.5 373 L114.5 373 Z" fill="#333"/><polyline points="435,122 435,230 355,230 355,300" fill="none" stroke="#333" stroke-width="1.6"/><path d="M355 300 L360.5 289 L349.5 289 Z" fill="#333"/><polyline points="355,362 355,384" fill="none" stroke="#333" stroke-width="1.6"/><path d="M355 384 L360.5 373 L349.5 373 Z" fill="#333"/><polyline points="465,122 465,230 590,230 590,300" fill="none" stroke="#333" stroke-width="1.6"/><path d="M590 300 L595.5 289 L584.5 289 Z" fill="#333"/><polyline points="590,362 590,384" fill="none" stroke="#333" stroke-width="1.6"/><path d="M590 384 L595.5 373 L584.5 373 Z" fill="#333"/><polyline points="495,122 495,180 825,180 825,300" fill="none" stroke="#333" stroke-width="1.6"/><path d="M825 300 L830.5 289 L819.5 289 Z" fill="#333"/><polyline points="825,362 825,384" fill="none" stroke="#333" stroke-width="1.6"/><path d="M825 384 L830.5 373 L819.5 373 Z" fill="#333"/><circle cx="465" cy="20" r="10" fill="#111"/><circle cx="120" cy="396" r="12" fill="#fff" stroke="#111" stroke-width="2"/><circle cx="120" cy="396" r="7" fill="#111"/><circle cx="355" cy="396" r="12" fill="#fff" stroke="#111" stroke-width="2"/><circle cx="355" cy="396" r="7" fill="#111"/><circle cx="590" cy="396" r="12" fill="#fff" stroke="#111" stroke-width="2"/><circle cx="590" cy="396" r="7" fill="#111"/><circle cx="825" cy="396" r="12" fill="#fff" stroke="#111" stroke-width="2"/><circle cx="825" cy="396" r="7" fill="#111"/><rect x="360" y="60" width="210" height="62" rx="16" fill="#fff7e6" stroke="#7a5200" stroke-width="1.8"/><text x="465" y="84" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#5a3c00">AT-01</text><text x="465" y="104" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#111">Pending</text><rect x="20" y="300" width="200" height="62" rx="16" fill="#f3f3f3" stroke="#7a5200" stroke-width="2.6"/><text x="120" y="324" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#5a3c00">AT-02</text><text x="120" y="344" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#111">Approved</text><rect x="255" y="300" width="200" height="62" rx="16" fill="#f3f3f3" stroke="#7a5200" stroke-width="2.6"/><text x="355" y="324" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#5a3c00">AT-03</text><text x="355" y="344" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#111">Rejected</text><rect x="490" y="300" width="200" height="62" rx="16" fill="#f3f3f3" stroke="#7a5200" stroke-width="2.6"/><text x="590" y="324" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#5a3c00">AT-04</text><text x="590" y="344" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#111">Changes requested</text><rect x="725" y="300" width="200" height="62" rx="16" fill="#f3f3f3" stroke="#7a5200" stroke-width="2.6"/><text x="825" y="324" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#5a3c00">AT-05</text><text x="825" y="344" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#111">Withdrawn</text><rect x="89.45" y="260" width="61.1" height="20" rx="4" fill="#fff" opacity="0.92"/><text x="120" y="274" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-style="italic" fill="#333">approve</text><rect x="277" y="260" width="156" height="20" rx="4" fill="#fff" opacity="0.92"/><text x="355" y="274" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-style="italic" fill="#333">reject with a reason</text><rect x="479.15" y="260" width="221.7" height="20" rx="4" fill="#fff" opacity="0.92"/><text x="590" y="274" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-style="italic" fill="#333">request changes with a reason</text><rect x="736.05" y="260" width="177.9" height="20" rx="4" fill="#fff" opacity="0.92"/><text x="825" y="274" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-style="italic" fill="#333">parent record cancelled</text>
+
+<polyline points="465,30 465,60" fill="none" stroke="#333" stroke-width="1.6"/>
+<polygon points="465,60 459.5,49 470.5,49" fill="#333" stroke="none" stroke-width="1"/>
+<polyline points="405,122 405,180 120,180 120,300" fill="none" stroke="#333" stroke-width="1.6"/>
+<polygon points="120,300 114.5,289 125.5,289" fill="#333" stroke="none" stroke-width="1"/>
+<polyline points="120,362 120,384" fill="none" stroke="#333" stroke-width="1.6"/>
+<polygon points="120,384 114.5,373 125.5,373" fill="#333" stroke="none" stroke-width="1"/>
+<polyline points="435,122 435,230 355,230 355,300" fill="none" stroke="#333" stroke-width="1.6"/>
+<polygon points="355,300 349.5,289 360.5,289" fill="#333" stroke="none" stroke-width="1"/>
+<polyline points="355,362 355,384" fill="none" stroke="#333" stroke-width="1.6"/>
+<polygon points="355,384 349.5,373 360.5,373" fill="#333" stroke="none" stroke-width="1"/>
+<polyline points="465,122 465,230 590,230 590,300" fill="none" stroke="#333" stroke-width="1.6"/>
+<polygon points="590,300 584.5,289 595.5,289" fill="#333" stroke="none" stroke-width="1"/>
+<polyline points="590,362 590,384" fill="none" stroke="#333" stroke-width="1.6"/>
+<polygon points="590,384 584.5,373 595.5,373" fill="#333" stroke="none" stroke-width="1"/>
+<polyline points="495,122 495,180 825,180 825,300" fill="none" stroke="#333" stroke-width="1.6"/>
+<polygon points="825,300 819.5,289 830.5,289" fill="#333" stroke="none" stroke-width="1"/>
+<polyline points="825,362 825,384" fill="none" stroke="#333" stroke-width="1.6"/>
+<polygon points="825,384 819.5,373 830.5,373" fill="#333" stroke="none" stroke-width="1"/>
+<ellipse cx="465" cy="20" rx="10" ry="10" fill="#111" stroke="none" stroke-width="1"/>
+<ellipse cx="120" cy="396" rx="12" ry="12" fill="#fff" stroke="#111" stroke-width="2"/>
+<ellipse cx="120" cy="396" rx="7" ry="7" fill="#111" stroke="none" stroke-width="1"/>
+<ellipse cx="355" cy="396" rx="12" ry="12" fill="#fff" stroke="#111" stroke-width="2"/>
+<ellipse cx="355" cy="396" rx="7" ry="7" fill="#111" stroke="none" stroke-width="1"/>
+<ellipse cx="590" cy="396" rx="12" ry="12" fill="#fff" stroke="#111" stroke-width="2"/>
+<ellipse cx="590" cy="396" rx="7" ry="7" fill="#111" stroke="none" stroke-width="1"/>
+<ellipse cx="825" cy="396" rx="12" ry="12" fill="#fff" stroke="#111" stroke-width="2"/>
+<ellipse cx="825" cy="396" rx="7" ry="7" fill="#111" stroke="none" stroke-width="1"/>
+<rect x="360" y="60" width="210" height="62" rx="16" fill="#fff7e6" stroke="#7a5200" stroke-width="1.8"/>
+<text x="465" y="84" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#5a3c00">AT-01</text>
+<text x="465" y="104" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#111">Pending</text>
+<rect x="20" y="300" width="200" height="62" rx="16" fill="#f3f3f3" stroke="#7a5200" stroke-width="2.6"/>
+<text x="120" y="324" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#5a3c00">AT-02</text>
+<text x="120" y="344" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#111">Approved</text>
+<rect x="255" y="300" width="200" height="62" rx="16" fill="#f3f3f3" stroke="#7a5200" stroke-width="2.6"/>
+<text x="355" y="324" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#5a3c00">AT-03</text>
+<text x="355" y="344" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#111">Rejected</text>
+<rect x="490" y="300" width="200" height="62" rx="16" fill="#f3f3f3" stroke="#7a5200" stroke-width="2.6"/>
+<text x="590" y="324" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#5a3c00">AT-04</text>
+<text x="590" y="344" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#111">Changes requested</text>
+<rect x="725" y="300" width="200" height="62" rx="16" fill="#f3f3f3" stroke="#7a5200" stroke-width="2.6"/>
+<text x="825" y="324" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#5a3c00">AT-05</text>
+<text x="825" y="344" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#111">Withdrawn</text>
+<rect x="89.45" y="260" width="61.1" height="20" rx="4" fill="#fff" stroke="none" stroke-width="1" opacity="0.92"/>
+<text x="120" y="274" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-style="italic" fill="#333">approve</text>
+<rect x="277" y="260" width="156" height="20" rx="4" fill="#fff" stroke="none" stroke-width="1" opacity="0.92"/>
+<text x="355" y="274" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-style="italic" fill="#333">reject with a reason</text>
+<rect x="479.15" y="260" width="221.7" height="20" rx="4" fill="#fff" stroke="none" stroke-width="1" opacity="0.92"/>
+<text x="590" y="274" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-style="italic" fill="#333">request changes with a reason</text>
+<rect x="736.05" y="260" width="177.9" height="20" rx="4" fill="#fff" stroke="none" stroke-width="1" opacity="0.92"/>
+<text x="825" y="274" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-style="italic" fill="#333">parent record cancelled</text>
 </svg>
