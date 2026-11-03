@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device" version="24.7.17">
+  <diagram id="ghaith-architecture-3-1" name="Figure 3.1 Architecture">
+    <mxGraphModel dx="1000" dy="1510" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="1510" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="django" value="" style="rounded=1;arcSize=6;html=1;fillColor=#F7FAFC;strokeColor=#A5B4C4;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="115" width="960" height="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="ai" value="" style="rounded=1;arcSize=6;html=1;fillColor=#F4EFFA;strokeColor=#B09ACA;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="600" width="580" height="435" as="geometry" />
+        </mxCell>
+        <mxCell id="data" value="" style="rounded=1;arcSize=6;html=1;fillColor=#F3F6F8;strokeColor=#A5B4C4;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1255" width="630" height="195" as="geometry" />
+        </mxCell>
+        <mxCell id="app-classification" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="530" as="sourcePoint" />
+            <mxPoint x="100" y="687.5" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="330" y="570" />
+              <mxPoint x="80" y="570" />
+              <mxPoint x="80" y="687.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="app-matching" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="530" as="sourcePoint" />
+            <mxPoint x="100" y="757.5" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="330" y="570" />
+              <mxPoint x="80" y="570" />
+              <mxPoint x="80" y="757.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="app-ranking" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="530" as="sourcePoint" />
+            <mxPoint x="100" y="827.5" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="330" y="570" />
+              <mxPoint x="80" y="570" />
+              <mxPoint x="80" y="827.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="app-recommendation" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="530" as="sourcePoint" />
+            <mxPoint x="100" y="897.5" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="330" y="570" />
+              <mxPoint x="80" y="570" />
+              <mxPoint x="80" y="897.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="app-assistant" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="530" as="sourcePoint" />
+            <mxPoint x="100" y="967.5" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="330" y="570" />
+              <mxPoint x="80" y="570" />
+              <mxPoint x="80" y="967.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="browser-pres" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="85" as="sourcePoint" />
+            <mxPoint x="500" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pres-security" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="245" as="sourcePoint" />
+            <mxPoint x="500" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="security-app" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="350" as="sourcePoint" />
+            <mxPoint x="500" y="395" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="app-notifications" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="815" y="530" as="sourcePoint" />
+            <mxPoint x="815" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="app-reporting" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="950" y="475" as="sourcePoint" />
+            <mxPoint x="950" y="900" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="965" y="475" />
+              <mxPoint x="965" y="900" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="app-records" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="462" as="sourcePoint" />
+            <mxPoint x="60" y="1132" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="40" y="462" />
+              <mxPoint x="40" y="1132" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ai-integration" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="1035" as="sourcePoint" />
+            <mxPoint x="350" y="1085" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="reporting-integration" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="815" y="1010" as="sourcePoint" />
+            <mxPoint x="815" y="1085" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="report-ai-draft" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;dashed=1;dashPattern=5 4;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="967.5" as="sourcePoint" />
+            <mxPoint x="610" y="967.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="integration-db" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="195" y="1180" as="sourcePoint" />
+            <mxPoint x="195" y="1310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="integration-files" style="edgeStyle=none;rounded=0;html=1;strokeColor=#19354D;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="497" y="1180" as="sourcePoint" />
+            <mxPoint x="497" y="1310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="integration-ai" style="edgeStyle=none;rounded=0;html=1;strokeColor=#6E4AA5;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="1180" as="sourcePoint" />
+            <mxPoint x="820" y="1265" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="browser" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Browser - all nine roles&lt;/b&gt;&lt;br&gt;UI-01 to UI-14&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EDF2F7;strokeColor=#19354D;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="250" y="15" width="500" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="presentation" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Presentation&lt;/b&gt;&lt;br&gt;Django pages and forms&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="60" y="175" width="890" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="security" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Security&lt;/b&gt;&lt;br&gt;Sign-in, role and department checks, audit&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="60" y="280" width="890" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="application" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Application&lt;/b&gt;&lt;br&gt;Assets, requests, reservations, approvals and transfers&lt;br&gt;Maintenance, end-of-life and classic eligibility&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="60" y="395" width="890" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="classification" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Classification service&lt;/b&gt;&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="100" y="655" width="510" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="matching" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Semantic matching engine&lt;/b&gt;&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="100" y="725" width="510" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="ranking" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Ranking model and explanations&lt;/b&gt;&lt;br&gt;Fixed SRS scoring rules&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="100" y="795" width="510" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="recommendation" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Sustainable-action engine&lt;/b&gt;&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="100" y="865" width="510" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="assistant" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Assistant and report drafts&lt;/b&gt;&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="100" y="935" width="510" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Notifications&lt;/b&gt;&lt;br&gt;In-app tasks&lt;br&gt;and updates&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="680" y="600" width="270" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="reporting" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Reporting&lt;/b&gt;&lt;br&gt;Conventional totals&lt;br&gt;Sustainability&lt;br&gt;calculations&lt;br&gt;AI draft review&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="680" y="790" width="270" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="integration" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Integration&lt;/b&gt;&lt;br&gt;AI adapter, database access, files and exports&lt;br&gt;AI deadline: 15 s; responses checked&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#E8F5F4;strokeColor=#087F8C;strokeWidth=2;fontFamily=Arial;fontSize=26;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1085" width="890" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="database" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;PostgreSQL&lt;/b&gt;&lt;br&gt;on Neon&lt;br&gt;Business + AI records&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="50" y="1310" width="285" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="bucket" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;Private file bucket&lt;/b&gt;&lt;br&gt;Photos and&lt;br&gt;documents&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#617083;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="355" y="1310" width="285" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="provider" value="&lt;div style=&quot;line-height:1.18&quot;&gt;&lt;b&gt;AI Provider&lt;/b&gt;&lt;br&gt;gpt-4.1-mini&lt;br&gt;text-embedding-&lt;br&gt;3-small&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F4EFFA;strokeColor=#6E4AA5;strokeWidth=2;fontFamily=Arial;fontSize=25;fontColor=#19354D;spacing=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="675" y="1265" width="290" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="django-title" value="Django app on Render" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Arial;fontSize=27;fontColor=#19354D;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="45" y="128" width="430" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="ai-title" value="AI and analytics" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Arial;fontSize=27;fontColor=#6E4AA5;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="105" y="611" width="510" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="data-title" value="Data" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Arial;fontSize=27;fontColor=#19354D;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="1266" width="140" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="ai-call-label" value="AI requests and results" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Arial;fontSize=24;fontColor=#6E4AA5;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="345" y="551" width="300" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="totals-label" value="drafts" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Arial;fontSize=22;fontColor=#6E4AA5;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="612" y="937" width="66" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="database-protocol" value="SQL / TLS" style="text;html=1;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Arial;fontSize=24;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="1220" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="files-protocol" value="HTTPS" style="text;html=1;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Arial;fontSize=24;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="430" y="1220" width="134" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ai-protocol" value="HTTPS / JSON" style="text;html=1;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Arial;fontSize=24;fontColor=#6E4AA5;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="698" y="1220" width="245" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="Teal: works without AI  |  Purple: AI-assisted functions" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Arial;fontSize=24;fontColor=#19354D;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="50" y="1469" width="920" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
