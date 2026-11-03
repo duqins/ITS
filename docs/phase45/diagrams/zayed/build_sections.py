@@ -16,7 +16,7 @@ intro='''<!-- pagebreak -->
 
 These mockups cover the eight screen areas in the project brief. Transfer approval includes the approval view (UI-08) and the handover and receipt view (UI-09). Sustainability Dashboard and Reports are two views of UI-13. Their Phase 3 IDs stay the same.
 
-We use the supplied Dawra Campus logo, navy for main actions and teal for AI advice. Labelled forms keep entered details separate from AI suggestions. Each screen shows the active role, department, record state and the person's next decision. A state is the current step, such as Draft or Open. A version identifies the saved revision being reviewed.
+We use the supplied Dawra Campus logo, navy for main actions and teal for AI advice. We compared one shared layout for all roles with a separate layout for each role. We chose one shared layout because the same record passes between roles and each person should find it in the same place. We give up screens tuned to each role. Labelled forms keep entered details separate from AI suggestions. Each screen shows the active role, department, record state and the person's next decision. A state is the current step, such as Draft or Open. A version identifies the saved revision being reviewed.
 
 Compatibility scores how well an item meets a request, from 0 to 100. Confidence is the AI's reported certainty; it does not prove that an answer is correct. Matching confidence of at least 0.75 is shown normally. From 0.50 to below 0.75, it is marked Check carefully. Below 0.50, the AI recommendation is withheld and ordinary keyword search and filters remain available. Classification confidence of at least 0.60 can fill suggestions for review; below 0.60, the suggestion is an option only. Missing confidence or model information is labelled unavailable (SRS Table 4.2; AI-01, AI-04, AI-05).
 
@@ -38,7 +38,7 @@ def screen(section,title,s,figure,notes=None,field_rows=None,fields_title=None):
  text+='**Table 7.'+str(int(name.split('-')[2]))+' '+s['id']+' '+('report fields' if fields_title else 'fields')+'**\n\n'
  text+=table(['Field','Synthetic example'],field_rows or s['fields'],[2600,6760])
  confidence=s['confidence']+'.' if s['confidence'] else 'Unavailable - check carefully.'
- text+=f"**AI result:** {s['ai']}\n\n**Confidence:** {confidence} Model/version unavailable in this example.\n\n**Reason:** {s['reason']}\n\n**Human decision:** {s['decision']}\n\n**Low or unavailable confidence:** {s['low']}\n\n**AI unavailable:** {s['down']}\n\n"
+ text+=f"**AI result:** {s['ai']}\n\n**Confidence:** {confidence} Model: {("text-embedding-3-small, saved with the match and its time." if s["id"] in ("UI-07","UI-08","UI-09") else "gpt-4.1-mini-2025-04-14, saved with the suggestion and its time.")}\n\n**Reason:** {s['reason']}\n\n**Human decision:** {s['decision']}\n\n**Low or unavailable confidence:** {s['low']}\n\n**AI unavailable:** {s['down']}\n\n"
  detail=s['detail']
  text+=detail+'\n\n**Phase 3 references:** '+s['refs']+'.\n\n'
  return text
@@ -71,7 +71,7 @@ The diagrams keep the Phase 3 roles, use-case IDs, state codes and approval rule
 
 A use case is a task the system helps someone complete. An actor is a staff role or outside service involved in a task. Figure 9.1 is the original Phase 3 diagram, with its nine staff roles and fourteen use-case IDs. Its actor links and include and extend links are preserved.
 
-![Figure 9.1 Dawra Campus use-case diagram from Phase 3](images/figure-9-1-use-case-diagram.png)
+![Figure 9.1 Dawra Campus use-case diagram from Phase 3, turned sideways to fit the page](images/figure-9-1-use-case-diagram.png)
 
 An include link identifies a step used as part of another task. Check eligibility is included in UC-06 and UC-07. Send notification is included in UC-08. An extend link identifies additional behaviour under a condition. The existing extend link from UC-06 to UC-04 is retained.
 
@@ -104,18 +104,18 @@ md+=table(['ID','Existing use case','Who may act'],coverage,[900,2700,5760])
 md+='''<!-- pagebreak -->
 ## 9.2 Sequence Diagrams
 
-We use four sequences for the four assigned scenarios. Their participants are people and parts of one Django application, not new separately deployed services. Django is the framework used to build the web application. PostgreSQL is the database that stores its records. The server runs the application and contacts the outside AI service. Section 11 defines the detailed architecture, meaning how the software parts fit together.
+We use four sequences: registering an asset, approving a request, matching and reserving, and transferring an asset. Their participants are people and parts of one Django application, not new separately deployed services. Django is the framework used to build the web application. PostgreSQL is the database that stores its records. The server runs the application and contacts the outside AI service. Section 11 gives the detailed architecture, meaning how the software parts fit together.
 
-Solid arrows show requests or decisions. Dashed open arrows show replies. A lifeline is the dashed vertical line under a participant. Narrow boxes show when a participant handles a message. An alt frame separates alternative paths. An opt frame contains steps used only when its condition applies. Each sequence is enlarged in two consecutive printed parts so its labels remain readable.
+Solid arrows show requests, decisions or notifications. Dashed open arrows show replies. An arrow that loops back to the same lifeline is a step the participant performs itself. A lifeline is the dashed vertical line under a participant. Narrow boxes show when a participant is handling a call, from the incoming message until its reply or last related message. An alt frame separates alternative paths. An opt frame contains steps used only when its condition applies. Each sequence is enlarged in two consecutive printed parts so its labels remain readable.
 
 A transaction saves related changes together. An atomic transaction saves all of them or none. State, quantity and AuditLog evidence must save successfully together. Otherwise, rollback undoes the attempted changes. Repeating a confirmation returns the saved result without creating a second receipt or hold. The application also checks access, approval independence and the latest record version before changes.
 
-The normal form, search or review becomes available within 15 seconds of the original failed or unanswered AI request, including retries (AI-13.2, NFR-07). NFR-16 separately targets matching results within 5 seconds for 95 of 100 measured requests. Matching confidence follows SRS Table 4.2. Compatibility measures fit to the request; confidence reports the AI's certainty.
+The normal form, search or review becomes available within 15 seconds of the original user request, including retries (AI-13.2, NFR-07). NFR-16 separately targets matching results within 5 seconds for 95 of 100 measured requests. Matching confidence follows SRS Table 4.2. Compatibility measures fit to the request; confidence reports the AI's certainty.
 
 Reservation expiry is the deadline for a temporary hold. It still applies after a pending transfer is created (BR-12). If approval misses the deadline, release the units once, cancel the transfer with a reason, withdraw pending tasks and return the request to Open. Approval and expiry use a lock to check and update the same reservation one at a time, preventing conflicting quantity changes (FR-09.4, FR-09.5, FR-11.6, BR-11, BR-12, BR-20).
 
 '''
-titles=['Register with AI classification','Request and department approval','Review matches and reserve with fallback','Transfer approvals handover and receipt']
+titles=['Register with AI classification','Request and department approval','Review matches and reserve with fallback','Transfer approvals, handover and receipt']
 for i,(seq,title) in enumerate(zip(DATA['sequences'],titles),1):
  number=i+1;name=seq['name']
  md+='<!-- pagebreak -->\n### 9.2.'+str(i)+' '+title+'\n\n'
@@ -129,10 +129,10 @@ for i,(seq,title) in enumerate(zip(DATA['sequences'],titles),1):
 md+='''<!-- pagebreak -->
 ## 9.3 Activity Diagrams
 
-An activity diagram shows the steps in a process and the choices between them. Each action names the responsible role. Filled circles start the process. A circle with a filled centre ends it. Rounded boxes are actions. Diamonds are decisions. A guard is a written condition, such as [approve], that selects the next path. Connector A joins the two printed parts of each activity.
+An activity diagram shows the steps in a process and the choices between them. Actions name the responsible role where a person acts. Actions without a role are updates the system records. Filled circles start the process. A circle with a filled centre ends it. Rounded boxes are actions. Large diamonds are decisions. Small diamonds are merge nodes, where alternative paths join before the next action. A guard is a written condition, such as [approve], that selects the next path. Connector A joins the two printed parts of each activity.
 
 '''
-activities=[(6,'figure-9-6-request-activity','Request to transfer','UC-04 to UC-09; FR-07 to FR-11; BR-02, BR-11 to BR-16'),(7,'figure-9-7-maintenance-activity','Maintenance to end of life','UC-10, UC-11; FR-12 to FR-14; AI-06; BR-07 to BR-09')]
+activities=[(6,'figure-9-6-request-activity','Request to transfer','UC-04 to UC-09; FR-07 to FR-11; BR-02, BR-05, BR-11 to BR-16'),(7,'figure-9-7-maintenance-activity','Maintenance to end of life','UC-10, UC-11; FR-12 to FR-14; AI-06; BR-07 to BR-09')]
 for i,(number,name,title,refs) in enumerate(activities,1):
  md+=f'### 9.3.{i} {title}\n\n'+DATA['diagram_notes'][name]+'\n\n**Phase 3 references:** '+refs+'.\n\n'
 for number,name,title,refs in activities:
