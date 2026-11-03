@@ -26,16 +26,16 @@ Level 1 splits process 0 into seven processes, one for each main job of the syst
 <!-- widths: 2300,3060,1900,2100 -->
 | Store | Entities (section 8) | Written by | Read by |
 |---|---|---|---|
-| D1 Users and Settings | Department, User, Role, UserRole, Category | 1.0 | 5.0 |
-| D2 Assets and Listings | Asset, Listing, Attachment | 2.0, 5.0, 6.0 | 3.0, 4.0, 6.0 |
-| D3 Requests and Holds | ResourceRequest, Reservation | 3.0 | 5.0 |
-| D4 AI Records | MatchRecommendation, AiSuggestion, ModelVersion | 2.0, 3.0, 4.0 | 7.0 |
+| D1 Users and Settings | Department, User, Role, UserRole, Category, Notification | 1.0; Notification records from every process that sends a task | 2.0, 5.0, 6.0 |
+| D2 Assets and Listings | Asset, Listing, Attachment | 2.0, 5.0, 6.0 | 3.0, 4.0, 5.0, 6.0, 7.0 |
+| D3 Requests and Holds | ResourceRequest, Reservation | 3.0, 5.0 | 5.0, 7.0 |
+| D4 AI Records | MatchRecommendation, AiSuggestion, ModelVersion | 2.0, 3.0, 4.0, 6.0, 7.0 | 7.0 |
 | D5 Approvals and Transfers | Approval, Transfer | 5.0 | 2.0, 3.0, 6.0, 7.0 |
 | D6 Maintenance Records | Inspection, MaintenanceRecord, EndOfLifeAction | 6.0 | 5.0, 7.0 |
 | D7 Sustainability Impacts | SustainabilityImpact | 5.0, 6.0 | 7.0 |
 | D8 Audit Log | AuditLog | 1.0, 5.0 and every other process | 7.0 |
 
-Every process writes audit entries to D8 (FR-18.1). To keep the figures readable, we draw this flow for 1.0 and 5.0 only. The tasks sent to users, such as approval tasks and work orders, are the notifications in FR-16, and the Notification entity keeps them for each user.
+Every process writes audit entries to D8 (FR-18.1). To keep the figures readable, we draw this flow for 1.0 and 5.0 only. Two more flows are left out for the same reason. Every process checks the signed-in user's roles in D1 before it acts (FR-02.2), and every process that sends a task, such as an approval task or a work order, writes it to D1 as a Notification record for that user (FR-16).
 
 ## 2.2 Level 2 of 3.0 Request, Match and Reserve Assets
 
@@ -45,8 +45,8 @@ We opened 3.0 because it holds the main AI call and decides which items a reques
 
 - **3.1 Record Request** saves the request and gives it a unique ID (FR-07.9).
 - **3.2 Check Eligibility** keeps only listings that pass the classic rules for access, quantity, condition, compatibility and date (BR-14, AI-03.1), and only for requests the department has approved (BR-03).
-- **3.3 Rank and Explain Matches** sends the request text to the AI Provider, scores each eligible listing with the weights in SRS Table 4.1, and stores each recommendation with its confidence and model version (AI-04, AI-05, AI-12). If the AI does not answer in time, 3.3 returns the eligible listings in classic order instead (AI-13).
-- **3.4 Record Choice and Hold** records the chosen item, and the reason when the requester does not pick the top match, then creates the hold (FR-09, AI-05.2).
+- **3.3 Rank and Explain Matches** sends the request text to the AI Provider, scores each eligible listing with the weights in SRS Table 4.1, and stores each recommendation with its model version and its confidence, which is "unavailable" with the current embedding model (AI-04, AI-05, AI-12). If the AI does not answer in time, 3.3 returns the eligible listings in classic order instead (AI-13).
+- **3.4 Record Choice and Hold** records the chosen item in D4, with the reason when the requester does not pick the top match, then creates the hold in D3 (FR-09, AI-05.2).
 
 The flows that cross the dashed line in Figure 2.3 are exactly the eight flows of 3.0 on Level 1, as Table 2.4 shows.
 
@@ -72,7 +72,7 @@ Table 2.3 shows that every flow on the context diagram appears on Level 1 with t
 | 11 | account details, role assignments, settings, report requests | Administrators | in | 1.0, 7.0 | account details, role assignments, settings (1.0); report requests (7.0) |
 | 12 | account status, operational and audit reports | Administrators | out | 1.0, 7.0 | account status (1.0); operational and audit reports (7.0) |
 | 13 | approved text fields | AI Provider | out | 2.0, 3.0, 4.0, 6.0, 7.0 | asset text (2.0); request text (3.0); question context (4.0); asset condition text (6.0); report figures (7.0) |
-| 14 | AI output | AI Provider | in | 2.0, 3.0, 4.0, 6.0, 7.0 | category and tags (2.0); vectors, rankings and reasons (3.0); draft answer (4.0); action advice (6.0); draft report text (7.0) |
+| 14 | AI output | AI Provider | in | 2.0, 3.0, 4.0, 6.0, 7.0 | category and tags (2.0); embedding vectors (3.0); draft answer (4.0); action advice (6.0); draft report text (7.0) |
 
 All 14 context flows match. Level 1 adds no new flows to or from an external entity.
 
@@ -84,8 +84,8 @@ All 14 context flows match. Level 1 adds no new flows to or from an external ent
 | resource request, match choice | from Requester | 3.1 (resource request); 3.4 (match choice) |
 | ranked matches, request status | to Requester | 3.3 (ranked matches); 3.1 and 3.4 (request status) |
 | request text | to AI Provider | 3.3 |
-| vectors, rankings and reasons | from AI Provider | 3.3 |
+| embedding vectors | from AI Provider | 3.3 |
 | published listings | from D2 | 3.2 |
 | request decisions | from D5 | 3.2 |
 | request and hold records | to D3 | 3.1 (request record); 3.4 (hold record) |
-| match recommendations | to D4 | 3.3 |
+| match records | to D4 | 3.3 (match recommendations); 3.4 (match response) |

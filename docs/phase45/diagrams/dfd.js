@@ -34,12 +34,12 @@ function external(name, x, y, w, h, opts = {}) {
   s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${FILL}" stroke="${DARK}" stroke-width="2"/>`;
   if (opts.dup) s += `<line x1="${x}" y1="${y + 14}" x2="${x + 14}" y2="${y}" stroke="${DARK}" stroke-width="2"/>`;
   const main = wrap(name, w - 18, size, true);
-  const sub = opts.sub ? wrap(opts.sub, w - 14, 13) : [];
-  const lhM = size * 1.15, lhS = 13 * 1.2;
+  const sub = opts.sub ? wrap(opts.sub, w - 14, 14) : [];
+  const lhM = size * 1.15, lhS = 14 * 1.2;
   const total = main.length * lhM + sub.length * lhS;
   let yy = y + h / 2 - total / 2 + size * 0.85;
   main.forEach((l) => { s += `<text x="${x + w / 2}" y="${yy}" text-anchor="middle" font-family="${FONT}" font-size="${size}" font-weight="700" fill="#111">${esc(l)}</text>`; yy += lhM; });
-  sub.forEach((l) => { s += `<text x="${x + w / 2}" y="${yy - 2}" text-anchor="middle" font-family="${FONT}" font-size="13" fill="#333">${esc(l)}</text>`; yy += lhS; });
+  sub.forEach((l) => { s += `<text x="${x + w / 2}" y="${yy - 2}" text-anchor="middle" font-family="${FONT}" font-size="14" fill="#333">${esc(l)}</text>`; yy += lhS; });
   return s;
 }
 
@@ -71,12 +71,31 @@ function arrowHead(p1, p2, color) {
   return `<path d="M${p2.x} ${p2.y} L${bx + W * Math.sin(a)} ${by - W * Math.cos(a)} L${bx - W * Math.sin(a)} ${by + W * Math.cos(a)} Z" fill="${color}"/>`;
 }
 
-function pill(label, cx, cy, maxW, size) {
+function pillSize(label, maxW, size) {
   const lines = wrap(label, maxW - 12, size);
   const w = Math.min(maxW, Math.max(...lines.map((l) => l.length)) * size * 0.53 + 14);
-  const h = lines.length * size * 1.18 + 8;
+  return { lines, w, h: lines.length * size * 1.18 + 8 };
+}
+function pill(label, cx, cy, maxW, size) {
+  const { lines, w, h } = pillSize(label, maxW, size);
   let s = `<rect x="${cx - w / 2}" y="${cy - h / 2}" width="${w}" height="${h}" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>`;
   return s + textBlock(lines, cx, cy, size, { color: "#13213d" });
+}
+
+// A label on the last segment of a flow is moved back from the tip so the arrowhead always shows.
+const CLEAR = 24;
+function clearOfArrow(points, at, maxW, size, label) {
+  const a = points[points.length - 2], b = points[points.length - 1];
+  const horiz = a.y === b.y;
+  const along = horiz ? at.x : at.y, start = horiz ? a.x : a.y, tip = horiz ? b.x : b.y;
+  const across = horiz ? at.y - a.y : at.x - a.x;
+  if (Math.abs(across) > 1 || (along - start) * (along - tip) > 0) return { at, maxW };
+  const dir = Math.sign(tip - start), room = Math.abs(tip - start) - CLEAR - 4;
+  if (horiz) maxW = Math.min(maxW, room);
+  const half = (horiz ? pillSize(label, maxW, size).w : pillSize(label, maxW, size).h) / 2;
+  const limit = tip - dir * (CLEAR + half);
+  const moved = dir * (along - limit) > 0 ? limit : along;
+  return { at: horiz ? { x: moved, y: at.y } : { x: at.x, y: moved }, maxW };
 }
 
 // A diagram collects lines, boxes and labels separately so labels are always drawn on top.
@@ -94,7 +113,9 @@ class Diagram {
         const t = opts.t === undefined ? 0.5 : opts.t;
         at = { x: points[0].x + (points[1].x - points[0].x) * t, y: points[0].y + (points[1].y - points[0].y) * t };
       }
-      this.labels += pill(label, at.x, at.y, opts.labelW || 160, opts.size || 14.5);
+      const size = opts.size || 15;
+      const fit = clearOfArrow(points, at, opts.labelW || 160, size, label);
+      this.labels += pill(label, fit.at.x, fit.at.y, fit.maxW, size);
     }
   }
   add(svg) { this.boxes += svg; }
@@ -116,11 +137,11 @@ const D = {
 {
   const g = new Diagram();
   const P = { x: 385, y: 30, w: 165, h: 480 };
-  const L = { x: 15, w: 180 }, Rt = { x: 745, w: 180 };
+  const L = { x: 15, w: 165 }, Rt = { x: 755, w: 165 };
   const slot = 72, gapY = 22;
   const left = [
     { name: "Requester", flows: [["in", "resource request, match choice, assistant question"], ["out", "ranked matches, request status, assistant answer"]] },
-    { name: "Asset Custodian", flows: [["in", "asset details, handover records, defect and end-of-life reports"], ["out", "suggested category, transfer tasks, asset history"]] },
+    { name: "Asset Custodian", sub: "or department representative", flows: [["in", "asset details, handover records, defect and end-of-life reports"], ["out", "suggested category, transfer tasks, asset history"]] },
     { name: "Maintenance Staff", flows: [["in", "inspection and repair records"], ["out", "work orders"]] },
   ];
   const right = [
@@ -153,7 +174,7 @@ const D = {
 // ---------- Level 1 rows ----------
 // Each row: external entities on the left, the process in the middle, data stores on the right.
 // Every arrow is a straight horizontal line, so rows never cross each other.
-const ROW = { extX: 15, extW: 160, procX: 345, procW: 180, storeX: 700, storeW: 215, slot: 46 };
+const ROW = { extX: 15, extW: 160, procX: 360, procW: 180, storeX: 730, storeW: 190, slot: 46 };
 
 function drawRow(g, row, y0, seen) {
   const gap = 12;
@@ -211,10 +232,10 @@ level1("dfd-level1-a.svg", [
     right: [st("D1", [Wr("user, role and setting records")]), st("D8", [Wr("audit entries")])] },
   { num: "2.0", name: "Register and Publish Assets",
     left: [{ name: "Asset Custodian", flows: [In("asset details"), Out("suggested category")] }, { name: AI, flows: [Out("asset text"), In("category and tags")] }],
-    right: [st("D5", [R("release decisions")]), st("D2", [Wr("asset and listing records")]), st("D4", [Wr("AI suggestions")])] },
+    right: [st("D1", [R("categories")]), st("D5", [R("release decisions")]), st("D2", [Wr("asset and listing records")]), st("D4", [Wr("AI suggestions")])] },
   { num: "3.0", name: "Request, Match and Reserve Assets",
-    left: [{ name: "Requester", flows: [In("resource request, match choice"), Out("ranked matches, request status")] }, { name: AI, flows: [Out("request text"), In("vectors, rankings and reasons")] }],
-    right: [st("D2", [R("published listings")]), st("D5", [R("request decisions")]), st("D3", [Wr("request and hold records")]), st("D4", [Wr("match recommendations")])] },
+    left: [{ name: "Requester", flows: [In("resource request, match choice"), Out("ranked matches, request status")] }, { name: AI, flows: [Out("request text"), In("embedding vectors")] }],
+    right: [st("D2", [R("published listings")]), st("D5", [R("request decisions")]), st("D3", [Wr("request and hold records")]), st("D4", [Wr("match records")])] },
   { num: "4.0", name: "Answer Assistant Questions",
     left: [{ name: "Requester", flows: [In("assistant question"), Out("assistant answer")] }, { name: AI, flows: [Out("question context"), In("draft answer")] }],
     right: [st("D2", [R("permitted listings")]), st("D4", [Wr("assistant records")])] },
@@ -224,46 +245,47 @@ level1("dfd-level1-b.svg", [
   { num: "5.0", name: "Approve and Transfer Assets",
     left: [{ name: "Approvers", flows: [In("approval decisions"), Out("approval tasks")] }, { name: "Sustainability Officer", flows: [In("end-of-life reviews"), Out("review tasks")] },
            { name: "Asset Custodian", flows: [In("handover records"), Out("transfer tasks")] }],
-    right: [st("D1", [R("approvers and roles")]), st("D3", [R("holds and requests to approve")]), st("D6", [R("repairs and end-of-life to approve")]),
-            st("D5", [Wr("approval and transfer records")]), st("D2", [Wr("new owner and location")]), st("D7", [Wr("transfer impacts")]), st("D8", [Wr("audit entries")])] },
+    right: [st("D1", [R("roles and emission factors")]), st("D3", [R("holds and requests"), Wr("hold and request states")]), st("D6", [R("end-of-life and repair cases")]),
+            st("D5", [Wr("approval and transfer records")]), st("D2", [R("listings to approve"), Wr("new owner and location")]), st("D7", [Wr("transfer impacts")]), st("D8", [Wr("audit entries")])] },
   { num: "6.0", name: "Maintain and Retire Assets",
     left: [{ name: "Asset Custodian", flows: [In("defect and end-of-life reports")] }, { name: "Maintenance Staff", flows: [In("inspection and repair records"), Out("work orders")] },
            { name: AI, flows: [Out("asset condition text"), In("action advice")] }],
-    right: [st("D2", [R("asset details"), Wr("condition and state")]), st("D5", [R("spending and end-of-life decisions")]),
-            st("D6", [Wr("maintenance and end-of-life records")]), st("D7", [Wr("repair and end-of-life impacts")])] },
+    right: [st("D1", [R("emission factors")]), st("D2", [R("asset details"), Wr("condition and state")]), st("D5", [R("approval decisions")]),
+            st("D6", [Wr("maintenance records")]), st("D4", [Wr("AI suggestions")]), st("D7", [Wr("impact records")])] },
   { num: "7.0", name: "Report Impact and History",
     left: [{ name: "Administrators", flows: [In("report requests"), Out("operational and audit reports")] }, { name: "Approvers", flows: [Out("finance and reuse reports")] },
            { name: "Sustainability Officer", flows: [Out("impact report")] }, { name: "Asset Custodian", flows: [Out("asset history")] },
            { name: AI, flows: [Out("report figures"), In("draft report text")] }],
-    right: [st("D4", [R("AI records")]), st("D5", [R("transfer records")]), st("D6", [R("maintenance records")]), st("D7", [R("impact records")]), st("D8", [R("audit entries")])] },
+    right: [st("D2", [R("asset and listing records")]), st("D3", [R("request and hold records")]), st("D4", [R("AI records"), Wr("AI suggestions")]), st("D5", [R("transfer records")]), st("D6", [R("maintenance records")]), st("D7", [R("impact records")]), st("D8", [R("audit entries")])] },
 ]);
 
 // ---------- Figure 2.3: Level 2 of 3.0 ----------
 {
   const g = new Diagram();
   g.under += `<rect x="215" y="112" width="485" height="660" rx="14" fill="#f4f8fe" stroke="${BLUE}" stroke-width="2" stroke-dasharray="7 5"/>`;
-  g.under += `<text x="232" y="138" font-family="${FONT}" font-size="15" font-weight="700" fill="${DARK}">Level 2 of 3.0 Request, Match and Reserve Assets</text>`;
-  const p1 = { x: 265, y: 160, w: 175, h: 96 }, p2 = { x: 255, y: 375, w: 175, h: 112 };
+  g.under += `<text x="232" y="138" font-family="${FONT}" font-size="15" font-weight="700" fill="${DARK}">Level 2 of process 3.0</text>`;
+  const p1 = { x: 285, y: 160, w: 175, h: 96 }, p2 = { x: 285, y: 375, w: 175, h: 112 };
   const p3 = { x: 505, y: 375, w: 175, h: 112 }, p4 = { x: 505, y: 620, w: 175, h: 100 };
   // 3.1 Record Request
-  g.flow([{ x: 175, y: 185 }, { x: 265, y: 185 }], "resource request", { at: { x: 220, y: 185 }, labelW: 90 });
-  g.flow([{ x: 265, y: 232 }, { x: 175, y: 232 }], "request status", { at: { x: 220, y: 232 }, labelW: 90 });
-  g.flow([{ x: 290, y: 256 }, { x: 290, y: 318 }, { x: 175, y: 318 }], "request record", { at: { x: 232, y: 296 }, labelW: 120 });
+  g.flow([{ x: 175, y: 185 }, { x: 285, y: 185 }], "resource request", { at: { x: 230, y: 185 }, labelW: 90 });
+  g.flow([{ x: 285, y: 232 }, { x: 175, y: 232 }], "request status", { at: { x: 230, y: 232 }, labelW: 90 });
+  g.flow([{ x: 305, y: 256 }, { x: 305, y: 318 }, { x: 175, y: 318 }], "request record", { at: { x: 240, y: 318 }, labelW: 120 });
   g.flow([{ x: 380, y: 256 }, { x: 380, y: 375 }], "request details", { at: { x: 380, y: 318 }, labelW: 120 });
   // 3.2 Check Eligibility
-  g.flow([{ x: 175, y: 405 }, { x: 255, y: 405 }], "published listings", { at: { x: 214, y: 405 }, labelW: 90 });
-  g.flow([{ x: 175, y: 462 }, { x: 255, y: 462 }], "request decisions", { at: { x: 214, y: 462 }, labelW: 90 });
+  g.flow([{ x: 175, y: 405 }, { x: 285, y: 405 }], "published listings", { at: { x: 230, y: 405 }, labelW: 90 });
+  g.flow([{ x: 175, y: 462 }, { x: 285, y: 462 }], "request decisions", { at: { x: 230, y: 462 }, labelW: 90 });
   g.flow([{ x: 400, y: 487 }, { x: 400, y: 545 }, { x: 540, y: 545 }, { x: 540, y: 487 }], "eligible listings, request criteria", { at: { x: 470, y: 545 }, labelW: 150 });
   // 3.3 Rank and Explain Matches
   g.flow([{ x: 555, y: 375 }, { x: 555, y: 72 }], "request text", { ai: true, at: { x: 555, y: 230 }, labelW: 95 });
-  g.flow([{ x: 635, y: 72 }, { x: 635, y: 375 }], "vectors, rankings and reasons", { ai: true, at: { x: 635, y: 300 }, labelW: 115 });
-  g.flow([{ x: 680, y: 405 }, { x: 735, y: 405 }], "match recommendations", { at: { x: 815, y: 350 }, labelW: 165 });
-  g.flow([{ x: 680, y: 462 }, { x: 800, y: 462 }, { x: 800, y: 515 }], "ranked matches", { at: { x: 815, y: 490 }, labelW: 110 });
+  g.flow([{ x: 635, y: 72 }, { x: 635, y: 375 }], "embedding vectors", { ai: true, at: { x: 635, y: 300 }, labelW: 100 });
+  g.flow([{ x: 680, y: 405 }, { x: 735, y: 405 }], "match recommendations", { at: { x: 725, y: 356 }, labelW: 145, size: 14 });
+  g.flow([{ x: 680, y: 462 }, { x: 800, y: 462 }, { x: 800, y: 515 }], "ranked matches", { at: { x: 740, y: 462 }, labelW: 90 });
   g.flow([{ x: 620, y: 487 }, { x: 620, y: 620 }], "ranked list", { at: { x: 620, y: 575 }, labelW: 90 });
   // 3.4 Record Choice and Hold
   g.flow([{ x: 800, y: 605 }, { x: 800, y: 650 }, { x: 680, y: 650 }], "match choice", { at: { x: 740, y: 650 }, labelW: 100 });
   g.flow([{ x: 680, y: 700 }, { x: 790, y: 700 }, { x: 790, y: 762 }], "hold record", { at: { x: 790, y: 730 }, labelW: 90 });
   g.flow([{ x: 505, y: 690 }, { x: 175, y: 690 }], "request status", { at: { x: 340, y: 690 }, labelW: 120 });
+  g.flow([{ x: 590, y: 720 }, { x: 590, y: 800 }], "match response", { at: { x: 590, y: 752 }, labelW: 150 });
   // boxes
   g.add(external("Requester", 15, 165, 160, 88));
   g.add(store("D3", D.D3, 15, 293, 160, 50, { size: 13.5 }));
@@ -274,9 +296,10 @@ level1("dfd-level1-b.svg", [
   g.add(store("D4", D.D4, 735, 383, 185, 44));
   g.add(external("Requester", 735, 515, 180, 90, { dup: true }));
   g.add(store("D3", D.D3, 715, 762, 205, 44, { dup: true }));
+  g.add(store("D4", D.D4, 470, 800, 205, 44, { dup: true }));
   g.add(processBox("3.1", "Record Request", p1.x, p1.y, p1.w, p1.h));
   g.add(processBox("3.2", "Check Eligibility", p2.x, p2.y, p2.w, p2.h));
   g.add(processBox("3.3", "Rank and Explain Matches", p3.x, p3.y, p3.w, p3.h));
   g.add(processBox("3.4", "Record Choice and Hold", p4.x, p4.y, p4.w, p4.h));
-  g.write("dfd-level2-3.svg", 930, 820);
+  g.write("dfd-level2-3.svg", 930, 860);
 }
