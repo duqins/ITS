@@ -38,6 +38,7 @@ Table 6.2 shows who may do what. It covers all nine roles in the SRS plus the AI
 | Approve a transfer: release and receipt (BR-05) | — | A | — | — | — | — | — | — | — | no |
 | Approve a transfer: policy stage (BR-06) | — | — | — | — | A | A | — | — | — | no |
 | Record handover or receipt (FR-11, BR-13) | — | — | ✓ | — | — | — | — | — | — | no |
+| Confirm an avoided purchase for the receiving department (BR-18) | — | A | — | — | — | — | — | — | — | no |
 | Report a defect (FR-12) | — | ✓ | ✓ | — | — | — | ✓ | — | — | no |
 | Inspect and record repair work (FR-13) | — | — | — | — | — | — | ✓ | — | — | no |
 | Approve repair spending (BR-07) | — | A | — | — | — | A | — | — | — | no |

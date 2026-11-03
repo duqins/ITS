@@ -10,7 +10,7 @@ This section gives the formula behind each sustainability number in SRS section 
 | Indicator | Formula for a reporting period | Unit | Source records |
 |---|---|---|---|
 | Waste diverted | Sum of the quantities that left service through reuse, repair back to service, donation, disassembly or recycling instead of disposal. Each item counts once per period. | Items, and kg where mass is recorded | TR-06, MW-06, EL-05 |
-| Avoided purchases | Count of fulfilled requests confirmed under BR-18. Value = quantity × replacement cost. | Count, AED | TR-06 and the reviewer's confirmation |
+| Avoided purchases | Count of fulfilled requests confirmed under BR-18. Value = quantity × replacement cost. | Count, AED | TR-06 and the confirmation by the receiving Department representative |
 | Net financial savings | Avoided purchase value - (transfer cost + inspection cost + repair cost + refurbishment cost) | AED | Avoided purchases, TR-06, MW-06 |
 | Reuse rate | Quantity from a chosen group of listed assets that was transferred and received by the end of the period ÷ total quantity in that group × 100. N/A when the group is empty. | % | LS-03, TR-06 |
 | Repair success rate | Work orders completed with the asset back in service ÷ work orders closed as Completed or Not repairable × 100. N/A when none closed. | % | MW-06, MW-07 |
@@ -50,7 +50,7 @@ Each category keeps its low and high factor in Category.emissionFactor, with fac
 
 ## 12.3 Worked Example
 
-A department receives two 24-inch monitors from another department in one van trip of 10 km. The request was approved, and the reviewer confirmed that a new purchase would otherwise have been needed (BR-18). The move cost AED 40. All values are synthetic.
+A department receives two 24-inch monitors from another department in one van trip of 10 km. The request was approved, and the receiving department's Department representative confirmed that a new purchase would otherwise have been needed (BR-18). The move cost AED 40. All values are synthetic.
 
 **Table 12.4 Worked example**
 
