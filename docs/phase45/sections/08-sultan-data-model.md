@@ -8,7 +8,7 @@ Figure 8.1 is the core ER diagram from the lab ("ER solution: core entities"). W
 
 ![Figure 8.1 Core ER diagram (from the lab)](images/erd-core.png)
 
-Figures 8.2 to 8.5 show the full design. We split it into four parts so it is easy to read. Grey dashed boxes belong to another part and only show where a link goes.
+Figures 8.2 to 8.5 show the full design with every entity, key and relationship and the main attributes. Table 8.2 lists every attribute. We split it into four parts so it is easy to read. Grey dashed boxes belong to another part and only show where a link goes.
 
 ![Figure 8.2 Users, roles and access](images/erd-users.png)
 
@@ -20,10 +20,11 @@ Figures 8.2 to 8.5 show the full design. We split it into four parts so it is ea
 
 These design choices explain the diagrams:
 
-- **One approval belongs to one record.** An approval is for a request, a listing, a transfer, a maintenance record or an end-of-life action. Only one of these five keys is filled in each approval. Attachment works the same way with its five owner keys. We use real foreign keys here, not a record type and an ID, so the database itself checks every link. Notification and AuditLog use recordType and recordId instead, because they can point to any table and no rule depends on them.
+- **One approval belongs to one record.** An approval is for a request, a listing, a transfer, a maintenance record or an end-of-life action. Only one of these five keys is filled in each approval. Attachment works the same way with its five owner keys. We use real foreign keys here, not a record type and an ID, so the database itself checks every link. Notification and AuditLog use recordType and recordId instead, because they can point to any table and no rule depends on them. The other stages in SRS Table 5.2 are kept on their own records: a role assignment in UserRole.status, the confirmation of a new asset in its state and verifiedOn, a hold in Reservation.status, and the owners' review of an official report in AuditLog, with AI report drafts also kept in AiSuggestion.
 - **One impact comes from one action.** Each sustainability impact comes from exactly one completed transfer, repair or end-of-life action. It keeps the carbon saving as a low and a high value, because the factors we use give a range (section 12).
 - **Several roles per user.** A user can hold several roles in different departments through UserRole. This is how one person can be a requester in one department and a custodian in another (SRS section 2.3).
-- **Who did what.** Most actions are kept in AuditLog with the person who did them, so most tables do not need a "done by" key. We keep a direct key only where the SRS asks for it: the requester, the custodian, the final approver, the receiving custodian (FR-11.1) and the inspector (FR-12.1). Entries made by the system itself have no user, which is why AuditLog has 0..1 on the user side.
+- **Who did what.** Most actions are kept in AuditLog with the person who did them, so most tables do not need a "done by" key. We keep a direct key only where the SRS asks for it: the requester, the custodian, the final approver, the receiving custodian (FR-11.1) and the inspector (FR-12.1). Entries made by the system itself have no user, which is why AuditLog has 0..1 on the user side. AuditLog also keeps the role that was used (FR-18.1) and the reviewer who confirms an avoided purchase (BR-18, SU-03).
+- **Versions.** Each request, listing, transfer, repair and end-of-life action keeps a version number. An approval stores the version it was given for and the approver's role, so a decision on an older version is refused (FR-10.6, FR-10.7).
 - **The final approver.** approverId in Transfer is the user who gave the final approval. Every stage before it is stored in Approval, following Table 5.2 of the SRS.
 - **Transfer details.** Transfer records the releasing and receiving departments, the receiving custodian, the new location, the planned date and the delivery arrangement (FR-11.1). It also keeps assetId and requestId, which its Reservation already links to. These are copies for fast lookup, and they must match the reservation. The lab diagram has them too.
 - **AI suggestions.** Every AI output that is not a match is kept in AiSuggestion: category suggestions, sustainable-action advice, assistant answers and report drafts. Each row keeps its confidence, explanation, model version and the user's response (AI-12). assetId is filled only when the suggestion is about one asset.
@@ -98,20 +99,20 @@ Table 8.2 describes each entity. Every entity has its own ID as the primary key,
 | User | A staff account. | name, email, accountStatus (active, inactive or blocked) | FR-01, FR-02 |
 | Role | One of the nine roles in SRS section 2.3. | name | FR-01, SRS 2.3 |
 | UserRole | A role given to a user for one department. | status (requested, authorised, active or removed) | FR-01, BR-01 |
-| Category | A type of item, such as office chair or monitor. | name, subcategory, unit, procurementControlled, specialHandling, emissionFactor (kg CO2e per unit), factorSource | FR-03.2, FR-03.4, SU-07 |
-| Asset | One registered item or batch of the same item. | name, description, condition (New, Good, Fair, Poor or Not working), status (AS-01 to AS-10), quantity, availableQty, reservedQty, location (campus, building and room), value, purchaseDate, verifiedOn, assetAge (worked out, not stored) | FR-04.1, FR-05 |
-| Listing | An offer of an asset for reuse by other departments. | quantity, availableFrom, restrictions, releaseReason, status (LS-01 to LS-06) | FR-06.1 |
-| ResourceRequest | A department's need for an item. | purpose, specifications, quantity, minCondition, urgency, deliveryLocation, requiredBy, status (RQ-01 to RQ-10) | FR-07.1, FR-07.9 |
+| Category | A type of item, such as office chair or monitor. | name, subcategory, unit, procurementControlled, specialHandling, emissionFactorLow and emissionFactorHigh (kg CO2e per unit), factorSource, factorVersion | FR-03.2, FR-03.4, SU-07 |
+| Asset | One registered item or batch of the same item. | name, description, condition (New, Good, Fair, Poor or Not working), status (AS-01 to AS-10), quantity, availableQty, reservedQty, allocatedQty, specifications, location (campus, building and room), value, purchaseDate, verifiedOn, plannedRetirementDate, revisedRetirementDate, version; serialNumber and storesData for IT assets; material and dimensions for furniture; assetAge (worked out, not stored) | FR-04.1, FR-05, SU-06, BR-09 |
+| Listing | An offer of an asset for reuse by other departments. | quantity, availableFrom, restrictions, releaseReason, version, status (LS-01 to LS-06) | FR-06.1 |
+| ResourceRequest | A department's need for an item. | purpose, specifications, quantity, minCondition, urgency, deliveryLocation, requiredBy, version, status (RQ-01 to RQ-10) | FR-07.1, FR-07.9 |
 | Reservation | A short hold on a listing for one request. | quantity, expiresAt, status (RV-01 to RV-06) | FR-09.1, BR-12 |
-| MatchRecommendation | One ranked match between a request and an asset. | score (0 to 100), confidence (0 to 1), explanation, userResponse (accepted, rejected or overridden), overrideReason | AI-04, AI-05, AI-12 |
+| MatchRecommendation | One ranked match between a request and an asset. | score (0 to 100), confidence (0 to 1), explanation, userResponse (accepted, rejected or overridden), overrideReason, createdAt | AI-04, AI-05, AI-12 |
 | AiSuggestion | Any other AI output and the user's answer to it. | task (classification, advice, assistant or report), suggestion, confidence (0 to 1), explanation, userResponse, correctedValue, createdAt | AI-01, AI-06, AI-07, AI-09, AI-12 |
 | ModelVersion | The AI model used for a task. | task, modelName, version, activeFrom | AI-12.1 |
-| Transfer | The move of an asset from one department to another. | quantity, toLocation, plannedDate, deliveryArrangement (collection or delivery), status (TR-01 to TR-09), handedOverAt, receivedAt, disputeNote | FR-11.1, BR-13 |
-| Approval | One approval stage for one record. | stage (Table 5.2 of the SRS), decision, reason, decidedAt, status (AT-01 to AT-05) | FR-10, BR-02 |
+| Transfer | The move of an asset from one department to another. | quantity, toLocation, plannedDate, deliveryArrangement (collection or delivery), transferCostAED, vanTrips, distanceKm, version, status (TR-01 to TR-09), handedOverAt, receivedAt, disputeNote | FR-11.1, BR-13 |
+| Approval | One approval stage for one record. | stage (a request, listing, transfer, repair or end-of-life stage of SRS Table 5.2), decision, reason, approverRole, recordVersion, decidedAt, status (AT-01 to AT-05) | FR-10, BR-02 |
 | Inspection | A check of an asset's condition and safety. | inspectedOn, conditionFound, safeToUse, findings, followUp | FR-12.1 |
-| MaintenanceRecord | A repair work order. | defect, estimatedCost, actualCost, parts, labourHours, outcome, conditionAfter, status (MW-01 to MW-09) | FR-13.4 |
-| EndOfLifeAction | A decision to retain, donate, disassemble, recycle or dispose of an asset. | action, quantity, destination, reason, ehsConsulted, dataErased, status (EL-01 to EL-06) | FR-14.1, FR-14.5, BR-08 |
-| SustainabilityImpact | The benefit of one completed transfer, repair or end-of-life action. | wasteDivertedKg, avoidedPurchaseAED, co2eLowKg, co2eHighKg, factorVersion, dataStatus (measured, estimated or synthetic) | SU-01 to SU-09 |
+| MaintenanceRecord | A repair work order. | defect, estimatedCost, actualCost, parts, labourHours, outcome, conditionAfter, version, status (MW-01 to MW-09) | FR-13.4 |
+| EndOfLifeAction | A decision to retain, donate, disassemble, recycle or dispose of an asset. | action, quantity, destination, reason, ehsConsulted, dataErased, version, status (EL-01 to EL-06) | FR-14.1, FR-14.5, BR-08 |
+| SustainabilityImpact | The benefit of one completed transfer, repair or end-of-life action. | wasteDivertedKg, avoidedPurchaseAED, replacementCostAED, replacementCostSource, co2eLowKg, co2eHighKg, factorVersion, dataStatus (measured, estimated or synthetic) | SU-01 to SU-09 |
 | Attachment | One photo or document for one record. | fileName, fileType (JPG, PNG or PDF), sizeKB, storageKey, uploadedAt | FR-04.1, FR-11.1, FR-12.1 |
 | Notification | A message to one user about one record. | recordType, recordId, message, sentAt, readAt | FR-16 |
-| AuditLog | Who did what and when. Entries are never changed or deleted (BR-17). | action, recordType, recordId, beforeValue, afterValue, reason, createdAt | FR-18.1 |
+| AuditLog | Who did what and when. Entries are never changed or deleted (BR-17). | role, action, recordType, recordId, beforeValue, afterValue, reason, createdAt | FR-18.1, NFR-05 |

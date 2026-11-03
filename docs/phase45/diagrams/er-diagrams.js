@@ -129,7 +129,7 @@ const ref = (name, x, y, pk, w) => box(name, x, y, ["PK " + pk], { ref: true, w 
   const A = ref("Asset", K4, 30, "assetId", WW);
   const N = box("Notification", K1, 300, ["PK notificationId", "FK userId", "recordType", "recordId", "message", "sentAt", "readAt"], { w: WW });
   const U = box("User", K2, 300, ["PK userId", "FK departmentId", "name", "email", "accountStatus"], { w: WW });
-  const AL = box("AuditLog", K1, 640, ["PK auditId", "FK userId", "action", "recordType", "recordId", "createdAt"], { w: WW });
+  const AL = box("AuditLog", K1, 640, ["PK auditId", "FK userId", "role", "action", "recordType", "recordId", "beforeValue", "afterValue", "reason", "createdAt"], { w: WW });
   const R = ref("ResourceRequest", K2, 640, "requestId", WW);
   const T = ref("Transfer", K3, 640, "transferId", WW);
   const Ap = ref("Approval", K4, 640, "approvalId", WW);
@@ -150,7 +150,7 @@ const ref = (name, x, y, pk, w) => box(name, x, y, ["PK " + pk], { ref: true, w 
 
 // ---------- Figure 8.3: assets, requests and matching ----------
 {
-  const Cat = box("Category", C2, 30, ["PK categoryId", "name", "unit", "emissionFactor"]);
+  const Cat = box("Category", C2, 30, ["PK categoryId", "name", "unit", "emissionFactorLow", "emissionFactorHigh"]);
   const A = box("Asset", C1, 240, ["PK assetId", "FK ownerDepartmentId", "FK categoryId", "FK custodianId", "name", "condition", "status", "quantity", "location (composite)", "assetAge (derived)"]);
   const MV = box("ModelVersion", C2, 240, ["PK modelVersionId", "task", "modelName", "version"]);
   const R = box("ResourceRequest", C3, 240, ["PK requestId", "FK requesterId", "FK categoryId", "quantity", "requiredBy", "status"]);
@@ -176,28 +176,28 @@ const ref = (name, x, y, pk, w) => box(name, x, y, ["PK " + pk], { ref: true, w 
 // ---------- Figure 8.4: approvals, maintenance and end of life ----------
 {
   const R = ref("ResourceRequest", C1, 30, "requestId");
-  const Ap = box("Approval", C2, 30, ["PK approvalId", "FK approverId", "FK requestId", "FK listingId", "FK transferId", "FK maintenanceId", "FK endOfLifeId", "stage", "decision", "status"]);
+  const Ap = box("Approval", C2, 30, ["PK approvalId", "FK approverId", "FK requestId", "FK listingId", "FK transferId", "FK maintenanceId", "FK endOfLifeId", "stage", "decision", "approverRole", "recordVersion", "status"]);
   const L = ref("Listing", C3, 30, "listingId");
-  const MR = box("MaintenanceRecord", C1, 400, ["PK maintenanceId", "FK assetId", "FK inspectionId", "estimatedCost", "actualCost", "conditionAfter", "status"]);
-  const T = ref("Transfer", C2, 400, "transferId");
-  const EL = box("EndOfLifeAction", C3, 400, ["PK endOfLifeId", "FK assetId", "action", "quantity", "destination", "status"]);
-  const SI = box("SustainabilityImpact", C2, 660, ["PK impactId", "FK transferId", "FK maintenanceId", "FK endOfLifeId", "wasteDivertedKg", "avoidedPurchaseAED", "co2eLowKg", "co2eHighKg", "dataStatus"]);
-  const I = box("Inspection", C1, 1010, ["PK inspectionId", "FK assetId", "FK inspectorId", "inspectedOn", "conditionFound", "safeToUse"]);
-  const A = ref("Asset", C2, 1010, "assetId");
+  const MR = box("MaintenanceRecord", C1, 450, ["PK maintenanceId", "FK assetId", "FK inspectionId", "estimatedCost", "actualCost", "conditionAfter", "status"]);
+  const T = ref("Transfer", C2, 450, "transferId");
+  const EL = box("EndOfLifeAction", C3, 450, ["PK endOfLifeId", "FK assetId", "action", "quantity", "destination", "status"]);
+  const SI = box("SustainabilityImpact", C2, 710, ["PK impactId", "FK transferId", "FK maintenanceId", "FK endOfLifeId", "wasteDivertedKg", "avoidedPurchaseAED", "co2eLowKg", "co2eHighKg", "dataStatus"]);
+  const I = box("Inspection", C1, 1060, ["PK inspectionId", "FK assetId", "FK inspectorId", "inspectedOn", "conditionFound", "safeToUse"]);
+  const A = ref("Asset", C2, 1060, "assetId");
   const sib = bottom(SI) + 42;
   svg("erd-approvals-lifecycle.svg", 930, bottom(I) + 25, [R, Ap, L, MR, T, EL, SI, I, A], [
     { a: "ResourceRequest", as: "right", af: { abs: 80 }, b: "Approval", bs: "left", bf: { abs: 80 }, ca: "0..1", cb: "0..*", name: "needs" },
     { a: "Listing", as: "left", af: { abs: 80 }, b: "Approval", bs: "right", bf: { abs: 80 }, ca: "0..1", cb: "0..*", name: "needs" },
     { a: "Transfer", as: "top", af: 0.5, b: "Approval", bs: "bottom", bf: 0.5, ca: "0..1", cb: "0..*", name: "needs" },
-    { a: "MaintenanceRecord", as: "top", af: 0.5, b: "Approval", bs: "bottom", bf: 0.15, mid: 355, ca: "0..1", cb: "0..*", name: "needs", seg: 1 },
-    { a: "EndOfLifeAction", as: "top", af: 0.5, b: "Approval", bs: "bottom", bf: 0.85, mid: 355, ca: "0..1", cb: "0..*", name: "needs", seg: 1 },
+    { a: "MaintenanceRecord", as: "top", af: 0.5, b: "Approval", bs: "bottom", bf: 0.15, mid: 405, ca: "0..1", cb: "0..*", name: "needs", seg: 1 },
+    { a: "EndOfLifeAction", as: "top", af: 0.5, b: "Approval", bs: "bottom", bf: 0.85, mid: 405, ca: "0..1", cb: "0..*", name: "needs", seg: 1 },
     { a: "Transfer", as: "bottom", af: 0.5, b: "SustainabilityImpact", bs: "top", bf: 0.5, ca: "0..1", cb: "0..1", name: "creates" },
-    { a: "MaintenanceRecord", as: "bottom", af: 0.8, b: "SustainabilityImpact", bs: "left", bf: { abs: 770 }, ca: "0..1", cb: "0..1", name: "creates", seg: 0 },
-    { a: "EndOfLifeAction", as: "bottom", af: 0.2, b: "SustainabilityImpact", bs: "right", bf: { abs: 770 }, ca: "0..1", cb: "0..1", name: "creates", seg: 0 },
+    { a: "MaintenanceRecord", as: "bottom", af: 0.8, b: "SustainabilityImpact", bs: "left", bf: { abs: 820 }, ca: "0..1", cb: "0..1", name: "creates", seg: 0 },
+    { a: "EndOfLifeAction", as: "bottom", af: 0.2, b: "SustainabilityImpact", bs: "right", bf: { abs: 820 }, ca: "0..1", cb: "0..1", name: "creates", seg: 0 },
     { a: "Inspection", as: "top", af: 0.2, b: "MaintenanceRecord", bs: "bottom", bf: 0.2, ca: "0..1", cb: "0..*", name: "leads to" },
     { a: "Asset", as: "top", af: 0.2, b: "MaintenanceRecord", bs: "bottom", bf: 0.5, mid: sib, ca: "1", cb: "0..*", name: "has", seg: 1 },
     { a: "Asset", as: "top", af: 0.8, b: "EndOfLifeAction", bs: "bottom", bf: 0.8, mid: sib, ca: "1", cb: "0..*", name: "ends with", seg: 1 },
-    { a: "Asset", as: "left", af: { abs: 1050 }, b: "Inspection", bs: "right", bf: { abs: 1050 }, ca: "1", cb: "0..*", name: "checks" },
+    { a: "Asset", as: "left", af: { abs: 1100 }, b: "Inspection", bs: "right", bf: { abs: 1100 }, ca: "1", cb: "0..*", name: "checks" },
   ]);
 }
 
