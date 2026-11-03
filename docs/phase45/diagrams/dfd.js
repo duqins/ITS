@@ -28,11 +28,11 @@ function textBlock(lines, cx, cy, size, opts = {}) {
   return lines.map((l, i) => `<text x="${cx}" y="${top + i * lh}" text-anchor="middle" font-family="${FONT}" font-size="${size}"${opts.bold ? ' font-weight="700"' : ""} fill="${opts.color || "#111"}">${esc(l)}</text>`).join("");
 }
 
+// External entity: a box with a shadow 6 px to the right and below.
 function external(name, x, y, w, h, opts = {}) {
   const size = opts.size || 17;
   let s = `<rect x="${x + 6}" y="${y + 6}" width="${w}" height="${h}" fill="${DARK}"/>`;
   s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${FILL}" stroke="${DARK}" stroke-width="2"/>`;
-  if (opts.dup) s += `<line x1="${x}" y1="${y + 14}" x2="${x + 14}" y2="${y}" stroke="${DARK}" stroke-width="2"/>`;
   const main = wrap(name, w - 18, size, true);
   const sub = opts.sub ? wrap(opts.sub, w - 14, 14) : [];
   const lhM = size * 1.15, lhS = 14 * 1.2;
@@ -43,25 +43,27 @@ function external(name, x, y, w, h, opts = {}) {
   return s;
 }
 
-function processBox(num, name, x, y, w, h) {
+// Process: rounded box with a blue band that holds the process number.
+function processBox(num, name, x, y, w, h, opts = {}) {
+  const band = opts.band || 26, numSize = opts.numSize || 15, size = opts.size || 17;
   let s = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="#fff" stroke="${DARK}" stroke-width="2"/>`;
-  s += `<path d="M${x} ${y + 26} V${y + 10} Q${x} ${y} ${x + 10} ${y} H${x + w - 10} Q${x + w} ${y} ${x + w} ${y + 10} V${y + 26} Z" fill="${BLUE}" stroke="${DARK}" stroke-width="2"/>`;
-  s += `<text x="${x + w / 2}" y="${y + 19}" text-anchor="middle" font-family="${FONT}" font-size="15" font-weight="700" fill="#fff">${esc(num)}</text>`;
-  s += textBlock(wrap(name, w - 18, 17, true), x + w / 2, y + 26 + (h - 26) / 2, 17, { bold: true });
+  s += `<path d="M${x} ${y + band} V${y + 10} Q${x} ${y} ${x + 10} ${y} H${x + w - 10} Q${x + w} ${y} ${x + w} ${y + 10} V${y + band} Z" fill="${BLUE}" stroke="${DARK}" stroke-width="2"/>`;
+  s += `<text x="${x + w / 2}" y="${y + Math.round(band * 0.73)}" text-anchor="middle" font-family="${FONT}" font-size="${numSize}" font-weight="700" fill="#fff">${esc(num)}</text>`;
+  s += textBlock(wrap(name, w - 18, size, true), x + w / 2, y + band + (h - band) / 2, size, { bold: true });
   return s;
 }
 
+// Data store: open on the right, with the D-number in its own compartment.
 function store(id, name, x, y, w, h, opts = {}) {
-  const fs2 = opts.size || 14.5;
+  const size = opts.size || 14.5, idSize = opts.idSize || 15, idW = opts.idW || 44;
   let s = `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#fff" stroke="none"/>`;
   s += `<path d="M${x + w} ${y} H${x} V${y + h} H${x + w}" fill="none" stroke="${DARK}" stroke-width="2"/>`;
-  s += `<line x1="${x + 44}" y1="${y}" x2="${x + 44}" y2="${y + h}" stroke="${DARK}" stroke-width="2"/>`;
-  if (opts.dup) s += `<line x1="${x + 8}" y1="${y}" x2="${x + 8}" y2="${y + h}" stroke="${DARK}" stroke-width="2"/>`;
-  s += `<text x="${x + (opts.dup ? 26 : 22)}" y="${y + h / 2 + 5}" text-anchor="middle" font-family="${FONT}" font-size="15" font-weight="700" fill="#111">${esc(id)}</text>`;
-  const lines = wrap(name, w - 56, fs2, true);
-  const lh = fs2 * 1.15;
-  let yy = y + h / 2 - ((lines.length - 1) * lh) / 2 + 5;
-  lines.forEach((l) => { s += `<text x="${x + 52}" y="${yy}" font-family="${FONT}" font-size="${fs2}" font-weight="700" fill="#111">${esc(l)}</text>`; yy += lh; });
+  s += `<line x1="${x + idW}" y1="${y}" x2="${x + idW}" y2="${y + h}" stroke="${DARK}" stroke-width="2"/>`;
+  s += `<text x="${x + idW / 2}" y="${y + h / 2 + idSize / 3}" text-anchor="middle" font-family="${FONT}" font-size="${idSize}" font-weight="700" fill="#111">${esc(id)}</text>`;
+  const lines = wrap(name, w - idW - 12, size, true);
+  const lh = size * 1.15;
+  let yy = y + h / 2 - ((lines.length - 1) * lh) / 2 + size / 3;
+  lines.forEach((l) => { s += `<text x="${x + idW + 8}" y="${yy}" font-family="${FONT}" font-size="${size}" font-weight="700" fill="#111">${esc(l)}</text>`; yy += lh; });
   return s;
 }
 
@@ -98,28 +100,106 @@ function clearOfArrow(points, at, maxW, size, label) {
   return { at: horiz ? { x: moved, y: at.y } : { x: at.x, y: moved }, maxW };
 }
 
+const overlap = (a, b, m) => a.x < b.x + b.w + m && b.x < a.x + a.w + m && a.y < b.y + b.h + m && b.y < a.y + a.h + m;
+// true when the straight segment p-q touches the rectangle r grown by m on every side
+function segHitsRect(p, q, r, m) {
+  const x0 = r.x - m, x1 = r.x + r.w + m, y0 = r.y - m, y1 = r.y + r.h + m;
+  let t0 = 0, t1 = 1;
+  const dx = q.x - p.x, dy = q.y - p.y;
+  for (const [pp, qq] of [[-dx, p.x - x0], [dx, x1 - p.x], [-dy, p.y - y0], [dy, y1 - p.y]]) {
+    if (pp === 0) { if (qq < 0) return false; continue; }
+    const t = qq / pp;
+    if (pp < 0) { if (t > t1) return false; if (t > t0) t0 = t; } else { if (t < t0) return false; if (t < t1) t1 = t; }
+  }
+  return true;
+}
+const segmentsOf = (pts) => pts.slice(1).map((q, i) => [pts[i], q]);
+
 // A diagram collects lines, boxes and labels separately so labels are always drawn on top.
+// With { auto: true }, a label without a given position is placed on its own line where it covers
+// no other line, box, label or arrowhead.
 class Diagram {
-  constructor() { this.under = ""; this.lines = ""; this.boxes = ""; this.labels = ""; }
+  constructor(opts = {}) {
+    this.under = ""; this.lines = ""; this.boxes = ""; this.labels = "";
+    this.auto = !!opts.auto; this.size = opts.size || 15; this.labelW = opts.labelW || 160;
+    this.polys = []; this.rects = []; this.pills = []; this.pending = [];
+  }
   // points: polyline; label placed at opts.at, or at fraction opts.t along the first segment
   flow(points, label, opts = {}) {
     const color = opts.ai ? TEAL : BLUE;
     this.lines += `<polyline points="${points.map((p) => `${p.x},${p.y}`).join(" ")}" fill="none" stroke="${color}" stroke-width="2"/>`;
     const n = points.length;
     this.lines += arrowHead(points[n - 2], points[n - 1], color);
-    if (label) {
-      let at = opts.at;
-      if (!at) {
-        const t = opts.t === undefined ? 0.5 : opts.t;
-        at = { x: points[0].x + (points[1].x - points[0].x) * t, y: points[0].y + (points[1].y - points[0].y) * t };
-      }
-      const size = opts.size || 15;
-      const fit = clearOfArrow(points, at, opts.labelW || 160, size, label);
-      this.labels += pill(label, fit.at.x, fit.at.y, fit.maxW, size);
+    this.polys.push(points);
+    if (!label) return;
+    const size = opts.size || this.size;
+    if (this.auto && !opts.at && opts.t === undefined) { this.pending.push({ points, label, opts, size, index: this.polys.length - 1 }); return; }
+    let at = opts.at;
+    if (!at) {
+      const t = opts.t === undefined ? 0.5 : opts.t;
+      at = { x: points[0].x + (points[1].x - points[0].x) * t, y: points[0].y + (points[1].y - points[0].y) * t };
     }
+    const fit = clearOfArrow(points, at, opts.labelW || 160, size, label);
+    this.labels += pill(label, fit.at.x, fit.at.y, fit.maxW, size);
+    const { w, h } = pillSize(label, fit.maxW, size);
+    this.pills.push({ x: fit.at.x - w / 2, y: fit.at.y - h / 2, w, h });
   }
-  add(svg) { this.boxes += svg; }
+  // rect: the area the box covers, so automatic labels stay off it
+  add(svg, rect) { this.boxes += svg; if (rect) this.rects.push(rect); }
+  // every free spot for a label on its own line, nearest the middle of a long straight part first
+  spots(f, W, H, taken) {
+    const out = [];
+    const base = f.opts.labelW || this.labelW;
+    for (const maxW of [base, 190, 300, 130, 110]) {
+      const { w, h } = pillSize(f.label, maxW, f.size);
+      segmentsOf(f.points).forEach(([a, b], i, all) => {
+        const horiz = a.y === b.y, len = Math.abs(horiz ? b.x - a.x : b.y - a.y), dir = Math.sign(horiz ? b.x - a.x : b.y - a.y);
+        const half = (horiz ? w : h) / 2, lo = half + 6, hi = len - half - (i === all.length - 1 ? CLEAR + 6 : 6);
+        for (let d = lo; d <= hi; d += 4) {
+          const c = horiz ? { x: a.x + dir * d, y: a.y } : { x: a.x, y: a.y + dir * d };
+          const r = { x: c.x - w / 2, y: c.y - h / 2, w, h };
+          if (r.x < 4 || r.y < 4 || r.x + w > W - 4 || r.y + h > H - 4) continue;
+          if (this.rects.some((b2) => overlap(r, b2, 6))) continue;
+          if (taken.some((b2) => overlap(r, b2, 5))) continue;
+          if (this.polys.some((pts, k) => k !== f.index && segmentsOf(pts).some(([p, q]) => segHitsRect(p, q, r, 4)))) continue;
+          const score = Math.abs(d - (lo + hi) / 2) / len - Math.min(len, 500) / 1000 + (f.opts.seg !== undefined && f.opts.seg !== i ? 3 : 0) + (maxW === base ? 0 : maxW > base ? 0.3 : 0.5);
+          out.push({ score, c, maxW, r });
+        }
+      });
+    }
+    return out.sort((p, q) => p.score - q.score);
+  }
+  placeLabels(W, H) {
+    const placed = new Map(); // flow -> chosen spot
+    const taken = (except) => [...this.pills, ...[...placed].filter(([f]) => f !== except).map(([, sp]) => sp.r)];
+    // labels with the fewest free spots go first
+    const order = this.pending.map((f) => ({ f, n: this.spots(f, W, H, this.pills).length })).sort((a, b) => a.n - b.n);
+    for (const { f } of order) {
+      const best = this.spots(f, W, H, taken())[0];
+      if (best) placed.set(f, best);
+      else if (!this.makeRoom(f, W, H, placed, taken)) console.warn(`no free spot for the label "${f.label}"`);
+    }
+    for (const [f, sp] of placed) this.labels += pill(f.label, sp.c.x, sp.c.y, sp.maxW, f.size);
+  }
+  // when a label has no free spot, move up to two labels that are in its way to other free spots
+  makeRoom(f, W, H, placed, taken) {
+    for (const cand of this.spots(f, W, H, this.pills).slice(0, 60)) {
+      const blockers = [...placed].filter(([, sp]) => overlap(sp.r, cand.r, 5)).map(([g2]) => g2);
+      if (blockers.length > 2) continue;
+      const old = blockers.map((b) => placed.get(b));
+      blockers.forEach((b) => placed.delete(b));
+      placed.set(f, cand);
+      const moved = [];
+      for (const b of blockers) { const sp = this.spots(b, W, H, taken(b))[0]; if (!sp) break; placed.set(b, sp); moved.push(b); }
+      if (moved.length === blockers.length) return true;
+      placed.delete(f);
+      moved.forEach((b) => placed.delete(b));
+      blockers.forEach((b, i) => placed.set(b, old[i]));
+    }
+    return false;
+  }
   write(file, w, h) {
+    if (this.pending.length) this.placeLabels(w, h);
     const s = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">\n<rect width="100%" height="100%" fill="#fff"/>\n${this.under}${this.lines}${this.boxes}${this.labels}\n</svg>\n`;
     fs.writeFileSync(path.join(outDir, file), s);
     console.log("wrote " + file);
@@ -156,7 +236,8 @@ const D = {
       g.add(external(e.name, box.x, y + 4, box.w, 2 * slot - 8, { sub: e.sub }));
       e.flows.forEach(([dir, label], i) => {
         const yy = y + slot * i + slot / 2;
-        const ext = { x: isLeft ? box.x + box.w : box.x, y: yy }, pr = { x: isLeft ? P.x : P.x + P.w, y: yy };
+        // on the left, lines end at the edge of the box shadow so the arrowhead is not hidden
+        const ext = { x: isLeft ? box.x + box.w + 6 : box.x, y: yy }, pr = { x: isLeft ? P.x : P.x + P.w, y: yy };
         g.flow(dir === "in" ? [ext, pr] : [pr, ext], label, { at: { x: (ext.x + pr.x) / 2, y: yy }, labelW: 185 });
       });
       y += 2 * slot + gapY;
@@ -171,135 +252,208 @@ const D = {
   g.write("dfd-context.svg", 935, 715);
 }
 
-// ---------- Level 1 rows ----------
-// Each row: external entities on the left, the process in the middle, data stores on the right.
-// Every arrow is a straight horizontal line, so rows never cross each other.
-const ROW = { extX: 15, extW: 160, procX: 360, procW: 180, storeX: 730, storeW: 190, slot: 46 };
-
-function drawRow(g, row, y0, seen) {
-  const gap = 12;
-  const leftSlots = row.left.reduce((n, e) => n + e.flows.length, 0);
-  const rightSlots = row.right.reduce((n, s) => n + s.flows.length, 0);
-  const leftH = leftSlots * ROW.slot + (row.left.length - 1) * gap;
-  const rightH = rightSlots * ROW.slot + (row.right.length - 1) * gap;
-  const procH = Math.max(110, leftH, rightH);
-  let y = y0 + (procH - leftH) / 2;
-  for (const e of row.left) {
-    const h = e.flows.length * ROW.slot;
-    const key = "E:" + e.name;
-    g.add(external(e.name, ROW.extX, y + 3, ROW.extW, h - 6, { dup: seen.has(key), size: 16 }));
-    seen.add(key);
-    e.flows.forEach((f, i) => {
-      const yy = y + ROW.slot * i + ROW.slot / 2;
-      const ai = e.name === AI;
-      const a = { x: ROW.extX + ROW.extW, y: yy }, b = { x: ROW.procX, y: yy };
-      g.flow(f.dir === "in" ? [a, b] : [b, a], f.label, { ai, at: { x: (a.x + b.x) / 2, y: yy }, labelW: 162 });
-    });
-    y += h + gap;
+// ---------- Store flows between two rows of processes and a row of stores ----------
+// Each flow leaves its process edge straight, runs along its own horizontal track and enters its store edge
+// straight. Ports keep the order of the boxes they lead to, and tracks are ordered to keep crossings low.
+// list items: { p, s, write, label }; p.edge is "bottom" for the upper process row and "top" for the lower one.
+// Tracks stay out of a strip of height `zone` next to each row, so the labels have room there.
+function routeStoreFlows(g, list, gap, zone) {
+  const spread = (items, lo, hi, key) => { // place ports in order, near their wish, at least `gap` apart
+    items.sort((a, b) => a.wish - b.wish || a.tie - b.tie);
+    const n = items.length, step = Math.min(gap, (hi - lo) / Math.max(1, n - 1));
+    items.forEach((it, i) => { it[key] = Math.min(hi - (n - 1 - i) * step, Math.max(lo + i * step, it.wish)); });
+    for (let i = 1; i < n; i++) items[i][key] = Math.max(items[i][key], items[i - 1][key] + step);
+    for (let i = n - 2; i >= 0; i--) items[i][key] = Math.min(items[i][key], items[i + 1][key] - step);
+  };
+  const groups = (key) => { const m = new Map(); for (const f of list) { const k = key(f); if (!m.has(k)) m.set(k, []); m.get(k).push(f); } return [...m.values()]; };
+  const centre = (b) => b.x + b.w / 2;
+  // process ports: evenly spread, in the order of the stores they lead to
+  for (const grp of groups((f) => f.p.id)) {
+    const [lo, hi] = grp[0].p.range;
+    grp.sort((a, b) => centre(a.s) - centre(b.s) || a.write - b.write);
+    grp.forEach((f, i) => { f.xp = Math.round(grp.length === 1 ? (lo + hi) / 2 : lo + ((hi - lo) * i) / (grp.length - 1)); });
   }
-  y = y0 + (procH - rightH) / 2;
-  for (const s of row.right) {
-    const h = s.flows.length * ROW.slot;
-    const key = "S:" + s.id;
-    g.add(store(s.id, D[s.id], ROW.storeX, y + 3, ROW.storeW, h - 6, { dup: seen.has(key) }));
-    seen.add(key);
-    s.flows.forEach((f, i) => {
-      const yy = y + ROW.slot * i + ROW.slot / 2;
-      const a = { x: ROW.procX + ROW.procW, y: yy }, b = { x: ROW.storeX, y: yy };
-      g.flow(f.dir === "write" ? [a, b] : [b, a], f.label, { at: { x: (a.x + b.x) / 2, y: yy }, labelW: 165 });
-    });
-    y += h + gap;
+  // store ports: straight under or over the process port when the store reaches it
+  for (const grp of groups((f) => f.s.id + f.p.edge)) {
+    const lo = grp[0].s.x + 14, hi = grp[0].s.x + grp[0].s.w - 14;
+    grp.forEach((f) => { f.wish = Math.min(hi, Math.max(lo, f.xp)); f.tie = f.xp; });
+    spread(grp, lo, hi, "xs");
   }
-  g.add(processBox(row.num, row.name, ROW.procX, y0, ROW.procW, procH));
-  return procH;
+  // straighten a jog when one end can move straight over the other without passing a neighbour
+  for (const f of list) {
+    if (Math.abs(f.xp - f.xs) < 0.5) continue;
+    const keepsOrder = (sibs, key, to) => sibs.every((o) => Math.abs(o[key] - to) >= 40 && Math.sign(o[key] - f[key]) === Math.sign(o[key] - to));
+    const onP = list.filter((o) => o !== f && o.p === f.p), onS = list.filter((o) => o !== f && o.s === f.s && o.p.edge === f.p.edge);
+    if (f.xs >= f.p.range[0] && f.xs <= f.p.range[1] && keepsOrder(onP, "xp", f.xs)) f.xp = f.xs;
+    else if (f.xp >= f.s.x + 14 && f.xp <= f.s.x + f.s.w - 14 && keepsOrder(onS, "xs", f.xp)) f.xs = f.xp;
+  }
+  // tracks, one channel above the stores and one below
+  for (const edge of ["bottom", "top"]) {
+    const fl = list.filter((f) => f.p.edge === edge && Math.abs(f.xp - f.xs) > 0.5);
+    if (!fl.length) continue;
+    const yP = edge === "bottom" ? fl[0].p.y + fl[0].p.h : fl[0].p.y;
+    const yS = edge === "bottom" ? Math.min(...list.filter((f) => f.p.edge === edge).map((f) => f.s.y)) : Math.max(...list.filter((f) => f.p.edge === edge).map((f) => f.s.y + f.s.h));
+    const inside = (x, f) => x > Math.min(f.xp, f.xs) && x < Math.max(f.xp, f.xs);
+    const cost = (f, g2) => (inside(f.xs, g2) ? 1 : 0) + (inside(g2.xp, f) ? 1 : 0); // f nearer the process row than g2
+    const total = (o) => { let c = 0; for (let i = 0; i < o.length; i++) for (let j = i + 1; j < o.length; j++) c += cost(o[i], o[j]); return c; };
+    let order = fl.slice().sort((a, b) => Math.abs(a.xp - a.xs) - Math.abs(b.xp - b.xs));
+    for (let improved = true; improved;) {
+      improved = false;
+      for (let i = 0; i < order.length; i++) {
+        const f = order[i], rest = order.filter((_, k) => k !== i);
+        let best = total(order), bestAt = i;
+        for (let k = 0; k <= rest.length; k++) { const c = total([...rest.slice(0, k), f, ...rest.slice(k)]); if (c < best) { best = c; bestAt = k; } }
+        if (bestAt !== i) { order = [...rest.slice(0, bestAt), f, ...rest.slice(bestAt)]; improved = true; }
+      }
+    }
+    const dir = Math.sign(yS - yP), span = Math.abs(yS - yP) - 2 * zone;
+    order.forEach((f, i) => { f.track = Math.round(yP + dir * (zone + (span * (i + 0.5)) / order.length)); });
+  }
+  for (const f of list) {
+    const yP = f.p.edge === "bottom" ? f.p.y + f.p.h : f.p.y, yS = f.p.edge === "bottom" ? f.s.y : f.s.y + f.s.h;
+    const pts = Math.abs(f.xp - f.xs) > 0.5
+      ? [{ x: f.xp, y: yP }, { x: f.xp, y: f.track }, { x: f.xs, y: f.track }, { x: f.xs, y: yS }]
+      : [{ x: f.xp, y: yP }, { x: f.xs, y: yS }];
+    g.flow(f.write ? pts : pts.reverse(), f.label);
+  }
 }
 
-function level1(file, rows) {
-  const g = new Diagram();
-  const seen = new Set();
-  let y = 15;
-  for (const r of rows) y += drawRow(g, r, y, seen) + 36;
-  g.write(file, 930, y - 20);
+// ---------- Figure 2.1: Level 1 (printed alone on an A3 landscape page) ----------
+// Processes 1.0 to 4.0 form the top row and 7.0, 5.0 and 6.0 the bottom row. The data stores sit between
+// the rows, the external entities around the outside, and every entity and store is drawn once.
+{
+  const W = 2600, H = 1525;
+  const g = new Diagram({ auto: true, size: 18, labelW: 170 });
+  const F = (xy, label, opts) => g.flow(xy.map(([x, y]) => ({ x, y })), label, opts);
+  const ent = (name, x, y, w, h) => { g.add(external(name, x, y, w, h, { size: 20 }), { x, y, w: w + 6, h: h + 6 }); };
+  const proc = (id, num, name, x, y, w, h, edge, range) => { g.add(processBox(num, name, x, y, w, h, { band: 32, numSize: 19, size: 21 }), { x, y, w, h }); return { id, x, y, w, h, edge, range }; };
+  const sto = (id, x, y, w, h = 58) => { g.add(store(id, D[id], x, y, w, h, { size: 18, idSize: 19, idW: 54 }), { x, y, w, h }); return { id, x, y, w, h }; };
+
+  // rows (y): AI Provider 14, Requester 84, top processes 228-340, stores 594-652, bottom processes 986-1094,
+  // then Approvers, Maintenance Staff and D6 at 1210, Sustainability Officer and D7 at 1340, Asset Custodian at 1450
+  // processes: x, y, width, height, the edge that faces the stores, and the part of that edge the store flows use
+  const P1 = proc("P1", "1.0", "Manage Accounts and Settings", 110, 228, 290, 112, "bottom", [300, 390]);
+  const P2 = proc("P2", "2.0", "Register and Publish Assets", 620, 228, 360, 112, "bottom", [640, 960]);
+  const P3 = proc("P3", "3.0", "Request, Match and Reserve Assets", 1200, 228, 400, 112, "bottom", [1220, 1580]);
+  const P4 = proc("P4", "4.0", "Answer Assistant Questions", 1840, 228, 400, 112, "bottom", [1860, 2220]);
+  const P7 = proc("P7", "7.0", "Report Impact and History", 110, 986, 590, 108, "top", [290, 690]);
+  const P5 = proc("P5", "5.0", "Approve and Transfer Assets", 860, 986, 660, 108, "top", [880, 1500]);
+  const P6 = proc("P6", "6.0", "Maintain and Retire Assets", 1700, 986, 680, 108, "top", [1720, 2360]);
+  // stores between the rows; D6 and D7 sit under the bottom row because only 5.0, 6.0 and 7.0 use them
+  const SY = 594, SW = 270;
+  const D8 = sto("D8", 320, SY, SW), D3 = sto("D3", 668, SY, SW), D1 = sto("D1", 1016, SY, SW), D5 = sto("D5", 1364, SY, SW), D4 = sto("D4", 1712, SY, SW), D2 = sto("D2", 2060, SY, 320);
+  sto("D6", 1500, 1210, 260, 52); sto("D7", 1380, 1340, 420, 52);
+  // external entities
+  ent(AI, 560, 14, 1720, 50);
+  ent("Requester", 1370, 84, 670, 48);
+  ent("Administrators", 110, 585, 180, 68);
+  ent("Approvers", 600, 1210, 420, 52);
+  ent("Sustainability Officer", 480, 1340, 720, 52);
+  ent("Maintenance Staff", 2080, 1210, 300, 52);
+  ent("Asset Custodian", 160, 1450, 1800, 52);
+
+  // flows between the processes and the stores in the middle band
+  const band = [
+    [P1, D8, 1, "audit entries"], [P1, D1, 1, "user, role and setting records"],
+    [P2, D1, 0, "categories"], [P2, D5, 0, "release decisions"], [P2, D2, 1, "asset and listing records"], [P2, D4, 1, "AI suggestions"],
+    [P3, D2, 0, "published listings"], [P3, D5, 0, "request decisions"], [P3, D3, 1, "request and hold records"], [P3, D4, 1, "match records"],
+    [P4, D2, 0, "permitted listings"], [P4, D4, 1, "assistant records"],
+    [P5, D1, 0, "roles and emission factors"], [P5, D3, 0, "holds and requests"], [P5, D3, 1, "hold and request states"],
+    [P5, D5, 1, "approval and transfer records"], [P5, D2, 0, "listings to approve"], [P5, D2, 1, "new owner and location"], [P5, D8, 1, "audit entries"],
+    [P6, D1, 0, "emission factors"], [P6, D2, 0, "asset details"], [P6, D2, 1, "condition and state"], [P6, D5, 0, "approval decisions"], [P6, D4, 1, "AI suggestions"],
+    [P7, D2, 0, "asset and listing records"], [P7, D3, 0, "request and hold records"], [P7, D4, 0, "AI records"], [P7, D4, 1, "AI suggestions"],
+    [P7, D5, 0, "transfer records"], [P7, D8, 0, "audit entries"],
+  ];
+  routeStoreFlows(g, band.map(([p, s, w, label]) => ({ p, s, write: !!w, label })), 46, 72);
+
+  // Administrators, between 1.0 and 7.0
+  F([[166, 585], [166, 340]], "account details, role assignments, settings");
+  F([[250, 340], [250, 585]], "account status");
+  F([[166, 659], [166, 986]], "report requests");
+  F([[250, 986], [250, 659]], "operational and audit reports");
+  // AI Provider: straight down to 2.0, 3.0 and 4.0, round the left side to 7.0 and round the right side to 6.0
+  const ai = { ai: true };
+  F([[800, 228], [800, 70]], "asset text", ai);
+  F([[920, 70], [920, 228]], "category and tags", ai);
+  F([[1220, 228], [1220, 70]], "request text", ai);
+  F([[1290, 70], [1290, 228]], "embedding vectors", ai);
+  F([[2100, 228], [2100, 70]], "question context", ai);
+  F([[2210, 70], [2210, 228]], "draft answer", ai);
+  F([[110, 1016], [40, 1016], [40, 46], [560, 46]], "report figures", ai);
+  F([[560, 26], [20, 26], [20, 1064], [110, 1064]], "draft report text", ai);
+  F([[2380, 1016], [2560, 1016], [2560, 46], [2286, 46]], "asset condition text", ai);
+  F([[2286, 26], [2580, 26], [2580, 1064], [2380, 1064]], "action advice", ai);
+  // Requester, over 3.0 and 4.0
+  F([[1390, 138], [1390, 228]], "resource request, match choice");
+  F([[1580, 228], [1580, 138]], "ranked matches, request status");
+  F([[1860, 138], [1860, 228]], "assistant question");
+  F([[2000, 228], [2000, 138]], "assistant answer");
+  // Asset Custodian: up the left side to 2.0, and straight up to 7.0, 5.0 and 6.0
+  F([[720, 228], [720, 160], [60, 160], [60, 1488], [160, 1488]], "suggested category");
+  F([[160, 1466], [80, 1466], [80, 200], [660, 200], [660, 228]], "asset details");
+  F([[180, 1094], [180, 1450]], "asset history");
+  F([[1240, 1450], [1240, 1094]], "handover records");
+  F([[1300, 1094], [1300, 1450]], "transfer tasks");
+  F([[1880, 1450], [1880, 1094]], "defect and end-of-life reports");
+  // Approvers and Sustainability Officer, under 7.0 and 5.0
+  F([[650, 1094], [650, 1210]], "finance and reuse reports");
+  F([[880, 1210], [880, 1094]], "approval decisions");
+  F([[980, 1094], [980, 1210]], "approval tasks");
+  F([[520, 1094], [520, 1340]], "impact report");
+  F([[1080, 1340], [1080, 1094]], "end-of-life reviews");
+  F([[1170, 1094], [1170, 1340]], "review tasks");
+  // Maintenance Staff, under 6.0
+  F([[2140, 1210], [2140, 1094]], "inspection and repair records");
+  F([[2320, 1094], [2320, 1210]], "work orders");
+  // D6 and D7, between 5.0 and 6.0, with longer flows to 7.0
+  F([[1510, 1210], [1510, 1094]], "end-of-life and repair cases");
+  F([[1710, 1094], [1710, 1210]], "maintenance records");
+  F([[1500, 1236], [1360, 1236], [1360, 1410], [440, 1410], [440, 1094]], "maintenance records");
+  F([[1430, 1094], [1430, 1340]], "transfer impacts");
+  F([[1790, 1094], [1790, 1340]], "impact records");
+  F([[1400, 1392], [1400, 1424], [300, 1424], [300, 1094]], "impact records");
+
+  g.write("dfd-level1.svg", W, H);
 }
 
-const st = (id, flows) => ({ id, flows });
-const R = (label) => ({ dir: "read", label }), Wr = (label) => ({ dir: "write", label });
-const In = (label) => ({ dir: "in", label }), Out = (label) => ({ dir: "out", label });
-
-level1("dfd-level1-a.svg", [
-  { num: "1.0", name: "Manage Accounts and Settings",
-    left: [{ name: "Administrators", flows: [In("account details, role assignments, settings"), Out("account status")] }],
-    right: [st("D1", [Wr("user, role and setting records")]), st("D8", [Wr("audit entries")])] },
-  { num: "2.0", name: "Register and Publish Assets",
-    left: [{ name: "Asset Custodian", flows: [In("asset details"), Out("suggested category")] }, { name: AI, flows: [Out("asset text"), In("category and tags")] }],
-    right: [st("D1", [R("categories")]), st("D5", [R("release decisions")]), st("D2", [Wr("asset and listing records")]), st("D4", [Wr("AI suggestions")])] },
-  { num: "3.0", name: "Request, Match and Reserve Assets",
-    left: [{ name: "Requester", flows: [In("resource request, match choice"), Out("ranked matches, request status")] }, { name: AI, flows: [Out("request text"), In("embedding vectors")] }],
-    right: [st("D2", [R("published listings")]), st("D5", [R("request decisions")]), st("D3", [Wr("request and hold records")]), st("D4", [Wr("match records")])] },
-  { num: "4.0", name: "Answer Assistant Questions",
-    left: [{ name: "Requester", flows: [In("assistant question"), Out("assistant answer")] }, { name: AI, flows: [Out("question context"), In("draft answer")] }],
-    right: [st("D2", [R("permitted listings")]), st("D4", [Wr("assistant records")])] },
-]);
-
-level1("dfd-level1-b.svg", [
-  { num: "5.0", name: "Approve and Transfer Assets",
-    left: [{ name: "Approvers", flows: [In("approval decisions"), Out("approval tasks")] }, { name: "Sustainability Officer", flows: [In("end-of-life reviews"), Out("review tasks")] },
-           { name: "Asset Custodian", flows: [In("handover records"), Out("transfer tasks")] }],
-    right: [st("D1", [R("roles and emission factors")]), st("D3", [R("holds and requests"), Wr("hold and request states")]), st("D6", [R("end-of-life and repair cases")]),
-            st("D5", [Wr("approval and transfer records")]), st("D2", [R("listings to approve"), Wr("new owner and location")]), st("D7", [Wr("transfer impacts")]), st("D8", [Wr("audit entries")])] },
-  { num: "6.0", name: "Maintain and Retire Assets",
-    left: [{ name: "Asset Custodian", flows: [In("defect and end-of-life reports")] }, { name: "Maintenance Staff", flows: [In("inspection and repair records"), Out("work orders")] },
-           { name: AI, flows: [Out("asset condition text"), In("action advice")] }],
-    right: [st("D1", [R("emission factors")]), st("D2", [R("asset details"), Wr("condition and state")]), st("D5", [R("approval decisions")]),
-            st("D6", [Wr("maintenance records")]), st("D4", [Wr("AI suggestions")]), st("D7", [Wr("impact records")])] },
-  { num: "7.0", name: "Report Impact and History",
-    left: [{ name: "Administrators", flows: [In("report requests"), Out("operational and audit reports")] }, { name: "Approvers", flows: [Out("finance and reuse reports")] },
-           { name: "Sustainability Officer", flows: [Out("impact report")] }, { name: "Asset Custodian", flows: [Out("asset history")] },
-           { name: AI, flows: [Out("report figures"), In("draft report text")] }],
-    right: [st("D2", [R("asset and listing records")]), st("D3", [R("request and hold records")]), st("D4", [R("AI records"), Wr("AI suggestions")]), st("D5", [R("transfer records")]), st("D6", [R("maintenance records")]), st("D7", [R("impact records")]), st("D8", [R("audit entries")])] },
-]);
-
-// ---------- Figure 2.3: Level 2 of 3.0 ----------
+// ---------- Figure 2.2: Level 2 of 3.0 ----------
+// 3.1 to 3.4 run top to bottom inside the dashed boundary of 3.0. The Requester sits on the left, the data
+// stores and the AI Provider on the right, each drawn once; the hold record goes round the right edge to D3.
 {
   const g = new Diagram();
-  g.under += `<rect x="215" y="112" width="485" height="660" rx="14" fill="#f4f8fe" stroke="${BLUE}" stroke-width="2" stroke-dasharray="7 5"/>`;
-  g.under += `<text x="232" y="138" font-family="${FONT}" font-size="15" font-weight="700" fill="${DARK}">Level 2 of process 3.0</text>`;
-  const p1 = { x: 285, y: 160, w: 175, h: 96 }, p2 = { x: 285, y: 375, w: 175, h: 112 };
-  const p3 = { x: 505, y: 375, w: 175, h: 112 }, p4 = { x: 505, y: 620, w: 175, h: 100 };
+  const F = (xy, label, at, opts = {}) => g.flow(xy.map(([x, y]) => ({ x, y })), label, { at: { x: at[0], y: at[1] }, labelW: 150, ...opts });
+  g.under += `<rect x="300" y="14" width="280" height="890" rx="14" fill="#f4f8fe" stroke="${BLUE}" stroke-width="2" stroke-dasharray="7 5"/>`;
+  g.under += `<text x="316" y="40" font-family="${FONT}" font-size="15" font-weight="700" fill="${DARK}">Level 2 of process 3.0</text>`;
   // 3.1 Record Request
-  g.flow([{ x: 175, y: 185 }, { x: 285, y: 185 }], "resource request", { at: { x: 230, y: 185 }, labelW: 90 });
-  g.flow([{ x: 285, y: 232 }, { x: 175, y: 232 }], "request status", { at: { x: 230, y: 232 }, labelW: 90 });
-  g.flow([{ x: 305, y: 256 }, { x: 305, y: 318 }, { x: 175, y: 318 }], "request record", { at: { x: 240, y: 318 }, labelW: 120 });
-  g.flow([{ x: 380, y: 256 }, { x: 380, y: 375 }], "request details", { at: { x: 380, y: 318 }, labelW: 120 });
+  F([[128, 90], [330, 90]], "resource request", [216, 90]);
+  F([[330, 135], [128, 135]], "request status", [222, 135]);
+  F([[550, 110], [720, 110]], "request record", [640, 110], { labelW: 100 });
+  F([[440, 160], [440, 290]], "request details", [440, 222]);
   // 3.2 Check Eligibility
-  g.flow([{ x: 175, y: 405 }, { x: 285, y: 405 }], "published listings", { at: { x: 230, y: 405 }, labelW: 90 });
-  g.flow([{ x: 175, y: 462 }, { x: 285, y: 462 }], "request decisions", { at: { x: 230, y: 462 }, labelW: 90 });
-  g.flow([{ x: 400, y: 487 }, { x: 400, y: 545 }, { x: 540, y: 545 }, { x: 540, y: 487 }], "eligible listings, request criteria", { at: { x: 470, y: 545 }, labelW: 150 });
+  F([[720, 315], [550, 315]], "published listings", [650, 315], { labelW: 100 });
+  F([[720, 375], [550, 375]], "request decisions", [650, 375], { labelW: 100 });
+  F([[440, 390], [440, 510]], "eligible listings, request criteria", [440, 445], { labelW: 170 });
   // 3.3 Rank and Explain Matches
-  g.flow([{ x: 555, y: 375 }, { x: 555, y: 72 }], "request text", { ai: true, at: { x: 555, y: 230 }, labelW: 95 });
-  g.flow([{ x: 635, y: 72 }, { x: 635, y: 375 }], "embedding vectors", { ai: true, at: { x: 635, y: 300 }, labelW: 100 });
-  g.flow([{ x: 680, y: 405 }, { x: 735, y: 405 }], "match recommendations", { at: { x: 725, y: 356 }, labelW: 145, size: 14 });
-  g.flow([{ x: 680, y: 462 }, { x: 800, y: 462 }, { x: 800, y: 515 }], "ranked matches", { at: { x: 740, y: 462 }, labelW: 90 });
-  g.flow([{ x: 620, y: 487 }, { x: 620, y: 620 }], "ranked list", { at: { x: 620, y: 575 }, labelW: 90 });
+  F([[550, 528], [720, 528]], "request text", [640, 528], { ai: true, labelW: 100 });
+  F([[720, 585], [550, 585]], "embedding vectors", [650, 585], { ai: true, labelW: 100 });
+  F([[500, 630], [500, 696], [720, 696]], "match recommendations", [500, 664]);
+  F([[330, 570], [128, 570]], "ranked matches", [226, 570]);
+  F([[420, 630], [420, 750]], "ranked list", [420, 703]);
   // 3.4 Record Choice and Hold
-  g.flow([{ x: 800, y: 605 }, { x: 800, y: 650 }, { x: 680, y: 650 }], "match choice", { at: { x: 740, y: 650 }, labelW: 100 });
-  g.flow([{ x: 680, y: 700 }, { x: 790, y: 700 }, { x: 790, y: 762 }], "hold record", { at: { x: 790, y: 730 }, labelW: 90 });
-  g.flow([{ x: 505, y: 690 }, { x: 175, y: 690 }], "request status", { at: { x: 340, y: 690 }, labelW: 120 });
-  g.flow([{ x: 590, y: 720 }, { x: 590, y: 800 }], "match response", { at: { x: 590, y: 752 }, labelW: 150 });
+  F([[128, 780], [330, 780]], "match choice", [214, 780]);
+  F([[550, 800], [650, 800], [650, 716], [720, 716]], "match response", [650, 758], { labelW: 100 });
+  F([[550, 850], [912, 850], [912, 175], [860, 175], [860, 135]], "hold record", [750, 850]);
+  F([[330, 840], [128, 840]], "request status", [226, 840]);
   // boxes
-  g.add(external("Requester", 15, 165, 160, 88));
-  g.add(store("D3", D.D3, 15, 293, 160, 50, { size: 13.5 }));
-  g.add(store("D2", D.D2, 15, 380, 160, 50, { size: 13.5 }));
-  g.add(store("D5", D.D5, 15, 437, 160, 50, { size: 13.5 }));
-  g.add(external("Requester", 15, 660, 160, 60, { dup: true }));
-  g.add(external(AI, 520, 14, 160, 58));
-  g.add(store("D4", D.D4, 735, 383, 185, 44));
-  g.add(external("Requester", 735, 515, 180, 90, { dup: true }));
-  g.add(store("D3", D.D3, 715, 762, 205, 44, { dup: true }));
-  g.add(store("D4", D.D4, 470, 800, 205, 44, { dup: true }));
-  g.add(processBox("3.1", "Record Request", p1.x, p1.y, p1.w, p1.h));
-  g.add(processBox("3.2", "Check Eligibility", p2.x, p2.y, p2.w, p2.h));
-  g.add(processBox("3.3", "Rank and Explain Matches", p3.x, p3.y, p3.w, p3.h));
-  g.add(processBox("3.4", "Record Choice and Hold", p4.x, p4.y, p4.w, p4.h));
-  g.write("dfd-level2-3.svg", 930, 860);
+  g.add(external("Requester", 12, 66, 110, 800));
+  g.add(store("D3", D.D3, 720, 85, 170, 50, { size: 14 }));
+  g.add(store("D2", D.D2, 720, 290, 170, 50, { size: 14 }));
+  g.add(store("D5", D.D5, 720, 350, 170, 50, { size: 14 }));
+  g.add(external(AI, 720, 500, 170, 100));
+  g.add(store("D4", D.D4, 720, 676, 170, 50, { size: 14 }));
+  g.add(processBox("3.1", "Record Request", 330, 60, 220, 100));
+  g.add(processBox("3.2", "Check Eligibility", 330, 290, 220, 100));
+  g.add(processBox("3.3", "Rank and Explain Matches", 330, 510, 220, 120));
+  g.add(processBox("3.4", "Record Choice and Hold", 330, 750, 220, 120));
+  g.write("dfd-level2-3.svg", 930, 920);
 }
