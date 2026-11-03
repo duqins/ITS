@@ -29,8 +29,8 @@ The section numbers 1 to 7 come from the Phase 4 lab slides (slide 23), so the g
 ## Diagrams
 
 - Put images in `images/` as PNG and add them with `![Figure 3.1 Caption](images/file.png)`. Number figures by section (Figure 3.1, 3.2, and so on).
-- Use the entity names from the ER diagrams in section 8 (for example ResourceRequest, MatchRecommendation).
-- The ER diagrams are SVG files in `images/`. They are drawn by `diagrams/er-diagrams.js` and turned into PNG by `diagrams/render-svg.ps1`.
+- Use the entity names from the ER diagram in section 8 (for example ResourceRequest, MatchRecommendation).
+- The diagrams in sections 1, 2, 8 and 10 are SVG files in `images/`. They are drawn by the scripts in `diagrams/` (for example `er-diagrams.js`) and turned into PNG by `diagrams/render-svg.ps1`.
 
 ## Build the Word file
 
