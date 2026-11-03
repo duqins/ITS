@@ -2,7 +2,8 @@
 # Usage from the repository root: powershell -File docs/phase45/diagrams/render-svg.ps1 -Dir docs/phase45/images
 param([string]$Dir, [string[]]$Only)
 $chrome = "C:\Program Files\Google\Chrome\Application\chrome.exe"
-$work = Join-Path $env:TEMP "svgrender"
+# each run gets its own folder, so two renders at the same time cannot swap pictures
+$work = Join-Path $env:TEMP ("svgrender-" + [guid]::NewGuid().ToString("N"))
 New-Item -ItemType Directory -Force $work | Out-Null
 Get-ChildItem $Dir -Filter *.svg | Where-Object { -not $Only -or $Only -contains $_.BaseName } | ForEach-Object {
   $svg = Get-Content $_.FullName -Raw
@@ -12,7 +13,7 @@ Get-ChildItem $Dir -Filter *.svg | Where-Object { -not $Only -or $Only -contains
   Set-Content -Path (Join-Path $work "d.html") -Value $html -Encoding UTF8
   $png = Join-Path $work "d.png"
   Remove-Item $png -ErrorAction SilentlyContinue
-  $args = @("--headless=new", "--disable-gpu", "--hide-scrollbars", "--force-device-scale-factor=3", "--window-size=$w,$h", "--user-data-dir=$env:TEMP\clprof", "--screenshot=$png", "file:///$($work -replace '\\','/')/d.html")
+  $args = @("--headless=new", "--disable-gpu", "--hide-scrollbars", "--force-device-scale-factor=3", "--window-size=$w,$h", "--user-data-dir=$work\prof", "--screenshot=$png", "file:///$($work -replace '\\','/')/d.html")
   Start-Process -FilePath $chrome -ArgumentList $args -Wait | Out-Null
   $out = [System.IO.Path]::ChangeExtension($_.FullName, ".png")
   Copy-Item $png $out -Force

@@ -15,4 +15,4 @@ COSC 336 Introduction to Software Engineering, Lab Section B2
 
 Prepared for the lab instructors Ala' Alsamarneh, Hamdan Alshkeili and Natnael Takele
 
-October 2026
+November 2026

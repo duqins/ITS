@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="930" height="1030" viewBox="0 0 930 1030">
+<rect width="100%" height="100%" fill="#fff"/>
+
+<rect x="215" y="170" width="625" height="735" rx="14" fill="#f4f8fe" stroke="#0b4fb3" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="232" y="891" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#0b3d91">Level 2 of process 5.0</text>
+<polyline points="330,59 330,250" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="330,250 324,238 336,238" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="710,59 710,250" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="710,250 704,238 716,238" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="450,139 450,250" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="450,250 444,238 456,238" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="640,250 640,139" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="640,139 646,151 634,151" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="780,250 780,59" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="780,59 786,71 774,71" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="170,290 300,290" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="300,290 288,284 288,296" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="170,395 300,395" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="300,395 288,389 288,401" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="395,415 395,505" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="395,505 389,493 401,493" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="300,535 170,535" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="170,535 182,541 182,529" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="300,590 176,590" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="176,590 188,596 188,584" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="170,645 300,645" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="300,645 288,639 288,651" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="300,715 176,715" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="176,715 188,721 188,709" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="170,770 300,770" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="300,770 288,764 288,776" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="300,840 170,840" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="170,840 182,846 182,834" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="460,870 460,940" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="460,940 454,928 466,928" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="490,565 610,565" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="610,565 598,559 598,571" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="640,720 640,940" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="640,940 634,928 646,928" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="720,930 720,720" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="720,720 726,732 714,732" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="795,720 795,930" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="795,930 789,918 801,918" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="710,520 710,415" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="710,415 716,427 704,427" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<rect x="310" y="15" width="420" height="44" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="730,15 310,15 310,59 730,59" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="354,15 354,59" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="332" y="42" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D1</text>
+<text x="362" y="42" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Users and Settings</text>
+<rect x="410" y="95" width="255" height="44" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="665,95 410,95 410,139 665,139" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="454,95 454,139" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="432" y="122" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D2</text>
+<text x="462" y="122" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Assets and Listings</text>
+<rect x="745" y="15" width="180" height="44" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="925,15 745,15 745,59 925,59" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="789,15 789,59" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="767" y="42" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D7</text>
+<text x="797" y="33.662499999999994" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Sustainability</text>
+<text x="797" y="50.3375" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Impacts</text>
+<rect x="15" y="268" width="155" height="44" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="170,268 15,268 15,312 170,312" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="59,268 59,312" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="37" y="295" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D6</text>
+<text x="67" y="286.66249999999997" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Maintenance</text>
+<text x="67" y="303.3375" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Records</text>
+<rect x="15" y="375" width="155" height="180" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="170,375 15,375 15,555 170,555" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="59,375 59,555" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="37" y="470" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D3</text>
+<text x="67" y="461.66249999999997" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Requests</text>
+<text x="67" y="478.3375" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">and Holds</text>
+<rect x="21" y="574" width="155" height="100" rx="0" fill="#0b3d91" stroke="none" stroke-width="1"/>
+<rect x="15" y="568" width="155" height="100" rx="0" fill="#c9dcf5" stroke="#0b3d91" stroke-width="2"/>
+<text x="92.5" y="622.675" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Approvers</text>
+<rect x="21" y="699" width="155" height="100" rx="0" fill="#0b3d91" stroke="none" stroke-width="1"/>
+<rect x="15" y="693" width="155" height="100" rx="0" fill="#c9dcf5" stroke="#0b3d91" stroke-width="2"/>
+<text x="92.5" y="737.9" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Sustainability</text>
+<text x="92.5" y="757.4499999999999" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Officer</text>
+<rect x="15" y="818" width="155" height="44" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="170,818 15,818 15,862 170,862" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="59,818 59,862" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="37" y="845" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D8</text>
+<text x="67" y="845" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Audit Log</text>
+<rect x="420" y="940" width="260" height="44" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="680,940 420,940 420,984 680,984" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="464,940 464,984" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="442" y="967" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D5</text>
+<text x="472" y="967" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Approvals and Transfers</text>
+<rect x="706" y="936" width="215" height="80" rx="0" fill="#0b3d91" stroke="none" stroke-width="1"/>
+<rect x="700" y="930" width="215" height="80" rx="0" fill="#c9dcf5" stroke="#0b3d91" stroke-width="2"/>
+<text x="807.5" y="974.675" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Asset Custodian</text>
+<rect x="300" y="250" width="190" height="165" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M300 276 V260 Q300 250 310 250 H480 Q490 250 490 260 V276 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="395" y="269" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">5.1</text>
+<text x="395" y="341.41999999999996" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Plan Approval</text>
+<text x="395" y="361.47999999999996" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Stages</text>
+<rect x="300" y="505" width="190" height="365" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M300 531 V515 Q300 505 310 505 H480 Q490 505 490 515 V531 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="395" y="524" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">5.2</text>
+<text x="395" y="696.42" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Record Approval</text>
+<text x="395" y="716.48" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Decisions</text>
+<rect x="610" y="520" width="200" height="200" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M610 546 V530 Q610 520 620 520 H800 Q810 520 810 530 V546 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="710" y="539" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">5.3</text>
+<text x="710" y="628.92" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Confirm Handover</text>
+<text x="710" y="648.98" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">and Receipt</text>
+<rect x="610" y="250" width="200" height="165" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M610 276 V260 Q610 250 620 250 H800 Q810 250 810 260 V276 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="710" y="269" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">5.4</text>
+<text x="710" y="351.45" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Complete Transfer</text>
+<rect x="303.125" y="99.15" width="53.75" height="25.7" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="330" y="117.25" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">roles</text>
+<rect x="671.2" y="78.3" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="710" y="96.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">emission</text>
+<text x="710" y="114.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">factors</text>
+<rect x="399.275" y="173.3" width="101.45" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="450" y="191.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">listings to</text>
+<text x="450" y="209.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">approve</text>
+<rect x="585.3" y="178.3" width="109.4" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="640" y="196.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">new owner</text>
+<text x="640" y="214.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">and location</text>
+<rect x="741.2" y="128.3" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="780" y="146.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">transfer</text>
+<text x="780" y="164.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">impacts</text>
+<rect x="176" y="259.45" width="100" height="61.1" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="226" y="277.55" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">end-of-life</text>
+<text x="226" y="295.25" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">and repair</text>
+<text x="226" y="312.95" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">cases</text>
+<rect x="190.45" y="373.3" width="85.55" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="233.225" y="391.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">holds and</text>
+<text x="233.22500000000002" y="409.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">requests</text>
+<rect x="356.2" y="433.3" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="395" y="451.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">approval</text>
+<text x="395" y="469.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">stages</text>
+<rect x="196.2" y="504.45" width="77.6" height="61.1" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="235" y="522.55" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">hold and</text>
+<text x="235" y="540.25" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">request</text>
+<text x="235" y="557.95" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">states</text>
+<rect x="200" y="568.3" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="238.8" y="586.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">approval</text>
+<text x="238.8" y="604.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">tasks</text>
+<rect x="190.45" y="623.3" width="85.55" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="233.22500000000002" y="641.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">approval</text>
+<text x="233.225" y="659.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">decisions</text>
+<rect x="207.15" y="693.3" width="61.7" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="238" y="711.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">review</text>
+<text x="238" y="729.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">tasks</text>
+<rect x="176" y="748.3" width="100" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="226" y="766.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">end-of-life</text>
+<text x="226" y="784.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">reviews</text>
+<rect x="200.175" y="818.3" width="69.65" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="235" y="836.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">audit</text>
+<text x="235" y="854.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">entries</text>
+<rect x="421.2" y="872.6" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="460" y="890.7" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">approval</text>
+<text x="460" y="908.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">records</text>
+<rect x="500.45" y="543.3" width="85.55" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="543.225" y="561.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">approved</text>
+<text x="543.225" y="579.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">transfers</text>
+<rect x="601.2" y="778.3" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="640" y="796.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">transfer</text>
+<text x="640" y="814.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">records</text>
+<rect x="681.2" y="778.3" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="720" y="796.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">handover</text>
+<text x="720" y="814.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">records</text>
+<rect x="756.2" y="858.3" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="795" y="876.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">transfer</text>
+<text x="795" y="894.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">tasks</text>
+<rect x="667.225" y="446.3" width="85.55" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="710" y="464.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">received</text>
+<text x="710" y="482.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">transfers</text>
+</svg>

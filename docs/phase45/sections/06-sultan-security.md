@@ -1,6 +1,6 @@
 # 6. Security
 
-Our rule is default deny. A user can do only what one of their roles allows, inside their own department, assigned work or own requests (SRS section 2.3). The server checks this for every action, including actions proposed through the assistant (FR-02.2, NFR-03). A refused action is blocked, the user is told which role is needed, and the attempt goes to the audit log (FR-02.3).
+Our rule is default deny. A user can do only what one of their roles allows, inside their own department, assigned work or own requests (SRS section 2.3). We compared this with per-record sharing, where an owner adds named people to each record. We chose roles with a department scope because the SRS already defines the nine roles and department ownership, so the server can check every action the same way. We give up sharing a single record with one person outside the department; that needs a role assignment from the business administrator. The server checks this for every action, including actions proposed through the assistant (FR-02.2, NFR-03). A refused action is blocked, the user is told which role is needed, and the attempt goes to the audit log (FR-02.3).
 
 ## 6.1 Security Boundaries
 
@@ -32,20 +32,20 @@ Table 6.2 shows who may do what. It covers all nine roles in the SRS plus the AI
 | Search published listings (FR-08) | V | V | V | V | V | V | V | V | V | rank |
 | Submit a resource request (FR-07) | ✓ | — | — | — | — | — | — | — | — | draft |
 | Approve a resource request (BR-03) | — | A | — | — | — | — | — | — | — | no |
-| Review matches and choose one (AI-05) | ✓ | — | — | — | — | — | — | — | — | rank |
+| Review matches and choose one (AI-05) | ✓ | V | V | — | — | — | — | — | — | rank |
 | Request a hold and start a transfer (FR-09) | ✓ | — | — | — | — | — | — | — | — | no |
 | Confirm a hold | — | A | A | — | — | — | — | — | — | no |
 | Approve a transfer: release and receipt (BR-05) | — | A | — | — | — | — | — | — | — | no |
 | Approve a transfer: policy stage (BR-06) | — | — | — | — | A | A | — | — | — | no |
 | Record handover or receipt (FR-11, BR-13) | — | — | ✓ | — | — | — | — | — | — | no |
 | Confirm an avoided purchase for the receiving department (BR-18) | — | A | — | — | — | — | — | — | — | no |
-| Report a defect (FR-12) | — | ✓ | ✓ | — | — | — | ✓ | — | — | no |
-| Inspect and record repair work (FR-13) | — | — | — | — | — | — | ✓ | — | — | no |
+| Report a defect (FR-13.1) | — | ✓ | ✓ | — | — | — | — | — | — | no |
+| Inspect and record repair work (FR-12, FR-13) | — | — | — | — | — | — | ✓ | — | — | no |
 | Approve repair spending (BR-07) | — | A | — | — | — | A | — | — | — | no |
 | Propose an end-of-life action (FR-14) | — | ✓ | ✓ | — | — | — | — | — | — | suggest |
 | Review or write off an end-of-life action (BR-08) | — | — | — | — | — | A | — | A | — | no |
 | Review an official report (BR-10) | — | — | — | A | V | A | — | A | — | draft |
-| View an asset's history (UC-14) | — | V | V | V | — | — | V | — | — | no |
+| View an asset's history (UC-14) | — | V | V | V | V | V | V | V | — | no |
 | Search and export the audit log (FR-18.3) | — | — | — | ✓ | — | — | — | — | — | no |
 | Keep departments, categories and thresholds (FR-03) | — | — | — | ✓ | — | — | — | — | — | no |
 | Authorise a role assignment (BR-01) | — | — | — | A | — | — | — | — | — | no |
@@ -82,14 +82,15 @@ Entries can only be added. The application's database account can insert into Au
 | Business records (all entities in section 8) | PostgreSQL database on Neon (SRS section 2.4) | Only made-up test data in the prototype (C-03, DR-02). |
 | Photos and documents | A private S3-compatible storage bucket | The Attachment table keeps the file key, type and size, not the file itself (SI-03). |
 | AI requests and results | AiSuggestion and MatchRecommendation tables (D4) | Each row keeps the model version and the user's response (AI-12). |
-| Passwords, database and AI keys | Environment variables on the Render host | Never in Git. The .env file is ignored. |
+| Database password, file storage key and AI API key | Environment variables on the Render host | Never in Git. The .env file is ignored. |
 | Backups | A separate private backup bucket | See section 6.5. |
 
-## 6.5 Backup and Restore
+## 6.5 Backup, Restore and Recovery
 
 - **Database.** An automatic backup runs every night at 02:00 UAE time and goes to the backup bucket. We keep the last 7 daily copies and the last 4 weekly copies. We also take a manual backup before each release and before the demo.
 - **Uploads.** The uploads bucket keeps old versions of each file, and a full copy goes to the backup bucket every week.
-- **Targets.** We lose at most one day of data, and a full restore takes no more than one hour.
+- **Targets.** For the database we lose at most one day of records. For files, the uploads bucket keeps every old version, so the weekly copy is only needed if the whole bucket is lost; then we lose at most one week of new uploads. A full restore takes no more than one hour.
+- **Recovery.** If the database or the uploads bucket fails, the system administrator stops new changes, restores the latest good copy into a new database or bucket, points the application to it, runs the restore-test checks below, and tells users which changes after the copy must be entered again. Each step is written to the audit log.
 - **Restore test.** Once a month and before the demo, the system administrator restores the latest backup into a new, empty database and storage folder. The test passes when the record counts in Asset, ResourceRequest, Transfer, Approval and AuditLog match the source, 10 random attachments open, a requester, a custodian and a business administrator can each sign in and open one record, and the newest audit entry matches the source. The result and the time taken are written to the audit log (DR-03, NFR-13).
 
 ## 6.6 Integration Points

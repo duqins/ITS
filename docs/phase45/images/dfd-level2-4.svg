@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="930" height="580" viewBox="0 0 930 580">
+<rect width="100%" height="100%" fill="#fff"/>
+
+<rect x="205" y="110" width="510" height="445" rx="14" fill="#f4f8fe" stroke="#0b4fb3" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="222" y="540" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#0b3d91">Level 2 of process 4.0</text>
+<polyline points="360,80 360,215" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="360,215 354,203 366,203" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="410,315 410,410" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="410,410 404,398 416,398" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="165,460 380,460" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="380,460 368,454 368,466" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="545,470 775,470" fill="none" stroke="#1592a8" stroke-width="2"/>
+<polygon points="775,470 763,464 763,476" fill="#1592a8" stroke="none" stroke-width="1"/>
+<polyline points="520,410 520,315" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="520,315 526,327 514,327" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="840,440 840,295 655,295" fill="none" stroke="#1592a8" stroke-width="2"/>
+<polygon points="655,295 667,301 667,289" fill="#1592a8" stroke="none" stroke-width="1"/>
+<polyline points="655,240 775,240" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="775,240 763,234 763,246" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="570,215 570,86" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="570,86 576,98 564,98" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<rect x="296" y="21" width="350" height="65" rx="0" fill="#0b3d91" stroke="none" stroke-width="1"/>
+<rect x="290" y="15" width="350" height="65" rx="0" fill="#c9dcf5" stroke="#0b3d91" stroke-width="2"/>
+<text x="465" y="52.175" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Requester</text>
+<rect x="781" y="446" width="145" height="60" rx="0" fill="#0b3d91" stroke="none" stroke-width="1"/>
+<rect x="775" y="440" width="145" height="60" rx="0" fill="#c9dcf5" stroke="#0b3d91" stroke-width="2"/>
+<text x="847.5" y="474.67499999999995" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">AI Provider</text>
+<rect x="15" y="435" width="150" height="50" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="165,435 15,435 15,485 165,485" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="59,435 59,485" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="37" y="465" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D2</text>
+<text x="67" y="456.66249999999997" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Assets and</text>
+<text x="67" y="473.3375" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Listings</text>
+<rect x="775" y="217" width="145" height="46" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="920,217 775,217 775,263 920,263" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="819,217 819,263" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="797" y="245" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D4</text>
+<text x="827" y="245" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">AI Records</text>
+<rect x="275" y="215" width="165" height="100" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M275 241 V225 Q275 215 285 215 H430 Q440 215 440 225 V241 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="357.5" y="234" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">4.1</text>
+<text x="357.5" y="273.91999999999996" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Check Question</text>
+<text x="357.5" y="293.97999999999996" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Access</text>
+<rect x="380" y="410" width="165" height="100" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M380 436 V420 Q380 410 390 410 H535 Q545 410 545 420 V436 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="462.5" y="429" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">4.2</text>
+<text x="462.5" y="458.89" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Gather</text>
+<text x="462.5" y="478.95" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Permitted</text>
+<text x="462.5" y="499.01" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Records</text>
+<rect x="490" y="215" width="165" height="100" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M490 241 V225 Q490 215 500 215 H645 Q655 215 655 225 V241 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="572.5" y="234" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">4.3</text>
+<text x="572.5" y="273.91999999999996" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Check and</text>
+<text x="572.5" y="293.97999999999996" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Return Answer</text>
+<rect x="317.225" y="146.3" width="85.55" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="360" y="164.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">assistant</text>
+<text x="360" y="182.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">question</text>
+<rect x="371.2" y="335.3" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="410" y="353.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">checked</text>
+<text x="410" y="371.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">question</text>
+<rect x="187.225" y="438.3" width="85.55" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="230" y="456.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">permitted</text>
+<text x="230" y="474.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">listings</text>
+<rect x="641.2" y="448.3" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="680" y="466.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">question</text>
+<text x="680" y="484.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">context</text>
+<rect x="485.175" y="346.3" width="69.65" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="520" y="364.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">source</text>
+<text x="520" y="382.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">records</text>
+<rect x="809.15" y="348.3" width="61.7" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="840" y="366.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">draft</text>
+<text x="840" y="384.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">answer</text>
+<rect x="662.225" y="218.3" width="85.55" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="705" y="236.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">assistant</text>
+<text x="705" y="254.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">records</text>
+<rect x="527.225" y="146.3" width="85.55" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="570" y="164.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">assistant</text>
+<text x="570" y="182.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">answer</text>
+</svg>

@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="930" height="710" viewBox="0 0 930 710">
+<rect width="100%" height="100%" fill="#fff"/>
+
+<rect x="205" y="100" width="510" height="590" rx="14" fill="#f4f8fe" stroke="#0b4fb3" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="222" y="124" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#0b3d91">Level 2 of process 2.0</text>
+<polyline points="165,245 275,245" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="275,245 263,239 263,251" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="420,290 420,350 560,350 560,315" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="560,315 566,327 554,327" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="340,290 340,425" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="340,425 334,413 346,413" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="775,233 650,233" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="650,233 662,239 662,227" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="525,205 525,76" fill="none" stroke="#1592a8" stroke-width="2"/>
+<polygon points="525,76 531,88 519,88" fill="#1592a8" stroke="none" stroke-width="1"/>
+<polyline points="620,76 620,205" fill="none" stroke="#1592a8" stroke-width="2"/>
+<polygon points="620,205 614,193 626,193" fill="#1592a8" stroke="none" stroke-width="1"/>
+<polyline points="500,205 500,160 171,160" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="171,160 183,166 183,154" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="650,290 775,290" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="775,290 763,284 763,296" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="440,450 775,450" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="775,450 763,444 763,456" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="440,500 565,500 565,570" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="565,570 559,558 571,558" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="165,625 485,625" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="485,625 473,619 473,631" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<polyline points="650,615 840,615 840,478" fill="none" stroke="#0b4fb3" stroke-width="2"/>
+<polygon points="840,478 846,490 834,490" fill="#0b4fb3" stroke="none" stroke-width="1"/>
+<rect x="21" y="141" width="150" height="150" rx="0" fill="#0b3d91" stroke="none" stroke-width="1"/>
+<rect x="15" y="135" width="150" height="150" rx="0" fill="#c9dcf5" stroke="#0b3d91" stroke-width="2"/>
+<text x="90" y="188.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Asset</text>
+<text x="90" y="207.65" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Custodian</text>
+<text x="90" y="225.20000000000002" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#333">or department</text>
+<text x="90" y="242" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#333">representative</text>
+<rect x="491" y="20" width="165" height="56" rx="0" fill="#0b3d91" stroke="none" stroke-width="1"/>
+<rect x="485" y="14" width="165" height="56" rx="0" fill="#c9dcf5" stroke="#0b3d91" stroke-width="2"/>
+<text x="567.5" y="46.675" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">AI Provider</text>
+<rect x="775" y="210" width="145" height="46" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="920,210 775,210 775,256 920,256" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="819,210 819,256" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="797" y="238" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D1</text>
+<text x="827" y="229.6625" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Users and</text>
+<text x="827" y="246.3375" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Settings</text>
+<rect x="775" y="267" width="145" height="46" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="920,267 775,267 775,313 920,313" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="819,267 819,313" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="797" y="295" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D4</text>
+<text x="827" y="295" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">AI Records</text>
+<rect x="775" y="422" width="145" height="56" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="920,422 775,422 775,478 920,478" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="819,422 819,478" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="797" y="455" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D2</text>
+<text x="827" y="446.66249999999997" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Assets and</text>
+<text x="827" y="463.3375" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Listings</text>
+<rect x="15" y="597" width="150" height="56" rx="0" fill="#fff" stroke="none" stroke-width="1"/>
+<polyline points="165,597 15,597 15,653 165,653" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<polyline points="59,597 59,653" fill="none" stroke="#0b3d91" stroke-width="2"/>
+<text x="37" y="630" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#111">D5</text>
+<text x="67" y="613.3249999999999" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Approvals</text>
+<text x="67" y="630" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">and</text>
+<text x="67" y="646.675" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" font-weight="700" fill="#111">Transfers</text>
+<rect x="275" y="190" width="165" height="100" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M275 216 V200 Q275 190 285 190 H430 Q440 190 440 200 V216 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="357.5" y="209" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">2.1</text>
+<text x="357.5" y="248.92000000000002" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Check Asset</text>
+<text x="357.5" y="268.98" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Details</text>
+<rect x="485" y="205" width="165" height="110" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M485 231 V215 Q485 205 495 205 H640 Q650 205 650 215 V231 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="567.5" y="224" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">2.2</text>
+<text x="567.5" y="268.92" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Suggest</text>
+<text x="567.5" y="288.97999999999996" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Category</text>
+<rect x="275" y="425" width="165" height="100" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M275 451 V435 Q275 425 285 425 H430 Q440 425 440 435 V451 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="357.5" y="444" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">2.3</text>
+<text x="357.5" y="483.91999999999996" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Save Asset</text>
+<text x="357.5" y="503.97999999999996" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Record</text>
+<rect x="485" y="570" width="165" height="100" rx="10" fill="#fff" stroke="#0b3d91" stroke-width="2"/><path d="M485 596 V580 Q485 570 495 570 H640 Q650 570 650 580 V596 Z" fill="#0b4fb3" stroke="#0b3d91" stroke-width="2"/>
+<text x="567.5" y="589" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">2.4</text>
+<text x="567.5" y="628.92" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Publish</text>
+<text x="567.5" y="648.98" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#111">Listing</text>
+<rect x="181.35" y="223.3" width="69.65" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="216.175" y="241.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">asset</text>
+<text x="216.17499999999998" y="259.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">details</text>
+<rect x="439.275" y="328.3" width="101.45" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="490" y="346.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">asset</text>
+<text x="490" y="364.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">description</text>
+<rect x="305.175" y="335.3" width="69.65" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="340" y="353.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">checked</text>
+<text x="340" y="371.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">details</text>
+<rect x="674" y="220.15" width="93.5" height="25.7" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="720.75" y="238.25" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">categories</text>
+<rect x="478.25" y="100" width="93.5" height="25.7" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="525" y="118.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">asset text</text>
+<rect x="581.2" y="128.3" width="77.6" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="620" y="146.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">category</text>
+<text x="620" y="164.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">and tags</text>
+<rect x="195" y="147.15" width="157.1" height="25.7" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="273.55" y="165.25" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">suggested category</text>
+<rect x="656" y="268.3" width="95" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="703.5" y="286.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">AI</text>
+<text x="703.5" y="304.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">suggestions</text>
+<rect x="671.175" y="428.3" width="69.65" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="706" y="446.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">asset</text>
+<text x="706" y="464.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">records</text>
+<rect x="460.225" y="478.3" width="85.55" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="503" y="496.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">confirmed</text>
+<text x="503" y="514.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">asset</text>
+<rect x="177.225" y="603.3" width="85.55" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="220" y="621.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">release</text>
+<text x="220" y="639.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">decisions</text>
+<rect x="805.175" y="528.3" width="69.65" height="43.4" rx="5" fill="#fff" stroke="#aab6cc" stroke-width="1"/>
+<text x="840" y="546.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">listing</text>
+<text x="840" y="564.1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#13213d">records</text>
+</svg>

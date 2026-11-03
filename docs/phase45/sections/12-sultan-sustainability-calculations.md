@@ -1,6 +1,6 @@
 # 12. Sustainability Calculations
 
-This section gives the formula behind each sustainability number in SRS section 6.1 (Table 6.1, SU-01 to SU-09). Only completed and approved actions count, never AI suggestions that nobody accepted (BR-18). Every result keeps its inputs, the factor source and version, and whether its values are measured, estimated or synthetic (SU-08). Our data is made up, so the results show how the method works, not real KU savings.
+This section gives the formula behind each sustainability number in SRS section 6.1 (SRS Table 6.1, SU-01 to SU-09). Only completed and approved actions count, never AI suggestions that nobody accepted (BR-18). Every result keeps its inputs, the factor source and version, and whether its values are measured, estimated or synthetic (SU-08). Our data is made up, so the results show how the method works, not real KU savings.
 
 ## 12.1 Formulas
 
@@ -46,7 +46,7 @@ We always show carbon as a range, written as "low to high kg CO2e", because the 
 | Office chair | F4 = 27 kg CO2e | F5 = 104 kg CO2e |
 | Any other category | N/A until a cited factor is added | N/A until a cited factor is added |
 
-Each category keeps its low and high factor in Category.emissionFactor, with factorSource and its version (section 8.3). A business administrator adds or changes a factor (FR-03.2). A change creates a new version, and older results keep the version they were calculated with. These factors answer TBD-6 for monitors and office chairs. Other categories show N/A until we add a cited factor for them.
+Each category keeps its low and high factor in Category.emissionFactorLow and emissionFactorHigh, with factorSource and factorVersion (section 8.3). A business administrator adds or changes a factor (FR-03.2). A change creates a new version, and older results keep the version they were calculated with. These factors answer TBD-6 for monitors and office chairs. Other categories show N/A until we add a cited factor for them.
 
 ## 12.3 Worked Example
 
