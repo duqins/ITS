@@ -85,7 +85,10 @@ TEMPLATES = [
 WSGI_APPLICATION = "dawra.wsgi.application"
 
 if os.environ.get("DATABASE_URL"):
-    DATABASES = {"default": dj_database_url.parse(os.environ["DATABASE_URL"], conn_max_age=600)}
+    # Neon closes idle connections when the database sleeps after 5 minutes, so each reused connection
+    # is checked first. Its pooled address (PgBouncer) does not support server-side cursors.
+    DATABASES = {"default": dj_database_url.parse(os.environ["DATABASE_URL"], conn_max_age=600,
+                                                  conn_health_checks=True, disable_server_side_cursors=True)}
 else:
     DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
 
