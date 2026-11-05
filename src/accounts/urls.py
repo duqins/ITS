@@ -1,4 +1,11 @@
+from django.urls import path
+
+from . import views
+
 app_name = "accounts"
 
-# The pages of this app are added with its feature.
-urlpatterns = []
+urlpatterns = [
+    path("sign-in/", views.sign_in, name="login"),
+    path("sign-out/", views.sign_out, name="logout"),
+    path("switch-role/", views.switch_role, name="switch_role"),
+]

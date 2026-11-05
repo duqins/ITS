@@ -1,4 +1,9 @@
+from django.urls import path
+
+from . import views
+
 app_name = "core"
 
-# The pages of this app are added with its feature.
-urlpatterns = []
+urlpatterns = [
+    path("", views.home, name="home"),
+]

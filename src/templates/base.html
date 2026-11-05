@@ -1,0 +1,22 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Dawra Campus{% endblock %}</title>
+</head>
+<body>
+  {% if user.is_authenticated %}
+  <header>
+    <strong>Dawra Campus</strong> · {{ user }}{% if active_role %} · {{ active_role }}{% endif %}
+    <form method="post" action="{% url 'accounts:switch_role' %}" style="display:inline">{% csrf_token %}
+      <select name="user_role">{% for r in my_roles %}<option value="{{ r.pk }}"{% if r == active_role %} selected{% endif %}>{{ r }}</option>{% endfor %}</select>
+      <button type="submit">Switch role</button>
+    </form>
+    <form method="post" action="{% url 'accounts:logout' %}" style="display:inline">{% csrf_token %}<button type="submit">Sign out</button></form>
+  </header>
+  {% endif %}
+  {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+  <main>{% block content %}{% endblock %}</main>
+</body>
+</html>
