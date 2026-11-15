@@ -36,7 +36,9 @@ def check_action(request, action):
     if user_role is None or not user_role.allows(action):
         log_refusal(request, action)
         needed = ", ".join(roles_allowed(action)) or "an administrator"
-        raise PermissionDenied(f"This needs one of these roles: {needed}. Switch role if you hold one.")
+        error = PermissionDenied(f"This needs one of these roles: {needed}. Switch role if you hold one.")
+        error.logged = True  # the refused page handler does not log it a second time
+        raise error
     return user_role
 
 

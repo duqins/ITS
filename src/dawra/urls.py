@@ -16,3 +16,5 @@ urlpatterns = [
     path("ai/", include("ai.urls")),
     path("", include("core.urls")),
 ]
+
+handler403 = "accounts.views.permission_denied"
