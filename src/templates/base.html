@@ -1,4 +1,4 @@
-{% load static dawra_ui %}<!doctype html>
+{% load static dawra_ui notification_ui %}<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -14,7 +14,7 @@
   <a class="logo" href="{% url 'core:home' %}" aria-label="Dawra Campus home"><img src="{% static 'dawra/assets/dawra-campus-logo.png' %}" alt="Dawra Campus" width="1942" height="809"></a>
   <div class="workspace-name">Campus resource exchange<br>Staff workspace</div>
   <div class="top-right">
-    {% block bell %}{% endblock %}
+    {% notification_bell %}
     {% if my_roles|length > 1 %}
     <form class="role-switch" method="post" action="{% url 'accounts:switch_role' %}">{% csrf_token %}
       <label for="role-select">Working as</label>

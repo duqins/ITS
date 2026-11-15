@@ -1,0 +1,1 @@
+{% load dawra_ui %}<a class="notification-button" href="{% url 'notifications:list' %}" aria-label="{{ unread }} unread notification{{ unread|pluralize }}">{% icon 'bell' %}{% if unread %}<span>{{ unread }}</span>{% endif %}</a>
