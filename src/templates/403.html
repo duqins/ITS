@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Not allowed · Dawra Campus{% endblock %}
+{% block content %}
+<h1>You cannot do this with your current role</h1>
+<p>{{ exception }}</p>
+<p><a href="{% url 'core:home' %}">Back to the home page</a></p>
+{% endblock %}

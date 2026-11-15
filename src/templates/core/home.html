@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Welcome, {{ user }}</h1>
+<p>{% if active_role %}You are working as {{ active_role }}.{% else %}You have no active role yet. Ask the Business administrator to authorise one.{% endif %}</p>
+{% endblock %}
