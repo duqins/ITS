@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load dawra_ui %}
+{% block title %}{{ obj.code }} · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>{{ obj.purpose }}</h1><div class="record">{{ obj.code }} · {{ obj.requester }} · {{ obj.department }}</div></div>{% status_pill obj %}</div>
+<ol class="journey" aria-label="Workflow stages">
+  {% for label, done, current in journey %}<li class="{% if done %}done{% elif current %}current{% endif %}"><span class="step-dot">{% if done %}{% icon 'check' %}{% else %}{{ forloop.counter }}{% endif %}</span>{{ label }}</li>{% endfor %}
+</ol>
+<div class="layout">
+  <div class="record-body">
+    <section class="group"><div class="group-title">{% icon 'request' %}<h2>What is needed</h2></div><div class="fields">
+      {% include "includes/readonly.html" with label="Category" value=obj.category %}
+      {% include "includes/readonly.html" with label="Quantity" value=obj.quantity %}
+      {% include "includes/readonly.html" with label="Specifications" value=obj.specifications wide=True %}
+      {% include "includes/readonly.html" with label="Minimum condition" value=obj.get_min_condition_display %}
+      {% include "includes/readonly.html" with label="Urgency" value=obj.get_urgency_display %}
+      {% include "includes/readonly.html" with label="Delivery location" value=obj.delivery_location %}
+      {% include "includes/readonly.html" with label="Required by" value=obj.required_by %}
+    </div></section>
+    {% block request_extra %}{% endblock %}
+    <section class="group"><div class="group-title">{% icon 'clock' %}<h2>Updates</h2></div>
+      <ol class="timeline">{% for e in updates %}<li><span class="when">{{ e.created_at|date:"j M Y, H:i" }}</span> <span class="what">{{ e.action|capfirst }}</span>{% if e.user %} by {{ e.user }}{% endif %}{% if e.after_value %} · now {{ e.after_value }}{% endif %}{% if e.reason %}<span class="reason">{{ e.reason }}</span>{% endif %}</li>{% endfor %}</ol>
+    </section>
+    {% if can_edit or can_cancel or can_close %}
+    <div class="actions">
+      {% if can_edit %}
+        <form method="post" action="{% url 'resource_requests:submit' obj.pk %}">{% csrf_token %}<button class="button primary" type="submit">{% icon 'check' %}Submit for department approval</button></form>
+        <a class="button" href="{% url 'resource_requests:edit' obj.pk %}">Edit draft</a>
+      {% endif %}
+    </div>
+    {% if can_close %}
+    <details><summary>No suitable item? Close the request</summary>
+      <form method="post" action="{% url 'resource_requests:close' obj.pk %}" class="reason-form">{% csrf_token %}
+        <label for="close-reason">Reason</label><textarea id="close-reason" name="reason" placeholder="For example: nothing in the right size"></textarea>
+        <button class="button" type="submit">Close as no suitable item</button>
+      </form>
+    </details>
+    {% endif %}
+    {% if can_cancel %}
+    <details><summary>Cancel this request</summary>
+      <form method="post" action="{% url 'resource_requests:cancel' obj.pk %}" class="reason-form">{% csrf_token %}
+        <label for="cancel-reason">Reason *</label><textarea id="cancel-reason" name="reason" required></textarea>
+        <button class="button danger" type="submit">Cancel request</button>
+      </form>
+    </details>
+    {% endif %}
+    {% endif %}
+  </div>
+  <aside>
+    <div class="side-panel">
+      <h2>Department approval</h2>
+      {% if pending %}<p>Waiting for the {{ obj.department }} department representative.</p>
+      {% elif last_decision %}<p><strong>{{ last_decision.get_status_display }}</strong> by {{ last_decision.approver }} on {{ last_decision.decided_at|date:"j M Y" }}.</p>{% if last_decision.reason %}<p class="muted">{{ last_decision.reason }}</p>{% endif %}
+      {% elif obj.status == "RQ-01" %}<p>Not submitted yet.</p>{% endif %}
+    </div>
+  </aside>
+</div>
+{% endblock %}

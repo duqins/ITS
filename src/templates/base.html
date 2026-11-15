@@ -1,22 +1,50 @@
-{% load static %}<!doctype html>
+{% load static dawra_ui %}<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Dawra Campus{% endblock %}</title>
+  <link rel="icon" href="{% static 'dawra/assets/dawra-campus-logo.png' %}">
+  <link rel="stylesheet" href="{% static 'dawra/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'dawra/app.css' %}">
 </head>
 <body>
-  {% if user.is_authenticated %}
-  <header>
-    <strong>Dawra Campus</strong> · {{ user }}{% if active_role %} · {{ active_role }}{% endif %}
-    <form method="post" action="{% url 'accounts:switch_role' %}" style="display:inline">{% csrf_token %}
-      <select name="user_role">{% for r in my_roles %}<option value="{{ r.pk }}"{% if r == active_role %} selected{% endif %}>{{ r }}</option>{% endfor %}</select>
-      <button type="submit">Switch role</button>
+{% if user.is_authenticated %}
+<header class="top">
+  <a class="logo" href="{% url 'core:home' %}" aria-label="Dawra Campus home"><img src="{% static 'dawra/assets/dawra-campus-logo.png' %}" alt="Dawra Campus" width="1942" height="809"></a>
+  <div class="workspace-name">Campus resource exchange<br>Staff workspace</div>
+  <div class="top-right">
+    {% block bell %}{% endblock %}
+    {% if my_roles|length > 1 %}
+    <form class="role-switch" method="post" action="{% url 'accounts:switch_role' %}">{% csrf_token %}
+      <label for="role-select">Working as</label>
+      <select id="role-select" name="user_role" onchange="this.form.submit()">
+        {% for r in my_roles %}<option value="{{ r.pk }}"{% if r == active_role %} selected{% endif %}>{{ r }}</option>{% endfor %}
+      </select>
+      <noscript><button class="button" type="submit">Switch</button></noscript>
     </form>
-    <form method="post" action="{% url 'accounts:logout' %}" style="display:inline">{% csrf_token %}<button type="submit">Sign out</button></form>
-  </header>
-  {% endif %}
-  {% for message in messages %}<p>{{ message }}</p>{% endfor %}
-  <main>{% block content %}{% endblock %}</main>
+    {% endif %}
+    <div class="profile">
+      <div class="avatar">{{ user|initials }}</div>
+      <div class="identity"><strong>{{ user }}</strong><span>{% if active_role %}{{ active_role }}{% else %}No active role{% endif %}</span></div>
+    </div>
+    <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="button" type="submit">Sign out</button></form>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation">
+    {% main_menu %}
+    <div class="sidebar-foot"><strong>{% icon 'leaf' %}Reuse before replacement</strong>Find a second life for campus resources.</div>
+  </nav>
+  <main>
+    {% include "includes/messages.html" %}
+    {% block content %}{% endblock %}
+    <div class="synthetic"><span>Dawra Campus · Phase 6 draft · Synthetic data</span><span>* Required field</span></div>
+  </main>
+</div>
+{% else %}
+{% include "includes/messages.html" %}
+{% block public %}{% endblock %}
+{% endif %}
 </body>
 </html>

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load dawra_ui %}
+{% block title %}{{ listing.code }} · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>{{ asset.name }}</h1><div class="record">{{ listing.code }} · offered by {{ asset.owner_department }}</div></div>{% status_pill listing %}</div>
+<div class="layout">
+  <div class="record-body">
+    <div class="asset-summary"><div class="asset-symbol">{% icon 'box' %}</div><div><h2>{{ asset.name }}</h2><p>{{ asset.category }} · {{ asset.get_condition_display }} · {{ asset.location }}</p></div><div class="asset-meta">{{ listing.remaining_quantity }} of {{ listing.quantity }} left</div></div>
+    <section class="group"><div class="group-title">{% icon 'file' %}<h2>What is offered</h2></div><div class="fields">
+      {% include "includes/readonly.html" with label="Description" value=asset.description wide=True %}
+      {% include "includes/readonly.html" with label="Specifications" value=asset.specifications wide=True %}
+      {% include "includes/readonly.html" with label="Condition" value=asset.get_condition_display %}
+      {% include "includes/readonly.html" with label="Available from" value=listing.available_from %}
+      {% include "includes/readonly.html" with label="Release reason" value=listing.get_release_reason_display %}
+      {% include "includes/readonly.html" with label="Age (years)" value=asset.asset_age %}
+      {% include "includes/readonly.html" with label="Restrictions" value=listing.restrictions wide=True %}
+    </div></section>
+    {% if owner %}
+    <div class="actions">
+      {% if can_submit %}<form method="post" action="{% url 'assets:listing_submit' listing.pk %}">{% csrf_token %}<button class="button primary" type="submit">{% icon 'check' %}Submit for release approval</button></form>{% endif %}
+      <a class="button" href="{% url 'assets:detail' asset.pk %}">Open asset {{ asset.code }}</a>
+    </div>
+    {% if can_withdraw %}
+    <details><summary>Withdraw this listing</summary>
+      <form method="post" action="{% url 'assets:listing_withdraw' listing.pk %}" class="reason-form">{% csrf_token %}
+        <label for="withdraw-reason">Reason *</label><textarea id="withdraw-reason" name="reason" required></textarea>
+        <button class="button danger" type="submit">Withdraw listing</button>
+      </form>
+    </details>
+    {% endif %}
+    {% endif %}
+  </div>
+  <aside>
+    {% if listing.status == "LS-02" %}
+    <div class="side-panel">
+      <h2>Release approval</h2>
+      {% if can_decide %}
+      <p>Release this listing so staff from other departments can find and request it.</p>
+      <form method="post" action="{% url 'assets:listing_decide' listing.pk %}" class="reason-form">{% csrf_token %}
+        <label for="decide-reason">Reason (needed to reject)</label><textarea id="decide-reason" name="reason"></textarea>
+        <button class="button primary" type="submit" name="decision" value="approve">{% icon 'check' %}Approve release</button>
+        <button class="button danger" type="submit" name="decision" value="reject">Reject</button>
+      </form>
+      {% elif own_listing %}<p>You prepared this listing, so another representative must release it (BR-02).</p>
+      {% else %}<p>Waiting for the {{ asset.owner_department }} department representative.</p>{% endif %}
+    </div>
+    {% endif %}
+  </aside>
+</div>
+{% endblock %}
