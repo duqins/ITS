@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load dawra_ui %}
+{% block title %}Start a transfer · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>Start the transfer</h1><div class="record">{{ reservation.code }} · {{ reservation.request.code }}</div></div><span class="status"><i></i>Hold confirmed</span></div>
+<p class="lead">The transfer then needs release approval from {{ reservation.listing.asset.owner_department }} and receipt approval from your department.</p>
+<div class="asset-summary"><div class="asset-symbol">{% icon 'transfer' %}</div><div><h2>{{ reservation.listing.asset.name }}</h2><p>{{ reservation.listing.asset.code }} · {{ reservation.listing.asset.owner_department }} to {{ reservation.request.department }}</p></div><div class="asset-meta">{{ reservation.quantity }} unit{{ reservation.quantity|pluralize }}</div></div>
+<form method="post" novalidate>{% csrf_token %}
+  <section class="group"><div class="group-title">{% icon 'location' %}<h2>Receiver and delivery</h2></div><div class="fields">
+    {% include "includes/field.html" with field=form.to_custodian %}
+    {% include "includes/field.html" with field=form.delivery_arrangement %}
+    {% include "includes/field.html" with field=form.to_building %}
+    {% include "includes/field.html" with field=form.to_room %}
+    {% include "includes/field.html" with field=form.planned_date %}
+  </div></section>
+  <section class="group"><div class="group-title">{% icon 'leaf' %}<h2>Transport and cost</h2></div><div class="fields">
+    {% include "includes/field.html" with field=form.distance_km %}
+    {% include "includes/field.html" with field=form.van_trips %}
+    {% include "includes/field.html" with field=form.transfer_cost_aed %}
+  </div></section>
+  <div class="actions"><button class="button primary" type="submit">{% icon 'check' %}Create transfer</button><a class="button" href="{% url 'transfers:list' %}">Cancel</a></div>
+</form>
+{% endblock %}

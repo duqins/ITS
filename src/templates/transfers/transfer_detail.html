@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load dawra_ui transfer_ui %}
+{% block title %}{{ transfer.code }} · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>Transfer to {{ transfer.to_department }}</h1><div class="record">{{ transfer.code }} · {{ transfer.request.code }} · UI-09</div></div>{% status_pill transfer %}</div>
+<ol class="journey" aria-label="Workflow stages">
+  {% for label, done, current in journey %}<li class="{% if done %}done{% elif current %}current{% endif %}"><span class="step-dot">{% if done %}{% icon 'check' %}{% else %}{{ forloop.counter }}{% endif %}</span>{{ label }}</li>{% endfor %}
+</ol>
+<div class="layout">
+  <div class="record-body">
+    <div class="asset-summary"><div class="asset-symbol">{% icon 'box' %}</div><div><h2>{{ transfer.asset.name }}</h2><p>{{ transfer.asset.code }} · {{ transfer.from_department }} to {{ transfer.to_department }}</p></div><div class="asset-meta">{{ transfer.quantity }} unit{{ transfer.quantity|pluralize }}</div></div>
+    <section class="group"><div class="group-title">{% icon 'transfer' %}<h2>Approved transfer and handover</h2></div><div class="fields">
+      {% include "includes/readonly.html" with label="Requester" value=transfer.request.requester %}
+      {% include "includes/readonly.html" with label="Receiving custodian" value=transfer.to_custodian %}
+      {% include "includes/readonly.html" with label="Deliver to" value=transfer.to_location %}
+      {% include "includes/readonly.html" with label="Arrangement" value=transfer.get_delivery_arrangement_display %}
+      {% include "includes/readonly.html" with label="Planned date" value=transfer.planned_date %}
+      {% include "includes/readonly.html" with label="Final approver" value=transfer.approver %}
+      {% include "includes/readonly.html" with label="Handed over" value=transfer.handed_over_at %}
+      {% include "includes/readonly.html" with label="Condition at handover" value=transfer.get_handover_condition_display %}
+      {% include "includes/readonly.html" with label="Received" value=transfer.received_at %}
+      <div class="field field-plain"><span class="read-label">Received quantity and condition</span><div class="readonly">{% if transfer.received_quantity is not None %}{{ transfer.received_quantity }} · {{ transfer.get_received_condition_display }}{% else %}—{% endif %}</div></div>
+      {% if transfer.dispute_note %}{% include "includes/readonly.html" with label="Difference recorded" value=transfer.dispute_note wide=True %}{% endif %}
+      {% if transfer.received_asset %}<div class="field field-plain"><span class="read-label">Asset record now owned by {{ transfer.to_department }}</span><div class="readonly">{{ transfer.received_asset.code }}</div></div>{% endif %}
+    </div></section>
+
+    {% if can_hand_over %}
+    <section class="group"><div class="group-title">{% icon 'arrow' %}<h2>Record the handover</h2></div>
+      <form method="post" action="{% url 'transfers:handover' transfer.pk %}" class="reason-form">{% csrf_token %}
+        {% include "includes/field.html" with field=handover_form.condition %}
+        <button class="button primary" type="submit">{% icon 'check' %}Confirm handover</button>
+      </form></section>
+    {% endif %}
+    {% if can_receive %}
+    <section class="group"><div class="group-title">{% icon 'check' %}<h2>Confirm what arrived</h2></div>
+      <form method="post" action="{% url 'transfers:receive' transfer.pk %}">{% csrf_token %}<div class="fields">
+        {% include "includes/field.html" with field=receipt_form.received_quantity %}
+        {% include "includes/field.html" with field=receipt_form.received_condition %}
+        {% include "includes/field.html" with field=receipt_form.note wide=True %}
+      </div>
+      <div class="actions"><button class="button primary" type="submit" name="outcome" value="ok">{% icon 'check' %}Confirm receipt</button>
+        <button class="button" type="submit" name="outcome" value="discrepancy">Record discrepancy</button></div></form></section>
+    {% endif %}
+    {% if can_resolve %}
+    <section class="group"><div class="group-title">{% icon 'approval' %}<h2>Resolve the difference</h2></div>
+      <form method="post" action="{% url 'transfers:resolve' transfer.pk %}" class="reason-form">{% csrf_token %}
+        <label for="resolve-reason">Reason *</label><textarea id="resolve-reason" name="reason"></textarea>
+        <button class="button primary" type="submit" name="resolution" value="accept">Accept as received</button>
+        <button class="button danger" type="submit" name="resolution" value="return">Return to sender</button>
+      </form></section>
+    {% endif %}
+
+    <section class="group"><div class="group-title">{% icon 'clock' %}<h2>Who did what</h2></div>
+      <ol class="timeline">{% for e in history %}<li><span class="when">{{ e.created_at|date:"j M Y, H:i" }}</span> <span class="what">{{ e.action|capfirst }}</span>{% if e.user %} by {{ e.user }}{% if e.role %} ({{ e.role }}){% endif %}{% endif %}{% if e.after_value %} · now {{ e.after_value }}{% endif %}{% if e.reason %}<span class="reason">{{ e.reason }}</span>{% endif %}</li>{% endfor %}</ol>
+    </section>
+    {% if can_cancel %}
+    <details><summary>Cancel this transfer</summary>
+      <form method="post" action="{% url 'transfers:cancel' transfer.pk %}" class="reason-form">{% csrf_token %}
+        <label for="cancel-reason">Reason *</label><textarea id="cancel-reason" name="reason"></textarea>
+        <button class="button danger" type="submit">Cancel transfer</button>
+      </form></details>
+    {% endif %}
+  </div>
+  <aside>
+    <div class="side-panel">
+      <h2>Approvals</h2>
+      <ol class="timeline">{% for a in approvals %}<li><span class="what">{{ a.get_stage_display }}</span><span class="reason">{{ a.get_status_display }}{% if a.approver %} by {{ a.approver }}{% elif a.department %} · {{ a.department }} representative{% endif %}</span></li>{% empty %}<li>No approvals yet.</li>{% endfor %}</ol>
+      {% approval_task transfer as task %}{% if task %}<a class="button primary" href="{% url 'transfers:approval' task.pk %}">{% icon 'approval' %}Decide this approval</a>{% endif %}
+    </div>
+    {% if impact %}
+    <div class="side-panel" style="margin-top:14px">
+      <h2>Sustainability impact</h2>
+      <p>{{ impact.items_diverted }} item{{ impact.items_diverted|pluralize }} reused{% if impact.waste_diverted_kg %}, {{ impact.waste_diverted_kg }} kg diverted{% endif %}.</p>
+      {% if impact.co2e_low_kg is not None %}<p>About {{ impact.co2e_low_kg|floatformat:0 }} to {{ impact.co2e_high_kg|floatformat:0 }} kg CO2e saved (estimated).</p>{% endif %}
+      {% if impact.purchase_avoided_confirmed %}<p>Avoided purchase confirmed by {{ impact.confirmed_by }}.</p>
+      {% elif can_confirm_saving %}
+      <form method="post" action="{% url 'sustainability:confirm' impact.pk %}" class="reason-form">{% csrf_token %}
+        <p>Did this reuse avoid buying a new item? Only confirmed savings count (BR-18).</p>
+        <button class="button primary" type="submit">{% icon 'check' %}Confirm avoided purchase</button>
+      </form>
+      {% else %}<p class="muted">Avoided purchase not confirmed yet by the receiving representative.</p>{% endif %}
+    </div>
+    {% endif %}
+  </aside>
+</div>
+{% endblock %}

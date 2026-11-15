@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load dawra_ui %}
+{% block title %}{{ approval.get_stage_display }} · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>{{ approval.get_stage_display }}</h1><div class="record">{{ record.code }} · UI-08</div></div>{% status_pill approval %}</div>
+<p class="lead">Review the evidence and decide only the approval stage assigned to you.</p>
+<div class="layout">
+  <div class="record-body">
+    {% if is_request %}
+    <div class="asset-summary"><div class="asset-symbol">{% icon 'request' %}</div><div><h2>{{ record.purpose }}</h2><p>{{ record.code }} · {{ record.requester }} · {{ record.department }}</p></div><div class="asset-meta">{{ record.quantity }} needed</div></div>
+    <section class="group"><div class="group-title">{% icon 'approval' %}<h2>Decision evidence</h2></div><div class="fields">
+      {% include "includes/readonly.html" with label="Category" value=record.category %}
+      {% include "includes/readonly.html" with label="Quantity" value=record.quantity %}
+      {% include "includes/readonly.html" with label="Specifications" value=record.specifications wide=True %}
+      {% include "includes/readonly.html" with label="Minimum condition" value=record.get_min_condition_display %}
+      {% include "includes/readonly.html" with label="Urgency" value=record.get_urgency_display %}
+      {% include "includes/readonly.html" with label="Required by" value=record.required_by %}
+      {% include "includes/readonly.html" with label="Delivery location" value=record.delivery_location %}
+      {% include "includes/readonly.html" with label="Record version" value=approval.record_version %}
+    </div></section>
+    {% else %}
+    <div class="asset-summary"><div class="asset-symbol">{% icon 'transfer' %}</div><div><h2>Transfer to {{ record.to_department }}</h2><p>{{ record.asset.code }} · {{ record.asset.name }} · {{ record.from_department }} to {{ record.to_department }}</p></div><div class="asset-meta">{{ record.code }}</div></div>
+    <section class="group"><div class="group-title">{% icon 'approval' %}<h2>Decision evidence</h2></div><div class="fields">
+      {% include "includes/readonly.html" with label="Quantity" value=record.quantity %}
+      {% include "includes/readonly.html" with label="Condition" value=record.asset.get_condition_display %}
+      {% include "includes/readonly.html" with label="Requester" value=record.request.requester %}
+      {% include "includes/readonly.html" with label="Request" value=record.request.purpose %}
+      {% include "includes/readonly.html" with label="Value (AED)" value=record.value_aed %}
+      {% include "includes/readonly.html" with label="Transfer cost (AED)" value=record.transfer_cost_aed %}
+      {% include "includes/readonly.html" with label="Receiving custodian" value=record.to_custodian %}
+      {% include "includes/readonly.html" with label="Deliver to" value=record.to_location %}
+      {% include "includes/readonly.html" with label="Finance approval needed (BR-06)" value=record.needs_finance|yesno:"Yes,No" %}
+      {% include "includes/readonly.html" with label="Procurement approval needed (BR-06)" value=record.needs_procurement|yesno:"Yes,No" %}
+    </div></section>
+    {% endif %}
+    {% if earlier %}
+    <section class="group"><div class="group-title">{% icon 'clock' %}<h2>Other stages</h2></div>
+      <ol class="timeline">{% for a in earlier %}<li><span class="what">{{ a.get_stage_display }}</span> · {{ a.get_status_display }}{% if a.approver %} by {{ a.approver }} ({{ a.approver_role }}){% endif %}{% if a.decided_at %} <span class="when">{{ a.decided_at|date:"j M Y, H:i" }}</span>{% endif %}{% if a.reason %}<span class="reason">{{ a.reason }}</span>{% endif %}</li>{% endfor %}</ol>
+    </section>
+    {% endif %}
+  </div>
+  <aside>
+    <div class="side-panel">
+      <h2>Your decision</h2>
+      {% if approval.status != "AT-01" %}<p>Already decided: {{ approval.get_status_display }}.</p>
+      {% elif own %}<p>You created this record, so you cannot decide it (BR-02).</p>
+      {% else %}
+      <p>Approve, or give a reason to {% if is_request %}request changes or {% endif %}reject.</p>
+      <form method="post" class="reason-form">{% csrf_token %}
+        <label for="reason">Reason (needed to reject{% if is_request %} or request changes{% endif %})</label>
+        <textarea id="reason" name="reason"></textarea>
+        <button class="button primary" type="submit" name="decision" value="approve">{% icon 'check' %}Approve assigned stage</button>
+        {% if is_request %}<button class="button" type="submit" name="decision" value="changes">Request changes</button>{% endif %}
+        <button class="button danger" type="submit" name="decision" value="reject">Reject</button>
+      </form>
+      {% endif %}
+    </div>
+  </aside>
+</div>
+{% endblock %}

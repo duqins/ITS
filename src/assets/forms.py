@@ -1,6 +1,7 @@
 from datetime import date
 
 from django import forms
+from django.utils import timezone
 
 from accounts.models import Department
 
@@ -67,7 +68,7 @@ class AssetForm(forms.ModelForm):
 
     def clean_purchase_date(self):
         value = self.cleaned_data.get("purchase_date")
-        if value and value > date.today():
+        if value and value > timezone.localdate():
             raise forms.ValidationError("The purchase date cannot be in the future.")
         return value
 
@@ -90,10 +91,12 @@ class AssetForm(forms.ModelForm):
         asset.save()
         child = self.child_of(asset)
         if child is not None:
-            for name in ("serial_number", "stores_data", "material", "dimensions"):
-                if name in self.cleaned_data and hasattr(child, name):
-                    setattr(child, name, self.cleaned_data[name])
-            child.save()
+            changed = [name for name in ("serial_number", "stores_data", "material", "dimensions")
+                       if name in self.cleaned_data and hasattr(child, name)]
+            for name in changed:
+                setattr(child, name, self.cleaned_data[name])
+            # Save only the IT or furniture fields: the child still holds the old copy of the shared fields.
+            child.save(update_fields=changed)
         return asset
 
 
@@ -115,6 +118,15 @@ class ListingForm(forms.ModelForm):
         if quantity < 1 or quantity > self.asset.available_qty:
             raise forms.ValidationError(f"Offer between 1 and {self.asset.available_qty} units.")
         return quantity
+
+    def clean(self):
+        data = super().clean()
+        # One open listing per asset, so the same units never appear twice in search.
+        other = self.asset.listings.filter(status__in=Listing.OPEN).exclude(pk=self.instance.pk).first()
+        if other is not None:
+            raise forms.ValidationError(f"This asset is already offered in {other.code}. Change or withdraw that "
+                                        "listing instead.")
+        return data
 
 
 class SearchForm(forms.Form):

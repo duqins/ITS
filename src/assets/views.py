@@ -89,7 +89,8 @@ def asset_detail(request, pk):
         "can_confirm": manages and role.allows("asset.confirm") and asset.status == Asset.Status.DRAFT
                        and asset.registered_by_id != request.user.pk,
         "waiting_for_other": asset.status == Asset.Status.DRAFT and asset.registered_by_id == request.user.pk,
-        "can_list": manages and role.allows("listing.prepare") and asset.is_active and asset.available_qty > 0,
+        "can_list": manages and role.allows("listing.prepare") and asset.is_active and asset.available_qty > 0
+                    and not asset.listings.filter(status__in=Listing.OPEN).exists(),
     })
 
 
@@ -120,7 +121,9 @@ def listing_create(request, pk):
             if request.POST.get("submit_for") == "release":
                 listing.submit_for_release(request.user)
 
-        if perform(request, create, "Listing saved."):
+        sent = request.POST.get("submit_for") == "release"
+        if perform(request, create, "Listing sent to your department representative for release approval." if sent
+                   else "Listing saved as a draft."):
             return redirect("assets:listing", pk=listing.pk)
     return render(request, "assets/listing_form.html", {"form": form, "asset": asset})
 
@@ -150,7 +153,7 @@ def listing_detail(request, pk):
         "can_decide": is_owner_rep and pending is not None and pending.requested_by_id != request.user.pk,
         "own_listing": pending is not None and pending.requested_by_id == request.user.pk,
         "can_withdraw": owner and role.allows("listing.prepare") and listing.status in (
-            Listing.Status.DRAFT, Listing.Status.PENDING_RELEASE, Listing.Status.PUBLISHED, Listing.Status.FULLY_RESERVED),
+            Listing.Status.DRAFT, Listing.Status.PENDING_RELEASE, Listing.Status.PUBLISHED),
         "reason_form": ReasonForm(),
     })
 
