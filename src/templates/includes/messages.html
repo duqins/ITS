@@ -1,0 +1,1 @@
+{% load dawra_ui %}{% if messages %}<div class="messages" role="status">{% for message in messages %}<div class="toast {{ message.tags }}">{% if message.tags == 'error' or message.tags == 'warning' %}{% icon 'info' %}{% else %}{% icon 'check' %}{% endif %}<span>{{ message }}</span></div>{% endfor %}</div>{% endif %}
