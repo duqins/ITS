@@ -5,6 +5,8 @@ from django.urls import reverse
 from accounts.models import Role
 from assets.models import Asset, Listing
 from resource_requests.models import ResourceRequest
+from transfers.models import Reservation, Transfer, expire_overdue
+from transfers.views import tasks_for
 
 
 def card(label, number, url, icon):
@@ -14,6 +16,7 @@ def card(label, number, url, icon):
 @login_required
 def home(request):
     """Role dashboard (UI-02): the work waiting for the active role."""
+    expire_overdue()
     role = request.active_role
     cards = []
     if role is not None:
@@ -39,9 +42,23 @@ def home(request):
                 pending = Listing.objects.filter(asset__owner_department=department, status="LS-02").count()
                 waiting = ResourceRequest.objects.filter(department=department, status="RQ-02").count()
                 cards += [
-                    card("Listings to release", pending, assets_url, "approval"),
+                    card("Listings to release", pending, reverse("transfers:approvals"), "approval"),
                     card("Requests to approve", waiting, reverse("resource_requests:list") + "?status=RQ-02", "approval"),
                 ]
+        if any(role.allows(a) for a in ("request.approve", "transfer.approve_finance", "transfer.approve_procurement")):
+            cards.insert(0, card("Approval tasks", tasks_for(request).count(), reverse("transfers:approvals"), "approval"))
+        transfers_url = reverse("transfers:list")
+        if role.allows("hold.confirm"):
+            holds = Reservation.objects.filter(listing__asset__owner_department=department, status="RV-01").count()
+            cards.append(card("Holds to decide", holds, transfers_url, "clock"))
+        if role.allows("transfer.handover"):
+            to_send = Transfer.objects.filter(from_department=department, status="TR-04").count()
+            to_receive = Transfer.objects.filter(to_department=department, status="TR-05").count()
+            cards += [card("Transfers to hand over", to_send, transfers_url, "arrow"),
+                      card("Deliveries to confirm", to_receive, transfers_url, "check")]
+        if role.allows("hold.request"):
+            ready = Reservation.objects.filter(request__requester=request.user, status="RV-02").count()
+            cards.append(card("Holds ready: start the transfer", ready, transfers_url, "transfer"))
         if role.allows("listing.search"):
             published = Listing.objects.filter(status="LS-03").count()
             cards.append(card("Published items", published, reverse("assets:search"), "match"))

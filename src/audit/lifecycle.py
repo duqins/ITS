@@ -18,9 +18,11 @@ class TransitionNotAllowed(Exception):
         self.obj = obj
         self.action = action
         label = dict(type(obj).Status.choices)
+        before, after = label.get(from_state, from_state), label.get(to_state, to_state)
+        name = obj._meta.verbose_name
         super().__init__(
-            f"{action} is not allowed: {obj._meta.verbose_name} cannot move from "
-            f"{label.get(from_state, from_state)} to {label.get(to_state, to_state)}."
+            f"This {name} is already {before.lower()}, so this step was not done." if from_state == to_state else
+            f"This step is not allowed: a {name} cannot go from {before.lower()} to {after.lower()}."
         )
 
 

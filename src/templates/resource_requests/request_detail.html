@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
+{% load dawra_ui transfer_ui %}
 {% block title %}{{ obj.code }} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{{ obj.purpose }}</h1><div class="record">{{ obj.code }} · {{ obj.requester }} · {{ obj.department }}</div></div>{% status_pill obj %}</div>
@@ -17,7 +17,7 @@
       {% include "includes/readonly.html" with label="Delivery location" value=obj.delivery_location %}
       {% include "includes/readonly.html" with label="Required by" value=obj.required_by %}
     </div></section>
-    {% block request_extra %}{% endblock %}
+    {% request_progress obj %}
     <section class="group"><div class="group-title">{% icon 'clock' %}<h2>Updates</h2></div>
       <ol class="timeline">{% for e in updates %}<li><span class="when">{{ e.created_at|date:"j M Y, H:i" }}</span> <span class="what">{{ e.action|capfirst }}</span>{% if e.user %} by {{ e.user }}{% endif %}{% if e.after_value %} · now {{ e.after_value }}{% endif %}{% if e.reason %}<span class="reason">{{ e.reason }}</span>{% endif %}</li>{% endfor %}</ol>
     </section>

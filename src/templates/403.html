@@ -4,6 +4,14 @@
 {% block content %}
 <div class="heading"><div><h1>You cannot do this with your current role</h1><div class="record">Access refused · logged in the audit log</div></div></div>
 <div class="down">{% icon 'info' %}<div>{{ exception }}</div></div>
-<div class="actions"><a class="button primary" href="{% url 'core:home' %}">Back to the home page</a></div>
+<div class="actions">
+  {% for user_role in my_roles %}{% if user_role != active_role %}
+  <form method="post" action="{% url 'accounts:switch_role' %}">{% csrf_token %}
+    <input type="hidden" name="user_role" value="{{ user_role.pk }}"><input type="hidden" name="next" value="{{ request.get_full_path }}">
+    <button class="button" type="submit">Switch to {{ user_role }} and try again</button>
+  </form>
+  {% endif %}{% endfor %}
+  <a class="button primary" href="{% url 'core:home' %}">Back to the home page</a>
+</div>
 {% endblock %}
 {% block public %}<p>Please <a href="{% url 'accounts:login' %}">sign in</a>.</p>{% endblock %}

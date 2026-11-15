@@ -144,7 +144,7 @@ class Asset(models.Model):
         """Derived attribute /assetAge in whole years; not stored (section 8)."""
         if not self.purchase_date:
             return None
-        today = date.today()
+        today = timezone.localdate()
         return today.year - self.purchase_date.year - (
             (today.month, today.day) < (self.purchase_date.month, self.purchase_date.day)
         )
@@ -254,12 +254,16 @@ class Listing(models.Model):
         UNDERUTILISED = "underutilised", "Underutilised"
         UNWANTED = "unwanted", "Unwanted"
 
+    # SRS section 4.1.2. The SRS deletes an unwanted draft; we mark it Withdrawn instead, so its history
+    # is never lost (BR-17). A fully reserved listing cannot be withdrawn while its holds are running.
     TRANSITIONS = {
         Status.DRAFT: {Status.PENDING_RELEASE, Status.WITHDRAWN},
         Status.PENDING_RELEASE: {Status.PUBLISHED, Status.DRAFT, Status.WITHDRAWN},
         Status.PUBLISHED: {Status.FULLY_RESERVED, Status.WITHDRAWN, Status.CLOSED},
-        Status.FULLY_RESERVED: {Status.PUBLISHED, Status.WITHDRAWN, Status.CLOSED},
+        Status.FULLY_RESERVED: {Status.PUBLISHED, Status.CLOSED},
+        Status.WITHDRAWN: {Status.DRAFT},
     }
+    OPEN = (Status.DRAFT, Status.PENDING_RELEASE, Status.PUBLISHED, Status.FULLY_RESERVED)
 
     asset = models.ForeignKey(Asset, on_delete=models.PROTECT, related_name="listings")
     quantity = models.PositiveIntegerField()
@@ -283,9 +287,15 @@ class Listing(models.Model):
         return f"LST-{self.pk:04d}"
 
     def held_quantity(self):
-        from transfers.models import Reservation
+        """Units taken by confirmed holds and by transfers that are still going or completed.
+        A rejected, cancelled or returned transfer gives its units back to the listing."""
+        from transfers.models import Reservation, Transfer
 
-        held = self.reservations.filter(status__in=Reservation.HOLDING).aggregate(total=Sum("quantity"))["total"]
+        failed = (Transfer.Status.REJECTED, Transfer.Status.CANCELLED)
+        held = self.reservations.filter(
+            Q(status=Reservation.Status.CONFIRMED)
+            | (Q(status=Reservation.Status.CONVERTED) & ~Q(transfer__status__in=failed))
+        ).aggregate(total=Sum("quantity"))["total"]
         return held or 0
 
     def remaining_quantity(self):
@@ -299,6 +309,9 @@ class Listing(models.Model):
             raise BusinessRuleError("Only an asset that is in service or in storage can be listed.", self, "submit listing")
         if self.quantity > self.asset.available_qty:
             raise BusinessRuleError("The listing offers more units than are available.", self, "submit listing")
+        if self.asset.condition == Condition.NOT_WORKING:
+            raise BusinessRuleError("An item rated Not working cannot be offered for reuse until it is repaired "
+                                    "(FR-12.2).", self, "submit listing")
         change_state(self, self.Status.PENDING_RELEASE, by, "submitted for release")
         Approval.open(Approval.Stage.LISTING_RELEASE, self, requested_by=self.created_by,
                       department=self.asset.owner_department)
@@ -329,10 +342,16 @@ class Listing(models.Model):
 
         if not reason:
             raise BusinessRuleError("Give a reason for withdrawing the listing (BR-20).", self, "withdraw listing")
+        if self.status == self.Status.FULLY_RESERVED:
+            raise BusinessRuleError("Every unit is held for a requester. Wait until a hold ends, then withdraw.",
+                                    self, "withdraw listing")
         active = Transfer.objects.filter(reservation__listing=self).exclude(status__in=Transfer.FINAL)
         if active.exists():
             raise BusinessRuleError("A listing cannot be withdrawn during a transfer (BR-19).", self, "withdraw listing")
         change_state(self, self.Status.WITHDRAWN, by, "withdrawn", reason)
+        pending = self.pending_approval()
+        if pending is not None:
+            pending.withdraw("Listing withdrawn")
         for reservation in self.reservations.filter(status__in=Reservation.OPEN):
             reservation.cancel(by, "Listing withdrawn")
 

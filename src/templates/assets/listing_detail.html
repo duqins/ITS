@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
+{% load dawra_ui transfer_ui %}
 {% block title %}{{ listing.code }} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{{ asset.name }}</h1><div class="record">{{ listing.code }} · offered by {{ asset.owner_department }}</div></div>{% status_pill listing %}</div>
@@ -29,6 +29,7 @@
     </details>
     {% endif %}
     {% endif %}
+    {% hold_form listing %}
   </div>
   <aside>
     {% if listing.status == "LS-02" %}

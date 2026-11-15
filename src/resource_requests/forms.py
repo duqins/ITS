@@ -1,6 +1,7 @@
 from datetime import date
 
 from django import forms
+from django.utils import timezone
 
 from assets.models import Category
 
@@ -33,6 +34,6 @@ class RequestForm(forms.ModelForm):
 
     def clean_required_by(self):
         value = self.cleaned_data["required_by"]
-        if value < date.today():
+        if value < timezone.localdate():
             raise forms.ValidationError("The required-by date must be today or later.")
         return value

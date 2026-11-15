@@ -9,7 +9,7 @@ from django.db.models import Q
 from django.utils import timezone
 
 from accounts.models import Department, Role
-from assets.models import Asset, Condition, Listing
+from assets.models import Asset, Condition, FurnitureAsset, ITAsset, Listing
 from audit.lifecycle import BusinessRuleError, change_state
 from audit.models import AuditLog
 from resource_requests.models import ResourceRequest
@@ -113,6 +113,10 @@ class Approval(models.Model):
         return user.has_role(self.required_role, self.department) and user != self.requested_by
 
     def _check_decision(self, by, needs_reason=False, reason=""):
+        # Re-read the task under a lock, so a double click cannot decide it twice.
+        current = Approval.objects.select_for_update().filter(pk=self.pk).values_list("status", flat=True).first()
+        if current != self.Status.PENDING:
+            raise BusinessRuleError("This task was already decided.", self.record, "decide approval")
         if by == self.requested_by:
             raise BusinessRuleError("You cannot approve your own request or record (BR-02).", self.record, "decide approval")
         if not by.has_role(self.required_role, self.department):
@@ -159,9 +163,8 @@ class Reservation(models.Model):
         CANCELLED = "RV-06", "Cancelled"
 
     OPEN = (Status.REQUESTED, Status.CONFIRMED)
-    HOLDING = (Status.CONFIRMED, Status.CONVERTED)
     TRANSITIONS = {
-        Status.REQUESTED: {Status.CONFIRMED, Status.DECLINED, Status.CANCELLED, Status.EXPIRED},
+        Status.REQUESTED: {Status.CONFIRMED, Status.DECLINED, Status.CANCELLED},
         Status.CONFIRMED: {Status.CONVERTED, Status.CANCELLED, Status.EXPIRED},
     }
 
@@ -197,9 +200,14 @@ class Reservation(models.Model):
             raise BusinessRuleError("A hold can only be requested for an open request.", resource_request, "request hold")
         if listing.status != Listing.Status.PUBLISHED:
             raise BusinessRuleError("This item is no longer published.", resource_request, "request hold")
+        if listing.asset.owner_department_id == resource_request.department_id:
+            raise BusinessRuleError("This item already belongs to your department, so there is nothing to transfer.",
+                                    resource_request, "request hold")
         if resource_request.quantity > listing.remaining_quantity():
+            left = listing.remaining_quantity()
             raise BusinessRuleError(
-                f"Only {listing.remaining_quantity()} unit(s) of this item are left.", resource_request, "request hold"
+                "Nothing is left to hold on this listing." if left == 0 else
+                f"Only {left} of the units you need are left on this listing.", resource_request, "request hold"
             )
         reservation = cls.objects.create(
             request=resource_request, listing=listing, quantity=resource_request.quantity, requested_by=by
@@ -221,6 +229,18 @@ class Reservation(models.Model):
         """Hold the units for 5 working days (BR-12). Locks the asset row so the last unit goes to one person."""
         self.check_releasing_side(by)
         with transaction.atomic():
+            # Lock the hold, the listing and the asset; re-read them so two clicks cannot both reserve.
+            if Reservation.objects.select_for_update().get(pk=self.pk).status != self.Status.REQUESTED:
+                raise BusinessRuleError("This hold was already decided.", self, "confirm hold")
+            listing = Listing.objects.select_for_update().get(pk=self.listing_id)
+            if listing.status not in (Listing.Status.PUBLISHED, Listing.Status.FULLY_RESERVED):
+                raise BusinessRuleError("This listing is no longer published.", self, "confirm hold")
+            if listing.held_quantity() + self.quantity > listing.quantity:
+                left = max(listing.quantity - listing.held_quantity(), 0)
+                raise BusinessRuleError(
+                    "Every unit of this listing is already held for someone else." if left == 0 else
+                    f"Only {left} of the {listing.quantity} listed units are still free; this hold asks for "
+                    f"{self.quantity}.", self, "confirm hold")
             asset = Asset.objects.select_for_update().get(pk=self.listing.asset_id)
             if not asset.verification_is_recent():
                 raise BusinessRuleError("The asset must be checked again before a hold (last check over 90 days ago, BR-16).",
@@ -364,6 +384,11 @@ class Transfer(models.Model):
         if not to_custodian.has_role(Role.Code.ASSET_CUSTODIAN, resource_request.department):
             raise BusinessRuleError("The receiving custodian must be a custodian of your department.", reservation,
                                     "start transfer")
+        if reservation.expires_at and reservation.expires_at < timezone.now():
+            raise BusinessRuleError("This hold has expired (BR-12). Ask for a new hold.", reservation, "start transfer")
+        if any(details.get(name) is not None and details[name] < 0
+               for name in ("transfer_cost_aed", "distance_km", "van_trips")):
+            raise BusinessRuleError("Costs, distances and van trips cannot be negative.", reservation, "start transfer")
         asset = Asset.objects.select_for_update().get(pk=reservation.listing.asset_id)
         transfer = cls.objects.create(
             asset=asset, request=resource_request, reservation=reservation, quantity=reservation.quantity,
@@ -377,11 +402,19 @@ class Transfer(models.Model):
         Approval.open(Approval.Stage.TRANSFER_RELEASE, transfer, requested_by=by, department=transfer.from_department)
         return transfer
 
-    def approve_stage(self, by):
-        """Approve the current stage and move to the next one (release, receipt, then policy under BR-06)."""
-        approval = self.pending_approvals().first()
+    def pending_stage(self, approval, action):
+        """The approval being decided; Finance and Procurement may decide their stages in either order."""
+        pending = self.pending_approvals()
+        if approval is not None:
+            pending = pending.filter(pk=approval.pk)
+        approval = pending.first()
         if approval is None:
-            raise BusinessRuleError("There is no approval task waiting on this transfer.", self, "approve transfer")
+            raise BusinessRuleError("There is no approval task waiting on this transfer.", self, action)
+        return approval
+
+    def approve_stage(self, by, approval=None):
+        """Approve a stage and move to the next one (release, receipt, then policy under BR-06)."""
+        approval = self.pending_stage(approval, "approve transfer")
         approval.approve(by)
         if approval.stage == Approval.Stage.TRANSFER_RELEASE:
             change_state(self, self.Status.PENDING_RECEIPT, by, "release approved")
@@ -401,10 +434,8 @@ class Transfer(models.Model):
             self.approver = by
             change_state(self, self.Status.APPROVED, by, "policy approved", extra_fields=("approver",))
 
-    def reject_stage(self, by, reason):
-        approval = self.pending_approvals().first()
-        if approval is None:
-            raise BusinessRuleError("There is no approval task waiting on this transfer.", self, "reject transfer")
+    def reject_stage(self, by, reason, approval=None):
+        approval = self.pending_stage(approval, "reject transfer")
         approval.reject(by, reason)
         change_state(self, self.Status.REJECTED, by, "rejected", reason)
         self._give_back(by, "transfer rejected")
@@ -454,6 +485,9 @@ class Transfer(models.Model):
         self.check_custodian(by, self.to_department, "record discrepancy")
         if not note.strip():
             raise BusinessRuleError("Describe the difference (FR-11.5).", self, "record discrepancy")
+        if not 0 <= received_quantity <= self.quantity:
+            raise BusinessRuleError(f"The received quantity must be between 0 and {self.quantity}.", self,
+                                    "record discrepancy")
         self.received_quantity = received_quantity
         self.received_condition = received_condition
         self.dispute_note = note
@@ -468,14 +502,19 @@ class Transfer(models.Model):
         if not reason.strip():
             raise BusinessRuleError("Give a reason for the resolution.", self, "resolve dispute")
         if accept:
-            self._complete(by, self.received_quantity or self.quantity,
-                           self.received_condition or self.handover_condition, "resolved and received", reason)
+            # A condition difference can be accepted; missing units cannot, so the delivery goes back instead.
+            if self.received_quantity is not None and self.received_quantity != self.quantity:
+                raise BusinessRuleError("Units are missing, so this delivery cannot be accepted. Return it instead.",
+                                        self, "resolve dispute")
+            self._complete(by, self.quantity, self.received_condition or self.handover_condition,
+                           "resolved and received", reason)
         else:
             change_state(self, self.Status.CANCELLED, by, "returned", reason)
             asset = Asset.objects.select_for_update().get(pk=self.asset_id)
             if asset.status == Asset.Status.IN_TRANSFER:
                 change_state(asset, asset.previous_status or Asset.Status.IN_STORAGE, by, "returned after dispute")
             asset.unallocate(self.quantity)
+            self.reservation.listing.refresh_reserved_state(by)
             if self.request.status == ResourceRequest.Status.IN_TRANSFER:
                 change_state(self.request, ResourceRequest.Status.OPEN, by, "transfer returned")
 
@@ -497,15 +536,26 @@ class Transfer(models.Model):
             asset.allocated_qty = 0
             asset.available_qty = asset.quantity
             asset.save()
-            change_state(asset, Asset.Status.IN_SERVICE, by, "received by new owner",
-                         f"Now owned by {self.to_department}")
+            if asset.status != Asset.Status.IN_SERVICE:
+                change_state(asset, Asset.Status.IN_SERVICE, by, "received by new owner",
+                             f"Now owned by {self.to_department}")
+            else:  # already in service (for example after an earlier partial transfer)
+                AuditLog.record(by, "received by new owner", asset, reason=f"Now owned by {self.to_department}")
             self.received_asset = asset
         else:
             # Only some units move: they become a new asset record of the receiving department.
             asset.allocated_qty -= self.quantity
             asset.quantity -= self.quantity
             asset.save(update_fields=["allocated_qty", "quantity"])
-            new_asset = Asset.objects.create(
+            # Keep the type: an IT record keeps "stores data" (data erasure, BR-09), furniture keeps its details.
+            # Serial numbers stay with the units that did not move.
+            model, extra = Asset, {}
+            it, furniture = ITAsset.objects.filter(pk=asset.pk).first(), FurnitureAsset.objects.filter(pk=asset.pk).first()
+            if it is not None:
+                model, extra = ITAsset, {"stores_data": it.stores_data}
+            elif furniture is not None:
+                model, extra = FurnitureAsset, {"material": furniture.material, "dimensions": furniture.dimensions}
+            new_asset = model.objects.create(**extra,
                 name=asset.name, description=asset.description, category=asset.category, tags=asset.tags,
                 condition=received_condition, status=Asset.Status.IN_SERVICE, quantity=self.quantity,
                 available_qty=self.quantity, specifications=asset.specifications, campus=self.to_campus,
@@ -521,7 +571,26 @@ class Transfer(models.Model):
                                    "received_asset"))
         change_state(self.request, ResourceRequest.Status.FULFILLED, by, "receipt confirmed")
         listing = self.reservation.listing
+        # Close only when every listed unit has really moved: other confirmed holds or running transfers
+        # on the same listing keep it open (LS-06 means "all offered quantity has been transferred").
+        still_running = listing.reservations.exclude(pk=self.reservation_id).filter(
+            Q(status=Reservation.Status.CONFIRMED)
+            | (Q(status=Reservation.Status.CONVERTED) & ~Q(transfer__status__in=Transfer.FINAL))).exists()
         if listing.status in (Listing.Status.PUBLISHED, Listing.Status.FULLY_RESERVED) and (
-                whole_record or listing.remaining_quantity() == 0):
+                whole_record or (listing.remaining_quantity() == 0 and not still_running)):
             change_state(listing, Listing.Status.CLOSED, by, "closed after transfer")
+            for hold in listing.reservations.filter(status=Reservation.Status.REQUESTED):
+                hold.cancel(by, "The listing closed after a transfer")
         SustainabilityImpact.record_transfer(self)
+
+
+def expire_overdue():
+    """BR-12 and FR-07: confirmed holds past their end, and open requests past their required-by date,
+    expire. Run on the pages that show holds, and by the expire_overdue command."""
+    for hold in Reservation.objects.filter(status=Reservation.Status.CONFIRMED, expires_at__lt=timezone.now()):
+        with transaction.atomic():
+            hold.expire()
+    for resource_request in ResourceRequest.objects.filter(status=ResourceRequest.Status.OPEN,
+                                                           required_by__lt=timezone.localdate()):
+        with transaction.atomic():
+            resource_request.expire()

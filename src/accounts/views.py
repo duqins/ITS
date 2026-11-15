@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.views import defaults
 from django.views.decorators.http import require_POST
 
 from audit.models import AuditLog
@@ -10,6 +11,14 @@ from audit.models import AuditLog
 from .forms import SignInForm
 from .middleware import SESSION_KEY
 from .models import User, UserRole
+from .permissions import log_refusal
+
+
+def permission_denied(request, exception=None):
+    """Every refused page goes to the audit log (FR-02.3), not only refusals of the role check."""
+    if exception is not None and not getattr(exception, "logged", False):
+        log_refusal(request, "open record")
+    return defaults.permission_denied(request, exception)
 
 
 def sign_in(request):
@@ -58,4 +67,8 @@ def switch_role(request):
         request.user.active_role = user_role
         AuditLog.record(request.user, "switched role", request.user, after=str(user_role))
         messages.success(request, f"You are now working as {user_role}.")
+        # From the refused page, go back to the page the user was trying to open.
+        target = request.POST.get("next", "")
+        if url_has_allowed_host_and_scheme(target, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+            return redirect(target)
     return redirect("core:home")

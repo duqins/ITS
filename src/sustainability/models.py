@@ -1,6 +1,6 @@
 """SustainabilityImpact from the class diagram, with the formulas of design section 12 (C7)."""
 
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
 
 from django.conf import settings
 from django.db import models
@@ -11,6 +11,11 @@ from accounts.models import Department
 # F6: diesel van, average up to 3.5 t, UK DESNZ 2025 conversion factors.
 VAN_KG_CO2E_PER_KM = Decimal("0.25561")
 VAN_FACTOR_SOURCE = "UK DESNZ 2025, Diesel van, average (up to 3.5 t)"
+
+
+def two_places(value):
+    """Store every figure with 2 decimals, the same on SQLite and PostgreSQL."""
+    return None if value is None else Decimal(value).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
 
 class SustainabilityImpact(models.Model):
@@ -59,11 +64,11 @@ class SustainabilityImpact(models.Model):
         """Fill the figures from the transfer and its category factors (Table 12.1)."""
         transfer = self.transfer
         category = transfer.asset.category
-        items = transfer.received_quantity or transfer.quantity
+        items = transfer.quantity if transfer.received_quantity is None else transfer.received_quantity
         self.items_diverted = items
         self.transfer_cost_aed = transfer.transfer_cost_aed
         # Transport = van trips x km x 0.25561 (F6).
-        self.transport_co2e_kg = Decimal(transfer.van_trips) * transfer.distance_km * VAN_KG_CO2E_PER_KM
+        self.transport_co2e_kg = two_places(Decimal(transfer.van_trips) * transfer.distance_km * VAN_KG_CO2E_PER_KM)
         self.waste_diverted_kg = None
         self.avoided_purchase_aed = None
         self.co2e_low_kg = self.co2e_high_kg = None
@@ -81,6 +86,8 @@ class SustainabilityImpact(models.Model):
         if category.emission_factor_high is not None:
             self.co2e_high_kg = items * category.emission_factor_high - self.transport_co2e_kg
         self.factor_version = category.factor_version
+        for name in ("transport_co2e_kg", "waste_diverted_kg", "avoided_purchase_aed", "co2e_low_kg", "co2e_high_kg"):
+            setattr(self, name, two_places(getattr(self, name)))
 
     def confirm_avoided_purchase(self, by):
         from accounts.models import Role
@@ -90,6 +97,9 @@ class SustainabilityImpact(models.Model):
         if not by.has_role(Role.Code.DEPARTMENT_REPRESENTATIVE, self.department):
             raise BusinessRuleError(f"Only the representative of {self.department} can confirm this.", self.transfer,
                                     "confirm avoided purchase")
+        if self.purchase_avoided_confirmed:
+            raise BusinessRuleError(f"This avoided purchase was already confirmed by {self.confirmed_by}.",
+                                    self.transfer, "confirm avoided purchase")
         self.purchase_avoided_confirmed = True
         self.confirmed_by = by
         self.confirmed_at = timezone.now()

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load dawra_ui %}
+{% block title %}History of {{ asset.code }} · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>History of {{ asset.name }}</h1><div class="record">{{ asset.code }} · {{ asset.owner_department }}</div></div>{% status_pill asset %}</div>
+<p class="lead">Every change to this asset and its listings, holds, transfers and approvals, with who did it and when. Entries cannot be changed or deleted (BR-17).</p>
+{% if entries %}
+<div class="table-wrap"><table class="data-table">
+  <thead><tr><th>When</th><th>Who</th><th>Record</th><th>What happened</th><th>From</th><th>To</th></tr></thead>
+  <tbody>{% for e in entries %}
+  <tr{% if "blocked" in e.action %} class="highlight"{% endif %}>
+    <td>{{ e.created_at|date:"j M Y, H:i" }}</td>
+    <td>{{ e.user|default:"System" }}{% if e.role %}<small>{{ e.role }}</small>{% endif %}</td>
+    <td>{{ e.record_type|capfirst }} {{ e.record_id }}</td>
+    <td><strong>{{ e.action|capfirst }}</strong>{% if e.reason %}<small>{{ e.reason }}</small>{% endif %}</td>
+    <td>{{ e.before_value }}</td><td>{{ e.after_value }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% else %}<div class="empty">No history yet.</div>{% endif %}
+<div class="actions"><a class="button" href="{% url 'assets:detail' asset.pk %}">Back to {{ asset.code }}</a></div>
+{% endblock %}
