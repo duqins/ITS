@@ -52,6 +52,7 @@
       {% if pending %}<p>Waiting for the {{ obj.department }} department representative.</p>
       {% elif last_decision %}<p><strong>{{ last_decision.get_status_display }}</strong> by {{ last_decision.approver }} on {{ last_decision.decided_at|date:"j M Y" }}.</p>{% if last_decision.reason %}<p class="muted">{{ last_decision.reason }}</p>{% endif %}
       {% elif obj.status == "RQ-01" %}<p>Not submitted yet.</p>{% endif %}
+      {% approval_task obj as task %}{% if task %}<a class="button primary" href="{% url 'transfers:approval' task.pk %}">{% icon 'approval' %}Decide this approval</a>{% endif %}
       {% matches_link obj %}
     </div>
   </aside>
