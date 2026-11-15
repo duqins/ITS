@@ -84,7 +84,7 @@ class ResourceRequest(RequestSpecification):
         # FR-07.1: a positive whole quantity and a required-by date that has not passed.
         if self.quantity < 1:
             raise BusinessRuleError("The quantity must be a positive whole number.", self, "submit request")
-        if self.required_by < date.today():
+        if self.required_by < timezone.localdate():
             raise BusinessRuleError("The required-by date must not be in the past.", self, "submit request")
 
     def submit(self, by):
