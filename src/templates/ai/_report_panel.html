@@ -1,0 +1,29 @@
+{% load dawra_ui %}
+<section class="group"><div class="group-title">{% icon 'report' %}<h2>Summary</h2></div>
+{% if published %}
+<div class="side-panel"><p>{% if published.corrected_value %}{{ published.corrected_value.summary }}{% else %}{{ published.suggestion.summary }}{% endif %}</p>
+  <p class="muted small">{{ published.suggestion.period }} · {{ published.suggestion.department }} · AI-generated draft reviewed and published by {{ published.responded_by }} on {{ published.responded_at|date:"j M Y" }}</p></div>
+{% else %}<p class="muted small">No summary has been published yet.</p>{% endif %}
+{% if can_review %}
+  {% if draft %}
+  <aside class="ai{% if 'not in the database' in draft.explanation %} low-state{% endif %}" style="margin-top:14px">
+    <div class="ai-heading">{% icon 'spark' %}<h2>Report assistant</h2><span class="small-tag">AI-GENERATED DRAFT</span></div>
+    <p class="ai-result">{{ draft.explanation }}</p>
+    <form method="post" action="{% url 'ai:report_publish' draft.pk %}" class="reason-form">
+      <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"><input type="hidden" name="next" value="{{ path }}">
+      <label for="summary">Edit before publishing</label><textarea id="summary" name="summary" rows="5">{{ draft.suggestion.summary }}</textarea>
+      <details><summary>Figures the AI was given ({{ draft.suggestion.period }})</summary><pre class="small">{{ draft.suggestion.figures }}</pre></details>
+      <button class="button primary" type="submit" name="decision" value="publish">{% icon 'check' %}Publish summary</button>
+      <button class="button danger" type="submit" name="decision" value="reject">Discard draft</button>
+    </form>
+    <p class="ai-meta">Model {{ draft.model_version }} · saved {{ draft.created_at|date:"j M Y, H:i" }}</p>
+  </aside>
+  {% elif ai_on %}
+  <form method="post" action="{% url 'ai:report_draft' %}?{{ query }}" class="actions" style="border:0">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <button class="button" type="submit">{% icon 'spark' %}Draft a summary with AI</button>
+    <span class="muted small">The AI writes from the figures above only; you edit and publish it.</span>
+  </form>
+  {% else %}<p class="muted small">AI drafting is unavailable; the figures above are complete without it.</p>{% endif %}
+{% endif %}
+</section>

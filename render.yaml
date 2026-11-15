@@ -1,0 +1,27 @@
+# Render blueprint for the Dawra Campus app (deployment diagram, design section 11).
+# The database is PostgreSQL on Neon in Frankfurt. In Render, paste its pooled connection string as
+# DATABASE_URL and its direct one as DATABASE_URL_UNPOOLED (see src/DEPLOY.md).
+services:
+  - type: web
+    name: dawra-campus
+    runtime: python
+    region: frankfurt
+    rootDir: src
+    buildCommand: bash build.sh
+    startCommand: gunicorn dawra.wsgi:application
+    healthCheckPath: /accounts/sign-in/
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.2
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_URL_UNPOOLED
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: DEMO_PASSWORD
+        sync: false
