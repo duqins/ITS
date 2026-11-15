@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load dawra_ui %}
+{% block title %}Search · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>Find surplus items</h1><div class="record">Published listings from every department</div></div></div>
+<p class="lead">Search works without AI. Combine a keyword with any of the filters.</p>
+<form method="get" class="filters">
+  {% include "includes/field.html" with field=form.q %}
+  {% include "includes/field.html" with field=form.category %}
+  {% include "includes/field.html" with field=form.condition %}
+  {% include "includes/field.html" with field=form.department %}
+  {% include "includes/field.html" with field=form.sort %}
+  <div class="actions"><button class="button primary" type="submit">{% icon 'match' %}Search</button><a class="button" href="{% url 'assets:search' %}">Reset</a></div>
+</form>
+{% if results %}
+<p class="result-count">{{ results|length }} item{{ results|length|pluralize }} found</p>
+<div class="table-wrap"><table class="data-table">
+  <thead><tr><th>Item</th><th>Category</th><th>Condition</th><th>Department</th><th>Location</th><th class="num">Available</th><th>Listed</th></tr></thead>
+  <tbody>{% for l in results %}
+  <tr><td><a href="{% url 'assets:listing' l.pk %}">{{ l.asset.name }}</a><small>{{ l.code }}{% if l.asset.tags %} · {{ l.asset.tags }}{% endif %}</small></td>
+      <td>{{ l.asset.category }}</td><td>{{ l.asset.get_condition_display }}</td><td>{{ l.asset.owner_department }}</td>
+      <td>{{ l.asset.building|default:l.asset.campus }}</td><td class="num">{{ l.remaining_quantity }}</td><td>{{ l.published_at|date:"j M Y" }}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+{% else %}
+<div class="empty">{% if searched %}No published items match these filters.{% else %}No items are published right now.{% endif %}
+  {% if can_request %}<br><a class="button" href="{% url 'resource_requests:create' %}?{% if form.cleaned_data.category %}category={{ form.cleaned_data.category.pk }}&amp;{% endif %}purpose={{ form.cleaned_data.q|urlencode }}">Create a request with these criteria</a>{% endif %}
+</div>
+{% endif %}
+{% endblock %}
