@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load dawra_ui %}
+{% block title %}Matches for {{ obj.code }} · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>Review eligible matches</h1><div class="record">{{ obj.code }} · {{ obj.purpose }} · UI-07</div></div>{% status_pill obj %}</div>
+<p class="lead">Compare items that meet your request, then ask the releasing team for a hold. The score is calculated by our fixed rules; the AI only rates how close the meaning is.</p>
+{% if can_search %}
+<form method="post" class="actions" style="border:0;margin-top:0;padding-top:0">{% csrf_token %}<button class="button primary" type="submit">{% icon 'spark' %}{% if matches %}Search again{% else %}Find and rank matches{% endif %}</button></form>
+{% endif %}
+{% if matches %}
+<p class="review-note">{% icon 'approval' %}Mandatory category, stock, condition and date checks passed for every item below.</p>
+<div class="layout">
+  <div class="record-body">
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr><th>Rank</th><th>Eligible item</th><th>Score</th><th>Confidence</th>{% if can_choose %}<th></th>{% endif %}</tr></thead>
+      <tbody>{% for m in matches %}
+      <tr{% if forloop.first %} class="selected"{% endif %}>
+        <td>{{ m.rank }}</td>
+        <td><a href="{% url 'assets:listing' m.listing.pk %}">{{ m.asset.name }}</a><small>{{ m.asset.code }} · {{ m.asset.get_condition_display }} · {{ m.asset.owner_department }}</small><small>{{ m.reason }}</small>
+          {% if m.explanation.factors %}<details><summary>How the score was calculated</summary><ul class="factor-list">{% for f in m.explanation.factors %}<li>{{ f.factor }}: {{ f.used }}{% if f.unknown %} (unknown){% endif %} <b>{{ f.points }} / {{ f.max }}</b></li>{% endfor %}</ul></details>{% endif %}</td>
+        <td>{% if m.score is not None %}<span class="score">{{ m.score }}<small>/100</small></span>{% else %}—<small>Classic result</small>{% endif %}</td>
+        <td>{% if m.score is not None %}Unavailable<small>Check carefully</small>{% else %}—{% endif %}</td>
+        {% if can_choose %}<td>
+          {% if m.user_response == "pending" %}
+          <form method="post" action="{% url 'ai:choose' m.pk %}" class="reason-form">{% csrf_token %}
+            {% if not forloop.first and m.score is not None %}<textarea name="reason" placeholder="Why this one instead of rank 1? *" aria-label="Override reason"></textarea>{% endif %}
+            <button class="button{% if forloop.first %} primary{% endif %}" type="submit">Request a hold</button>
+          </form>
+          <form method="post" action="{% url 'ai:reject' m.pk %}" class="reason-form">{% csrf_token %}
+            <input name="reason" placeholder="Why not? (optional)" aria-label="Reason for rejecting">
+            <button class="button danger" type="submit">Not suitable</button>
+          </form>
+          {% else %}<span class="muted small">{{ m.get_user_response_display }}{% if m.override_reason %}: {{ m.override_reason }}{% endif %}</span>{% endif %}
+        </td>{% endif %}
+      </tr>{% endfor %}</tbody>
+    </table></div>
+  </div>
+  <aside class="ai{% if not ai_used %} fallback-state{% endif %}">
+    <div class="ai-heading">{% if ai_used %}{% icon 'spark' %}<h2>AI assistance</h2><span class="small-tag">REVIEW</span>{% else %}{% icon 'info' %}<h2>AI unavailable</h2><span class="small-tag">OFFLINE</span>{% endif %}</div>
+    {% if ai_used %}
+    <div class="confidence">{% icon 'info' %}{{ matches.0.confidence_text }}</div>
+    <p class="ai-result">Compatibility {{ matches.0.score }}/100 for the top item. The score is separate from AI confidence; Claude's meaning ratings come without a confidence measure.</p>
+    <div class="reason"><strong>Why this order</strong><p>Meaning and purpose 30, technical fit 20, condition 15, location 10, availability 10, useful life 10, repair cost 5 (SRS Table 4.1). Missing values earn 0 and say "unknown".</p></div>
+    {% else %}
+    <p class="ai-result">These items passed the mandatory checks and are shown in classic order (available sooner, better condition). No AI scores are invented.</p>
+    {% endif %}
+    <div class="human"><strong>Your decision</strong><p>Choosing an item only asks for a hold. Choosing a lower-ranked item needs a reason.</p></div>
+    {% if ai_used %}<p class="ai-meta">Model {{ matches.0.model_version }} · saved {{ matches.0.created_at|date:"j M Y, H:i" }}</p>{% endif %}
+  </aside>
+</div>
+{% elif not can_search %}
+<div class="empty">No matches yet. Matches can be searched while the request is open.</div>
+{% endif %}
+<div class="actions"><a class="button" href="{% url 'resource_requests:detail' obj.pk %}">Back to {{ obj.code }}</a><a class="button" href="{% url 'assets:search' %}">Open classic search</a></div>
+{% endblock %}

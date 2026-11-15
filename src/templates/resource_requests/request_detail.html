@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dawra_ui transfer_ui %}
+{% load dawra_ui transfer_ui ai_ui %}
 {% block title %}{{ obj.code }} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{{ obj.purpose }}</h1><div class="record">{{ obj.code }} · {{ obj.requester }} · {{ obj.department }}</div></div>{% status_pill obj %}</div>
@@ -52,6 +52,7 @@
       {% if pending %}<p>Waiting for the {{ obj.department }} department representative.</p>
       {% elif last_decision %}<p><strong>{{ last_decision.get_status_display }}</strong> by {{ last_decision.approver }} on {{ last_decision.decided_at|date:"j M Y" }}.</p>{% if last_decision.reason %}<p class="muted">{{ last_decision.reason }}</p>{% endif %}
       {% elif obj.status == "RQ-01" %}<p>Not submitted yet.</p>{% endif %}
+      {% matches_link obj %}
     </div>
   </aside>
 </div>

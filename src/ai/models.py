@@ -88,6 +88,29 @@ class AiSuggestion(models.Model):
     def reject(self, by, reason):
         self._respond(by, self.Response.REJECTED, reason=reason)
 
+    def apply_to_asset(self, values, by):
+        """Write the chosen category, condition and tags onto the draft asset (BR-15: a person decided)."""
+        from assets.models import Asset, Category
+        from audit.lifecycle import BusinessRuleError
+
+        asset = self.asset
+        if asset.status != Asset.Status.DRAFT:
+            raise BusinessRuleError("The asset is already confirmed; AI values can no longer be applied.", asset,
+                                    "apply AI suggestion")
+        asset.category = Category.objects.get(pk=values["category_id"])
+        asset.condition = values["condition"]
+        asset.tags = ", ".join(values["tags"])
+        asset.save(update_fields=["category", "condition", "tags"])
+        AuditLog.record(by, "AI suggestion applied", asset, after=f"{asset.category}, {asset.get_condition_display()}")
+
+    def accept_and_apply(self, by):
+        self.apply_to_asset(self.suggestion, by)
+        self.accept(by)
+
+    def correct_and_apply(self, by, values, reason=""):
+        self.apply_to_asset(values, by)
+        self.correct(by, values, reason)
+
 
 class MatchRecommendation(models.Model):
     class Response(models.TextChoices):
@@ -133,6 +156,22 @@ class MatchRecommendation(models.Model):
         self.user_response = self.Response.REJECTED
         self.override_reason = reason
         self.save(update_fields=["user_response", "override_reason"])
+
+    def choose(self, by, reason=""):
+        """The requester picks this item. It only asks for a hold; the other items of the same search are set aside."""
+        from audit.lifecycle import BusinessRuleError
+        from transfers.models import Reservation
+
+        overriding = self.rank > 1 and self.score is not None
+        if overriding and not reason:
+            raise BusinessRuleError("You chose a lower-ranked item. Give a reason for the override (AI-05.2).",
+                                    self.request, "choose match")
+        self.override(reason) if overriding else self.accept()
+        Reservation.request_hold(self.request, self.listing, by)
+        others = self.request.matches.filter(explanation__run=self.explanation.get("run"),
+                                             user_response=self.Response.PENDING).exclude(pk=self.pk)
+        for other in others:
+            other.reject("Another item was chosen")
 
     def summarize(self):
         if self.is_classic:

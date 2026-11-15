@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
+{% load dawra_ui ai_ui %}
 {% block title %}Sustainability dashboard · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>Sustainability dashboard</h1><div class="record">UI-13 · design section 12</div></div></div>
@@ -23,7 +23,7 @@
   {% endfor %}</tbody>
 </table></div>
 {% endif %}
-{% block report_draft %}{% endblock %}
+{% report_panel %}
 {% if pending %}
 <section class="group"><div class="group-title">{% icon 'approval' %}<h2>Avoided purchases to confirm</h2></div>
 <p class="muted small">Only purchases your department confirms it avoided count (BR-18).</p>

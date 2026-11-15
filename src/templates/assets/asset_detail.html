@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dawra_ui roles %}
+{% load dawra_ui roles ai_ui %}
 {% block title %}{{ asset.code }} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading">
@@ -63,6 +63,7 @@
       {% endif %}
     </div>
     {% endif %}
+    {% classification_panel asset %}
   </aside>
 </div>
 {% endblock %}
