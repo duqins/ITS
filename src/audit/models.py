@@ -32,6 +32,12 @@ class AuditLog(models.Model):
     def delete(self, *args, **kwargs):
         raise ValueError("Audit entries cannot be deleted (BR-17).")
 
+    @staticmethod
+    def type_of(obj):
+        """The record type; an ITAsset or FurnitureAsset is logged as its parent Asset."""
+        parents = obj._meta.get_parent_list()
+        return (parents[-1] if parents else obj._meta.model)._meta.model_name
+
     @classmethod
     def record(cls, actor, action, obj, before="", after="", reason="", role=""):
         """Write one entry: who did what to which record, when, and why."""
@@ -41,7 +47,7 @@ class AuditLog(models.Model):
             user=actor if getattr(actor, "pk", None) else None,
             role=role,
             action=action,
-            record_type=obj._meta.model_name,
+            record_type=cls.type_of(obj),
             record_id=obj.pk,
             before_value=str(before or ""),
             after_value=str(after or ""),
@@ -50,4 +56,4 @@ class AuditLog(models.Model):
 
     @classmethod
     def for_record(cls, obj):
-        return cls.objects.filter(record_type=obj._meta.model_name, record_id=obj.pk).select_related("user")
+        return cls.objects.filter(record_type=cls.type_of(obj), record_id=obj.pk).select_related("user")

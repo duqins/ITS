@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
+{% load dawra_ui roles %}
 {% block title %}{{ asset.code }} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading">
@@ -41,6 +41,7 @@
     </section>
     <div class="actions">
       {% if can_edit %}<a class="button" href="{% url 'assets:edit' asset.pk %}">Edit draft</a>{% endif %}
+      {% if active_role|allows:"history.view" %}<a class="button" href="{% url 'audit:asset' asset.pk %}">{% icon 'clock' %}History</a>{% endif %}
       {% if can_list %}<a class="button primary" href="{% url 'assets:listing_create' asset.pk %}">{% icon 'arrow' %}Offer for reuse</a>{% endif %}
     </div>
   </div>
