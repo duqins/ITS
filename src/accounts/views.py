@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views import defaults
@@ -8,7 +9,7 @@ from django.views.decorators.http import require_POST
 
 from audit.models import AuditLog
 
-from .forms import SignInForm
+from .forms import PreferencesForm, SignInForm
 from .middleware import SESSION_KEY
 from .models import User, UserRole
 from .permissions import log_refusal
@@ -71,4 +72,32 @@ def switch_role(request):
         target = request.POST.get("next", "")
         if url_has_allowed_host_and_scheme(target, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
             return redirect(target)
+    return redirect("core:home")
+
+
+@login_required
+def preferences(request):
+    """Settings: theme and motion, saved to the account so they apply on every device."""
+    form = PreferencesForm(request.POST or None, instance=request.user)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Settings saved.")
+        return redirect("accounts:settings")
+    roles = request.user.user_roles.filter(status=UserRole.Status.ACTIVE).select_related("role", "department")
+    return render(request, "accounts/settings.html", {"form": form, "roles": roles})
+
+
+@login_required
+@require_POST
+def set_theme(request):
+    """The theme button in the header. The page script switches the theme at once and saves it here."""
+    theme = request.POST.get("theme")
+    if theme in User.Theme.values:
+        request.user.theme = theme
+        request.user.save(update_fields=["theme"])
+    if request.headers.get("X-Requested-With") == "fetch":
+        return JsonResponse({"theme": request.user.theme})
+    target = request.POST.get("next", "")
+    if url_has_allowed_host_and_scheme(target, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        return redirect(target)
     return redirect("core:home")
