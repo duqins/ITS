@@ -604,6 +604,9 @@ msgstr "أصول بانتظار التأكيد"
 msgid "Assistant"
 msgstr "المساعد"
 
+msgid "At a glance"
+msgstr "نظرة سريعة"
+
 msgid "Audit log"
 msgstr "سجل التدقيق"
 
@@ -897,6 +900,9 @@ msgstr "تحوّل إلى عملية نقل"
 
 msgid "Corrected"
 msgstr "مُصحَّح"
+
+msgid "Costing money"
+msgstr "يكلّف مالًا"
 
 msgid "Costs, distances and van trips cannot be negative."
 msgstr "لا يمكن أن تكون التكاليف والمسافات ورحلات الشاحنة الصغيرة سالبة."
@@ -1365,11 +1371,17 @@ msgstr "العناصر"
 msgid "Items reused"
 msgstr "العناصر المعاد استخدامها"
 
+msgid "Items reused this year (%(where)s)"
+msgstr "العناصر المُعاد استخدامها هذا العام (%(where)s)"
+
 msgid "JPG or PNG, up to 5 photos of 5 MB each"
 msgstr "JPG أو PNG، حتى 5 صور بحجم 5 ميغابايت لكل منها"
 
 msgid "KU has not set these values yet. The app uses the proposed values of SRS Appendix C until they are confirmed."
 msgstr "لم تحدد الجامعة هذه القيم بعد. يستخدم التطبيق القيم المقترحة في الملحق C من وثيقة المتطلبات حتى تُعتمد."
+
+msgid "Kept in use instead of bought new"
+msgstr "بقيت قيد الاستخدام بدل شراء جديد"
 
 msgid "Keyword"
 msgstr "كلمة مفتاحية"
@@ -1382,6 +1394,12 @@ msgstr "اللغة"
 
 msgid "Last verified"
 msgstr "آخر تحقق"
+
+msgid "Late approvals in %(department)s"
+msgstr "موافقات متأخرة في %(department)s"
+
+msgid "Late approvals on campus"
+msgstr "موافقات متأخرة في الحرم الجامعي"
 
 msgid "Light"
 msgstr "فاتح"
@@ -1489,6 +1507,9 @@ msgstr "النموذج %(model)s · حُفظ في %(when)s"
 msgid "Monitor: UK DESNZ 2024 IT materials x 5.15 kg (F1, F3) to Dell P2422H PCF 327 kg (F2). Chair: FIRA average 27 kg (F4) to Steelcase Leap EPD 104 kg (F5). Van: %(van)s (F6)."
 msgstr "الشاشة: من مواد تقنية المعلومات وفق UK DESNZ 2024 × 5.15 kg (F1، F3) إلى بصمة PCF لطراز Dell P2422H البالغة 327 kg (F2). الكرسي: من متوسط FIRA البالغ 27 kg (F4) إلى إعلان EPD لطراز Steelcase Leap البالغ 104 kg (F5). الشاحنة الصغيرة: %(van)s (F6)."
 
+msgid "Month"
+msgstr "الشهر"
+
 msgid "Most available"
 msgstr "الأكثر توفراً"
 
@@ -1513,11 +1534,26 @@ msgstr "الاسم أو الوصف أو الوسوم أو المواصفات"
 msgid "Needed only if the quantity or condition differs from the handover"
 msgstr "مطلوب فقط إذا اختلفت الكمية أو الحالة المادية عمّا سُجّل عند التسليم"
 
+msgid "Needs attention"
+msgstr "تحتاج إلى متابعة"
+
 msgid "Net financial savings"
 msgstr "صافي الوفورات المالية"
 
 msgid "Net financial savings (AED)"
 msgstr "صافي الوفورات المالية (درهم)"
+
+msgid "Net savings over time"
+msgstr "صافي الوفورات عبر الوقت"
+
+msgid "Net savings over time, reaching AED %(amount)s in %(month)s"
+msgstr "صافي الوفورات عبر الوقت، وقد بلغ %(amount)s AED في %(month)s"
+
+msgid "Net savings so far"
+msgstr "صافي الوفورات حتى الآن"
+
+msgid "Net savings this year (%(where)s)"
+msgstr "صافي الوفورات هذا العام (%(where)s)"
 
 msgid "New"
 msgstr "جديد"
@@ -1603,6 +1639,9 @@ msgstr "لا توجد طلبات بعد."
 msgid "No role assignments are waiting."
 msgstr "لا توجد إسنادات أدوار بانتظار القرار."
 
+msgid "No savings yet"
+msgstr "لا وفورات بعد"
+
 msgid "No specifications requested"
 msgstr "لم تُطلب أي مواصفات"
 
@@ -1623,6 +1662,9 @@ msgstr "لا يمكن لأحد أن يبت في دور لنفسه (BR-02)."
 
 msgid "None"
 msgstr "لا يوجد"
+
+msgid "None yet"
+msgstr "لا شيء بعد"
 
 msgid "Normal"
 msgstr "عادي"
@@ -1653,6 +1695,9 @@ msgstr "لم يتبقَّ في هذا العرض شيء للحجز."
 
 msgid "Nothing is waiting for you."
 msgstr "لا توجد مهام بانتظارك."
+
+msgid "Nothing late"
+msgstr "لا شيء متأخر"
 
 msgid "Nothing moves. The app also follows this setting on your device."
 msgstr "لا شيء يتحرك. ويتبع التطبيق أيضاً هذا الإعداد على جهازك."
@@ -2248,6 +2293,9 @@ msgstr "الأدوار"
 msgid "Room"
 msgstr "الغرفة"
 
+msgid "Running total at the end of each month: confirmed avoided purchases minus the transfer costs of the same transfers. It uses the same figures as the cards, so the last point equals the net savings above."
+msgstr "مجموع متراكم في نهاية كل شهر: قيمة المشتريات المُتجنَّبة المؤكَّدة مطروحًا منها تكاليف نقل العمليات نفسها. يعتمد على الأرقام نفسها التي تعرضها البطاقات، لذا تساوي النقطة الأخيرة صافي الوفورات أعلاه."
+
 msgid "Same building"
 msgstr "المبنى نفسه"
 
@@ -2265,6 +2313,9 @@ msgstr "حُفظ كمسودة (AS-01). يجب أن يؤكده أمين عهدة 
 
 msgid "Saved to your account, so they follow you to every device"
 msgstr "تُحفظ في حسابك، فترافقك على كل أجهزتك"
+
+msgid "Saving money"
+msgstr "يوفّر المال"
 
 msgid "Score %(score)s out of 100"
 msgstr "الدرجة %(score)s من 100"
@@ -2307,6 +2358,9 @@ msgstr "الإعدادات"
 
 msgid "Settings saved."
 msgstr "تم حفظ الإعدادات."
+
+msgid "Show the numbers"
+msgstr "عرض الأرقام"
 
 msgid "Showing %(scope)s"
 msgstr "النطاق: %(scope)s"
@@ -3010,6 +3064,9 @@ msgstr "أنت مَن طلب هذا الدور، لذا يجب أن يبت في�
 msgid "Your account"
 msgstr "حسابك"
 
+msgid "Your approvals waiting over 3 working days"
+msgstr "موافقاتك المنتظرة أكثر من 3 أيام عمل"
+
 msgid "Your corrected values were saved."
 msgstr "تم حفظ القيم المصحّحة."
 
@@ -3039,6 +3096,9 @@ msgstr "تمت الموافقة على طلبك %(code)s. يمكنك الآن ا
 
 msgid "Your request %(code)s was rejected: %(reason)s"
 msgstr "رُفض طلبك %(code)s: %(reason)s"
+
+msgid "Your requests held up by a late approval"
+msgstr "طلباتك المتأخرة بسبب موافقة متأخرة"
 
 msgid "Your work as %(role)s. Reuse before replacement."
 msgstr "عملك بصفة %(role)s. إعادة الاستخدام قبل الاستبدال."
@@ -3414,6 +3474,9 @@ msgstr "تم التحقق"
 msgctxt "history"
 msgid "verify asset"
 msgstr "التحقق من أصل"
+
+msgid "whole campus"
+msgstr "الحرم الجامعي كله"
 
 msgctxt "history"
 msgid "withdraw listing"
