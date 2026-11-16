@@ -3,19 +3,47 @@
 {% block title %}Sign in · Dawra Campus{% endblock %}
 {% block public %}
 <div class="signin">
-  <div class="signin-card">
-    <div class="logo"><img src="{% static 'dawra/assets/dawra-campus-logo.png' %}" alt="Dawra Campus" width="1942" height="809"></div>
-    <h1>Sign in</h1>
-    <p class="lead">Campus resource exchange. Use your staff account.</p>
-    <form method="post" novalidate>{% csrf_token %}
-      {% for error in form.non_field_errors %}<div class="toast error">{{ error }}</div>{% endfor %}
-      <div class="fields single">
-        {% include "includes/field.html" with field=form.username %}
-        {% include "includes/field.html" with field=form.password %}
+  <div class="signin-split">
+    <section class="signin-scene" aria-label="About Dawra Campus">
+      <div class="cycle" aria-hidden="true">
+        <svg viewBox="0 0 340 340">
+          <circle class="ring" cx="170" cy="170" r="130"/>
+          <g class="orbit">
+            <path class="ring-arrows" d="M214.5 47.8A130 130 0 0 1 298.0 192.6M305.5 184.8L298.0 192.6L293.7 182.7M253.6 269.6A130 130 0 0 1 86.4 269.6M89.5 280.0L86.4 269.6L97.2 270.8M42.0 192.6A130 130 0 0 1 125.5 47.8M115.0 45.3L125.5 47.8L119.1 56.6"/>
+            <g transform="translate(170 40)"><g class="node"><circle r="26"/><path transform="translate(-12 -12)" d="M3 4h18v13H3V4Zm9 13v4m-5 0h10"/></g></g>
+            <g transform="translate(282.6 235)"><g class="node"><circle r="26"/><path transform="translate(-12 -12)" d="M7 3h10v8H7V3ZM5 11h14v3H5v-3Zm2 3v7m10-7v7"/></g></g>
+            <g transform="translate(57.4 235)"><g class="node"><circle r="26"/><path transform="translate(-12 -12)" d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Zm0 14a2 2 0 0 1 2-2h13"/></g></g>
+          </g>
+          <g class="center"><circle cx="170" cy="170" r="46"/><path transform="translate(146 146) scale(2)" d="M7 12a5 5 0 0 1 8.5-3.5L17 10M17 6v4h-4M17 12a5 5 0 0 1-8.5 3.5L7 14M7 18v-4h4"/></g>
+        </svg>
       </div>
-      <div class="actions"><button class="button primary" type="submit">Sign in</button></div>
-    </form>
-    <p class="muted small">Five wrong passwords lock the account for 15 minutes.</p>
+      <div>
+        <p class="arabic" lang="ar">دورة · Dawra means cycle</p>
+        <h2>Reuse before replacement</h2>
+      </div>
+      <p>Campus furniture, computers, lab equipment and books move to the department that needs them next, with people approving every step.</p>
+      <div class="signin-facts">
+        <div><b>9 roles</b>each checked on the server</div>
+        <div><b>Every AI step</b>decided by a person</div>
+        <div><b>kg CO2e</b>shown as an honest range</div>
+      </div>
+    </section>
+    <div class="signin-panel">
+      <div class="signin-card">
+        <div class="logo"><img src="{% static 'dawra/assets/dawra-campus-logo.png' %}" alt="Dawra Campus" width="1942" height="809"></div>
+        <h1>Sign in</h1>
+        <p class="lead">Campus resource exchange. Use your staff account.</p>
+        <form method="post" novalidate>{% csrf_token %}
+          {% for error in form.non_field_errors %}<div class="toast error">{{ error }}</div>{% endfor %}
+          <div class="fields single">
+            {% include "includes/field.html" with field=form.username %}
+            {% include "includes/field.html" with field=form.password %}
+          </div>
+          <div class="actions"><button class="button primary" type="submit">Sign in</button></div>
+        </form>
+        <p class="muted small">Five wrong passwords lock the account for 15 minutes.</p>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
