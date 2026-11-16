@@ -7,12 +7,59 @@ from django.utils.translation import gettext as _
 from accounts.models import Role, UserRole
 from assets.models import Asset, Listing
 from resource_requests.models import ResourceRequest
-from transfers.models import Reservation, Transfer, add_working_days, expire_overdue
+from sustainability.indicators import SustainabilityIndicators, money
+from transfers.models import Approval, Reservation, Transfer, add_working_days, expire_overdue
 from transfers.views import tasks_for
 
 
 def card(label, number, url, icon):
     return {"label": label, "number": number, "url": url, "icon": icon}
+
+
+def overdue_for(request, role):
+    """Approvals waiting longer than 3 working days (TBD-5) that matter to this role, and how to describe them."""
+    late = [a for a in Approval.objects.filter(status=Approval.Status.PENDING).select_related(
+        "request", "transfer__request") if a.is_overdue()]
+    decides = role.role.code in Approval.STAGE_ROLES.values()
+    deciding = [t for t in tasks_for(request) if t.is_overdue()] if decides else None
+    if deciding is not None:
+        return len(deciding), _("Your approvals waiting over 3 working days"), reverse("transfers:approvals")
+    if role.allows("request.submit"):
+        mine = [a for a in late if (a.request and a.request.requester_id == request.user.pk)
+                or (a.transfer and a.transfer.request.requester_id == request.user.pk)]
+        return len(mine), _("Your requests held up by a late approval"), reverse("resource_requests:list")
+    if role.role.code in (Role.Code.ASSET_CUSTODIAN, Role.Code.MAINTENANCE_STAFF):
+        ours = [a for a in late if a.department_id == role.department_id or (
+            a.transfer and role.department_id in (a.transfer.from_department_id, a.transfer.to_department_id))]
+        return len(ours), _("Late approvals in %(department)s") % {"department": role.department}, None
+    return len(late), _("Late approvals on campus"), None
+
+
+def glance(request, role):
+    """UI-02 'at a glance' row: the few numbers everyone should see first. Savings follow the dashboard's access
+    rules (only roles with dashboard.view; a representative sees their own department), green for good and red for
+    bad, always with words as well."""
+    tiles = []
+    if role.allows("dashboard.view"):
+        today = timezone.localdate()
+        own = role.role.code == Role.Code.DEPARTMENT_REPRESENTATIVE
+        totals = SustainabilityIndicators(today.replace(month=1, day=1), today,
+                                          role.department if own else None).totals()
+        net, items = totals["net_savings_aed"], totals["items_reused"]
+        where = role.department if own else _("whole campus")
+        tiles += [
+            {"label": _("Net savings this year (%(where)s)") % {"where": where}, "value": money(net),
+             "tone": "good" if net > 0 else "bad" if net < 0 else "",
+             "note": _("Saving money") if net > 0 else _("Costing money") if net < 0 else _("No savings yet"),
+             "url": reverse("sustainability:dashboard")},
+            {"label": _("Items reused this year (%(where)s)") % {"where": where}, "value": items,
+             "tone": "good" if items else "", "note": _("Kept in use instead of bought new") if items
+             else _("None yet"), "url": reverse("sustainability:dashboard")},
+        ]
+    count, label, url = overdue_for(request, role)
+    tiles.append({"label": label, "value": count, "tone": "bad" if count else "good",
+                  "note": _("Needs attention") if count else _("Nothing late"), "url": url})
+    return tiles
 
 
 @login_required
@@ -53,8 +100,8 @@ def home(request):
         if any(role.allows(a) for a in ("request.approve", "transfer.approve_finance", "transfer.approve_procurement")):
             tasks = list(tasks_for(request))
             cards.insert(0, card(_("Approval tasks"), len(tasks), reverse("transfers:approvals"), "approval"))
-            cards.insert(1, card(_("Overdue tasks"), sum(1 for t in tasks if t.is_overdue), reverse("transfers:approvals"),
-                                 "clock"))
+            cards.insert(1, card(_("Overdue tasks"), sum(1 for t in tasks if t.is_overdue()),
+                                 reverse("transfers:approvals"), "clock"))
         transfers_url = reverse("transfers:list")
         # UI-02: confirmed holds that end within 2 working days, so the transfer is started in time.
         soon = add_working_days(timezone.now(), 2)
@@ -86,4 +133,4 @@ def home(request):
             cards.append(card(_("Published items"), published, reverse("assets:search"), "match"))
         unread = request.user.notifications.filter(read_at__isnull=True).count()
         cards.append(card(_("Unread notifications"), unread, reverse("notifications:list"), "bell"))
-    return render(request, "core/home.html", {"cards": cards})
+    return render(request, "core/home.html", {"cards": cards, "glance": glance(request, role) if role else []})
