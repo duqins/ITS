@@ -76,6 +76,32 @@
     showTheme(input.value, box.left + box.width / 2, box.top + box.height / 2);
   });
 
+  // Numbers count up to their value when they come into view (home cards, AI scores).
+  // The page already holds the true number, so without this script nothing is lost.
+  function countUp(el) {
+    var target = parseInt(el.dataset.count, 10);
+    if (!(target > 0) || lessMotion()) return;
+    var start = performance.now();
+    var duration = Math.min(1200, 500 + target * 25);
+    el.textContent = "0";
+    requestAnimationFrame(function step(now) {
+      var t = Math.min(1, (now - start) / duration);
+      el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
+      if (t < 1) requestAnimationFrame(step);
+    });
+  }
+
+  if ("IntersectionObserver" in window) {
+    var watcher = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        watcher.unobserve(entry.target);
+        countUp(entry.target);
+      });
+    });
+    document.querySelectorAll("[data-count]").forEach(function (el) { watcher.observe(el); });
+  }
+
   // The browser's Back button can show the page exactly as it was left; make its buttons usable again.
   window.addEventListener("pageshow", function (event) {
     if (!event.persisted) return;

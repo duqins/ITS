@@ -8,7 +8,7 @@
 {% else %}
 <p class="lead">Your work as {{ active_role.role }}. Reuse before replacement.</p>
 <div class="cards">
-  {% for c in cards %}<a class="card" href="{{ c.url }}">{% icon c.icon %}<div class="number">{{ c.number }}</div><div class="label">{{ c.label }}</div></a>{% endfor %}
+  {% for c in cards %}<a class="card" href="{{ c.url }}">{% icon c.icon %}<div class="number" data-count="{{ c.number|stringformat:'d' }}">{{ c.number }}</div><div class="label">{{ c.label }}</div></a>{% endfor %}
 </div>
 {% if not cards %}<div class="empty">Nothing is waiting for you.</div>{% endif %}
 {% endif %}

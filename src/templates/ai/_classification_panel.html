@@ -3,6 +3,7 @@
   <div class="ai-heading">{% if ai_on %}{% icon 'spark' %}<h2>AI assistance</h2><span class="small-tag">REVIEW</span>{% else %}{% icon 'info' %}<h2>AI unavailable</h2><span class="small-tag">OFFLINE</span>{% endif %}</div>
   {% if suggestion %}
     <div class="confidence">{% if suggestion.confidence is not None %}{% icon 'check' %}Confidence {{ suggestion.confidence|floatformat:2 }}{% else %}{% icon 'info' %}Confidence unavailable - check carefully{% endif %}</div>
+    {% if suggestion.confidence is not None %}<span class="meter" style="--value:{{ suggestion.confidence|stringformat:'.2f' }}" aria-hidden="true"><i></i></span>{% endif %}
     <p class="ai-result">{{ suggestion.suggestion.category }} · {{ suggestion.suggestion.condition|capfirst }} · {{ suggestion.suggestion.tags|join:", " }}</p>
     {% if not can_prefill %}<p class="ai-result"><strong>Below 0.60: shown as an option only.</strong> Use Edit to set the values yourself.</p>{% endif %}
     <div class="reason"><strong>Why this suggestion</strong><p>{{ suggestion.explanation }}</p>
