@@ -1,5 +1,5 @@
 {% load static dawra_ui notification_ui %}<!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{% if user.is_authenticated %}{{ user.theme }}{% else %}system{% endif %}" data-motion="{% if user.is_authenticated %}{{ user.motion }}{% else %}standard{% endif %}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="{% static 'dawra/styles.css' %}">
   <link rel="stylesheet" href="{% static 'dawra/app.css' %}">
   <link rel="stylesheet" href="{% static 'dawra/motion.css' %}">
+  <link rel="stylesheet" href="{% static 'dawra/ui.css' %}">
+  <link rel="stylesheet" href="{% static 'dawra/dark.css' %}">
   <script src="{% static 'dawra/app.js' %}" defer></script>
 </head>
 <body>
@@ -16,6 +18,13 @@
   <a class="logo" href="{% url 'core:home' %}" aria-label="Dawra Campus home"><img src="{% static 'dawra/assets/dawra-campus-logo.png' %}" alt="Dawra Campus" width="1942" height="809"></a>
   <div class="workspace-name">Campus resource exchange<br>Staff workspace</div>
   <div class="top-right">
+    <form class="theme-toggle" method="post" action="{% url 'accounts:set_theme' %}">{% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <button class="icon-button" type="submit" name="theme" value="{% if user.theme == 'dark' %}light{% else %}dark{% endif %}" aria-label="Switch between light and dark" title="Light or dark">
+        <span class="when-light">{% icon 'moon' %}</span><span class="when-dark">{% icon 'sun' %}</span>
+      </button>
+    </form>
+    <a class="icon-button" href="{% url 'accounts:settings' %}" aria-label="Settings" title="Settings">{% icon 'settings' %}</a>
     {% notification_bell %}
     {% if my_roles|length > 1 %}
     <form class="role-switch" method="post" action="{% url 'accounts:switch_role' %}">{% csrf_token %}

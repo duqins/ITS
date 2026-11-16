@@ -25,6 +25,57 @@
     }
   });
 
+  // Light and dark. The header button switches at once (the new theme spreads out in a circle from the
+  // button where the browser supports it) and saves the choice to the account in the background.
+  // On the Settings page, picking a theme previews it straight away; Save keeps it.
+  var root = document.documentElement;
+
+  function isDark() {
+    var theme = root.dataset.theme;
+    return theme === "dark" || (theme === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+  }
+
+  function lessMotion() {
+    return root.dataset.motion === "reduced" || matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function showTheme(theme, x, y) {
+    var apply = function () { root.dataset.theme = theme; };
+    if (!document.startViewTransition || lessMotion()) return apply();
+    root.classList.add("theme-switching");
+    var transition = document.startViewTransition(apply);
+    transition.ready.then(function () {
+      var radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      root.animate(
+        {clipPath: ["circle(0 at " + x + "px " + y + "px)", "circle(" + radius + "px at " + x + "px " + y + "px)"]},
+        {duration: 560, easing: "cubic-bezier(.2,.7,.2,1)", pseudoElement: "::view-transition-new(root)"}
+      );
+    });
+    transition.finished.then(function () { root.classList.remove("theme-switching"); });
+  }
+
+  // Runs before the busy-state handler above (capture), and stops it: this form never leaves the page.
+  document.addEventListener("submit", function (event) {
+    var form = event.target;
+    if (!form.classList.contains("theme-toggle")) return;
+    event.preventDefault();
+    event.stopPropagation();
+    var next = isDark() ? "light" : "dark";
+    var box = form.querySelector("button").getBoundingClientRect();
+    showTheme(next, box.left + box.width / 2, box.top + box.height / 2);
+    var data = new FormData(form);
+    data.set("theme", next);
+    fetch(form.action, {method: "POST", body: data, credentials: "same-origin",
+                        headers: {"X-Requested-With": "fetch"}});
+  }, true);
+
+  document.addEventListener("change", function (event) {
+    var input = event.target;
+    if (input.name !== "theme" || !input.closest(".settings")) return;
+    var box = input.closest(".choice").getBoundingClientRect();
+    showTheme(input.value, box.left + box.width / 2, box.top + box.height / 2);
+  });
+
   // The browser's Back button can show the page exactly as it was left; make its buttons usable again.
   window.addEventListener("pageshow", function (event) {
     if (!event.persisted) return;
