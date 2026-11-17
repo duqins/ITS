@@ -1,9 +1,12 @@
 {% extends "base.html" %}
-{% load dawra_ui i18n audit_ui %}
+{% load dawra_ui asset_ui i18n audit_ui %}
 {% block title %}{{ approval.get_stage_display }} · {% translate "Dawra Campus" %}{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{{ approval.get_stage_display }}</h1><div class="record">{{ record.code }} · UI-08</div></div>{% status_pill approval %}</div>
 <p class="lead">{% translate "Review the evidence and decide only the approval stage assigned to you." %}</p>
+<ol class="journey" aria-label="{% translate 'Approval stages' %}">
+  {% for label, done, current, stopped in journey %}<li class="{% if done %}done{% elif current %}current{% elif stopped %}stopped{% endif %}"><span class="step-dot">{% if done %}{% icon 'check' %}{% else %}{{ forloop.counter }}{% endif %}</span>{{ label }}</li>{% endfor %}
+</ol>
 <div class="layout">
   <div class="record-body">
     {% if is_request %}
@@ -16,26 +19,43 @@
       {% include "includes/readonly.html" with label=_("Urgency") value=record.get_urgency_display %}
       {% include "includes/readonly.html" with label=_("Required by") value=record.required_by %}
       {% include "includes/readonly.html" with label=_("Delivery location") value=record.delivery_location %}
+      {% if record.description %}{% include "includes/readonly.html" with label=_("Description") value=record.description wide=True %}{% endif %}
+      {% include "includes/readonly.html" with label=_("Request status") value=record.get_status_display %}
       {% include "includes/readonly.html" with label=_("Record version") value=approval.record_version %}
+      {% include "includes/readonly.html" with label=_("Next stage") value=next_stage wide=True %}
     </div></section>
     {% else %}
-    <div class="asset-summary"><div class="asset-symbol">{% icon 'transfer' %}</div><div><h2>{% blocktranslate trimmed with department=record.to_department %}Transfer to {{ department }}{% endblocktranslate %}</h2><p>{{ record.asset.code }} · {{ record.asset.name }} · {% blocktranslate trimmed with from_department=record.from_department to_department=record.to_department %}{{ from_department }} to {{ to_department }}{% endblocktranslate %}</p></div><div class="asset-meta">{{ record.code }}</div></div>
+    <div class="asset-summary">{% asset_thumb record.asset %}<div><h2>{% blocktranslate trimmed with department=record.to_department %}Transfer to {{ department }}{% endblocktranslate %}</h2><p>{{ record.asset.code }} · {{ record.asset.name }} · {% blocktranslate trimmed with from_department=record.from_department to_department=record.to_department %}{{ from_department }} to {{ to_department }}{% endblocktranslate %}</p></div><div class="asset-meta">{{ record.code }}</div></div>
     <section class="group"><div class="group-title">{% icon 'approval' %}<h2>{% translate "Decision evidence" %}</h2></div><div class="fields">
       {% include "includes/readonly.html" with label=_("Quantity") value=record.quantity %}
       {% include "includes/readonly.html" with label=_("Condition") value=record.asset.get_condition_display %}
       {% include "includes/readonly.html" with label=_("Requester") value=record.request.requester %}
-      {% include "includes/readonly.html" with label=_("Request") value=record.request.purpose %}
-      {% include "includes/readonly.html" with label=_("Value (AED)") value=record.value_aed %}
-      {% include "includes/readonly.html" with label=_("Transfer cost (AED)") value=record.transfer_cost_aed %}
+      {% with request_text=record.request.code|add:" · "|add:record.request.purpose %}{% include "includes/readonly.html" with label=_("Request") value=request_text %}{% endwith %}
+      {% if record.asset.value is None %}{% include "includes/readonly.html" with label=_("Value (AED)") value=_("Not recorded") %}
+      {% else %}{% include "includes/readonly.html" with label=_("Value (AED)") value=record.value_aed|floatformat:"2g" %}{% endif %}
+      {% include "includes/readonly.html" with label=_("Transfer cost (AED)") value=record.transfer_cost_aed|floatformat:"2g" %}
       {% include "includes/readonly.html" with label=_("Receiving custodian") value=record.to_custodian %}
       {% include "includes/readonly.html" with label=_("Deliver to") value=record.to_location %}
       {% include "includes/readonly.html" with label=_("Finance approval needed (BR-06)") value=record.needs_finance|yesno:_("Yes,No") %}
       {% include "includes/readonly.html" with label=_("Procurement approval needed (BR-06)") value=record.needs_procurement|yesno:_("Yes,No") %}
+      {% include "includes/readonly.html" with label=_("Transfer status") value=record.get_status_display %}
+      {% include "includes/readonly.html" with label=_("Planned date") value=record.planned_date|date:"DATE_FORMAT" %}
+      {% include "includes/readonly.html" with label=_("Record version") value=approval.record_version %}
+      {% include "includes/readonly.html" with label=_("Next stage") value=next_stage wide=True %}
     </div></section>
+    {% include "assets/_files.html" with files=files %}
+    {% if match %}
+    <aside class="ai" aria-label="{% translate 'AI evidence and human decision' %}">
+      <div class="ai-heading">{% icon 'spark' %}<h2>{% translate "AI match evidence" %}</h2><span class="small-tag">{% translate "REVIEW" %}</span></div>
+      <div class="confidence">{% icon 'info' %}{% translate "Confidence unavailable - check carefully" %}</div>
+      <p class="ai-result">{% blocktranslate trimmed with score=match.score rank=match.rank %}Compatibility {{ score }}/100, ranked {{ rank }} for this request.{% endblocktranslate %} {{ match.reason }}</p>
+      <div class="human"><strong>{% translate "Your decision" %}</strong><p>{% translate "The AI score never removes a required approval or makes an ineligible transfer valid." %}</p></div>
+    </aside>
+    {% endif %}
     {% endif %}
     {% if earlier %}
     <section class="group"><div class="group-title">{% icon 'clock' %}<h2>{% translate "Other stages" %}</h2></div>
-      <ol class="timeline">{% for a in earlier %}<li><span class="what">{{ a.get_stage_display }}</span> · {{ a.get_status_display }}{% if a.approver %} {% blocktranslate trimmed with user=a.approver %}by {{ user }}{% endblocktranslate %} ({{ a.approver_role|localized }}){% endif %}{% if a.decided_at %} <span class="when">{{ a.decided_at|date:"j M Y, H:i" }}</span>{% endif %}{% if a.reason %}<span class="reason">{{ a.reason }}</span>{% endif %}</li>{% endfor %}</ol>
+      <ol class="timeline">{% for a in earlier %}<li{% if a.status == 'AT-02' %} class="done"{% elif a.status == 'AT-03' %} class="refused"{% endif %}><span class="what">{{ a.get_stage_display }}</span> · {{ a.get_status_display }}{% if a.approver %} {% blocktranslate trimmed with user=a.approver %}by {{ user }}{% endblocktranslate %} ({{ a.approver_role|localized }}){% endif %}{% if a.decided_at %} <span class="when">{{ a.decided_at|date:"DATETIME_FORMAT" }}</span>{% endif %}{% if a.reason %}<span class="reason">{{ a.reason }}</span>{% endif %}</li>{% endfor %}</ol>
     </section>
     {% endif %}
   </div>
@@ -49,9 +69,9 @@
       <form method="post" class="reason-form">{% csrf_token %}
         <label for="reason">{% if is_request %}{% translate "Reason (needed to reject or request changes)" %}{% else %}{% translate "Reason (needed to reject)" %}{% endif %}</label>
         <textarea id="reason" name="reason"></textarea>
-        <button class="button primary" type="submit" name="decision" value="approve">{% icon 'check' %}{% translate "Approve assigned stage" %}</button>
-        {% if is_request %}<button class="button" type="submit" name="decision" value="changes">{% translate "Request changes" %}</button>{% endif %}
-        <button class="button danger" type="submit" name="decision" value="reject">{% translate "Reject" %}</button>
+        <button class="button primary" type="submit" name="decision" value="approve" data-confirm="{% blocktranslate trimmed with code=record.code next=next_stage %}Approve this stage for {{ code }}? Your decision is saved with your name. Next: {{ next }}{% endblocktranslate %}">{% icon 'check' %}{% translate "Approve assigned stage" %}</button>
+        {% if is_request %}<button class="button" type="submit" name="decision" value="changes" data-confirm="{% blocktranslate trimmed with code=record.code %}Send {{ code }} back for changes? The requester sees your reason.{% endblocktranslate %}">{% translate "Request changes" %}</button>{% endif %}
+        <button class="button danger" type="submit" name="decision" value="reject" data-confirm="{% if is_request %}{% blocktranslate trimmed with code=record.code %}Reject {{ code }}? This ends it, and the requester sees your reason.{% endblocktranslate %}{% else %}{% blocktranslate trimmed with code=record.code %}Reject {{ code }}? The transfer ends, the held units are free again, and the requester sees your reason.{% endblocktranslate %}{% endif %}">{% translate "Reject" %}</button>
       </form>
       {% endif %}
     </div>

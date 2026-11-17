@@ -10,6 +10,7 @@ from accounts.models import Role
 from accounts.permissions import role_required
 from audit.models import AuditLog
 from core.actions import perform
+from core.journey import journey
 
 from .forms import RequestForm
 from .models import ResourceRequest
@@ -72,7 +73,9 @@ def request_create(request):
             if request.POST.get("submit_for") == "approval":
                 obj.submit(request.user)
 
-        if perform(request, create, _("Request saved.")):
+        submitted = request.POST.get("submit_for") == "approval"
+        if perform(request, create, _("Sent to your department representative for approval.") if submitted
+                   else _("Draft saved.")):
             return redirect("resource_requests:detail", pk=obj.pk)
     return render(request, "resource_requests/request_form.html", {"form": form,
                                                                    "title": _("Submit a resource request")})
@@ -89,7 +92,7 @@ def request_edit(request, pk):
         form.save()
         AuditLog.record(request.user, "draft edited", obj, reason=", ".join(form.changed_data))
         if request.POST.get("submit_for") == "approval":
-            perform(request, lambda: obj.submit(request.user), _("Sent to your department representative."))
+            perform(request, lambda: obj.submit(request.user), _("Sent to your department representative for approval."))
         else:
             messages.success(request, _("Draft saved."))
         return redirect("resource_requests:detail", pk=obj.pk)
@@ -101,14 +104,14 @@ def request_edit(request, pk):
 def request_detail(request, pk):
     obj = get_visible_request(request, pk)
     mine = obj.requester_id == request.user.pk
-    current = next((i for i, (_, codes) in enumerate(JOURNEY) if obj.status in codes), None)
     last_decision = obj.approvals.exclude(status="AT-01").order_by("-decided_at").first()
     return render(request, "resource_requests/request_detail.html", {
         "obj": obj,
-        "journey": [(label, current is not None and i < current, i == current) for i, (label, _) in enumerate(JOURNEY)],
+        "journey": journey(obj, JOURNEY),
         "pending": obj.pending_approval(),
         "last_decision": last_decision,
-        "updates": AuditLog.for_record(obj)[:20],
+        # Refused attempts stay in the audit log (FR-02.3) but are not part of the request's own story.
+        "updates": AuditLog.for_record(obj).exclude(action__startswith="blocked:")[:20],
         "mine": mine,
         "can_edit": mine and obj.status == ResourceRequest.Status.DRAFT,
         "can_cancel": mine and obj.status in ResourceRequest.ACTIVE,
@@ -144,5 +147,6 @@ def request_close(request, pk):
         raise PermissionDenied(_("Only the requester can close this request."))
     reason = request.POST.get("reason", "").strip() or "No suitable item found"
     perform(request, lambda: obj.close_no_suitable_item(request.user, reason),
-            _("Closed as no suitable item. It does not count as an avoided purchase."))
+            _("Closed as no suitable item. It does not count as an avoided purchase, and normal purchasing can "
+              "go ahead outside Dawra Campus."))
     return redirect("resource_requests:detail", pk=obj.pk)

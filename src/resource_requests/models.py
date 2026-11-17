@@ -55,6 +55,8 @@ class ResourceRequest(RequestSpecification):
     }
 
     purpose = models.CharField(max_length=200, help_text=gettext_lazy("What the item is for"))
+    # FR-07.1: an optional plain-language description.
+    description = models.TextField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="requests")
     delivery_location = models.CharField(max_length=120, blank=True)
     required_by = models.DateField()
@@ -97,6 +99,18 @@ class ResourceRequest(RequestSpecification):
         change_state(self, self.Status.PENDING_APPROVAL, by, "submitted", extra_fields=("submitted_at",))
         Approval.open(Approval.Stage.REQUEST_DEPARTMENT, self, requested_by=self.requester,
                       department=self.department)
+
+    def listing_problem(self, listing):
+        """Why this listing cannot serve this request, or None when it can (BR-14: category, minimum
+        condition and date). The matching page, the hold list and the hold itself all use this check."""
+        asset = listing.asset
+        if asset.category_id != self.category_id:
+            return _("This item is not in the category %(code)s asks for.") % {"code": self.code}
+        if Condition.rank(asset.condition) < Condition.rank(self.min_condition):
+            return _("This item is below the minimum condition %(code)s asks for.") % {"code": self.code}
+        if listing.available_from > self.required_by:
+            return _("This item becomes available only after %(code)s is needed.") % {"code": self.code}
+        return None
 
     def pending_approval(self):
         from transfers.models import Approval

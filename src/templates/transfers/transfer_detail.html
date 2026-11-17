@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% load dawra_ui transfer_ui i18n audit_ui %}
+{% load dawra_ui transfer_ui i18n audit_ui roles %}
 {% block title %}{{ transfer.code }} · {% translate "Dawra Campus" %}{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{% blocktranslate trimmed with department=transfer.to_department %}Transfer to {{ department }}{% endblocktranslate %}</h1><div class="record">{{ transfer.code }} · {{ transfer.request.code }} · UI-09</div></div>{% status_pill transfer %}</div>
 <ol class="journey" aria-label="{% translate 'Workflow stages' %}">
-  {% for label, done, current in journey %}<li class="{% if done %}done{% elif current %}current{% endif %}"><span class="step-dot">{% if done %}{% icon 'check' %}{% else %}{{ forloop.counter }}{% endif %}</span>{{ label }}</li>{% endfor %}
+  {% for label, done, current, stopped in journey %}<li class="{% if done %}done{% elif current %}current{% elif stopped %}stopped{% endif %}"><span class="step-dot">{% if done %}{% icon 'check' %}{% else %}{{ forloop.counter }}{% endif %}</span>{{ label }}</li>{% endfor %}
 </ol>
 <div class="layout">
   <div class="record-body">
@@ -16,19 +16,19 @@
       {% include "includes/readonly.html" with label=_("Arrangement") value=transfer.get_delivery_arrangement_display %}
       {% include "includes/readonly.html" with label=_("Planned date") value=transfer.planned_date %}
       {% include "includes/readonly.html" with label=_("Final approver") value=transfer.approver %}
-      {% include "includes/readonly.html" with label=_("Handed over") value=transfer.handed_over_at %}
+      {% include "includes/readonly.html" with label=_("Handed over") value=transfer.handed_over_at|date:"DATETIME_FORMAT" %}
       {% include "includes/readonly.html" with label=_("Condition at handover") value=transfer.get_handover_condition_display %}
-      {% include "includes/readonly.html" with label=_("Received") value=transfer.received_at %}
+      {% include "includes/readonly.html" with label=_("Received") value=transfer.received_at|date:"DATETIME_FORMAT" %}
       <div class="field field-plain"><span class="read-label">{% translate "Received quantity and condition" %}</span><div class="readonly">{% if transfer.received_quantity is not None %}{{ transfer.received_quantity }} · {{ transfer.get_received_condition_display }}{% else %}—{% endif %}</div></div>
       {% if transfer.dispute_note %}{% include "includes/readonly.html" with label=_("Difference recorded") value=transfer.dispute_note wide=True %}{% endif %}
-      {% if transfer.received_asset %}<div class="field field-plain"><span class="read-label">{% blocktranslate trimmed with department=transfer.to_department %}Asset record now owned by {{ department }}{% endblocktranslate %}</span><div class="readonly">{{ transfer.received_asset.code }}</div></div>{% endif %}
+      {% if transfer.received_asset %}<div class="field field-plain"><span class="read-label">{% blocktranslate trimmed with department=transfer.to_department %}Asset record now owned by {{ department }}{% endblocktranslate %}</span><div class="readonly">{% if active_role.department_id == transfer.to_department_id and active_role|allows:"asset.view" %}<a href="{% url 'assets:detail' transfer.received_asset.pk %}">{{ transfer.received_asset.code }}</a>{% else %}{{ transfer.received_asset.code }}{% endif %}</div></div>{% endif %}
     </div></section>
 
     {% if can_hand_over %}
     <section class="group"><div class="group-title">{% icon 'arrow' %}<h2>{% translate "Record the handover" %}</h2></div>
       <form method="post" action="{% url 'transfers:handover' transfer.pk %}" class="reason-form">{% csrf_token %}
         {% include "includes/field.html" with field=handover_form.condition %}
-        <button class="button primary" type="submit">{% icon 'check' %}{% translate "Confirm handover" %}</button>
+        <button class="button primary" type="submit" data-confirm="{% blocktranslate trimmed with code=transfer.code custodian=transfer.to_custodian %}Record the handover of {{ code }}? {{ custodian }} then confirms what arrived.{% endblocktranslate %}">{% icon 'check' %}{% translate "Confirm handover" %}</button>
       </form></section>
     {% endif %}
     {% if can_receive %}
@@ -38,33 +38,35 @@
         {% include "includes/field.html" with field=receipt_form.received_condition %}
         {% include "includes/field.html" with field=receipt_form.note wide=True %}
       </div>
-      <div class="actions"><button class="button primary" type="submit" name="outcome" value="ok">{% icon 'check' %}{% translate "Confirm receipt" %}</button>
-        <button class="button" type="submit" name="outcome" value="discrepancy">{% translate "Record discrepancy" %}</button></div></form></section>
+      <div class="actions"><button class="button primary" type="submit" name="outcome" value="ok" data-confirm="{% blocktranslate trimmed with code=transfer.code department=transfer.to_department %}Confirm that {{ code }} arrived as recorded? The asset then belongs to {{ department }}.{% endblocktranslate %}">{% icon 'check' %}{% translate "Confirm receipt" %}</button>
+        <button class="button" type="submit" name="outcome" value="discrepancy" data-confirm="{% blocktranslate trimmed with code=transfer.code department=transfer.to_department %}Record a difference for {{ code }}? The {{ department }} representative then decides what happens.{% endblocktranslate %}">{% translate "Record discrepancy" %}</button></div>
+      <p class="muted small">{% blocktranslate trimmed with department=transfer.from_department %}The item still belongs to {{ department }} until you confirm receipt (BR-13).{% endblocktranslate %}</p></form></section>
     {% endif %}
     {% if can_resolve %}
     <section class="group"><div class="group-title">{% icon 'approval' %}<h2>{% translate "Resolve the difference" %}</h2></div>
       <form method="post" action="{% url 'transfers:resolve' transfer.pk %}" class="reason-form">{% csrf_token %}
         <label for="resolve-reason">{% translate "Reason" %} *</label><textarea id="resolve-reason" name="reason"></textarea>
-        <button class="button primary" type="submit" name="resolution" value="accept">{% translate "Accept as received" %}</button>
-        <button class="button danger" type="submit" name="resolution" value="return">{% translate "Return to sender" %}</button>
+        <button class="button primary" type="submit" name="resolution" value="accept" data-confirm="{% blocktranslate trimmed with code=transfer.code %}Accept {{ code }} as received? Ownership then changes.{% endblocktranslate %}">{% translate "Accept as received" %}</button>
+        <button class="button danger" type="submit" name="resolution" value="return" data-confirm="{% blocktranslate trimmed with code=transfer.code %}Return {{ code }} to the sender? This cannot be undone.{% endblocktranslate %}">{% translate "Return to sender" %}</button>
       </form></section>
     {% endif %}
 
     <section class="group"><div class="group-title">{% icon 'clock' %}<h2>{% translate "Who did what" %}</h2></div>
-      <ol class="timeline">{% for e in history %}<li><span class="when">{{ e.created_at|date:"j M Y, H:i" }}</span> <span class="what">{{ e.action|action_text|capfirst }}</span>{% if e.user %} {% blocktranslate trimmed with user=e.user %}by {{ user }}{% endblocktranslate %}{% if e.role %} ({{ e.role|localized }}){% endif %}{% endif %}{% if e.after_value %} · {% blocktranslate trimmed with value=e.after_value|localized %}now {{ value }}{% endblocktranslate %}{% endif %}{% if e.reason %}<span class="reason">{{ e.reason }}</span>{% endif %}</li>{% endfor %}</ol>
+      <ol class="timeline">{% for e in history %}<li><span class="when">{{ e.created_at|date:"DATETIME_FORMAT" }}</span> <span class="what">{{ e.action|action_text|capfirst }}</span>{% if e.user %} {% blocktranslate trimmed with user=e.user %}by {{ user }}{% endblocktranslate %}{% if e.role %} ({{ e.role|localized }}){% endif %}{% endif %}{% if e.after_value %} · {% blocktranslate trimmed with value=e.after_value|localized %}now {{ value }}{% endblocktranslate %}{% endif %}{% if e.reason %}<span class="reason">{{ e.reason }}</span>{% endif %}</li>{% endfor %}</ol>
     </section>
     {% if can_cancel %}
     <details><summary>{% translate "Cancel this transfer" %}</summary>
       <form method="post" action="{% url 'transfers:cancel' transfer.pk %}" class="reason-form">{% csrf_token %}
         <label for="cancel-reason">{% translate "Reason" %} *</label><textarea id="cancel-reason" name="reason"></textarea>
-        <button class="button danger" type="submit">{% translate "Cancel transfer" %}</button>
+        <button class="button danger" type="submit" data-confirm="{% blocktranslate trimmed with code=transfer.code %}Cancel {{ code }}? The held units become free again, and this cannot be undone.{% endblocktranslate %}">{% translate "Cancel transfer" %}</button>
       </form></details>
     {% endif %}
   </div>
   <aside>
     <div class="side-panel">
       <h2>{% translate "Approvals" %}</h2>
-      <ol class="timeline">{% for a in approvals %}<li><span class="what">{{ a.get_stage_display }}</span><span class="reason">{{ a.get_status_display }}{% if a.approver %} {% blocktranslate trimmed with user=a.approver %}by {{ user }}{% endblocktranslate %}{% elif a.department %} · {% blocktranslate trimmed with department=a.department %}{{ department }} representative{% endblocktranslate %}{% endif %}</span></li>{% empty %}<li>{% translate "No approvals yet." %}</li>{% endfor %}</ol>
+      <ol class="timeline">{% for a in approvals %}<li{% if a.status == 'AT-02' %} class="done"{% elif a.status == 'AT-03' %} class="refused"{% endif %}><span class="what">{{ a.get_stage_display }}</span><span class="reason">{{ a.get_status_display }}{% if a.approver %} {% blocktranslate trimmed with user=a.approver %}by {{ user }}{% endblocktranslate %}{% elif a.department %} · {% blocktranslate trimmed with department=a.department %}{{ department }} representative{% endblocktranslate %}{% endif %}</span></li>{% empty %}<li>{% translate "No approvals yet." %}</li>{% endfor %}</ol>
+      {% next_step transfer as step %}{% if step %}<p class="next-step"><strong>{% translate "Next step" %}</strong> {{ step }}</p>{% endif %}
       {% approval_task transfer as task %}{% if task %}<a class="button primary" href="{% url 'transfers:approval' task.pk %}">{% icon 'approval' %}{% translate "Decide this approval" %}</a>{% endif %}
     </div>
     {% if impact %}

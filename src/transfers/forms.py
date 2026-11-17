@@ -33,6 +33,12 @@ class TransferForm(forms.ModelForm):
         self.fields["to_custodian"].queryset = User.objects.filter(
             user_roles__role__code=Role.Code.ASSET_CUSTODIAN, user_roles__department=department,
             user_roles__status="active").distinct()
+        # The browser already refuses what the checks below refuse, and a single custodian is chosen for you.
+        if not self.is_bound and self.fields["to_custodian"].queryset.count() == 1:
+            self.initial["to_custodian"] = self.fields["to_custodian"].queryset.get().pk
+        self.fields["planned_date"].widget.attrs["min"] = timezone.localdate().isoformat()
+        for name in ("distance_km", "van_trips", "transfer_cost_aed"):
+            self.fields[name].widget.attrs["min"] = 0
 
     def clean_planned_date(self):
         value = self.cleaned_data.get("planned_date")
@@ -61,3 +67,8 @@ class ReceiptForm(forms.Form):
     note = forms.CharField(required=False, widget=forms.Textarea(attrs={"rows": 2}),
                            label=gettext_lazy("Discrepancy reason"),
                            help_text=gettext_lazy("Needed only if the quantity or condition differs from the handover"))
+
+    def __init__(self, *args, handed_over=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if handed_over:
+            self.fields["received_quantity"].widget.attrs["max"] = handed_over

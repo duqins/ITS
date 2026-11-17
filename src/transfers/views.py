@@ -12,6 +12,7 @@ from accounts.permissions import check_action, role_required
 from assets.models import Listing
 from audit.models import AuditLog
 from core.actions import perform
+from core.journey import journey
 from resource_requests.models import ResourceRequest
 
 from .forms import HandoverForm, ReceiptForm, TransferForm
@@ -32,6 +33,39 @@ TRANSFER_JOURNEY = [
     (gettext_lazy("Policy review"), ("TR-03",)), (gettext_lazy("Approved"), ("TR-04",)),
     (gettext_lazy("Handed over"), ("TR-05", "TR-07")), (gettext_lazy("Receipt confirmed"), ("TR-06",)),
 ]
+# The stage tracker of the approval page (UI-08, mockup 7.4): the approval stages only. Later statuses count as
+# approved. The policy stage is left out when BR-06 does not apply.
+APPROVAL_JOURNEY = TRANSFER_JOURNEY[:3] + [(gettext_lazy("Approved"), ("TR-04", "TR-05", "TR-06", "TR-07"))]
+REQUEST_APPROVAL_JOURNEY = [
+    (gettext_lazy("Draft"), ("RQ-01",)), (gettext_lazy("Department review"), ("RQ-02",)),
+    (gettext_lazy("Find a match"), ("RQ-03", "RQ-04", "RQ-05", "RQ-06")),
+]
+
+
+def next_stage(approval, record):
+    """What follows an approval of this stage, with the exact state names (mockup 7.4, SRS 3.1.1)."""
+    if approval.status != Approval.Status.PENDING:
+        return _("This stage is decided. %(code)s is now %(status)s.") % {"code": record.code,
+                                                                          "status": record.get_status_display()}
+    if approval.request_id:
+        return _("Open (RQ-03): the requester can search for a match and ask for a hold.")
+    if approval.stage == Approval.Stage.TRANSFER_RELEASE:
+        return _("Pending receipt approval (TR-02): the %(department)s representative decides.") % {
+            "department": record.to_department}
+    if approval.stage == Approval.Stage.TRANSFER_RECEIPT:
+        policy = (record.needs_finance(), record.needs_procurement())
+    else:  # a policy stage: the other policy stage may still be waiting
+        others = record.pending_approvals().exclude(pk=approval.pk)
+        policy = (others.filter(stage=Approval.Stage.TRANSFER_FINANCE).exists(),
+                  others.filter(stage=Approval.Stage.TRANSFER_PROCUREMENT).exists())
+    if all(policy):
+        return _("Pending policy approval (TR-03): Finance and Procurement decide (BR-06).")
+    if policy[0]:
+        return _("Pending policy approval (TR-03): Finance decides (BR-06).")
+    if policy[1]:
+        return _("Pending policy approval (TR-03): Procurement decides (BR-06).")
+    return _("Approved (TR-04): a custodian of %(department)s then hands the item over.") % {
+        "department": record.from_department}
 
 
 def tasks_for(request):
@@ -71,12 +105,24 @@ def approval_detail(request, pk):
         else:
             actions = {"approve": lambda: record.approve_stage(user, approval),
                        "reject": lambda: record.reject_stage(user, reason, approval)}
-        if decision in actions and perform(request, actions[decision], _("Decision saved.")):
+        done = {"approve": _("%(code)s: stage approved. The next person has been told."),
+                "changes": _("%(code)s sent back for changes."), "reject": _("%(code)s rejected.")}
+        if decision in actions and perform(request, actions[decision], done[decision] % {"code": record.code}):
             return redirect("transfers:approvals")
     record = approval.record
+    if approval.request_id:
+        stages = REQUEST_APPROVAL_JOURNEY
+    else:
+        stages = [s for s in APPROVAL_JOURNEY if "TR-03" not in s[1] or record.needs_finance() or record.needs_procurement()]
     return render(request, "transfers/approval_detail.html", {
         "approval": approval, "record": record, "is_request": approval.request_id is not None,
+        "journey": journey(record, stages), "next_stage": next_stage(approval, record),
+        # UI-08 evidence: the asset's photos and documents beside a transfer decision (mockup 7.4).
+        "files": None if approval.request_id else record.asset.files.defer("data", "thumbnail"),
         "own": approval.requested_by_id == request.user.pk,
+        # The AI match behind a transfer, shown as evidence next to the decision (section 5, mockup 7.4).
+        "match": None if approval.request_id else record.request.matches.filter(
+            asset=record.asset, score__isnull=False).order_by("-created_at").first(),
         "earlier": record.approvals.exclude(pk=approval.pk).order_by("created_at"),
     })
 
@@ -175,14 +221,12 @@ def transfer_detail(request, pk):
     # because the label is translated.
     stages = [s for s in TRANSFER_JOURNEY
               if "TR-03" not in s[1] or transfer.needs_finance() or transfer.needs_procurement()]
-    current = next((i for i, (_, codes) in enumerate(stages) if transfer.status in codes), None)
     is_custodian = role.role.code == Role.Code.ASSET_CUSTODIAN
     is_rep = role.role.code == Role.Code.DEPARTMENT_REPRESENTATIVE
     impact = getattr(transfer, "impact", None)
     return render(request, "transfers/transfer_detail.html", {
         "transfer": transfer,
-        "journey": [(label, current is not None and i < current, i == current)
-                    for i, (label, _) in enumerate(stages)],
+        "journey": journey(transfer, stages),
         "approvals": transfer.approvals.select_related("approver", "department"),
         "can_hand_over": is_custodian and role.department_id == transfer.from_department_id
                          and transfer.status == Transfer.Status.APPROVED,
@@ -198,8 +242,10 @@ def transfer_detail(request, pk):
         "impact": impact,
         "handover_form": HandoverForm(initial={"condition": transfer.asset.condition}),
         "receipt_form": ReceiptForm(initial={"received_quantity": transfer.quantity,
-                                             "received_condition": transfer.handover_condition}),
-        "history": AuditLog.for_record(transfer)[:30],
+                                             "received_condition": transfer.handover_condition},
+                                    handed_over=transfer.quantity),
+        # Refused attempts stay in the audit log (FR-02.3) but are not part of the transfer's own story.
+        "history": AuditLog.for_record(transfer).exclude(action__startswith="blocked:")[:30],
     })
 
 
