@@ -110,7 +110,9 @@ def flip_declaration(prop, value):
         v = flip_shadow(v)
     if "linear-gradient" in v:
         v = flip_gradient(v)
-    v = re.sub(r"url\((['\"]?)(?!data:|https?:|/|\.\./)", r"url(\1../", v)
+    # Relative links move one folder up (rtl/ is one level deeper). The quote is checked inside the lookahead too,
+    # so an embedded icon in quotes, url("data:..."), is left alone.
+    v = re.sub(r"url\((['\"]?)(?!['\"]?(?:data:|https?:|/|\.\./))", r"url(\1../", v)
     return new_prop, v
 
 
