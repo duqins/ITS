@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load dawra_ui %}
+{% block title %}Notifications · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>Notifications</h1><div class="record">In-app messages about your requests, tasks and transfers</div></div>
+  <form method="post" action="{% url 'notifications:read_all' %}">{% csrf_token %}<button class="button" type="submit">{% icon 'check' %}Mark all as read</button></form></div>
+{% if notifications %}
+<div class="table-wrap"><table class="data-table">
+  <thead><tr><th>Message</th><th>When</th><th></th></tr></thead>
+  <tbody>{% for n in notifications %}
+  <tr{% if not n.is_read %} class="highlight"{% endif %}><td>{% if not n.is_read %}<strong>{{ n.message }}</strong>{% else %}{{ n.message }}{% endif %}</td>
+    <td>{{ n.sent_at|date:"j M Y, H:i" }}</td><td><a class="button" href="{% url 'notifications:open' n.pk %}">Open</a></td></tr>
+  {% endfor %}</tbody>
+</table></div>
+{% else %}<div class="empty">No notifications yet.</div>{% endif %}
+{% endblock %}

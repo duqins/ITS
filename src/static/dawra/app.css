@@ -82,3 +82,10 @@ a.card:hover{border-color:#9fb8c6;background:#fafcfd}
 
 @media (max-width:900px){.filters{grid-template-columns:1fr 1fr}.top{flex-wrap:wrap;height:auto}.role-switch select{max-width:180px}}
 @media (max-width:700px){.filters{grid-template-columns:1fr}}
+
+/* The unread count sits as a round badge on the bell, its number centred. */
+.notification-button span{top:-6px;right:-6px;min-width:20px;height:20px;padding:0 5px;display:grid;place-items:center;border:2px solid #fff;border-radius:999px;font-weight:750;line-height:1;text-align:center}
+/* Long menu labels (and Arabic ones) fit: a wider menu on large screens, and in the side menu a label may
+   wrap to two lines. On phones the menu is one scrolling row, so labels stay on one line there. */
+@media (min-width:1101px){.shell{grid-template-columns:208px minmax(0,1fr)}}
+@media (min-width:901px){.sidebar a{white-space:normal;line-height:1.3}}

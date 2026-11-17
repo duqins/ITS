@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load dawra_ui %}
+{% block title %}Settings · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>Settings</h1><div class="record">Saved to your account, so they follow you to every device</div></div></div>
+<form method="post" class="settings">{% csrf_token %}
+  <section class="group">
+    <div class="group-title">{% icon 'sun' %}<h2>Appearance</h2></div>
+    <p class="lead">Pick a theme. You see it at once; Save keeps it.</p>
+    <div class="choice-grid" role="radiogroup" aria-label="Theme">
+      {% for value, label in form.fields.theme.choices %}
+      <label class="choice">
+        <input type="radio" name="theme" value="{{ value }}"{% if form.theme.value == value %} checked{% endif %}>
+        <span class="theme-preview theme-preview-{{ value }}" aria-hidden="true"><i></i><b></b><em></em><em></em></span>
+        <span class="choice-label">{{ label }}</span>
+      </label>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="group">
+    <div class="group-title">{% icon 'spark' %}<h2>Motion</h2></div>
+    <div class="choice-grid narrow" role="radiogroup" aria-label="Motion">
+      {% for value, label in form.fields.motion.choices %}
+      <label class="choice">
+        <input type="radio" name="motion" value="{{ value }}"{% if form.motion.value == value %} checked{% endif %}>
+        <span class="choice-label">{{ label }}</span>
+        <small>{% if value == "standard" %}Pages, panels and numbers move gently into place.{% else %}Nothing moves. The app also follows this setting on your device.{% endif %}</small>
+      </label>
+      {% endfor %}
+    </div>
+  </section>
+  <div class="actions"><button class="button primary" type="submit">{% icon 'check' %}Save settings</button></div>
+</form>
+<section class="group account-summary">
+  <div class="group-title">{% icon 'user' %}<h2>Your account</h2></div>
+  <div class="fields">
+    {% include "includes/readonly.html" with label="Name" value=user %}
+    {% include "includes/readonly.html" with label="Username" value=user.username %}
+    {% include "includes/readonly.html" with label="Department" value=user.department %}
+    <div class="field field-plain"><span class="read-label">Roles</span><div class="readonly">{% for r in roles %}{{ r }}{% if not forloop.last %}<br>{% endif %}{% empty %}No active role{% endfor %}</div></div>
+  </div>
+</section>
+{% endblock %}

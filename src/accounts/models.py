@@ -109,6 +109,19 @@ class User(AbstractUser):
     failed_sign_ins = models.PositiveSmallIntegerField(default=0)
     locked_until = models.DateTimeField(null=True, blank=True)
 
+    # Display preferences, saved with the account so they follow the user to every device.
+    class Theme(models.TextChoices):
+        SYSTEM = "system", "Match my device"
+        LIGHT = "light", "Light"
+        DARK = "dark", "Dark"
+
+    class Motion(models.TextChoices):
+        STANDARD = "standard", "Standard"
+        REDUCED = "reduced", "Reduced"
+
+    theme = models.CharField(max_length=6, choices=Theme.choices, default=Theme.SYSTEM)
+    motion = models.CharField(max_length=8, choices=Motion.choices, default=Motion.STANDARD)
+
     def __str__(self):
         return self.get_full_name() or self.username
 

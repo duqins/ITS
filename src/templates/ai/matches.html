@@ -18,7 +18,7 @@
         <td>{{ m.rank }}</td>
         <td><a href="{% url 'assets:listing' m.listing.pk %}">{{ m.asset.name }}</a><small>{{ m.asset.code }} · {{ m.asset.get_condition_display }} · {{ m.asset.owner_department }}</small><small>{{ m.reason }}</small>
           {% if m.explanation.factors %}<details><summary>How the score was calculated</summary><ul class="factor-list">{% for f in m.explanation.factors %}<li>{{ f.factor }}: {{ f.used }}{% if f.unknown %} (unknown){% endif %} <b>{{ f.points }} / {{ f.max }}</b></li>{% endfor %}</ul></details>{% endif %}</td>
-        <td>{% if m.score is not None %}<span class="score">{{ m.score }}<small>/100</small></span>{% else %}—<small>Classic result</small>{% endif %}</td>
+        <td>{% if m.score is not None %}<span class="score-ring" style="--score:{{ m.score|stringformat:'d' }}" role="img" aria-label="Score {{ m.score }} out of 100"><span class="score-ring-value" data-count="{{ m.score|stringformat:'d' }}">{{ m.score }}</span></span><small>/100</small>{% else %}—<small>Classic result</small>{% endif %}</td>
         <td>{% if m.score is not None %}Unavailable<small>Check carefully</small>{% else %}—{% endif %}</td>
         {% if can_choose %}<td>
           {% if m.user_response == "pending" %}
