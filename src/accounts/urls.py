@@ -11,4 +11,6 @@ urlpatterns = [
     path("settings/", views.preferences, name="settings"),
     path("settings/theme/", views.set_theme, name="set_theme"),
     path("settings/language/", views.set_language, name="set_language"),
+    path("administration/", views.administration, name="administration"),
+    path("administration/roles/<int:pk>/", views.decide_role, name="decide_role"),
 ]

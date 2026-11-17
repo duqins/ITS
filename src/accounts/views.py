@@ -3,19 +3,21 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import translation
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.views import defaults
 from django.views.decorators.http import require_POST
 
+from assets.models import Category
 from audit.models import AuditLog
+from core.actions import perform
 
-from .forms import PreferencesForm, SignInForm
+from .forms import PreferencesForm, RoleRequestForm, SignInForm
 from .middleware import SESSION_KEY
-from .models import User, UserRole
-from .permissions import log_refusal
+from .models import Department, Role, User, UserRole
+from .permissions import check_action, log_refusal, role_required
 
 
 def permission_denied(request, exception=None):
@@ -126,3 +128,66 @@ def set_language(request):
     if not url_has_allowed_host_and_scheme(target, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
         target = "/"
     return remember_language(redirect(target), language)
+
+
+@role_required("role.authorise", "role.apply")
+def administration(request):
+    """UI-14 Administration: role assignments go Requested, Authorised, Active (UC-01, BR-01, BR-02)."""
+    role = request.active_role
+    form = RoleRequestForm(request.POST or None)
+    if request.method == "POST":
+        check_action(request, "role.authorise")
+        if form.is_valid():
+            data = form.cleaned_data
+            if perform(request, lambda: UserRole.request(data["user"], data["role"], data["department"], request.user),
+                       _("Role requested. Another Business administrator must authorise it.")):
+                return redirect("accounts:administration")
+    waiting = UserRole.objects.filter(status__in=(UserRole.Status.REQUESTED, UserRole.Status.AUTHORISED)).select_related(
+        "user", "role", "department", "requested_by", "authorised_by").order_by("pk")
+    decided = UserRole.objects.filter(status__in=(UserRole.Status.ACTIVE, UserRole.Status.REJECTED)).exclude(
+        requested_by=None).select_related("user", "role", "department", "authorised_by", "applied_by").order_by("-pk")[:10]
+    return render(request, "accounts/administration.html", {
+        "form": form,
+        "can_request": role.allows("role.authorise"),
+        "can_authorise": role.allows("role.authorise"),
+        "can_apply": role.allows("role.apply"),
+        "waiting": waiting,
+        "decided": decided,
+        "people": User.objects.filter(is_active=True).prefetch_related("user_roles__role", "user_roles__department")
+                      .select_related("department").order_by("first_name", "last_name"),
+        "departments": Department.objects.all(),
+        "categories": Category.objects.all(),
+        # UI-14 and SRS 3.1.1: the values still marked TBD, shown as proposed (Appendix C).
+        "proposed": [(_("Finance approval from a transfer value of (TBD-1, BR-06)"),
+                      _("AED %(amount)s") % {"amount": f"{settings.DAWRA['FINANCE_APPROVAL_THRESHOLD_AED']:,.0f}"}),
+                     (_("Hold period (TBD-3, BR-12)"),
+                      _("%(days)s working days") % {"days": settings.DAWRA["HOLD_WORKING_DAYS"]}),
+                     (_("Verification period (TBD-4, BR-16)"),
+                      _("%(days)s days") % {"days": settings.DAWRA["VERIFICATION_MAX_AGE_DAYS"]}),
+                     (_("Reminder for overdue approval tasks (TBD-5)"),
+                      _("%(days)s working days") % {"days": settings.DAWRA["OVERDUE_WORKING_DAYS"]})],
+    })
+
+
+@require_POST
+@role_required("role.authorise", "role.apply")
+def decide_role(request, pk):
+    assignment = get_object_or_404(UserRole.objects.select_related("user", "role", "department"), pk=pk)
+    decision, user = request.POST.get("decision"), request.user
+    names = {"user": assignment.user, "role": assignment}
+    if decision == "apply":
+        check_action(request, "role.apply")
+        perform(request, lambda: assignment.apply(user),
+                _("%(role)s applied to %(user)s. The role is active now.") % names)
+    elif decision == "withdraw":
+        check_action(request, "role.authorise")
+        perform(request, lambda: assignment.withdraw(user), _("Role request withdrawn. No role was given."))
+    elif decision in ("authorise", "reject"):
+        check_action(request, "role.authorise")
+        if decision == "authorise":
+            perform(request, lambda: assignment.authorise(user),
+                    _("%(role)s authorised for %(user)s. A System administrator applies it next.") % names)
+        else:
+            perform(request, lambda: assignment.reject(user, request.POST.get("reason", "")),
+                    _("Role request rejected. No role was given."))
+    return redirect("accounts:administration")

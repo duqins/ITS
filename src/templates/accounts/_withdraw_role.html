@@ -1,0 +1,3 @@
+{% load i18n %}<form method="post" action="{% url 'accounts:decide_role' a.pk %}">{% csrf_token %}
+  <button class="button" type="submit" name="decision" value="withdraw" data-confirm="{% blocktranslate trimmed with role=a person=a.user %}Withdraw your request for {{ role }} for {{ person }}? No role is given.{% endblocktranslate %}">{% translate "Withdraw request" %}</button>
+</form>

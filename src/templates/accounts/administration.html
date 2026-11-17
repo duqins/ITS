@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load dawra_ui i18n %}
+{% block title %}{% translate "Administration" %} · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>{% translate "Administration" %}</h1><div class="record">UI-14 · FR-01 · FR-03</div></div></div>
+<p class="lead">{% translate "A role is given in three steps by different people: a Business administrator requests it, another Business administrator authorises it, and a System administrator applies it. Only then can the person work in that role (BR-01, BR-02)." %}</p>
+
+<section class="group"><div class="group-title">{% icon 'user' %}<h2>{% translate "Role assignments waiting" %}</h2></div>
+  {% if waiting %}
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>{% translate "Staff member" %}</th><th>{% translate "Role and department" %}</th><th>{% translate "Status" %}</th><th>{% translate "Requested by" %}</th><th>{% translate "Authorised by" %}</th><th><span class="sr-only">{% translate "Actions" %}</span></th></tr></thead>
+    <tbody>{% for a in waiting %}
+    <tr><td>{{ a.user }}<small>{{ a.user.username }}</small></td><td>{{ a }}</td><td>{% status_pill a %}</td>
+      <td>{{ a.requested_by|default:"—" }}</td><td>{{ a.authorised_by|default:"—" }}</td>
+      <td>
+        {% if a.status == "requested" %}
+          {% if not can_authorise %}<span class="muted small">{% translate "Waiting for a Business administrator" %}</span>
+          {% elif a.requested_by_id == user.pk %}<span class="muted small">{% translate "Another Business administrator decides this (BR-02)." %}</span>
+          {% include "accounts/_withdraw_role.html" %}
+          {% elif a.user_id == user.pk %}<span class="muted small">{% translate "Another Business administrator decides this (BR-02)." %}</span>
+          {% else %}
+          <form method="post" action="{% url 'accounts:decide_role' a.pk %}" class="reason-form">{% csrf_token %}
+            <button class="button primary" type="submit" name="decision" value="authorise" data-confirm="{% blocktranslate trimmed with role=a person=a.user %}Authorise {{ role }} for {{ person }}? A System administrator then applies it.{% endblocktranslate %}">{% icon 'check' %}{% translate "Authorise" %}</button>
+            <input name="reason" placeholder="{% translate 'Reason (needed to reject)' %}" aria-label="{% translate 'Reason for rejecting' %}">
+            <button class="button danger" type="submit" name="decision" value="reject" data-confirm="{% blocktranslate trimmed with role=a person=a.user %}Reject {{ role }} for {{ person }}? No role is given.{% endblocktranslate %}">{% translate "Reject" %}</button>
+          </form>
+          {% endif %}
+        {% elif can_apply and a.user_id != user.pk and a.requested_by_id != user.pk and a.authorised_by_id != user.pk %}
+          <form method="post" action="{% url 'accounts:decide_role' a.pk %}">{% csrf_token %}
+            <button class="button primary" type="submit" name="decision" value="apply" data-confirm="{% blocktranslate trimmed with role=a person=a.user %}Apply {{ role }} to {{ person }}? The role is active at once.{% endblocktranslate %}">{% icon 'check' %}{% translate "Apply role" %}</button>
+          </form>
+        {% elif can_apply %}<span class="muted small">{% translate "Another System administrator applies this (BR-02)." %}</span>
+        {% else %}<span class="muted small">{% translate "Waiting for a System administrator" %}</span>{% if can_authorise and a.requested_by_id == user.pk %}{% include "accounts/_withdraw_role.html" %}{% endif %}{% endif %}
+      </td></tr>
+    {% endfor %}</tbody>
+  </table></div>
+  {% else %}<p class="muted small">{% translate "No role assignments are waiting." %}</p>{% endif %}
+</section>
+
+{% if can_request %}
+<section class="group"><div class="group-title">{% icon 'request' %}<h2>{% translate "Request a role" %}</h2></div>
+  <form method="post" novalidate>{% csrf_token %}
+    {% for error in form.non_field_errors %}<div class="toast error">{{ error }}</div>{% endfor %}
+    <div class="fields">
+      {% include "includes/field.html" with field=form.user %}
+      {% include "includes/field.html" with field=form.role %}
+      {% include "includes/field.html" with field=form.department %}
+    </div>
+    <div class="actions"><button class="button primary" type="submit">{% icon 'arrow' %}{% translate "Request role" %}</button></div>
+  </form>
+</section>
+{% endif %}
+
+<section class="group"><div class="group-title">{% icon 'info' %}<h2>{% translate "Proposed thresholds" %}</h2></div>
+  <p class="muted small">{% translate "KU has not set these values yet. The app uses the proposed values of SRS Appendix C until they are confirmed." %}</p>
+  <div class="table-wrap"><table class="data-table"><tbody>{% for label, value in proposed %}<tr><td>{{ label }}</td><td>{{ value }} <span class="mini-tag">{% translate "Proposed" %}</span></td></tr>{% endfor %}</tbody></table></div>
+</section>
+
+{% if decided %}
+<section class="group"><div class="group-title">{% icon 'clock' %}<h2>{% translate "Recent decisions" %}</h2></div>
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>{% translate "Staff member" %}</th><th>{% translate "Role and department" %}</th><th>{% translate "Status" %}</th><th>{% translate "Authorised by" %}</th><th>{% translate "Applied by" %}</th></tr></thead>
+    <tbody>{% for a in decided %}<tr><td>{{ a.user }}</td><td>{{ a }}</td><td>{% status_pill a %}</td><td>{{ a.authorised_by|default:"—" }}</td><td>{{ a.applied_by|default:"—" }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+</section>
+{% endif %}
+
+<section class="group"><div class="group-title">{% icon 'user' %}<h2>{% translate "Staff accounts" %}</h2></div>
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>{% translate "Staff member" %}</th><th>{% translate "Department" %}</th><th>{% translate "Active roles" %}</th><th>{% translate "Account" %}</th>{% if perms.accounts.change_user %}<th><span class="sr-only">{% translate "Actions" %}</span></th>{% endif %}</tr></thead>
+    <tbody>{% for p in people %}<tr><td>{{ p }}<small>{{ p.username }}</small></td><td>{{ p.department|default:"—" }}</td>
+      <td>{% for r in p.user_roles.all %}{% if r.status == "active" %}<small>{{ r }}</small>{% endif %}{% endfor %}</td>
+      <td>{{ p.get_account_status_display }}</td>
+      {% if perms.accounts.change_user %}<td>{% if not p.is_administrator_account %}<a class="button" href="{% url 'admin:accounts_user_change' p.pk %}">{% translate "Edit account" %}</a>{% endif %}</td>{% endif %}</tr>{% endfor %}</tbody>
+  </table></div>
+  {% if perms.accounts.add_user %}<div class="actions"><a class="button" href="{% url 'admin:accounts_user_add' %}">{% translate "Add a staff account" %}</a></div>{% endif %}
+</section>
+
+<section class="group"><div class="group-title">{% icon 'box' %}<h2>{% translate "Departments and categories" %}</h2></div>
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>{% translate "Department" %}</th><th>{% translate "Code" %}</th><th>{% translate "Active" %}</th></tr></thead>
+    <tbody>{% for d in departments %}<tr><td>{{ d.name }}</td><td>{{ d.code }}</td><td>{{ d.is_active|yesno:_("Yes,No") }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>{% translate "Category" %}</th><th>{% translate "Unit" %}</th><th>{% translate "Procurement-controlled (BR-06)" %}</th><th>{% translate "Special handling (BR-09)" %}</th><th>{% translate "Active" %}</th></tr></thead>
+    <tbody>{% for c in categories %}<tr><td>{{ c }}</td><td>{{ c.get_unit_display }}</td><td>{{ c.procurement_controlled|yesno:_("Yes,No") }}</td><td>{{ c.special_handling|yesno:_("Yes,No") }}</td><td>{{ c.is_active|yesno:_("Yes,No") }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% if perms.accounts.change_department or perms.assets.change_category %}
+  <div class="actions">
+    {% if perms.accounts.change_department %}<a class="button" href="{% url 'admin:accounts_department_changelist' %}">{% translate "Edit departments" %}</a>{% endif %}
+    {% if perms.assets.change_category %}<a class="button" href="{% url 'admin:assets_category_changelist' %}">{% translate "Edit categories" %}</a>{% endif %}
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
