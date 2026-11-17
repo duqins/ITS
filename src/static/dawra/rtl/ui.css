@@ -29,7 +29,7 @@
 .choice input {position:absolute;opacity:0;pointer-events:none}
 .choice:has(input:checked) {border-color:var(--teal);box-shadow:0 0 0 3px color-mix(in srgb, var(--teal) 22%, transparent)}
 .choice:has(input:focus-visible) {outline:3px solid var(--focus);outline-offset:3px}
-.choice::after {content:"";position:absolute;top:10px;left:10px;width:18px;height:18px;border-radius:50%;background:var(--teal) url(../"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12 4 4 8-8'/%3E%3C/svg%3E") center / 12px no-repeat;transform:scale(0);transition:transform .25s var(--ease)}
+.choice::after {content:"";position:absolute;top:10px;left:10px;width:18px;height:18px;border-radius:50%;background:var(--teal) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12 4 4 8-8'/%3E%3C/svg%3E") center / 12px no-repeat;transform:scale(0);transition:transform .25s var(--ease)}
 .choice:has(input:checked)::after {transform:scale(1)}
 .choice-label {font-weight:750;color:var(--navy);font-size:13px}
 .choice small {color:var(--muted);font-size:11px;line-height:1.5}
