@@ -23,8 +23,8 @@ class ReportTests(DemoTestCase):
 
     def test_csv_contains_filters_records_and_totals(self):
         response = self.sign_in("business.admin").get(f"/reports/?{self.query('transfers')}&format=csv")
-        self.assertEqual(response["Content-Type"], "text/csv")
-        rows = list(csv.reader(StringIO(response.content.decode())))
+        self.assertEqual(response["Content-Type"], "text/csv; charset=utf-8")
+        rows = list(csv.reader(StringIO(response.content.decode("utf-8-sig"))))
         self.assertEqual(rows[0], ["Report", "Transfers"])
         self.assertEqual(rows[2], ["Department", "All departments"])
         self.assertIn(Transfer.objects.get().code, [r[0] for r in rows if r])
@@ -41,4 +41,4 @@ class ReportTests(DemoTestCase):
         from resource_requests.models import ResourceRequest
         ResourceRequest.objects.filter(purpose__startswith="Chairs").update(purpose="=HYPERLINK(1)")
         response = self.sign_in("business.admin").get(f"/reports/?{self.query('requests')}&format=csv")
-        self.assertIn("'=HYPERLINK(1)", response.content.decode())
+        self.assertIn("'=HYPERLINK(1)", response.content.decode("utf-8-sig"))

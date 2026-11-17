@@ -12,7 +12,7 @@ class RequestTests(DemoTestCase):
     def data(self, **extra):
         values = {"purpose": "Monitor for a TA desk", "category": Category.objects.get(subcategory="Monitor").pk,
                   "quantity": 1, "min_condition": "fair", "urgency": "normal", "required_by": self.future(),
-                  "submit_for": "approval"}
+                  "submit_for": "approval", "specifications": "24-inch, HDMI", "delivery_location": "Computing Building C1-001",}
         values.update(extra)
         return values
 

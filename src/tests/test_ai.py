@@ -133,8 +133,16 @@ class NoKeyTests(DemoTestCase):
         self.assertFalse(ai_used)
         self.assertTrue(matches and matches[0].score is None)
         self.assertIn("classic order", note)
-        asset = Asset.objects.filter(status=Asset.Status.IN_STORAGE).first()
-        self.assertContains(self.sign_in("eng.custodian").get(f"/assets/{asset.pk}/"), "AI unavailable")
+        asset = Asset.objects.filter(status=Asset.Status.IN_STORAGE, owner_department__code="ENG").first()
+        client = self.sign_in("eng.custodian")
+        # A confirmed asset without a suggestion has no AI panel; a draft says what to do without the AI.
+        self.assertNotContains(client.get(f"/assets/{asset.pk}/"), "AI unavailable")
+        asset.pk = asset.id = None
+        asset.status = Asset.Status.DRAFT
+        asset.save()
+        page = client.get(f"/assets/{asset.pk}/")
+        self.assertContains(page, "AI unavailable")
+        self.assertContains(page, "Classification unavailable. Your fields are preserved")
 
 
 @override_settings(ANTHROPIC_API_KEY="test-key")

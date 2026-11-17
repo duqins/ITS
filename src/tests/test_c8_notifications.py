@@ -13,7 +13,7 @@ class NotificationTests(DemoTestCase):
         self.sign_in("comp.requester").post("/requests/new/", {
             "purpose": "Laptop for an intern", "category": Category.objects.get(subcategory="Laptop").pk,
             "quantity": 1, "min_condition": "fair", "urgency": "normal", "required_by": self.future(),
-            "submit_for": "approval"})
+            "submit_for": "approval", "specifications": "24-inch, HDMI", "delivery_location": "Computing Building C1-001",})
         rep = User.objects.get(username="comp.rep")
         self.assertTrue(rep.notifications.filter(message__contains="New approval task").exists())
 

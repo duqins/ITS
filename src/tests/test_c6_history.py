@@ -43,5 +43,5 @@ class StateRuleTests(DemoTestCase):
         admin = self.sign_in("business.admin")
         self.assertContains(admin.get("/history/audit-log/?action=confirmed"), "Confirmed")
         response = admin.get("/history/audit-log/?format=csv")
-        self.assertEqual(response["Content-Type"], "text/csv")
+        self.assertEqual(response["Content-Type"], "text/csv; charset=utf-8")
         self.assertEqual(self.sign_in("eng.rep").get("/history/audit-log/").status_code, 403)
