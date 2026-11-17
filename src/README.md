@@ -48,8 +48,9 @@ Open http://127.0.0.1:8000 and sign in. The demo users all use the password `daw
 | `procurement.officer` | Procurement officer |
 | `sustainability.officer` | Sustainability officer |
 | `business.admin` | Business administrator |
+| `business.admin2` | Business administrator (a second one, so a role request has an independent authoriser) |
 | `maintenance.staff` | Maintenance staff |
-| `system.admin` | System administrator (also opens `/admin/`) |
+| `system.admin` | System administrator |
 
 All demo data is synthetic.
 
@@ -62,4 +63,7 @@ The AI features use the Claude API. Put the key in `src\.env` as `ANTHROPIC_API_
 - Every status change goes through `audit/lifecycle.py`, which allows only the moves of the state diagrams (section 10.2) and writes an audit entry.
 - Permissions are checked on the server for every page (`accounts/permissions.py`), using the access matrix of section 6.
 - `available + reserved + allocated` can never be more than an asset's quantity (a database constraint), so the last item cannot go to two people.
+- Roles are given only on the Administration page (UI-14): a Business administrator requests the role, a second Business administrator authorises it and the System administrator applies it (BR-01, BR-02). The Django administration site (`/admin/`) shows roles but cannot change them. The two administrators reach it from Administration for what they maintain: staff accounts (System administrator), and departments and categories (Business administrator). No demo user is a superuser.
+- Photos and PDF documents of assets (FR-04.1) are stored in the database, because Render's disk is emptied on every deploy. Pillow checks that a photo is a real JPG or PNG, refuses pictures over 16 megapixels (memory on the free plan) and keeps a 1568-pixel copy and a small copy for lists. The AI classification reads the first two photos.
+- An asset can be saved as a draft early, but a second person can confirm it only when its mandatory fields are filled (FR-04.2). A possible duplicate needs an extra tick (FR-04.5). Items checked more than 90 days ago show "Verification needed" until the custodian verifies them again (FR-06.4, BR-16). Custodians and representatives see how many on their home page, which opens the list of those assets (UI-02). The demo data has one: the Computing standing desks, last checked 120 days ago.
 - The thresholds still marked TBD in the SRS are in `dawra/settings.py` under `DAWRA`. TBD-1 (Finance approval) uses AED 5,000 as our prototype value.
