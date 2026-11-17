@@ -1,57 +1,73 @@
-{% load static dawra_ui notification_ui %}<!doctype html>
-<html lang="en" data-theme="{% if user.is_authenticated %}{{ user.theme }}{% else %}system{% endif %}" data-motion="{% if user.is_authenticated %}{{ user.motion }}{% else %}standard{% endif %}">
+{% load static dawra_ui notification_ui i18n %}<!doctype html>
+{% get_current_language as LANG %}{% get_current_language_bidi as RTL %}
+<html lang="{{ LANG }}" dir="{% if RTL %}rtl{% else %}ltr{% endif %}" data-theme="{% if user.is_authenticated %}{{ user.theme }}{% else %}system{% endif %}" data-motion="{% if user.is_authenticated %}{{ user.motion }}{% else %}standard{% endif %}" data-busy-ai="{% translate 'Asking the AI' %}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Dawra Campus{% endblock %}</title>
   <link rel="icon" href="{% static 'dawra/assets/dawra-campus-logo.png' %}">
+  {% if RTL %}{# Right-to-left copies of the same style files (left and right swapped). #}
+  <link rel="stylesheet" href="{% static 'dawra/rtl/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'dawra/rtl/app.css' %}">
+  <link rel="stylesheet" href="{% static 'dawra/rtl/motion.css' %}">
+  <link rel="stylesheet" href="{% static 'dawra/rtl/ui.css' %}">
+  <link rel="stylesheet" href="{% static 'dawra/rtl/dark.css' %}">
+  <link rel="stylesheet" href="{% static 'dawra/rtl/effects.css' %}">
+  <link rel="stylesheet" href="{% static 'dawra/arabic.css' %}">
+  {% else %}
   <link rel="stylesheet" href="{% static 'dawra/styles.css' %}">
   <link rel="stylesheet" href="{% static 'dawra/app.css' %}">
   <link rel="stylesheet" href="{% static 'dawra/motion.css' %}">
   <link rel="stylesheet" href="{% static 'dawra/ui.css' %}">
   <link rel="stylesheet" href="{% static 'dawra/dark.css' %}">
   <link rel="stylesheet" href="{% static 'dawra/effects.css' %}">
+  {% endif %}
   <script src="{% static 'dawra/app.js' %}" defer></script>
 </head>
 <body>
 {% if user.is_authenticated %}
 <header class="top">
-  <a class="logo" href="{% url 'core:home' %}" aria-label="Dawra Campus home"><img src="{% static 'dawra/assets/dawra-campus-logo.png' %}" alt="Dawra Campus" width="1942" height="809"></a>
-  <div class="workspace-name">Campus resource exchange<br>Staff workspace</div>
+  <a class="logo" href="{% url 'core:home' %}" aria-label="{% translate 'Dawra Campus home' %}"><img src="{% static 'dawra/assets/dawra-campus-logo.png' %}" alt="Dawra Campus" width="1942" height="809"></a>
+  <div class="workspace-name">{% translate "Campus resource exchange" %}<br>{% translate "Staff workspace" %}</div>
   <div class="top-right">
+    <form class="lang-toggle" method="post" action="{% url 'accounts:set_language' %}">{% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      {% if LANG == "ar" %}<button class="icon-button lang-button" type="submit" name="language" value="en-gb" lang="en" aria-label="English" title="English">EN</button>
+      {% else %}<button class="icon-button lang-button" type="submit" name="language" value="ar" lang="ar" aria-label="العربية" title="العربية">ع</button>{% endif %}
+    </form>
     <form class="theme-toggle" method="post" action="{% url 'accounts:set_theme' %}">{% csrf_token %}
       <input type="hidden" name="next" value="{{ request.get_full_path }}">
-      <button class="icon-button" type="submit" name="theme" value="{% if user.theme == 'dark' %}light{% else %}dark{% endif %}" aria-label="Switch between light and dark" title="Light or dark">
+      <button class="icon-button" type="submit" name="theme" value="{% if user.theme == 'dark' %}light{% else %}dark{% endif %}" aria-label="{% translate 'Switch between light and dark' %}" title="{% translate 'Light or dark' %}">
         <span class="when-light">{% icon 'moon' %}</span><span class="when-dark">{% icon 'sun' %}</span>
       </button>
     </form>
-    <a class="icon-button" href="{% url 'accounts:settings' %}" aria-label="Settings" title="Settings">{% icon 'settings' %}</a>
+    <a class="icon-button" href="{% url 'accounts:settings' %}" aria-label="{% translate 'Settings' %}" title="{% translate 'Settings' %}">{% icon 'settings' %}</a>
     {% notification_bell %}
     {% if my_roles|length > 1 %}
     <form class="role-switch" method="post" action="{% url 'accounts:switch_role' %}">{% csrf_token %}
-      <label for="role-select">Working as</label>
+      <label for="role-select">{% translate "Working as" %}</label>
       <select id="role-select" name="user_role" onchange="this.form.submit()">
         {% for r in my_roles %}<option value="{{ r.pk }}"{% if r == active_role %} selected{% endif %}>{{ r }}</option>{% endfor %}
       </select>
-      <noscript><button class="button" type="submit">Switch</button></noscript>
+      <noscript><button class="button" type="submit">{% translate "Switch" %}</button></noscript>
     </form>
     {% endif %}
     <div class="profile">
       <div class="avatar">{{ user|initials }}</div>
-      <div class="identity"><strong>{{ user }}</strong><span>{% if active_role %}{{ active_role }}{% else %}No active role{% endif %}</span></div>
+      <div class="identity"><strong>{{ user }}</strong><span>{% if active_role %}{{ active_role }}{% else %}{% translate "No active role" %}{% endif %}</span></div>
     </div>
-    <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="button" type="submit">Sign out</button></form>
+    <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="button" type="submit">{% translate "Sign out" %}</button></form>
   </div>
 </header>
 <div class="shell">
-  <nav class="sidebar" aria-label="Main navigation">
+  <nav class="sidebar" aria-label="{% translate 'Main navigation' %}">
     {% main_menu %}
-    <div class="sidebar-foot"><strong>{% icon 'leaf' %}Reuse before replacement</strong>Find a second life for campus resources.</div>
+    <div class="sidebar-foot"><strong>{% icon 'leaf' %}{% translate "Reuse before replacement" %}</strong>{% translate "Find a second life for campus resources." %}</div>
   </nav>
   <main>
     {% include "includes/messages.html" %}
     {% block content %}{% endblock %}
-    <div class="synthetic"><span>Dawra Campus · Phase 6 draft · Synthetic data</span><span>* Required field</span></div>
+    <div class="synthetic"><span>{% translate "Dawra Campus · Phase 6 draft · Synthetic data" %}</span><span>{% translate "* Required field" %}</span></div>
   </main>
 </div>
 {% else %}

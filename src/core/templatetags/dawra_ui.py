@@ -3,6 +3,7 @@
 from django import template
 from django.urls import NoReverseMatch, reverse
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy
 
 register = template.Library()
 
@@ -39,7 +40,10 @@ ICONS = {
 
 @register.simple_tag
 def icon(name):
-    return format_html('<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="{}"/></svg>', ICONS.get(name, ICONS["box"]))
+    # An arrow points the other way when the page reads right to left (arabic.css).
+    css = "icon icon-flip" if name == "arrow" else "icon"
+    return format_html('<svg class="{}" viewBox="0 0 24 24" aria-hidden="true"><path d="{}"/></svg>', css,
+                       ICONS.get(name, ICONS["box"]))
 
 
 @register.filter
@@ -55,17 +59,17 @@ def status_pill(obj):
 
 # Menu entries: label, icon, URL name, and the actions that show it (empty means every role).
 MENU = [
-    ("Home", "info", "core:home", ()),
-    ("Assets", "box", "assets:list", ("asset.view",)),
-    ("Search", "match", "assets:search", ("listing.search",)),
-    ("Requests", "request", "resource_requests:list", ("request.submit", "request.approve")),
-    ("Approvals", "approval", "transfers:approvals",
+    (gettext_lazy("Home"), "info", "core:home", ()),
+    (gettext_lazy("Assets"), "box", "assets:list", ("asset.view",)),
+    (gettext_lazy("Search"), "match", "assets:search", ("listing.search",)),
+    (gettext_lazy("Requests"), "request", "resource_requests:list", ("request.submit", "request.approve")),
+    (gettext_lazy("Approvals"), "approval", "transfers:approvals",
      ("request.approve", "listing.publish", "transfer.approve_release", "transfer.approve_receipt",
       "transfer.approve_finance", "transfer.approve_procurement")),
-    ("Holds and transfers", "transfer", "transfers:list", ("transfer.view", "hold.confirm")),
-    ("Sustainability", "leaf", "sustainability:dashboard", ("dashboard.view",)),
-    ("Reports", "report", "reports:index", ("report.view",)),
-    ("Audit log", "clock", "audit:search", ("audit.view",)),
+    (gettext_lazy("Holds and transfers"), "transfer", "transfers:list", ("transfer.view", "hold.confirm")),
+    (gettext_lazy("Sustainability"), "leaf", "sustainability:dashboard", ("dashboard.view",)),
+    (gettext_lazy("Reports"), "report", "reports:index", ("report.view",)),
+    (gettext_lazy("Audit log"), "clock", "audit:search", ("audit.view",)),
 ]
 
 

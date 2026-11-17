@@ -1,21 +1,21 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
-{% block title %}Search · Dawra Campus{% endblock %}
+{% load dawra_ui i18n %}
+{% block title %}{% translate "Search" %} · Dawra Campus{% endblock %}
 {% block content %}
-<div class="heading"><div><h1>Find surplus items</h1><div class="record">Published listings from every department</div></div></div>
-<p class="lead">Search works without AI. Combine a keyword with any of the filters.</p>
+<div class="heading"><div><h1>{% translate "Find surplus items" %}</h1><div class="record">{% translate "Published listings from every department" %}</div></div></div>
+<p class="lead">{% translate "Search works without AI. Combine a keyword with any of the filters." %}</p>
 <form method="get" class="filters">
   {% include "includes/field.html" with field=form.q %}
   {% include "includes/field.html" with field=form.category %}
   {% include "includes/field.html" with field=form.condition %}
   {% include "includes/field.html" with field=form.department %}
   {% include "includes/field.html" with field=form.sort %}
-  <div class="actions"><button class="button primary" type="submit">{% icon 'match' %}Search</button><a class="button" href="{% url 'assets:search' %}">Reset</a></div>
+  <div class="actions"><button class="button primary" type="submit">{% icon 'match' %}{% translate "Search" %}</button><a class="button" href="{% url 'assets:search' %}">{% translate "Reset" %}</a></div>
 </form>
 {% if results %}
-<p class="result-count">{{ results|length }} item{{ results|length|pluralize }} found</p>
+<p class="result-count">{% blocktranslate trimmed count counter=results|length %}{{ counter }} item found{% plural %}{{ counter }} items found{% endblocktranslate %}</p>
 <div class="table-wrap"><table class="data-table">
-  <thead><tr><th>Item</th><th>Category</th><th>Condition</th><th>Department</th><th>Location</th><th class="num">Available</th><th>Listed</th></tr></thead>
+  <thead><tr><th>{% translate "Item" %}</th><th>{% translate "Category" %}</th><th>{% translate "Condition" %}</th><th>{% translate "Department" %}</th><th>{% translate "Location" %}</th><th class="num">{% translate "Available" %}</th><th>{% translate "Listed" %}</th></tr></thead>
   <tbody>{% for l in results %}
   <tr><td><a href="{% url 'assets:listing' l.pk %}">{{ l.asset.name }}</a><small>{{ l.code }}{% if l.asset.tags %} · {{ l.asset.tags }}{% endif %}</small></td>
       <td>{{ l.asset.category }}</td><td>{{ l.asset.get_condition_display }}</td><td>{{ l.asset.owner_department }}</td>
@@ -23,8 +23,8 @@
   {% endfor %}</tbody>
 </table></div>
 {% else %}
-<div class="empty">{% if searched %}No published items match these filters.{% else %}No items are published right now.{% endif %}
-  {% if can_request %}<br><a class="button" href="{% url 'resource_requests:create' %}?{% if form.cleaned_data.category %}category={{ form.cleaned_data.category.pk }}&amp;{% endif %}purpose={{ form.cleaned_data.q|urlencode }}">Create a request with these criteria</a>{% endif %}
+<div class="empty">{% if searched %}{% translate "No published items match these filters." %}{% else %}{% translate "No items are published right now." %}{% endif %}
+  {% if can_request %}<br><a class="button" href="{% url 'resource_requests:create' %}?{% if form.cleaned_data.category %}category={{ form.cleaned_data.category.pk }}&amp;{% endif %}purpose={{ form.cleaned_data.q|urlencode }}">{% translate "Create a request with these criteria" %}</a>{% endif %}
 </div>
 {% endif %}
 {% endblock %}

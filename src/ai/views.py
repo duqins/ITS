@@ -5,6 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.translation import gettext as _, ngettext
 from django.views.decorators.http import require_POST
 
 from accounts.models import Role
@@ -25,7 +26,7 @@ from .report_drafts import ReportDraftService, scope_labels, unsupported_numbers
 def managed_draft(request, pk):
     asset = get_object_or_404(Asset, pk=pk)
     if not asset.can_be_managed_by(request.active_role):
-        raise PermissionDenied("Only the owning department can classify this asset.")
+        raise PermissionDenied(_("Only the owning department can classify this asset."))
     return asset
 
 
@@ -34,13 +35,13 @@ def managed_draft(request, pk):
 def classify_asset(request, pk):
     asset = managed_draft(request, pk)
     if asset.status != Asset.Status.DRAFT:
-        messages.error(request, "AI suggestions are for draft records only.")
+        messages.error(request, _("AI suggestions are for draft records only."))
     else:
         try:
             ClassificationService().suggest(asset, request.user)
-            messages.success(request, "AI suggestion ready. Accept, edit or reject it.")
+            messages.success(request, _("AI suggestion ready. Accept, edit or reject it."))
         except AIUnavailable as error:
-            messages.warning(request, f"{error} Choose the category, condition and tags yourself.")
+            messages.warning(request, _("%(error)s Choose the category, condition and tags yourself.") % {"error": error})
     return redirect("assets:detail", pk=asset.pk)
 
 
@@ -53,31 +54,31 @@ def classification_respond(request, pk):
     latest = asset.ai_suggestions.filter(task=Task.CLASSIFICATION).first()
     if suggestion.user_response != AiSuggestion.Response.PENDING or suggestion != latest:
         # Checked on the server: an old or already decided suggestion can never be applied.
-        messages.error(request, "This suggestion was already decided or replaced by a newer one.")
+        messages.error(request, _("This suggestion was already decided or replaced by a newer one."))
         return redirect("assets:detail", pk=asset.pk)
 
     if decision == "accept":
         if not ClassificationService.can_prefill(suggestion):
-            messages.error(request, "Confidence is below 0.60, so this suggestion is an option only. Use Edit to "
-                                    "choose the values yourself (SRS Table 4.2).")
+            messages.error(request, _("Confidence is below 0.60, so this suggestion is an option only. Use Edit to "
+                                      "choose the values yourself (SRS Table 4.2)."))
             return redirect("assets:detail", pk=asset.pk)
-        perform(request, lambda: suggestion.accept_and_apply(user), "Suggestion accepted.")
+        perform(request, lambda: suggestion.accept_and_apply(user), _("Suggestion accepted."))
     elif decision == "edit":
         category = request.POST.get("category", "")
         values = {"category_id": int(category) if category.isdigit() else 0, "condition": request.POST.get("condition"),
                   "tags": [t.strip().lower() for t in request.POST.get("tags", "").split(",") if t.strip()]}
         if not Category.objects.filter(pk=values["category_id"]).exists() or values["condition"] not in Condition.values:
-            messages.error(request, "Choose a category and a condition.")
+            messages.error(request, _("Choose a category and a condition."))
         else:
             perform(request, lambda: suggestion.correct_and_apply(user, values, request.POST.get("reason", "")),
-                    "Your corrected values were saved.")
+                    _("Your corrected values were saved."))
     else:
         reason = request.POST.get("reason", "").strip()
         if not reason:
-            messages.error(request, "Give a reason for rejecting the suggestion.")
+            messages.error(request, _("Give a reason for rejecting the suggestion."))
         else:
             suggestion.reject(user, reason)
-            messages.success(request, "Suggestion rejected. Nothing was changed on the asset.")
+            messages.success(request, _("Suggestion rejected. Nothing was changed on the asset."))
     return redirect("assets:detail", pk=asset.pk)
 
 
@@ -88,7 +89,7 @@ def visible_request(request, pk):
         return obj
     if role.role.code == Role.Code.DEPARTMENT_REPRESENTATIVE and role.department_id == obj.department_id:
         return obj
-    raise PermissionDenied("You can only see matches for your own requests.")
+    raise PermissionDenied(_("You can only see matches for your own requests."))
 
 
 @role_required("match.choose", "match.view")
@@ -98,12 +99,15 @@ def request_matches(request, pk):
     mine = obj.requester_id == request.user.pk
     if request.method == "POST":
         if not mine or obj.status != ResourceRequest.Status.OPEN:
-            raise PermissionDenied("Only the requester can search matches for an open request.")
+            raise PermissionDenied(_("Only the requester can search matches for an open request."))
         matches, ai_used, note = MatchingService().find(obj)
         if note:
             messages.warning(request, note)
         elif matches:
-            messages.success(request, f"{len(matches)} eligible item(s) ranked.")
+            # Same English for one and many; the plural form is for Arabic.
+            messages.success(request, ngettext("%(count)s eligible item(s) ranked.",
+                                               "%(count)s eligible item(s) ranked.", len(matches))
+                             % {"count": len(matches)})
         return redirect("ai:matches", pk=obj.pk)
     matches = MatchingService.latest(obj)
     for m in matches:
@@ -122,10 +126,10 @@ def choose_match(request, pk):
     match = get_object_or_404(MatchRecommendation.objects.select_related("request", "listing"), pk=pk)
     obj = match.request
     if obj.requester_id != request.user.pk:
-        raise PermissionDenied("Only the requester can choose a match.")
+        raise PermissionDenied(_("Only the requester can choose a match."))
     reason = request.POST.get("reason", "").strip()
     if perform(request, lambda: match.choose(request.user, reason),
-               "Hold requested from the releasing department. Choosing alone holds nothing."):
+               _("Hold requested from the releasing department. Choosing alone holds nothing.")):
         return redirect("resource_requests:detail", pk=obj.pk)
     return redirect("ai:matches", pk=obj.pk)
 
@@ -136,10 +140,10 @@ def reject_match(request, pk):
     """The requester rejects a match as not suitable (AI feature 2: accept or reject)."""
     match = get_object_or_404(MatchRecommendation, pk=pk, user_response=MatchRecommendation.Response.PENDING)
     if match.request.requester_id != request.user.pk:
-        raise PermissionDenied("Only the requester can reject a match.")
+        raise PermissionDenied(_("Only the requester can reject a match."))
     match.reject(request.POST.get("reason", "").strip() or "Not suitable")
     AuditLog.record(request.user, f"AI match {match.asset.code} rejected", match.request, reason=match.override_reason)
-    messages.success(request, f"{match.asset.name} marked as not suitable.")
+    messages.success(request, _("%(item)s marked as not suitable.") % {"item": match.asset.name})
     return redirect("ai:matches", pk=match.request_id)
 
 
@@ -149,14 +153,14 @@ def report_draft(request):
     form, scope = dashboard_scope(request)
     back = reverse("sustainability:dashboard") + "?" + request.GET.urlencode()
     if scope is None:
-        messages.error(request, "Fix the filters first.")
+        messages.error(request, _("Fix the filters first."))
         return redirect(back)
     period, department = scope_labels(scope)
     try:
         ReportDraftService().draft(scope.totals(), period, department, request.user)
-        messages.success(request, "AI-generated draft ready. Check it against the figures, edit it, then publish.")
+        messages.success(request, _("AI-generated draft ready. Check it against the figures, edit it, then publish."))
     except AIUnavailable as error:
-        messages.warning(request, f"{error} The conventional figures above are still complete.")
+        messages.warning(request, _("%(error)s The conventional figures above are still complete.") % {"error": error})
     return redirect(back)
 
 
@@ -170,17 +174,17 @@ def report_publish(request, pk):
         back = reverse("sustainability:dashboard")
     if request.POST.get("decision") == "reject":
         suggestion.reject(request.user, request.POST.get("reason", "").strip() or "Not published")
-        messages.success(request, "Draft discarded.")
+        messages.success(request, _("Draft discarded."))
         return redirect(back)
     problems = unsupported_numbers(text, suggestion.suggestion["figures"])
     if not text or problems:
-        messages.error(request, "The summary has numbers that are not in the dashboard figures: "
-                                f"{', '.join(problems)}. Correct them before publishing." if problems
-                       else "The summary is empty.")
+        messages.error(request, _("The summary has numbers that are not in the dashboard figures: %(numbers)s. "
+                                  "Correct them before publishing.") % {"numbers": ", ".join(problems)} if problems
+                       else _("The summary is empty."))
         return redirect(back)
     if text == suggestion.suggestion["summary"]:
         suggestion.accept(request.user)
     else:
         suggestion.correct(request.user, {**suggestion.suggestion, "summary": text}, "Edited before publishing")
-    messages.success(request, "Summary published with your name as reviewer.")
+    messages.success(request, _("Summary published with your name as reviewer."))
     return redirect(back)

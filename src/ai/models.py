@@ -3,16 +3,17 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext as _, gettext_lazy
 
 from audit.models import AuditLog
 
 
 class Task(models.TextChoices):
-    CLASSIFICATION = "classification", "Classification"
-    MATCHING = "matching", "Matching"
-    ADVICE = "advice", "Advice"
-    ASSISTANT = "assistant", "Assistant"
-    REPORT = "report", "Report"
+    CLASSIFICATION = "classification", gettext_lazy("Classification")
+    MATCHING = "matching", gettext_lazy("Matching")
+    ADVICE = "advice", gettext_lazy("Advice")
+    ASSISTANT = "assistant", gettext_lazy("Assistant")
+    REPORT = "report", gettext_lazy("Report")
 
 
 class ModelVersion(models.Model):
@@ -37,10 +38,10 @@ class ModelVersion(models.Model):
 
 class AiSuggestion(models.Model):
     class Response(models.TextChoices):
-        PENDING = "pending", "Waiting for a decision"
-        ACCEPTED = "accepted", "Accepted"
-        CORRECTED = "corrected", "Corrected"
-        REJECTED = "rejected", "Rejected"
+        PENDING = "pending", gettext_lazy("Waiting for a decision")
+        ACCEPTED = "accepted", gettext_lazy("Accepted")
+        CORRECTED = "corrected", gettext_lazy("Corrected")
+        REJECTED = "rejected", gettext_lazy("Rejected")
 
     task = models.CharField(max_length=20, choices=Task.choices)
     model_version = models.ForeignKey(ModelVersion, on_delete=models.PROTECT, related_name="suggestions")
@@ -95,7 +96,7 @@ class AiSuggestion(models.Model):
 
         asset = self.asset
         if asset.status != Asset.Status.DRAFT:
-            raise BusinessRuleError("The asset is already confirmed; AI values can no longer be applied.", asset,
+            raise BusinessRuleError(_("The asset is already confirmed; AI values can no longer be applied."), asset,
                                     "apply AI suggestion")
         asset.category = Category.objects.get(pk=values["category_id"])
         asset.condition = values["condition"]
@@ -114,10 +115,10 @@ class AiSuggestion(models.Model):
 
 class MatchRecommendation(models.Model):
     class Response(models.TextChoices):
-        PENDING = "pending", "Waiting for a decision"
-        ACCEPTED = "accepted", "Accepted"
-        REJECTED = "rejected", "Rejected"
-        OVERRIDDEN = "overridden", "Chosen over a higher-ranked item"
+        PENDING = "pending", gettext_lazy("Waiting for a decision")
+        ACCEPTED = "accepted", gettext_lazy("Accepted")
+        REJECTED = "rejected", gettext_lazy("Rejected")
+        OVERRIDDEN = "overridden", gettext_lazy("Chosen over a higher-ranked item")
 
     request = models.ForeignKey("resource_requests.ResourceRequest", on_delete=models.CASCADE, related_name="matches")
     asset = models.ForeignKey("assets.Asset", on_delete=models.CASCADE, related_name="matches")
@@ -164,7 +165,7 @@ class MatchRecommendation(models.Model):
 
         overriding = self.rank > 1 and self.score is not None
         if overriding and not reason:
-            raise BusinessRuleError("You chose a lower-ranked item. Give a reason for the override (AI-05.2).",
+            raise BusinessRuleError(_("You chose a lower-ranked item. Give a reason for the override (AI-05.2)."),
                                     self.request, "choose match")
         self.override(reason) if overriding else self.accept()
         Reservation.request_hold(self.request, self.listing, by)

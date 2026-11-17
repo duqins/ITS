@@ -1,23 +1,23 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
-{% block title %}Start a transfer · Dawra Campus{% endblock %}
+{% load dawra_ui i18n %}
+{% block title %}{% translate "Start a transfer" %} · {% translate "Dawra Campus" %}{% endblock %}
 {% block content %}
-<div class="heading"><div><h1>Start the transfer</h1><div class="record">{{ reservation.code }} · {{ reservation.request.code }}</div></div><span class="status"><i></i>Hold confirmed</span></div>
-<p class="lead">The transfer then needs release approval from {{ reservation.listing.asset.owner_department }} and receipt approval from your department.</p>
-<div class="asset-summary"><div class="asset-symbol">{% icon 'transfer' %}</div><div><h2>{{ reservation.listing.asset.name }}</h2><p>{{ reservation.listing.asset.code }} · {{ reservation.listing.asset.owner_department }} to {{ reservation.request.department }}</p></div><div class="asset-meta">{{ reservation.quantity }} unit{{ reservation.quantity|pluralize }}</div></div>
+<div class="heading"><div><h1>{% translate "Start the transfer" %}</h1><div class="record">{{ reservation.code }} · {{ reservation.request.code }}</div></div><span class="status"><i></i>{% translate "Hold confirmed" %}</span></div>
+<p class="lead">{% blocktranslate trimmed with department=reservation.listing.asset.owner_department %}The transfer then needs release approval from {{ department }} and receipt approval from your department.{% endblocktranslate %}</p>
+<div class="asset-summary"><div class="asset-symbol">{% icon 'transfer' %}</div><div><h2>{{ reservation.listing.asset.name }}</h2><p>{{ reservation.listing.asset.code }} · {% blocktranslate trimmed with from_department=reservation.listing.asset.owner_department to_department=reservation.request.department %}{{ from_department }} to {{ to_department }}{% endblocktranslate %}</p></div><div class="asset-meta">{% blocktranslate trimmed count counter=reservation.quantity %}{{ counter }} unit{% plural %}{{ counter }} units{% endblocktranslate %}</div></div>
 <form method="post" novalidate>{% csrf_token %}
-  <section class="group"><div class="group-title">{% icon 'location' %}<h2>Receiver and delivery</h2></div><div class="fields">
+  <section class="group"><div class="group-title">{% icon 'location' %}<h2>{% translate "Receiver and delivery" %}</h2></div><div class="fields">
     {% include "includes/field.html" with field=form.to_custodian %}
     {% include "includes/field.html" with field=form.delivery_arrangement %}
     {% include "includes/field.html" with field=form.to_building %}
     {% include "includes/field.html" with field=form.to_room %}
     {% include "includes/field.html" with field=form.planned_date %}
   </div></section>
-  <section class="group"><div class="group-title">{% icon 'leaf' %}<h2>Transport and cost</h2></div><div class="fields">
+  <section class="group"><div class="group-title">{% icon 'leaf' %}<h2>{% translate "Transport and cost" %}</h2></div><div class="fields">
     {% include "includes/field.html" with field=form.distance_km %}
     {% include "includes/field.html" with field=form.van_trips %}
     {% include "includes/field.html" with field=form.transfer_cost_aed %}
   </div></section>
-  <div class="actions"><button class="button primary" type="submit">{% icon 'check' %}Create transfer</button><a class="button" href="{% url 'transfers:list' %}">Cancel</a></div>
+  <div class="actions"><button class="button primary" type="submit">{% icon 'check' %}{% translate "Create transfer" %}</button><a class="button" href="{% url 'transfers:list' %}">{% translate "Cancel" %}</a></div>
 </form>
 {% endblock %}

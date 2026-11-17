@@ -1,10 +1,11 @@
 {% extends "base.html" %}
-{% load static %}
-{% block title %}Sign in · Dawra Campus{% endblock %}
+{% load static i18n %}
+{% block title %}{% translate "Sign in" %} · Dawra Campus{% endblock %}
 {% block public %}
+{% get_current_language as LANG %}
 <div class="signin">
   <div class="signin-split">
-    <section class="signin-scene" aria-label="About Dawra Campus">
+    <section class="signin-scene" aria-label="{% translate 'About Dawra Campus' %}">
       <div class="cycle" aria-hidden="true">
         <svg viewBox="0 0 340 340">
           <circle class="ring" cx="170" cy="170" r="130"/>
@@ -18,30 +19,35 @@
         </svg>
       </div>
       <div>
-        <p class="arabic" lang="ar">دورة · Dawra means cycle</p>
-        <h2>Reuse before replacement</h2>
+        <p class="arabic"><span lang="ar">دورة</span> · {% translate "Dawra means cycle" %}</p>
+        <h2>{% translate "Reuse before replacement" %}</h2>
       </div>
-      <p>Campus furniture, computers, lab equipment and books move to the department that needs them next, with people approving every step.</p>
+      <p>{% translate "Campus furniture, computers, lab equipment and books move to the department that needs them next, with people approving every step." %}</p>
       <div class="signin-facts">
-        <div><b>9 roles</b>each checked on the server</div>
-        <div><b>Every AI step</b>decided by a person</div>
-        <div><b>kg CO2e</b>shown as an honest range</div>
+        <div><b>{% translate "9 roles" %}</b>{% translate "each checked on the server" %}</div>
+        <div><b>{% translate "Every AI step" %}</b>{% translate "decided by a person" %}</div>
+        <div><b>kg CO2e</b>{% translate "shown as an honest range" %}</div>
       </div>
     </section>
     <div class="signin-panel">
       <div class="signin-card">
+        <form class="lang-toggle signin-lang" method="post" action="{% url 'accounts:set_language' %}">{% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          {% if LANG == "ar" %}<button class="button" type="submit" name="language" value="en-gb" lang="en">English</button>
+          {% else %}<button class="button" type="submit" name="language" value="ar" lang="ar">العربية</button>{% endif %}
+        </form>
         <div class="logo"><img src="{% static 'dawra/assets/dawra-campus-logo.png' %}" alt="Dawra Campus" width="1942" height="809"></div>
-        <h1>Sign in</h1>
-        <p class="lead">Campus resource exchange. Use your staff account.</p>
+        <h1>{% translate "Sign in" %}</h1>
+        <p class="lead">{% translate "Campus resource exchange. Use your staff account." %}</p>
         <form method="post" novalidate>{% csrf_token %}
           {% for error in form.non_field_errors %}<div class="toast error">{{ error }}</div>{% endfor %}
           <div class="fields single">
             {% include "includes/field.html" with field=form.username %}
             {% include "includes/field.html" with field=form.password %}
           </div>
-          <div class="actions"><button class="button primary" type="submit">Sign in</button></div>
+          <div class="actions"><button class="button primary" type="submit">{% translate "Sign in" %}</button></div>
         </form>
-        <p class="muted small">Five wrong passwords lock the account for 15 minutes.</p>
+        <p class="muted small">{% translate "Five wrong passwords lock the account for 15 minutes." %}</p>
       </div>
     </div>
   </div>

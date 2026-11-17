@@ -1,65 +1,65 @@
 {% extends "base.html" %}
-{% load dawra_ui roles ai_ui %}
+{% load dawra_ui roles ai_ui i18n %}
 {% block title %}{{ asset.code }} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading">
-  <div><h1>{{ asset.name }}</h1><div class="record">{{ asset.code }} · {{ asset.owner_department }}{% if kind == "it" %} · IT asset{% elif kind == "furniture" %} · Furniture{% endif %}</div></div>
+  <div><h1>{{ asset.name }}</h1><div class="record">{{ asset.code }} · {{ asset.owner_department }}{% if kind == "it" %} · {% translate "IT asset" %}{% elif kind == "furniture" %} · {% translate "Furniture" %}{% endif %}</div></div>
   {% status_pill asset %}
 </div>
 <div class="layout">
   <div class="record-body">
-    <section class="group"><div class="group-title">{% icon 'box' %}<h2>Asset details</h2></div><div class="fields">
-      {% include "includes/readonly.html" with label="Category" value=asset.category %}
-      {% include "includes/readonly.html" with label="Condition" value=asset.get_condition_display %}
-      {% include "includes/readonly.html" with label="Description" value=asset.description wide=True %}
-      {% include "includes/readonly.html" with label="Specifications" value=asset.specifications wide=True %}
-      {% include "includes/readonly.html" with label="Tags" value=asset.tags %}
-      {% include "includes/readonly.html" with label="Estimated value per item (AED)" value=asset.value %}
+    <section class="group"><div class="group-title">{% icon 'box' %}<h2>{% translate "Asset details" %}</h2></div><div class="fields">
+      {% include "includes/readonly.html" with label=_("Category") value=asset.category %}
+      {% include "includes/readonly.html" with label=_("Condition") value=asset.get_condition_display %}
+      {% include "includes/readonly.html" with label=_("Description") value=asset.description wide=True %}
+      {% include "includes/readonly.html" with label=_("Specifications") value=asset.specifications wide=True %}
+      {% include "includes/readonly.html" with label=_("Tags") value=asset.tags %}
+      {% include "includes/readonly.html" with label=_("Estimated value per item (AED)") value=asset.value %}
       {% if kind == "it" %}
-        {% include "includes/readonly.html" with label="Serial number" value=child.serial_number %}
-        {% include "includes/readonly.html" with label="Stores data" value=child.stores_data|yesno:"Yes (erase before disposal),No" %}
+        {% include "includes/readonly.html" with label=_("Serial number") value=child.serial_number %}
+        {% include "includes/readonly.html" with label=_("Stores data") value=child.stores_data|yesno:_("Yes (erase before disposal),No") %}
       {% endif %}
       {% if kind == "furniture" %}
-        {% include "includes/readonly.html" with label="Material" value=child.material %}
-        {% include "includes/readonly.html" with label="Dimensions" value=child.dimensions %}
+        {% include "includes/readonly.html" with label=_("Material") value=child.material %}
+        {% include "includes/readonly.html" with label=_("Dimensions") value=child.dimensions %}
       {% endif %}
     </div></section>
-    <section class="group"><div class="group-title">{% icon 'location' %}<h2>Quantity, ownership and location</h2></div><div class="fields">
-      {% include "includes/readonly.html" with label="Quantity" value=asset.quantity %}
-      <div class="field field-plain"><span class="read-label">Free, reserved, in transfer</span><div class="readonly">{{ asset.available_qty }} free · {{ asset.reserved_qty }} reserved · {{ asset.allocated_qty }} in transfer</div></div>
-      {% include "includes/readonly.html" with label="Custodian" value=asset.custodian %}
-      {% include "includes/readonly.html" with label="Location" value=asset.location %}
-      {% include "includes/readonly.html" with label="Purchase date" value=asset.purchase_date %}
-      {% include "includes/readonly.html" with label="Age (years)" value=asset.asset_age %}
-      {% include "includes/readonly.html" with label="Planned retirement" value=asset.planned_retirement_date %}
-      {% include "includes/readonly.html" with label="Last confirmed" value=asset.verified_on %}
+    <section class="group"><div class="group-title">{% icon 'location' %}<h2>{% translate "Quantity, ownership and location" %}</h2></div><div class="fields">
+      {% include "includes/readonly.html" with label=_("Quantity") value=asset.quantity %}
+      <div class="field field-plain"><span class="read-label">{% translate "Free, reserved, in transfer" %}</span><div class="readonly">{% blocktranslate trimmed with free=asset.available_qty reserved=asset.reserved_qty allocated=asset.allocated_qty %}{{ free }} free · {{ reserved }} reserved · {{ allocated }} in transfer{% endblocktranslate %}</div></div>
+      {% include "includes/readonly.html" with label=_("Custodian") value=asset.custodian %}
+      {% include "includes/readonly.html" with label=_("Location") value=asset.location %}
+      {% include "includes/readonly.html" with label=_("Purchase date") value=asset.purchase_date %}
+      {% include "includes/readonly.html" with label=_("Age (years)") value=asset.asset_age %}
+      {% include "includes/readonly.html" with label=_("Planned retirement") value=asset.planned_retirement_date %}
+      {% include "includes/readonly.html" with label=_("Last confirmed") value=asset.verified_on %}
     </div></section>
-    <section class="group"><div class="group-title">{% icon 'file' %}<h2>Listings</h2></div>
-      {% if listings %}<div class="table-wrap"><table class="data-table"><thead><tr><th>Listing</th><th class="num">Offered</th><th>Available from</th><th>Status</th></tr></thead><tbody>
+    <section class="group"><div class="group-title">{% icon 'file' %}<h2>{% translate "Listings" %}</h2></div>
+      {% if listings %}<div class="table-wrap"><table class="data-table"><thead><tr><th>{% translate "Listing" %}</th><th class="num">{% translate "Offered" %}</th><th>{% translate "Available from" %}</th><th>{% translate "Status" %}</th></tr></thead><tbody>
       {% for l in listings %}<tr><td><a href="{% url 'assets:listing' l.pk %}">{{ l.code }}</a><small>{{ l.get_release_reason_display }}</small></td><td class="num">{{ l.quantity }}</td><td>{{ l.available_from }}</td><td>{% status_pill l %}</td></tr>{% endfor %}
-      </tbody></table></div>{% else %}<p class="muted small">This asset has not been offered for reuse.</p>{% endif %}
+      </tbody></table></div>{% else %}<p class="muted small">{% translate "This asset has not been offered for reuse." %}</p>{% endif %}
     </section>
     <div class="actions">
-      {% if can_edit %}<a class="button" href="{% url 'assets:edit' asset.pk %}">Edit draft</a>{% endif %}
-      {% if active_role|allows:"history.view" %}<a class="button" href="{% url 'audit:asset' asset.pk %}">{% icon 'clock' %}History</a>{% endif %}
-      {% if can_list %}<a class="button primary" href="{% url 'assets:listing_create' asset.pk %}">{% icon 'arrow' %}Offer for reuse</a>{% endif %}
+      {% if can_edit %}<a class="button" href="{% url 'assets:edit' asset.pk %}">{% translate "Edit draft" %}</a>{% endif %}
+      {% if active_role|allows:"history.view" %}<a class="button" href="{% url 'audit:asset' asset.pk %}">{% icon 'clock' %}{% translate "History" %}</a>{% endif %}
+      {% if can_list %}<a class="button primary" href="{% url 'assets:listing_create' asset.pk %}">{% icon 'arrow' %}{% translate "Offer for reuse" %}</a>{% endif %}
     </div>
   </div>
   <aside>
     {% if asset.status == "AS-01" %}
     <div class="side-panel">
-      <h2>Confirmation</h2>
+      <h2>{% translate "Confirmation" %}</h2>
       {% if can_confirm %}
-      <p>Check the record, then confirm it. The asset becomes active.</p>
+      <p>{% translate "Check the record, then confirm it. The asset becomes active." %}</p>
       <form method="post" action="{% url 'assets:confirm' asset.pk %}" class="reason-form">{% csrf_token %}
-        <div class="field"><label for="placement">Where is it now?</label>
-          <select id="placement" name="placement"><option value="in_storage">In storage (can be listed)</option><option value="in_use">In service</option></select></div>
-        <button class="button primary" type="submit">{% icon 'check' %}Confirm asset record</button>
+        <div class="field"><label for="placement">{% translate "Where is it now?" %}</label>
+          <select id="placement" name="placement"><option value="in_storage">{% translate "In storage (can be listed)" %}</option><option value="in_use">{% translate "In service" %}</option></select></div>
+        <button class="button primary" type="submit">{% icon 'check' %}{% translate "Confirm asset record" %}</button>
       </form>
       {% elif waiting_for_other %}
-      <p>You registered this asset. Another custodian or the department representative of {{ asset.owner_department }} must confirm it (BR-02).</p>
+      <p>{% blocktranslate trimmed with department=asset.owner_department %}You registered this asset. Another custodian or the department representative of {{ department }} must confirm it (BR-02).{% endblocktranslate %}</p>
       {% else %}
-      <p>Waiting for confirmation by the owning department.</p>
+      <p>{% translate "Waiting for confirmation by the owning department." %}</p>
       {% endif %}
     </div>
     {% endif %}

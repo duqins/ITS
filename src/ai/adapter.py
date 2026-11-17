@@ -13,11 +13,28 @@ import uuid
 
 import anthropic
 from django.conf import settings
+from django.utils import translation
+# Lazy: classification calls the adapter from worker threads, which have no active language. The message is
+# translated when the page shows it, in the user's language.
+from django.utils.translation import gettext_lazy
 from pydantic import ValidationError
 
 logger = logging.getLogger("dawra.ai")
 
 PROMPT_VERSION = "prompt v1"
+# Added to the instructions when the user reads the app in Arabic. Category names and tags stay as
+# given (they are matched and searched in English) and numbers stay in 0-9 digits for the figures check.
+ARABIC = ("Write the explanation texts (reason, missing details, summary) in clear Modern Standard Arabic. "
+          "Keep category names, tags and record codes exactly as given in English, and write every number "
+          "with the digits 0-9.")
+
+
+def in_language(system):
+    """The instructions plus, for Arabic users, the language the AI should write its explanation in.
+    Called while handling the request, where the user's language is active."""
+    if translation.get_language() == "ar":
+        return system + " " + ARABIC
+    return system
 
 
 class AIUnavailable(Exception):
@@ -45,7 +62,7 @@ class ClaudeAdapter:
     def _client(self):
         if self.client is None:
             if not self.is_configured():
-                raise AIUnavailable("No AI key is set, so the AI service is switched off.")
+                raise AIUnavailable(gettext_lazy("No AI key is set, so the AI service is switched off."))
             self.client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY, max_retries=0)
         return self.client
 
@@ -57,7 +74,7 @@ class ClaudeAdapter:
         outcome = "ok"
         try:
             if remaining < 1:
-                raise AIUnavailable("The 15-second limit was reached.")
+                raise AIUnavailable(gettext_lazy("The 15-second limit was reached."))
             # Haiku 5.5 and Sonnet 5.5 think before answering unless told otherwise, and thinking counts
             # toward max_tokens. Low effort keeps these short tasks well inside the 15-second limit.
             response = self._client().with_options(timeout=remaining).messages.parse(
@@ -69,34 +86,35 @@ class ClaudeAdapter:
                 output_config={"effort": "low"},
             )
             if response.stop_reason == "refusal":
-                raise AIUnavailable("The AI declined this request.")
+                raise AIUnavailable(gettext_lazy("The AI declined this request."))
             if response.stop_reason == "max_tokens" or response.parsed_output is None:
-                raise AIUnavailable("The AI answer was incomplete.")
+                raise AIUnavailable(gettext_lazy("The AI answer was incomplete."))
             return response.parsed_output
         except AIUnavailable as error:
-            outcome = str(error)
+            with translation.override(None):  # the log stays in English
+                outcome = str(error)
             raise
         except anthropic.AuthenticationError:
             outcome = "authentication failed"
-            raise AIUnavailable("The AI key was not accepted.")
+            raise AIUnavailable(gettext_lazy("The AI key was not accepted."))
         except anthropic.RateLimitError:
             outcome = "rate limited"
-            raise AIUnavailable("The AI service is busy. Try again in a minute.")
+            raise AIUnavailable(gettext_lazy("The AI service is busy. Try again in a minute."))
         except anthropic.APITimeoutError:
             outcome = "timed out"
-            raise AIUnavailable("The AI did not answer within 15 seconds.")
+            raise AIUnavailable(gettext_lazy("The AI did not answer within 15 seconds."))
         except anthropic.APIConnectionError:
             outcome = "no connection"
-            raise AIUnavailable("The AI service could not be reached.")
+            raise AIUnavailable(gettext_lazy("The AI service could not be reached."))
         except anthropic.APIStatusError as error:
             outcome = f"provider error {error.status_code}"
-            raise AIUnavailable("The AI service returned an error.")
+            raise AIUnavailable(gettext_lazy("The AI service returned an error."))
         except anthropic.APIError:  # any other client error, for example an unreadable response
             outcome = "client error"
-            raise AIUnavailable("The AI service returned an answer the app could not read.")
+            raise AIUnavailable(gettext_lazy("The AI service returned an answer the app could not read."))
         except (ValidationError, ValueError):
             outcome = "malformed answer"
-            raise AIUnavailable("The AI answer did not have the expected structure.")
+            raise AIUnavailable(gettext_lazy("The AI answer did not have the expected structure."))
         finally:
             logger.info("ai task=%s id=%s model=%s duration=%.2fs outcome=%s",
                         task, correlation, model, time.monotonic() - started, outcome)

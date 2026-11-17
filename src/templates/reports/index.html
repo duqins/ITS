@@ -1,25 +1,25 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
-{% block title %}Reports · Dawra Campus{% endblock %}
+{% load dawra_ui i18n %}
+{% block title %}{% translate "Reports" %} · {% translate "Dawra Campus" %}{% endblock %}
 {% block content %}
-<div class="heading"><div><h1>Requests and transfers report</h1><div class="record">FR-17 · C9</div></div>
-  {% if rows %}<a class="button" href="?{{ query }}&amp;format=csv">{% icon 'file' %}Export CSV</a>{% endif %}</div>
-<p class="lead">Filter by period and department. The CSV export contains the filters, the records and the totals.</p>
+<div class="heading"><div><h1>{% translate "Requests and transfers report" %}</h1><div class="record">FR-17 · C9</div></div>
+  {% if rows %}<a class="button" href="?{{ query }}&amp;format=csv">{% icon 'file' %}{% translate "Export CSV" %}</a>{% endif %}</div>
+<p class="lead">{% translate "Filter by period and department. The CSV export contains the filters, the records and the totals." %}</p>
 <form method="get" class="filters" style="grid-template-columns:repeat(4,minmax(0,1fr)) auto">
   {% for error in form.non_field_errors %}<div class="toast error" style="grid-column:1/-1">{{ error }}</div>{% endfor %}
   {% include "includes/field.html" with field=form.report %}
   {% include "includes/field.html" with field=form.date_from %}
   {% include "includes/field.html" with field=form.date_to %}
   {% include "includes/field.html" with field=form.department %}
-  <div class="actions"><button class="button primary" type="submit">Apply</button></div>
+  <div class="actions"><button class="button primary" type="submit">{% translate "Apply" %}</button></div>
 </form>
 {% if header %}
-<p class="result-count">{{ rows|length }} {{ title|lower|slice:":-1" }}{{ rows|length|pluralize }}{% for status, count in totals.items %} · {{ count }} {{ status|lower }}{% endfor %}</p>
+<p class="result-count">{% if form.cleaned_data.report == "transfers" %}{% blocktranslate trimmed count counter=rows|length %}{{ counter }} transfer{% plural %}{{ counter }} transfers{% endblocktranslate %}{% else %}{% blocktranslate trimmed count counter=rows|length %}{{ counter }} request{% plural %}{{ counter }} requests{% endblocktranslate %}{% endif %}{% for status, count in totals.items %} · {{ count }} {{ status|lower }}{% endfor %}</p>
 {% if rows %}
 <div class="table-wrap"><table class="data-table">
   <thead><tr>{% for h in header %}<th>{{ h }}</th>{% endfor %}</tr></thead>
   <tbody>{% for row in rows %}<tr>{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>{% endfor %}</tbody>
 </table></div>
-{% else %}<div class="empty">No records for these filters.</div>{% endif %}
+{% else %}<div class="empty">{% translate "No records for these filters." %}</div>{% endif %}
 {% endif %}
 {% endblock %}

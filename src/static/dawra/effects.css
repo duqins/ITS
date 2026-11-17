@@ -31,7 +31,6 @@
   animation: dawra-grow .9s var(--ease) .25s both;
 }
 .low-state .meter i { background: linear-gradient(90deg, #c98a2b, #e8bf7a); }
-[dir="rtl"] .meter i { transform-origin: right center; }
 
 /* Request progress: finished steps draw their line, the current step pulses three times. */
 .journey li.done:after {
@@ -41,7 +40,6 @@
 .journey li:nth-child(3).done:after { animation-delay: .2s; }
 .journey li:nth-child(4).done:after { animation-delay: .3s; }
 .journey li:nth-child(n+5).done:after { animation-delay: .4s; }
-[dir="rtl"] .journey li.done:after { transform-origin: right center; }
 .journey .current .step-dot { position: relative; }
 .journey .current .step-dot::after {
   content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--teal);

@@ -1,1 +1,1 @@
-{% load dawra_ui %}<a class="notification-button" href="{% url 'notifications:list' %}" aria-label="{{ unread }} unread notification{{ unread|pluralize }}">{% icon 'bell' %}{% if unread %}<span>{{ unread }}</span>{% endif %}</a>
+{% load dawra_ui i18n %}<a class="notification-button" href="{% url 'notifications:list' %}" aria-label="{% blocktranslate count counter=unread %}{{ counter }} unread notification{% plural %}{{ counter }} unread notifications{% endblocktranslate %}">{% icon 'bell' %}{% if unread %}<span>{{ unread }}</span>{% endif %}</a>

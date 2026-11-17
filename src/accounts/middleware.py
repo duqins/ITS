@@ -1,3 +1,5 @@
+from django.utils import translation
+
 from .models import UserRole
 
 SESSION_KEY = "active_user_role_id"
@@ -20,4 +22,17 @@ class ActiveRoleMiddleware:
                 request.session[SESSION_KEY] = chosen.pk
             request.active_role = chosen
             request.user.active_role = chosen
+        return self.get_response(request)
+
+
+class UserLanguageMiddleware:
+    """A signed-in user sees the app in the language saved on their account (Settings or the header button)."""
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if request.user.is_authenticated and request.user.language:
+            translation.activate(request.user.language)
+            request.LANGUAGE_CODE = translation.get_language()
         return self.get_response(request)

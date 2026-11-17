@@ -6,7 +6,8 @@ from decimal import Decimal
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
-from django.utils import timezone
+from django.utils import timezone, translation
+from django.utils.translation import gettext as _, gettext_lazy
 
 from accounts.models import Department, Role
 from assets.models import Asset, Condition, FurnitureAsset, ITAsset, Listing
@@ -27,19 +28,19 @@ def add_working_days(start, days):
 
 class Approval(models.Model):
     class Stage(models.TextChoices):
-        REQUEST_DEPARTMENT = "request_department", "Department approval of the request"
-        LISTING_RELEASE = "listing_release", "Release of the listing"
-        TRANSFER_RELEASE = "transfer_release", "Release approval"
-        TRANSFER_RECEIPT = "transfer_receipt", "Receipt approval"
-        TRANSFER_FINANCE = "transfer_finance", "Policy approval: Finance"
-        TRANSFER_PROCUREMENT = "transfer_procurement", "Policy approval: Procurement"
+        REQUEST_DEPARTMENT = "request_department", gettext_lazy("Department approval of the request")
+        LISTING_RELEASE = "listing_release", gettext_lazy("Release of the listing")
+        TRANSFER_RELEASE = "transfer_release", gettext_lazy("Release approval")
+        TRANSFER_RECEIPT = "transfer_receipt", gettext_lazy("Receipt approval")
+        TRANSFER_FINANCE = "transfer_finance", gettext_lazy("Policy approval: Finance")
+        TRANSFER_PROCUREMENT = "transfer_procurement", gettext_lazy("Policy approval: Procurement")
 
     class Status(models.TextChoices):
-        PENDING = "AT-01", "Pending"
-        APPROVED = "AT-02", "Approved"
-        REJECTED = "AT-03", "Rejected"
-        CHANGES_REQUESTED = "AT-04", "Changes requested"
-        WITHDRAWN = "AT-05", "Withdrawn"
+        PENDING = "AT-01", gettext_lazy("Pending")
+        APPROVED = "AT-02", gettext_lazy("Approved")
+        REJECTED = "AT-03", gettext_lazy("Rejected")
+        CHANGES_REQUESTED = "AT-04", gettext_lazy("Changes requested")
+        WITHDRAWN = "AT-05", gettext_lazy("Withdrawn")
 
     TRANSITIONS = {Status.PENDING: {Status.APPROVED, Status.REJECTED, Status.CHANGES_REQUESTED, Status.WITHDRAWN}}
     # Who decides each stage (SRS Table 5.2, design section 6).
@@ -85,7 +86,7 @@ class Approval(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.get_stage_display()} for {self.record}"
+        return _("%(stage)s for %(record)s") % {"stage": self.get_stage_display(), "record": self.record}
 
     @property
     def record(self):
@@ -102,7 +103,7 @@ class Approval(models.Model):
             stage=stage, department=department, requested_by=requested_by,
             record_version=record.version, **{owner: record},
         )
-        AuditLog.record(requested_by, "approval task created", approval, after=approval.get_stage_display())
+        AuditLog.record(requested_by, "approval task created", approval, after=cls.Stage(approval.stage).label)
         return approval
 
     def is_overdue(self):
@@ -116,22 +117,28 @@ class Approval(models.Model):
         # Re-read the task under a lock, so a double click cannot decide it twice.
         current = Approval.objects.select_for_update().filter(pk=self.pk).values_list("status", flat=True).first()
         if current != self.Status.PENDING:
-            raise BusinessRuleError("This task was already decided.", self.record, "decide approval")
+            raise BusinessRuleError(_("This task was already decided."), self.record, "decide approval")
         if by == self.requested_by:
-            raise BusinessRuleError("You cannot approve your own request or record (BR-02).", self.record, "decide approval")
+            raise BusinessRuleError(_("You cannot approve your own request or record (BR-02)."), self.record,
+                                    "decide approval")
         if not by.has_role(self.required_role, self.department):
             role = Role.Code(self.required_role).label
-            where = f" of {self.department}" if self.department else ""
-            raise BusinessRuleError(f"Only the {role}{where} can decide this stage.", self.record, "decide approval")
+            if self.department:
+                message = _("Only the %(role)s of %(department)s can decide this stage.") % {
+                    "role": role, "department": self.department}
+            else:
+                message = _("Only the %(role)s can decide this stage.") % {"role": role}
+            raise BusinessRuleError(message, self.record, "decide approval")
         if self.record.version != self.record_version:
-            raise BusinessRuleError("The record changed after this task was created. Reload it and decide again.",
+            raise BusinessRuleError(_("The record changed after this task was created. Reload it and decide again."),
                                     self.record, "decide approval")
         if needs_reason and not reason.strip():
-            raise BusinessRuleError("Give a reason for this decision (BR-20).", self.record, "decide approval")
+            raise BusinessRuleError(_("Give a reason for this decision (BR-20)."), self.record, "decide approval")
 
     def _decide(self, by, to, action, reason=""):
         self.approver = by
-        self.approver_role = str(getattr(by, "active_role", "") or Role.Code(self.required_role).label)
+        with translation.override(settings.LANGUAGE_CODE):  # saved in English, like the history
+            self.approver_role = str(getattr(by, "active_role", "") or Role.Code(self.required_role).label)
         self.decided_at = timezone.now()
         self.reason = reason
         change_state(self, to, by, action, reason,
@@ -155,12 +162,12 @@ class Approval(models.Model):
 
 class Reservation(models.Model):
     class Status(models.TextChoices):
-        REQUESTED = "RV-01", "Requested"
-        CONFIRMED = "RV-02", "Confirmed"
-        DECLINED = "RV-03", "Declined"
-        CONVERTED = "RV-04", "Converted to transfer"
-        EXPIRED = "RV-05", "Expired"
-        CANCELLED = "RV-06", "Cancelled"
+        REQUESTED = "RV-01", gettext_lazy("Requested")
+        CONFIRMED = "RV-02", gettext_lazy("Confirmed")
+        DECLINED = "RV-03", gettext_lazy("Declined")
+        CONVERTED = "RV-04", gettext_lazy("Converted to transfer")
+        EXPIRED = "RV-05", gettext_lazy("Expired")
+        CANCELLED = "RV-06", gettext_lazy("Cancelled")
 
     OPEN = (Status.REQUESTED, Status.CONFIRMED)
     TRANSITIONS = {
@@ -185,7 +192,7 @@ class Reservation(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"HLD-{self.pk:04d}" if self.pk else "Hold"
+        return f"HLD-{self.pk:04d}" if self.pk else _("Hold")
 
     @property
     def code(self):
@@ -195,19 +202,21 @@ class Reservation(models.Model):
     def request_hold(cls, resource_request, listing, by):
         """The requester asks the releasing team to hold units (RQ-03 to RQ-04). Selection alone holds nothing."""
         if by != resource_request.requester:
-            raise BusinessRuleError("Only the requester can ask for a hold.", resource_request, "request hold")
+            raise BusinessRuleError(_("Only the requester can ask for a hold."), resource_request, "request hold")
         if resource_request.status != ResourceRequest.Status.OPEN:
-            raise BusinessRuleError("A hold can only be requested for an open request.", resource_request, "request hold")
+            raise BusinessRuleError(_("A hold can only be requested for an open request."), resource_request,
+                                    "request hold")
         if listing.status != Listing.Status.PUBLISHED:
-            raise BusinessRuleError("This item is no longer published.", resource_request, "request hold")
+            raise BusinessRuleError(_("This item is no longer published."), resource_request, "request hold")
         if listing.asset.owner_department_id == resource_request.department_id:
-            raise BusinessRuleError("This item already belongs to your department, so there is nothing to transfer.",
+            raise BusinessRuleError(_("This item already belongs to your department, so there is nothing to transfer."),
                                     resource_request, "request hold")
         if resource_request.quantity > listing.remaining_quantity():
             left = listing.remaining_quantity()
             raise BusinessRuleError(
-                "Nothing is left to hold on this listing." if left == 0 else
-                f"Only {left} of the units you need are left on this listing.", resource_request, "request hold"
+                _("Nothing is left to hold on this listing.") if left == 0 else
+                _("Only %(left)s of the units you need are left on this listing.") % {"left": left},
+                resource_request, "request hold"
             )
         reservation = cls.objects.create(
             request=resource_request, listing=listing, quantity=resource_request.quantity, requested_by=by
@@ -218,12 +227,12 @@ class Reservation(models.Model):
 
     def check_releasing_side(self, by):
         if by == self.requested_by:
-            raise BusinessRuleError("You cannot confirm your own hold (BR-02).", self, "confirm hold")
+            raise BusinessRuleError(_("You cannot confirm your own hold (BR-02)."), self, "confirm hold")
         department = self.listing.asset.owner_department
         if not (by.has_role(Role.Code.ASSET_CUSTODIAN, department)
                 or by.has_role(Role.Code.DEPARTMENT_REPRESENTATIVE, department)):
-            raise BusinessRuleError(f"Only a custodian or representative of {department} can decide this hold.",
-                                    self, "confirm hold")
+            raise BusinessRuleError(_("Only a custodian or representative of %(department)s can decide this hold.")
+                                    % {"department": department}, self, "confirm hold")
 
     def confirm(self, by):
         """Hold the units for 5 working days (BR-12). Locks the asset row so the last unit goes to one person."""
@@ -231,20 +240,21 @@ class Reservation(models.Model):
         with transaction.atomic():
             # Lock the hold, the listing and the asset; re-read them so two clicks cannot both reserve.
             if Reservation.objects.select_for_update().get(pk=self.pk).status != self.Status.REQUESTED:
-                raise BusinessRuleError("This hold was already decided.", self, "confirm hold")
+                raise BusinessRuleError(_("This hold was already decided."), self, "confirm hold")
             listing = Listing.objects.select_for_update().get(pk=self.listing_id)
             if listing.status not in (Listing.Status.PUBLISHED, Listing.Status.FULLY_RESERVED):
-                raise BusinessRuleError("This listing is no longer published.", self, "confirm hold")
+                raise BusinessRuleError(_("This listing is no longer published."), self, "confirm hold")
             if listing.held_quantity() + self.quantity > listing.quantity:
                 left = max(listing.quantity - listing.held_quantity(), 0)
                 raise BusinessRuleError(
-                    "Every unit of this listing is already held for someone else." if left == 0 else
-                    f"Only {left} of the {listing.quantity} listed units are still free; this hold asks for "
-                    f"{self.quantity}.", self, "confirm hold")
+                    _("Every unit of this listing is already held for someone else.") if left == 0 else
+                    _("Only %(left)s of the %(total)s listed units are still free; this hold asks for %(asked)s.")
+                    % {"left": left, "total": listing.quantity, "asked": self.quantity}, self, "confirm hold")
             asset = Asset.objects.select_for_update().get(pk=self.listing.asset_id)
             if not asset.verification_is_recent():
-                raise BusinessRuleError("The asset must be checked again before a hold (last check over 90 days ago, BR-16).",
-                                        self, "confirm hold")
+                raise BusinessRuleError(
+                    _("The asset must be checked again before a hold (last check over 90 days ago, BR-16)."),
+                    self, "confirm hold")
             asset.reserve(self.quantity)
             self.decided_by = by
             self.expires_at = add_working_days(timezone.now(), settings.DAWRA["HOLD_WORKING_DAYS"])
@@ -254,7 +264,7 @@ class Reservation(models.Model):
     def decline(self, by, reason):
         self.check_releasing_side(by)
         if not reason.strip():
-            raise BusinessRuleError("Give a reason for declining (BR-20).", self, "decline hold")
+            raise BusinessRuleError(_("Give a reason for declining (BR-20)."), self, "decline hold")
         self.decided_by = by
         self.decision_reason = reason
         change_state(self, self.Status.DECLINED, by, "hold declined", reason, extra_fields=("decided_by", "decision_reason"))
@@ -286,19 +296,19 @@ class Reservation(models.Model):
 
 class Transfer(models.Model):
     class Status(models.TextChoices):
-        PENDING_RELEASE = "TR-01", "Pending release approval"
-        PENDING_RECEIPT = "TR-02", "Pending receipt approval"
-        PENDING_POLICY = "TR-03", "Pending policy approval"
-        APPROVED = "TR-04", "Approved"
-        HANDED_OVER = "TR-05", "Handed over"
-        COMPLETED = "TR-06", "Completed"
-        DISPUTED = "TR-07", "Disputed"
-        REJECTED = "TR-08", "Rejected"
-        CANCELLED = "TR-09", "Cancelled"
+        PENDING_RELEASE = "TR-01", gettext_lazy("Pending release approval")
+        PENDING_RECEIPT = "TR-02", gettext_lazy("Pending receipt approval")
+        PENDING_POLICY = "TR-03", gettext_lazy("Pending policy approval")
+        APPROVED = "TR-04", gettext_lazy("Approved")
+        HANDED_OVER = "TR-05", gettext_lazy("Handed over")
+        COMPLETED = "TR-06", gettext_lazy("Completed")
+        DISPUTED = "TR-07", gettext_lazy("Disputed")
+        REJECTED = "TR-08", gettext_lazy("Rejected")
+        CANCELLED = "TR-09", gettext_lazy("Cancelled")
 
     class Arrangement(models.TextChoices):
-        COLLECTION = "collection", "Collection"
-        DELIVERY = "delivery", "Delivery"
+        COLLECTION = "collection", gettext_lazy("Collection")
+        DELIVERY = "delivery", gettext_lazy("Delivery")
 
     WAITING = (Status.PENDING_RELEASE, Status.PENDING_RECEIPT, Status.PENDING_POLICY)
     FINAL = (Status.COMPLETED, Status.REJECTED, Status.CANCELLED)
@@ -349,7 +359,7 @@ class Transfer(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"TRF-{self.pk:04d}" if self.pk else "Transfer"
+        return f"TRF-{self.pk:04d}" if self.pk else _("Transfer")
 
     @property
     def code(self):
@@ -378,17 +388,20 @@ class Transfer(models.Model):
         """The requester turns a confirmed hold into a transfer (RQ-04 to RQ-05, RV-02 to RV-04)."""
         resource_request = reservation.request
         if by != resource_request.requester:
-            raise BusinessRuleError("Only the requester can start this transfer.", reservation, "start transfer")
+            raise BusinessRuleError(_("Only the requester can start this transfer."), reservation, "start transfer")
         if reservation.status != Reservation.Status.CONFIRMED:
-            raise BusinessRuleError("The hold must be confirmed before a transfer starts.", reservation, "start transfer")
+            raise BusinessRuleError(_("The hold must be confirmed before a transfer starts."), reservation,
+                                    "start transfer")
         if not to_custodian.has_role(Role.Code.ASSET_CUSTODIAN, resource_request.department):
-            raise BusinessRuleError("The receiving custodian must be a custodian of your department.", reservation,
+            raise BusinessRuleError(_("The receiving custodian must be a custodian of your department."), reservation,
                                     "start transfer")
         if reservation.expires_at and reservation.expires_at < timezone.now():
-            raise BusinessRuleError("This hold has expired (BR-12). Ask for a new hold.", reservation, "start transfer")
+            raise BusinessRuleError(_("This hold has expired (BR-12). Ask for a new hold."), reservation,
+                                    "start transfer")
         if any(details.get(name) is not None and details[name] < 0
                for name in ("transfer_cost_aed", "distance_km", "van_trips")):
-            raise BusinessRuleError("Costs, distances and van trips cannot be negative.", reservation, "start transfer")
+            raise BusinessRuleError(_("Costs, distances and van trips cannot be negative."), reservation,
+                                    "start transfer")
         asset = Asset.objects.select_for_update().get(pk=reservation.listing.asset_id)
         transfer = cls.objects.create(
             asset=asset, request=resource_request, reservation=reservation, quantity=reservation.quantity,
@@ -409,7 +422,7 @@ class Transfer(models.Model):
             pending = pending.filter(pk=approval.pk)
         approval = pending.first()
         if approval is None:
-            raise BusinessRuleError("There is no approval task waiting on this transfer.", self, action)
+            raise BusinessRuleError(_("There is no approval task waiting on this transfer."), self, action)
         return approval
 
     def approve_stage(self, by, approval=None):
@@ -443,9 +456,9 @@ class Transfer(models.Model):
     def cancel(self, by, reason):
         """Allowed only before handover; the held units return to the listing (FR-11.6)."""
         if not reason.strip():
-            raise BusinessRuleError("Give a reason for cancelling (BR-20).", self, "cancel transfer")
+            raise BusinessRuleError(_("Give a reason for cancelling (BR-20)."), self, "cancel transfer")
         if self.status not in (*self.WAITING, self.Status.APPROVED):
-            raise BusinessRuleError("A transfer can only be cancelled before handover.", self, "cancel transfer")
+            raise BusinessRuleError(_("A transfer can only be cancelled before handover."), self, "cancel transfer")
         change_state(self, self.Status.CANCELLED, by, "cancelled", reason)
         self._give_back(by, "transfer cancelled")
 
@@ -460,7 +473,8 @@ class Transfer(models.Model):
 
     def check_custodian(self, by, department, action):
         if not by.has_role(Role.Code.ASSET_CUSTODIAN, department):
-            raise BusinessRuleError(f"Only a custodian of {department} can do this.", self, action)
+            raise BusinessRuleError(_("Only a custodian of %(department)s can do this.") % {"department": department},
+                                    self, action)
 
     def hand_over(self, by, condition):
         """The releasing custodian records the handover (TR-04 to TR-05)."""
@@ -477,17 +491,17 @@ class Transfer(models.Model):
         """The receiving custodian confirms; only now do owner, custody and location change (BR-13)."""
         self.check_custodian(by, self.to_department, "confirm receipt")
         if received_quantity != self.quantity or received_condition != self.handover_condition:
-            raise BusinessRuleError("What arrived differs from the handover record. Record a discrepancy instead.",
+            raise BusinessRuleError(_("What arrived differs from the handover record. Record a discrepancy instead."),
                                     self, "confirm receipt")
         self._complete(by, received_quantity, received_condition, "receipt confirmed")
 
     def dispute(self, by, received_quantity, received_condition, note):
         self.check_custodian(by, self.to_department, "record discrepancy")
         if not note.strip():
-            raise BusinessRuleError("Describe the difference (FR-11.5).", self, "record discrepancy")
+            raise BusinessRuleError(_("Describe the difference (FR-11.5)."), self, "record discrepancy")
         if not 0 <= received_quantity <= self.quantity:
-            raise BusinessRuleError(f"The received quantity must be between 0 and {self.quantity}.", self,
-                                    "record discrepancy")
+            raise BusinessRuleError(_("The received quantity must be between 0 and %(count)s.") % {"count": self.quantity},
+                                    self, "record discrepancy")
         self.received_quantity = received_quantity
         self.received_condition = received_condition
         self.dispute_note = note
@@ -497,14 +511,14 @@ class Transfer(models.Model):
     def resolve_dispute(self, by, accept, reason):
         """The receiving department representative accepts the delivery or returns it."""
         if not by.has_role(Role.Code.DEPARTMENT_REPRESENTATIVE, self.to_department):
-            raise BusinessRuleError(f"Only the representative of {self.to_department} can resolve this.", self,
-                                    "resolve dispute")
+            raise BusinessRuleError(_("Only the representative of %(department)s can resolve this.") % {
+                "department": self.to_department}, self, "resolve dispute")
         if not reason.strip():
-            raise BusinessRuleError("Give a reason for the resolution.", self, "resolve dispute")
+            raise BusinessRuleError(_("Give a reason for the resolution."), self, "resolve dispute")
         if accept:
             # A condition difference can be accepted; missing units cannot, so the delivery goes back instead.
             if self.received_quantity is not None and self.received_quantity != self.quantity:
-                raise BusinessRuleError("Units are missing, so this delivery cannot be accepted. Return it instead.",
+                raise BusinessRuleError(_("Units are missing, so this delivery cannot be accepted. Return it instead."),
                                         self, "resolve dispute")
             self._complete(by, self.quantity, self.received_condition or self.handover_condition,
                            "resolved and received", reason)

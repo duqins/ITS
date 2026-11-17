@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext as _, gettext_lazy
 
 
 class Department(models.Model):
@@ -30,15 +31,15 @@ class Role(models.Model):
     """One of the nine user classes from SRS section 2.2."""
 
     class Code(models.TextChoices):
-        DEPARTMENT_REPRESENTATIVE = "department_representative", "Department representative"
-        ASSET_CUSTODIAN = "asset_custodian", "Asset custodian"
-        REQUESTER = "requester", "Requester"
-        BUSINESS_ADMINISTRATOR = "business_administrator", "Business administrator"
-        PROCUREMENT_OFFICER = "procurement_officer", "Procurement officer"
-        FINANCE_OFFICER = "finance_officer", "Finance officer"
-        MAINTENANCE_STAFF = "maintenance_staff", "Maintenance staff"
-        SUSTAINABILITY_OFFICER = "sustainability_officer", "Sustainability officer"
-        SYSTEM_ADMINISTRATOR = "system_administrator", "System administrator"
+        DEPARTMENT_REPRESENTATIVE = "department_representative", gettext_lazy("Department representative")
+        ASSET_CUSTODIAN = "asset_custodian", gettext_lazy("Asset custodian")
+        REQUESTER = "requester", gettext_lazy("Requester")
+        BUSINESS_ADMINISTRATOR = "business_administrator", gettext_lazy("Business administrator")
+        PROCUREMENT_OFFICER = "procurement_officer", gettext_lazy("Procurement officer")
+        FINANCE_OFFICER = "finance_officer", gettext_lazy("Finance officer")
+        MAINTENANCE_STAFF = "maintenance_staff", gettext_lazy("Maintenance staff")
+        SUSTAINABILITY_OFFICER = "sustainability_officer", gettext_lazy("Sustainability officer")
+        SYSTEM_ADMINISTRATOR = "system_administrator", gettext_lazy("System administrator")
 
     # What each role may do, from the access matrix in design section 6.
     # The server checks these actions on every request; hiding a button is not enough.
@@ -96,9 +97,9 @@ class Role(models.Model):
 
 class User(AbstractUser):
     class AccountStatus(models.TextChoices):
-        ACTIVE = "active", "Active"
-        INACTIVE = "inactive", "Inactive"
-        BLOCKED = "blocked", "Blocked"
+        ACTIVE = "active", gettext_lazy("Active")
+        INACTIVE = "inactive", gettext_lazy("Inactive")
+        BLOCKED = "blocked", gettext_lazy("Blocked")
 
     department = models.ForeignKey(
         Department, on_delete=models.PROTECT, null=True, blank=True, related_name="employees"
@@ -111,16 +112,17 @@ class User(AbstractUser):
 
     # Display preferences, saved with the account so they follow the user to every device.
     class Theme(models.TextChoices):
-        SYSTEM = "system", "Match my device"
-        LIGHT = "light", "Light"
-        DARK = "dark", "Dark"
+        SYSTEM = "system", gettext_lazy("Match my device")
+        LIGHT = "light", gettext_lazy("Light")
+        DARK = "dark", gettext_lazy("Dark")
 
     class Motion(models.TextChoices):
-        STANDARD = "standard", "Standard"
-        REDUCED = "reduced", "Reduced"
+        STANDARD = "standard", gettext_lazy("Standard")
+        REDUCED = "reduced", gettext_lazy("Reduced")
 
     theme = models.CharField(max_length=6, choices=Theme.choices, default=Theme.SYSTEM)
     motion = models.CharField(max_length=8, choices=Motion.choices, default=Motion.STANDARD)
+    language = models.CharField(max_length=5, choices=settings.LANGUAGES, default="en-gb")
 
     def __str__(self):
         return self.get_full_name() or self.username
@@ -168,10 +170,10 @@ class UserRole(models.Model):
     """A role a user holds for one department (composition: User owns UserRole)."""
 
     class Status(models.TextChoices):
-        REQUESTED = "requested", "Requested"
-        AUTHORISED = "authorised", "Authorised"
-        ACTIVE = "active", "Active"
-        REMOVED = "removed", "Removed"
+        REQUESTED = "requested", gettext_lazy("Requested")
+        AUTHORISED = "authorised", gettext_lazy("Authorised")
+        ACTIVE = "active", gettext_lazy("Active")
+        REMOVED = "removed", gettext_lazy("Removed")
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_roles")
     role = models.ForeignKey(Role, on_delete=models.PROTECT, related_name="assignments")
@@ -196,16 +198,16 @@ class UserRole(models.Model):
     def authorise(self, by):
         # Business administrator authorises; System administrator applies (FR-02, BR-01).
         if not by.has_role(Role.Code.BUSINESS_ADMINISTRATOR):
-            raise PermissionDenied("Only a Business administrator can authorise a role.")
+            raise PermissionDenied(_("Only a Business administrator can authorise a role."))
         self.status = self.Status.AUTHORISED
         self.authorised_by = by
         self.save(update_fields=["status", "authorised_by"])
 
     def apply(self, by):
         if not by.has_role(Role.Code.SYSTEM_ADMINISTRATOR):
-            raise PermissionDenied("Only a System administrator can apply a role.")
+            raise PermissionDenied(_("Only a System administrator can apply a role."))
         if self.status != self.Status.AUTHORISED:
-            raise PermissionDenied("A role must be authorised before it is applied.")
+            raise PermissionDenied(_("A role must be authorised before it is applied."))
         self.status = self.Status.ACTIVE
         self.applied_by = by
         self.save(update_fields=["status", "applied_by"])

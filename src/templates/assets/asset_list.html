@@ -1,25 +1,25 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
-{% block title %}Assets · Dawra Campus{% endblock %}
+{% load dawra_ui i18n %}
+{% block title %}{% translate "Assets" %} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading">
-  <div><h1>Assets</h1><div class="record">Showing {{ scope }}</div></div>
-  {% if can_register %}<a class="button primary" href="{% url 'assets:register' %}">{% icon 'box' %}Register an asset</a>{% endif %}
+  <div><h1>{% translate "Assets" %}</h1><div class="record">{% blocktranslate trimmed %}Showing {{ scope }}{% endblocktranslate %}</div></div>
+  {% if can_register %}<a class="button primary" href="{% url 'assets:register' %}">{% icon 'box' %}{% translate "Register an asset" %}</a>{% endif %}
 </div>
-<p class="lead">Every asset starts as a draft and becomes active after a second person confirms it.</p>
+<p class="lead">{% translate "Every asset starts as a draft and becomes active after a second person confirms it." %}</p>
 <form method="get" class="filters" style="grid-template-columns:minmax(0,260px) auto">
-  <div class="field"><label for="status">Status</label>
-    <select id="status" name="status"><option value="">Any status</option>{% for code, label in statuses %}<option value="{{ code }}"{% if code == status %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
-  <div class="actions"><button class="button" type="submit">Filter</button></div>
+  <div class="field"><label for="status">{% translate "Status" %}</label>
+    <select id="status" name="status"><option value="">{% translate "Any status" %}</option>{% for code, label in statuses %}<option value="{{ code }}"{% if code == status %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+  <div class="actions"><button class="button" type="submit">{% translate "Filter" %}</button></div>
 </form>
 {% if assets %}
 <div class="table-wrap"><table class="data-table">
-  <thead><tr><th>Asset</th><th>Category</th><th>Condition</th><th class="num">Quantity</th><th>Location</th><th>Status</th></tr></thead>
+  <thead><tr><th>{% translate "Asset" %}</th><th>{% translate "Category" %}</th><th>{% translate "Condition" %}</th><th class="num">{% translate "Quantity" %}</th><th>{% translate "Location" %}</th><th>{% translate "Status" %}</th></tr></thead>
   <tbody>{% for a in assets %}
   <tr><td><a href="{% url 'assets:detail' a.pk %}">{{ a.name }}</a><small>{{ a.code }} · {{ a.owner_department }}</small></td>
-      <td>{{ a.category|default:"Not chosen yet" }}</td><td>{{ a.get_condition_display }}</td>
-      <td class="num">{{ a.available_qty }} of {{ a.quantity }} free</td><td>{{ a.location }}</td><td>{% status_pill a %}</td></tr>
+      <td>{{ a.category|default:_("Not chosen yet") }}</td><td>{{ a.get_condition_display }}</td>
+      <td class="num">{% blocktranslate trimmed with free=a.available_qty total=a.quantity %}{{ free }} of {{ total }} free{% endblocktranslate %}</td><td>{{ a.location }}</td><td>{% status_pill a %}</td></tr>
   {% endfor %}</tbody>
 </table></div>
-{% else %}<div class="empty">No assets match.{% if can_register %}<br><a class="button" href="{% url 'assets:register' %}">Register the first one</a>{% endif %}</div>{% endif %}
+{% else %}<div class="empty">{% translate "No assets match." %}{% if can_register %}<br><a class="button" href="{% url 'assets:register' %}">{% translate "Register the first one" %}</a>{% endif %}</div>{% endif %}
 {% endblock %}

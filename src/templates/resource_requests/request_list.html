@@ -1,24 +1,24 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
-{% block title %}Requests · Dawra Campus{% endblock %}
+{% load dawra_ui i18n %}
+{% block title %}{% translate "Requests" %} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading">
-  <div><h1>{% if can_create %}My requests{% else %}{{ active_role.department }} requests{% endif %}</h1><div class="record">Track every request and its status</div></div>
-  {% if can_create %}<a class="button primary" href="{% url 'resource_requests:create' %}">{% icon 'request' %}New request</a>{% endif %}
+  <div><h1>{% if can_create %}{% translate "My requests" %}{% else %}{% blocktranslate trimmed with department=active_role.department %}{{ department }} requests{% endblocktranslate %}{% endif %}</h1><div class="record">{% translate "Track every request and its status" %}</div></div>
+  {% if can_create %}<a class="button primary" href="{% url 'resource_requests:create' %}">{% icon 'request' %}{% translate "New request" %}</a>{% endif %}
 </div>
-<p class="lead">Your department approves a request before it can be matched to an item.</p>
+<p class="lead">{% translate "Your department approves a request before it can be matched to an item." %}</p>
 <form method="get" class="filters" style="grid-template-columns:minmax(0,260px) auto">
-  <div class="field"><label for="status">Status</label>
-    <select id="status" name="status"><option value="">Any status</option>{% for code, label in statuses %}<option value="{{ code }}"{% if code == status %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
-  <div class="actions"><button class="button" type="submit">Filter</button></div>
+  <div class="field"><label for="status">{% translate "Status" %}</label>
+    <select id="status" name="status"><option value="">{% translate "Any status" %}</option>{% for code, label in statuses %}<option value="{{ code }}"{% if code == status %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+  <div class="actions"><button class="button" type="submit">{% translate "Filter" %}</button></div>
 </form>
 {% if requests %}
 <div class="table-wrap"><table class="data-table">
-  <thead><tr><th>Request</th><th>Category</th><th class="num">Quantity</th><th>Required by</th><th>Requester</th><th>Status</th></tr></thead>
+  <thead><tr><th>{% translate "Request" %}</th><th>{% translate "Category" %}</th><th class="num">{% translate "Quantity" %}</th><th>{% translate "Required by" %}</th><th>{% translate "Requester" %}</th><th>{% translate "Status" %}</th></tr></thead>
   <tbody>{% for r in requests %}
-  <tr><td><a href="{% url 'resource_requests:detail' r.pk %}">{{ r.purpose }}</a><small>{{ r.code }} · {{ r.get_urgency_display }} urgency</small></td>
+  <tr><td><a href="{% url 'resource_requests:detail' r.pk %}">{{ r.purpose }}</a><small>{{ r.code }} · {% blocktranslate trimmed with urgency=r.get_urgency_display %}{{ urgency }} urgency{% endblocktranslate %}</small></td>
       <td>{{ r.category }}</td><td class="num">{{ r.quantity }}</td><td>{{ r.required_by }}</td><td>{{ r.requester }}</td><td>{% status_pill r %}</td></tr>
   {% endfor %}</tbody>
 </table></div>
-{% else %}<div class="empty">No requests yet.{% if can_create %}<br><a class="button" href="{% url 'resource_requests:create' %}">Create one</a>{% endif %}</div>{% endif %}
+{% else %}<div class="empty">{% translate "No requests yet." %}{% if can_create %}<br><a class="button" href="{% url 'resource_requests:create' %}">{% translate "Create one" %}</a>{% endif %}</div>{% endif %}
 {% endblock %}

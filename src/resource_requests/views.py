@@ -3,6 +3,7 @@
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _, gettext_lazy
 from django.views.decorators.http import require_POST
 
 from accounts.models import Role
@@ -15,12 +16,12 @@ from .models import ResourceRequest
 
 # Stages shown above a request, and which statuses belong to each.
 JOURNEY = [
-    ("Draft", ("RQ-01",)),
-    ("Department review", ("RQ-02",)),
-    ("Find a match", ("RQ-03",)),
-    ("Hold", ("RQ-04",)),
-    ("Transfer", ("RQ-05",)),
-    ("Fulfilled", ("RQ-06",)),
+    (gettext_lazy("Draft"), ("RQ-01",)),
+    (gettext_lazy("Department review"), ("RQ-02",)),
+    (gettext_lazy("Find a match"), ("RQ-03",)),
+    (gettext_lazy("Hold"), ("RQ-04",)),
+    (gettext_lazy("Transfer"), ("RQ-05",)),
+    (gettext_lazy("Fulfilled"), ("RQ-06",)),
 ]
 
 
@@ -39,7 +40,7 @@ def get_visible_request(request, pk):
         return obj
     if role.role.code == Role.Code.DEPARTMENT_REPRESENTATIVE and role.department_id == obj.department_id:
         return obj
-    raise PermissionDenied("You can only open your own requests or your department's requests.")
+    raise PermissionDenied(_("You can only open your own requests or your department's requests."))
 
 
 @role_required("request.submit", "request.approve")
@@ -71,27 +72,29 @@ def request_create(request):
             if request.POST.get("submit_for") == "approval":
                 obj.submit(request.user)
 
-        if perform(request, create, "Request saved."):
+        if perform(request, create, _("Request saved.")):
             return redirect("resource_requests:detail", pk=obj.pk)
-    return render(request, "resource_requests/request_form.html", {"form": form, "title": "Submit a resource request"})
+    return render(request, "resource_requests/request_form.html", {"form": form,
+                                                                   "title": _("Submit a resource request")})
 
 
 @role_required("request.submit")
 def request_edit(request, pk):
     obj = get_visible_request(request, pk)
     if obj.requester_id != request.user.pk or obj.status != ResourceRequest.Status.DRAFT:
-        messages.error(request, "Only your own draft can be edited.")
+        messages.error(request, _("Only your own draft can be edited."))
         return redirect("resource_requests:detail", pk=obj.pk)
     form = RequestForm(request.POST or None, instance=obj)
     if request.method == "POST" and form.is_valid():
         form.save()
         AuditLog.record(request.user, "draft edited", obj, reason=", ".join(form.changed_data))
         if request.POST.get("submit_for") == "approval":
-            perform(request, lambda: obj.submit(request.user), "Sent to your department representative.")
+            perform(request, lambda: obj.submit(request.user), _("Sent to your department representative."))
         else:
-            messages.success(request, "Draft saved.")
+            messages.success(request, _("Draft saved."))
         return redirect("resource_requests:detail", pk=obj.pk)
-    return render(request, "resource_requests/request_form.html", {"form": form, "title": f"Edit {obj.code}", "obj": obj})
+    return render(request, "resource_requests/request_form.html", {"form": form, "title": _("Edit %(code)s") % {
+        "code": obj.code}, "obj": obj})
 
 
 @role_required("request.submit", "request.approve")
@@ -118,8 +121,8 @@ def request_detail(request, pk):
 def request_submit(request, pk):
     obj = get_visible_request(request, pk)
     if obj.requester_id != request.user.pk:
-        raise PermissionDenied("Only the requester can submit this request.")
-    perform(request, lambda: obj.submit(request.user), "Sent to your department representative for approval.")
+        raise PermissionDenied(_("Only the requester can submit this request."))
+    perform(request, lambda: obj.submit(request.user), _("Sent to your department representative for approval."))
     return redirect("resource_requests:detail", pk=obj.pk)
 
 
@@ -128,8 +131,8 @@ def request_submit(request, pk):
 def request_cancel(request, pk):
     obj = get_visible_request(request, pk)
     if obj.requester_id != request.user.pk:
-        raise PermissionDenied("Only the requester can cancel this request.")
-    perform(request, lambda: obj.cancel(request.user, request.POST.get("reason", "").strip()), "Request cancelled.")
+        raise PermissionDenied(_("Only the requester can cancel this request."))
+    perform(request, lambda: obj.cancel(request.user, request.POST.get("reason", "").strip()), _("Request cancelled."))
     return redirect("resource_requests:detail", pk=obj.pk)
 
 
@@ -138,8 +141,8 @@ def request_cancel(request, pk):
 def request_close(request, pk):
     obj = get_visible_request(request, pk)
     if obj.requester_id != request.user.pk:
-        raise PermissionDenied("Only the requester can close this request.")
+        raise PermissionDenied(_("Only the requester can close this request."))
     reason = request.POST.get("reason", "").strip() or "No suitable item found"
     perform(request, lambda: obj.close_no_suitable_item(request.user, reason),
-            "Closed as no suitable item. It does not count as an avoided purchase.")
+            _("Closed as no suitable item. It does not count as an avoided purchase."))
     return redirect("resource_requests:detail", pk=obj.pk)

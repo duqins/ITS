@@ -9,11 +9,13 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
+from django.utils.translation import gettext as _, gettext_lazy
 
 from accounts.models import Role
 from accounts.permissions import role_required
 from assets.models import Asset
 
+from .templatetags.audit_ui import RECORD_KINDS
 from .models import AuditLog
 
 
@@ -46,7 +48,7 @@ def asset_history(request, pk):
     role = request.active_role
     if role.role.code in (Role.Code.ASSET_CUSTODIAN, Role.Code.DEPARTMENT_REPRESENTATIVE) \
             and role.department_id != asset.owner_department_id:
-        raise PermissionDenied("Custodians and representatives see the history of their own department's assets.")
+        raise PermissionDenied(_("Custodians and representatives see the history of their own department's assets."))
     query = Q()
     for record_type, ids in asset_records(asset).items():
         if ids:
@@ -56,21 +58,21 @@ def asset_history(request, pk):
 
 
 class AuditFilter(forms.Form):
-    user = forms.CharField(required=False, label="User name contains")
-    record_type = forms.ChoiceField(required=False, label="Record type")
-    action = forms.CharField(required=False, label="Action contains")
-    date_from = forms.DateField(required=False, label="From", widget=forms.DateInput(attrs={"type": "date"}))
-    date_to = forms.DateField(required=False, label="To", widget=forms.DateInput(attrs={"type": "date"}))
+    user = forms.CharField(required=False, label=gettext_lazy("User name contains"))
+    record_type = forms.ChoiceField(required=False, label=gettext_lazy("Record type"))
+    action = forms.CharField(required=False, label=gettext_lazy("Action contains"))
+    date_from = forms.DateField(required=False, label=gettext_lazy("From"), widget=forms.DateInput(attrs={"type": "date"}))
+    date_to = forms.DateField(required=False, label=gettext_lazy("To"), widget=forms.DateInput(attrs={"type": "date"}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         types = AuditLog.objects.order_by().values_list("record_type", flat=True).distinct()
-        self.fields["record_type"].choices = [("", "Any record")] + [(t, t) for t in sorted(set(types))]
+        self.fields["record_type"].choices = [("", _("Any record"))] + [(t, RECORD_KINDS.get(t, t)) for t in sorted(set(types))]
 
     def clean(self):
         data = super().clean()
         if data.get("date_from") and data.get("date_to") and data["date_from"] > data["date_to"]:
-            raise forms.ValidationError("Choose a start date on or before the end date.")
+            raise forms.ValidationError(_("Choose a start date on or before the end date."))
         return data
 
     def apply(self, entries):

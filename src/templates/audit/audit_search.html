@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
-{% block title %}Audit log · Dawra Campus{% endblock %}
+{% load dawra_ui i18n audit_ui %}
+{% block title %}{% translate "Audit log" %} · Dawra Campus{% endblock %}
 {% block content %}
-<div class="heading"><div><h1>Audit log</h1><div class="record">Business administrator · FR-18</div></div>
-  <a class="button" href="?{{ query }}{% if query %}&amp;{% endif %}format=csv">{% icon 'file' %}Export CSV</a></div>
-<p class="lead">Search by user, record, action and period. Exporting does not change any entry.</p>
+<div class="heading"><div><h1>{% translate "Audit log" %}</h1><div class="record">{% translate "Business administrator" %} · FR-18</div></div>
+  <a class="button" href="?{{ query }}{% if query %}&amp;{% endif %}format=csv">{% icon 'file' %}{% translate "Export CSV" %}</a></div>
+<p class="lead">{% translate "Search by user, record, action and period. Exporting does not change any entry." %}</p>
 <form method="get" class="filters">
   {% for error in form.non_field_errors %}<div class="toast error" style="grid-column:1/-1">{{ error }}</div>{% endfor %}
   {% include "includes/field.html" with field=form.user %}
@@ -12,15 +12,15 @@
   {% include "includes/field.html" with field=form.action %}
   {% include "includes/field.html" with field=form.date_from %}
   {% include "includes/field.html" with field=form.date_to %}
-  <div class="actions"><button class="button primary" type="submit">Search</button><a class="button" href="{% url 'audit:search' %}">Reset</a></div>
+  <div class="actions"><button class="button primary" type="submit">{% translate "Search" %}</button><a class="button" href="{% url 'audit:search' %}">{% translate "Reset" %}</a></div>
 </form>
-<p class="result-count">{{ total }} entr{{ total|pluralize:"y,ies" }}{% if total > 200 %}, showing the newest 200{% endif %}</p>
+<p class="result-count">{% if total > 200 %}{% blocktranslate trimmed count counter=total %}{{ counter }} entry, showing the newest 200{% plural %}{{ counter }} entries, showing the newest 200{% endblocktranslate %}{% else %}{% blocktranslate trimmed count counter=total %}{{ counter }} entry{% plural %}{{ counter }} entries{% endblocktranslate %}{% endif %}</p>
 <div class="table-wrap"><table class="data-table">
-  <thead><tr><th>When</th><th>Who</th><th>Action</th><th>Record</th><th>From</th><th>To</th></tr></thead>
+  <thead><tr><th>{% translate "When" %}</th><th>{% translate "Who" %}</th><th>{% translate "Action" %}</th><th>{% translate "Record" %}</th><th>{% translate "From" %}</th><th>{% translate "To" %}</th></tr></thead>
   <tbody>{% for e in entries %}
-  <tr{% if "blocked" in e.action %} class="highlight"{% endif %}><td>{{ e.created_at|date:"j M Y, H:i" }}</td><td>{{ e.user|default:"System" }}<small>{{ e.role }}</small></td>
-    <td><strong>{{ e.action|capfirst }}</strong>{% if e.reason %}<small>{{ e.reason }}</small>{% endif %}</td>
-    <td>{{ e.record_type }} {{ e.record_id }}</td><td>{{ e.before_value }}</td><td>{{ e.after_value }}</td></tr>
-  {% empty %}<tr><td colspan="6">No entries match.</td></tr>{% endfor %}</tbody>
+  <tr{% if "blocked" in e.action %} class="highlight"{% endif %}><td>{{ e.created_at|date:"j M Y, H:i" }}</td><td>{{ e.user|default:_("System") }}<small>{{ e.role|localized }}</small></td>
+    <td><strong>{{ e.action|action_text|capfirst }}</strong>{% if e.reason %}<small>{{ e.reason }}</small>{% endif %}</td>
+    <td>{{ e.record_type|record_kind }} {{ e.record_id }}</td><td>{{ e.before_value|localized }}</td><td>{{ e.after_value|localized }}</td></tr>
+  {% empty %}<tr><td colspan="6">{% translate "No entries match." %}</td></tr>{% endfor %}</tbody>
 </table></div>
 {% endblock %}

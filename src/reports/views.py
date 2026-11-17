@@ -10,6 +10,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
+from django.utils.translation import gettext as _, gettext_lazy
 
 from accounts.models import Department, Role
 from accounts.permissions import role_required
@@ -18,17 +19,18 @@ from transfers.models import Transfer
 
 
 class ReportFilter(forms.Form):
-    TYPES = [("requests", "Requests"), ("transfers", "Transfers")]
-    report = forms.ChoiceField(choices=TYPES, label="Report type")
-    date_from = forms.DateField(label="From", widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
-    date_to = forms.DateField(label="To", widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
+    TYPES = [("requests", gettext_lazy("Requests")), ("transfers", gettext_lazy("Transfers"))]
+    report = forms.ChoiceField(choices=TYPES, label=gettext_lazy("Report type"))
+    date_from = forms.DateField(label=gettext_lazy("From"),
+                                widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
+    date_to = forms.DateField(label=gettext_lazy("To"), widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
     department = forms.ModelChoiceField(Department.objects.filter(is_active=True), required=False,
-                                        empty_label="All departments")
+                                        empty_label=gettext_lazy("All departments"))
 
     def clean(self):
         data = super().clean()
         if data.get("date_from") and data.get("date_to") and data["date_from"] > data["date_to"]:
-            raise forms.ValidationError("Choose a start date on or before the end date, then apply again.")
+            raise forms.ValidationError(_("Choose a start date on or before the end date, then apply again."))
         return data
 
 
@@ -47,7 +49,8 @@ def request_rows(start, end, department):
     rows = ResourceRequest.objects.filter(created_at__range=(start, end)).exclude(status=ResourceRequest.Status.DRAFT)
     if department:
         rows = rows.filter(department=department)
-    header = ["Request", "Purpose", "Requester", "Department", "Category", "Quantity", "Required by", "Status", "Submitted"]
+    header = [_("Request"), _("Purpose"), _("Requester"), _("Department"), _("Category"), _("Quantity"),
+              _("Required by"), _("Status"), _("Submitted")]
     data = [[r.code, r.purpose, str(r.requester), str(r.department), str(r.category), r.quantity, r.required_by,
              r.get_status_display(), timezone.localtime(r.submitted_at).strftime("%Y-%m-%d") if r.submitted_at else ""]
             for r in rows.select_related("requester", "department", "category")]
@@ -58,7 +61,8 @@ def transfer_rows(start, end, department):
     rows = Transfer.objects.filter(created_at__range=(start, end))
     if department:
         rows = rows.filter(Q(from_department=department) | Q(to_department=department))
-    header = ["Transfer", "Asset", "Quantity", "From", "To", "Status", "Final approver", "Handed over", "Received"]
+    header = [_("Transfer"), _("Asset"), _("Quantity"), _("From"), _("To"), _("Status"), _("Final approver"),
+              _("Handed over"), _("Received")]
     fmt = lambda d: timezone.localtime(d).strftime("%Y-%m-%d") if d else ""  # noqa: E731
     data = [[t.code, f"{t.asset.code} {t.asset.name}", t.quantity, str(t.from_department), str(t.to_department),
              t.get_status_display(), str(t.approver or ""), fmt(t.handed_over_at), fmt(t.received_at)]
@@ -96,15 +100,15 @@ def csv_response(data, department, header, rows, totals):
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = f'attachment; filename="dawra-{data["report"]}-{data["date_from"]}-{data["date_to"]}.csv"'
     writer = csv.writer(response)
-    writer.writerow(["Report", dict(ReportFilter.TYPES)[data["report"]]])
-    writer.writerow(["Period", data["date_from"], data["date_to"]])
-    writer.writerow(["Department", department or "All departments"])
-    writer.writerow(["Data", "Synthetic demo data"])
+    writer.writerow([_("Report"), str(dict(ReportFilter.TYPES)[data["report"]])])
+    writer.writerow([_("Period"), data["date_from"], data["date_to"]])
+    writer.writerow([_("Department"), department or _("All departments")])
+    writer.writerow([_("Data"), _("Synthetic demo data")])
     writer.writerow([])
     writer.writerow(header)
     writer.writerows([[safe_cell(cell) for cell in row] for row in rows])
     writer.writerow([])
-    writer.writerow(["Total records", len(rows)])
+    writer.writerow([_("Total records"), len(rows)])
     for status, count in sorted(totals.items()):
         writer.writerow([status, count])
     return response

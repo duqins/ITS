@@ -1,23 +1,23 @@
 {% extends "base.html" %}
-{% load dawra_ui ai_ui %}
-{% block title %}Sustainability dashboard · Dawra Campus{% endblock %}
+{% load dawra_ui ai_ui i18n %}
+{% block title %}{% translate "Sustainability dashboard" %} · {% translate "Dawra Campus" %}{% endblock %}
 {% block content %}
-<div class="heading"><div><h1>Sustainability dashboard</h1><div class="record">UI-13 · design section 12</div></div></div>
-<p class="lead">Every figure is calculated by the database from completed, approved actions. Each one shows its formula, inputs and source.</p>
+<div class="heading"><div><h1>{% translate "Sustainability dashboard" %}</h1><div class="record">UI-13 · {% translate "design section 12" %}</div></div></div>
+<p class="lead">{% translate "Every figure is calculated by the database from completed, approved actions. Each one shows its formula, inputs and source." %}</p>
 <form method="get" class="filters" style="grid-template-columns:repeat(3,minmax(0,1fr)) auto">
   {% for error in form.non_field_errors %}<div class="toast error" style="grid-column:1/-1">{{ error }}</div>{% endfor %}
   {% include "includes/field.html" with field=form.date_from %}
   {% include "includes/field.html" with field=form.date_to %}
   {% include "includes/field.html" with field=form.department %}
-  <div class="actions"><button class="button primary" type="submit">Apply filters</button><a class="button" href="{% url 'sustainability:dashboard' %}">Reset</a></div>
+  <div class="actions"><button class="button primary" type="submit">{% translate "Apply filters" %}</button><a class="button" href="{% url 'sustainability:dashboard' %}">{% translate "Reset" %}</a></div>
 </form>
 {% if indicators %}
 <div class="cards">
   {% for i in indicators %}<div class="card">{% icon 'leaf' %}<div class="label">{{ i.name }}</div><div class="number" style="font-size:20px">{{ i.value }}</div></div>{% endfor %}
 </div>
-<div class="group-title">{% icon 'report' %}<h2>Sustainability indicators</h2></div>
+<div class="group-title">{% icon 'report' %}<h2>{% translate "Sustainability indicators" %}</h2></div>
 <div class="table-wrap"><table class="data-table report-values">
-  <thead><tr><th>Indicator</th><th>Value</th><th>Formula</th><th>Inputs</th><th>Source and status</th></tr></thead>
+  <thead><tr><th>{% translate "Indicator" %}</th><th>{% translate "Value" %}</th><th>{% translate "Formula" %}</th><th>{% translate "Inputs" %}</th><th>{% translate "Source and status" %}</th></tr></thead>
   <tbody>{% for i in indicators %}
   <tr><td><strong>{{ i.name }}</strong></td><td>{{ i.value }}</td><td>{{ i.formula }}</td><td>{{ i.inputs }}</td><td>{{ i.source }}<small>{{ i.status }}</small></td></tr>
   {% endfor %}</tbody>
@@ -25,12 +25,12 @@
 {% endif %}
 {% report_panel %}
 {% if pending %}
-<section class="group"><div class="group-title">{% icon 'approval' %}<h2>Avoided purchases to confirm</h2></div>
-<p class="muted small">Only purchases your department confirms it avoided count (BR-18).</p>
-<div class="table-wrap"><table class="data-table"><thead><tr><th>Transfer</th><th>Item</th><th class="num">Items</th><th>Value</th><th></th></tr></thead><tbody>
-{% for p in pending %}<tr><td><a href="{% url 'transfers:detail' p.transfer.pk %}">{{ p.transfer.code }}</a></td><td>{{ p.transfer.asset.name }}</td><td class="num">{{ p.items_diverted }}</td><td>{% if p.avoided_purchase_aed is not None %}AED {{ p.avoided_purchase_aed }}{% else %}N/A{% endif %}</td>
-<td><form method="post" action="{% url 'sustainability:confirm' p.pk %}">{% csrf_token %}<button class="button primary" type="submit">Confirm</button></form></td></tr>{% endfor %}
+<section class="group"><div class="group-title">{% icon 'approval' %}<h2>{% translate "Avoided purchases to confirm" %}</h2></div>
+<p class="muted small">{% translate "Only purchases your department confirms it avoided count (BR-18)." %}</p>
+<div class="table-wrap"><table class="data-table"><thead><tr><th>{% translate "Transfer" %}</th><th>{% translate "Item" %}</th><th class="num">{% translate "Items" %}</th><th>{% translate "Value" %}</th><th></th></tr></thead><tbody>
+{% for p in pending %}<tr><td><a href="{% url 'transfers:detail' p.transfer.pk %}">{{ p.transfer.code }}</a></td><td>{{ p.transfer.asset.name }}</td><td class="num">{{ p.items_diverted }}</td><td>{% if p.avoided_purchase_aed is not None %}{% blocktranslate trimmed with amount=p.avoided_purchase_aed %}AED {{ amount }}{% endblocktranslate %}{% else %}{% translate "N/A" %}{% endif %}</td>
+<td><form method="post" action="{% url 'sustainability:confirm' p.pk %}">{% csrf_token %}<button class="button primary" type="submit">{% translate "Confirm" %}</button></form></td></tr>{% endfor %}
 </tbody></table></div></section>
 {% endif %}
-<details><summary>Limits of these figures</summary><p>Carbon is a range because the low factor counts only the materials and the high factor the full manufacturing footprint of one model. Categories without a published factor show N/A instead of a guess. All data in this prototype is synthetic.</p></details>
+<details><summary>{% translate "Limits of these figures" %}</summary><p>{% translate "Carbon is a range because the low factor counts only the materials and the high factor the full manufacturing footprint of one model. Categories without a published factor show N/A instead of a guess. All data in this prototype is synthetic." %}</p></details>
 {% endblock %}

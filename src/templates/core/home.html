@@ -1,15 +1,15 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
-{% block title %}Home · Dawra Campus{% endblock %}
+{% load dawra_ui i18n %}
+{% block title %}{% translate "Home" %} · Dawra Campus{% endblock %}
 {% block content %}
-<div class="heading"><div><h1>Welcome, {{ user.first_name|default:user.username }}</h1><div class="record">{% if active_role %}{{ active_role }}{% else %}No active role{% endif %}</div></div></div>
+<div class="heading"><div><h1>{% blocktranslate trimmed with name=user.first_name|default:user.username %}Welcome, {{ name }}{% endblocktranslate %}</h1><div class="record">{% if active_role %}{{ active_role }}{% else %}{% translate "No active role" %}{% endif %}</div></div></div>
 {% if not active_role %}
-<div class="down">{% icon 'info' %}<div>You have no active role yet. The Business administrator authorises roles and the System administrator applies them.</div></div>
+<div class="down">{% icon 'info' %}<div>{% translate "You have no active role yet. The Business administrator authorises roles and the System administrator applies them." %}</div></div>
 {% else %}
-<p class="lead">Your work as {{ active_role.role }}. Reuse before replacement.</p>
+<p class="lead">{% blocktranslate trimmed with role=active_role.role %}Your work as {{ role }}. Reuse before replacement.{% endblocktranslate %}</p>
 <div class="cards">
   {% for c in cards %}<a class="card" href="{{ c.url }}">{% icon c.icon %}<div class="number" data-count="{{ c.number|stringformat:'d' }}">{{ c.number }}</div><div class="label">{{ c.label }}</div></a>{% endfor %}
 </div>
-{% if not cards %}<div class="empty">Nothing is waiting for you.</div>{% endif %}
+{% if not cards %}<div class="empty">{% translate "Nothing is waiting for you." %}</div>{% endif %}
 {% endif %}
 {% endblock %}

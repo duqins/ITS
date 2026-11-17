@@ -1,12 +1,12 @@
-{% if open_requests %}
-<section class="group"><div class="group-title"><h2>Use this item</h2></div>
+{% load i18n %}{% if open_requests %}
+<section class="group"><div class="group-title"><h2>{% translate "Use this item" %}</h2></div>
   <form method="post" action="{% url 'transfers:hold_request' %}" class="reason-form">
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
     <input type="hidden" name="listing" value="{{ listing.pk }}">
-    <div class="field"><label for="hold-request">For which approved request?</label>
+    <div class="field"><label for="hold-request">{% translate "For which approved request?" %}</label>
       <select id="hold-request" name="request">{% for r in open_requests %}<option value="{{ r.pk }}">{{ r.code }} · {{ r.purpose }} ({{ r.quantity }})</option>{% endfor %}</select></div>
-    <button class="button primary" type="submit">Request a hold</button>
-    <p class="muted small">The releasing department confirms or declines. Choosing an item alone holds nothing (BR-15).</p>
+    <button class="button primary" type="submit">{% translate "Request a hold" %}</button>
+    <p class="muted small">{% translate "The releasing department confirms or declines. Choosing an item alone holds nothing (BR-15)." %}</p>
   </form>
 </section>
 {% endif %}

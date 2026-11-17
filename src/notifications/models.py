@@ -2,7 +2,7 @@
 
 from django.conf import settings
 from django.db import models
-from django.utils import timezone
+from django.utils import timezone, translation
 
 
 class Notification(models.Model):
@@ -32,14 +32,19 @@ class Notification(models.Model):
 
     @classmethod
     def send(cls, users, record, message, link=""):
-        """Create one message per user, skipping duplicates and empty users."""
+        """Create one message per user, skipping duplicates and empty users.
+
+        message is the text, or a function that returns it; a function is called once per user in that
+        user's language, so each person gets the notification in the language of their account."""
         seen = set()
         created = []
         for user in users:
             if user is None or user.pk in seen:
                 continue
             seen.add(user.pk)
+            with translation.override(user.language):
+                text = str(message() if callable(message) else message)
             created.append(cls.objects.create(
-                user=user, record_type=record._meta.model_name, record_id=record.pk, message=message[:255], link=link,
+                user=user, record_type=record._meta.model_name, record_id=record.pk, message=text[:255], link=link,
             ))
         return created

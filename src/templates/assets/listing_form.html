@@ -1,21 +1,21 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
-{% block title %}Offer {{ asset.code }} · Dawra Campus{% endblock %}
+{% load dawra_ui i18n %}
+{% block title %}{% blocktranslate trimmed with code=asset.code %}Offer {{ code }}{% endblocktranslate %} · Dawra Campus{% endblock %}
 {% block content %}
-<div class="heading"><div><h1>Offer for reuse</h1><div class="record">{{ asset.code }} · {{ asset.name }}</div></div><span class="status"><i></i>New listing</span></div>
-<p class="lead">A listing becomes visible to staff after the department representative releases it.</p>
-<div class="asset-summary"><div class="asset-symbol">{% icon 'box' %}</div><div><h2>{{ asset.name }}</h2><p>{{ asset.category }} · {{ asset.get_condition_display }} · {{ asset.location }}</p></div><div class="asset-meta">{{ asset.available_qty }} available</div></div>
+<div class="heading"><div><h1>{% translate "Offer for reuse" %}</h1><div class="record">{{ asset.code }} · {{ asset.name }}</div></div><span class="status"><i></i>{% translate "New listing" %}</span></div>
+<p class="lead">{% translate "A listing becomes visible to staff after the department representative releases it." %}</p>
+<div class="asset-summary"><div class="asset-symbol">{% icon 'box' %}</div><div><h2>{{ asset.name }}</h2><p>{{ asset.category }} · {{ asset.get_condition_display }} · {{ asset.location }}</p></div><div class="asset-meta">{% blocktranslate trimmed with available=asset.available_qty %}{{ available }} available{% endblocktranslate %}</div></div>
 <form method="post" novalidate>{% csrf_token %}
-  <section class="group"><div class="group-title">{% icon 'file' %}<h2>Listing</h2></div><div class="fields">
+  <section class="group"><div class="group-title">{% icon 'file' %}<h2>{% translate "Listing" %}</h2></div><div class="fields">
     {% include "includes/field.html" with field=form.quantity %}
     {% include "includes/field.html" with field=form.available_from %}
     {% include "includes/field.html" with field=form.release_reason %}
     {% include "includes/field.html" with field=form.restrictions wide=True %}
   </div></section>
   <div class="actions">
-    <button class="button primary" type="submit" name="submit_for" value="release">{% icon 'check' %}Submit for release approval</button>
-    <button class="button" type="submit" name="submit_for" value="draft">Save draft</button>
-    <a class="button" href="{% url 'assets:detail' asset.pk %}">Cancel</a>
+    <button class="button primary" type="submit" name="submit_for" value="release">{% icon 'check' %}{% translate "Submit for release approval" %}</button>
+    <button class="button" type="submit" name="submit_for" value="draft">{% translate "Save draft" %}</button>
+    <a class="button" href="{% url 'assets:detail' asset.pk %}">{% translate "Cancel" %}</a>
   </div>
 </form>
 {% endblock %}

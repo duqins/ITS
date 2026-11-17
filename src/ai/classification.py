@@ -12,11 +12,12 @@ from decimal import Decimal
 from typing import Literal
 
 from django.conf import settings
+from django.utils.translation import gettext_lazy, ngettext
 from pydantic import BaseModel, create_model
 
 from assets.models import Category
 
-from .adapter import PROMPT_VERSION, AIUnavailable, ClaudeAdapter, Deadline
+from .adapter import in_language, PROMPT_VERSION, AIUnavailable, ClaudeAdapter, Deadline
 from .models import AiSuggestion, ModelVersion, Task
 
 SYSTEM = (
@@ -57,21 +58,24 @@ class ClassificationService:
         categories = {str(c): c for c in Category.objects.filter(is_active=True)}
         deadline = Deadline()
         prompt = self.prompt(asset, categories)
+        system = in_language(SYSTEM)  # read here: the worker threads below have no active language
         output_format = answer_format(list(categories))
 
         def one_run(_):
             try:
-                answer = self.adapter.ask(Task.CLASSIFICATION, self.model, SYSTEM, prompt, output_format,
+                answer = self.adapter.ask(Task.CLASSIFICATION, self.model, system, prompt, output_format,
                                           deadline, max_tokens=1500)
             except AIUnavailable as error:
                 return error
-            return answer if answer.category in categories else AIUnavailable("Unknown category in the answer.")
+            # Lazy: this runs in a worker thread without the user's language; the page translates it.
+            return answer if answer.category in categories else AIUnavailable(
+                gettext_lazy("Unknown category in the answer."))
 
         with ThreadPoolExecutor(max_workers=self.runs) as pool:
             results = list(pool.map(one_run, range(self.runs)))
         answers = [r for r in results if isinstance(r, ClassificationAnswer)]
         if not answers:
-            raise next((r for r in results if isinstance(r, AIUnavailable)), AIUnavailable("No answer."))
+            raise next((r for r in results if isinstance(r, AIUnavailable)), AIUnavailable(gettext_lazy("No answer.")))
 
         votes = Counter(a.category for a in answers)
         category, count = votes.most_common(1)[0]
@@ -92,7 +96,10 @@ class ClassificationService:
                 "runs": [a.category for a in answers],
             },
             confidence=confidence.quantize(Decimal("0.001")),
-            confidence_basis=f"{count} of {self.runs} runs agreed on the category",
+            # Shown on the classification panel. Same English for one and many runs; the plural form is for Arabic.
+            confidence_basis=ngettext("%(agreeing)s of %(runs)s runs agreed on the category",
+                                      "%(agreeing)s of %(runs)s runs agreed on the category", self.runs) % {
+                "agreeing": count, "runs": self.runs},
             explanation=best.reason,
             created_by=user,
         )

@@ -11,7 +11,7 @@ class SettingsTests(DemoTestCase):
     def test_every_user_can_open_settings_and_save_them(self):
         client = self.sign_in("system.admin")
         self.assertContains(client.get("/accounts/settings/"), "Match my device")
-        client.post("/accounts/settings/", {"theme": "dark", "motion": "reduced"})
+        client.post("/accounts/settings/", {"theme": "dark", "motion": "reduced", "language": "en-gb"})
         user = User.objects.get(username="system.admin")
         self.assertEqual((user.theme, user.motion), ("dark", "reduced"))
         page = client.get("/").content.decode()

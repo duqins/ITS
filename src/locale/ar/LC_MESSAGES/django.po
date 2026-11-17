@@ -1,0 +1,3728 @@
+# Arabic translation of Dawra Campus.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: accounts\forms.py:10
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: accounts\models.py:100
+#: accounts\models.py:175
+msgid "Active"
+msgstr "نشط"
+
+#: accounts\models.py:101
+msgid "Inactive"
+msgstr "غير نشط"
+
+#: accounts\models.py:102
+msgid "Blocked"
+msgstr "محظور"
+
+#: accounts\models.py:115
+msgid "Match my device"
+msgstr "مطابقة جهازي"
+
+#: accounts\models.py:116
+msgid "Light"
+msgstr "فاتح"
+
+#: accounts\models.py:117
+msgid "Dark"
+msgstr "داكن"
+
+#: accounts\models.py:120
+msgid "Standard"
+msgstr "عادية"
+
+#: accounts\models.py:121
+msgid "Reduced"
+msgstr "مخففة"
+
+#: accounts\models.py:173
+#: transfers\models.py:165
+msgid "Requested"
+msgstr "قيد الطلب"
+
+#: accounts\models.py:174
+msgid "Authorised"
+msgstr "معتمد"
+
+#: accounts\models.py:176
+msgid "Removed"
+msgstr "مُزال"
+
+#: accounts\models.py:201
+msgid "Only a Business administrator can authorise a role."
+msgstr "لا يمكن اعتماد الدور إلا من قِبل مسؤول الأعمال."
+
+#: accounts\models.py:208
+msgid "Only a System administrator can apply a role."
+msgstr "لا يمكن تفعيل الدور إلا من قِبل مسؤول النظام."
+
+#: accounts\models.py:210
+msgid "A role must be authorised before it is applied."
+msgstr "يجب اعتماد الدور قبل تفعيله."
+
+#: accounts\models.py:35
+msgid "Asset custodian"
+msgstr "أمين العهدة"
+
+#: accounts\models.py:38
+msgid "Procurement officer"
+msgstr "مسؤول المشتريات"
+
+#: accounts\models.py:39
+msgid "Finance officer"
+msgstr "مسؤول المالية"
+
+#: accounts\models.py:40
+msgid "Maintenance staff"
+msgstr "فريق الصيانة"
+
+#: accounts\models.py:41
+msgid "Sustainability officer"
+msgstr "مسؤول الاستدامة"
+
+#: accounts\models.py:42
+msgid "System administrator"
+msgstr "مسؤول النظام"
+
+#: accounts\permissions.py:46
+msgid "an administrator"
+msgstr "أحد المسؤولين"
+
+#: accounts\permissions.py:47
+msgid "This needs one of these roles: %(roles)s. Switch role if you hold one."
+msgstr "يتطلب هذا أحد الأدوار التالية: %(roles)s. بدّل دورك إن كنت تحمل أحدها."
+
+#: accounts\views.py:35
+msgid "This account is locked for 15 minutes after 5 failed sign-ins. Try again later."
+msgstr "هذا الحساب مقفل لمدة 15 دقيقة بعد 5 محاولات فاشلة لتسجيل الدخول. حاول مرة أخرى لاحقاً."
+
+#: accounts\views.py:38
+msgctxt "history"
+msgid "signed in"
+msgstr "سجّل الدخول"
+
+#: accounts\views.py:45
+msgctxt "history"
+msgid "failed sign-in"
+msgstr "فشل تسجيل الدخول"
+
+#: accounts\views.py:47
+msgid "Too many failed sign-ins. This account is locked for 15 minutes."
+msgstr "محاولات فاشلة كثيرة لتسجيل الدخول. هذا الحساب مقفل لمدة 15 دقيقة."
+
+#: accounts\views.py:49
+msgid "The username or password is not correct."
+msgstr "اسم المستخدم أو كلمة المرور غير صحيحة."
+
+#: accounts\views.py:56
+msgctxt "history"
+msgid "signed out"
+msgstr "سجّل الخروج"
+
+#: accounts\views.py:68
+msgid "You do not hold that role."
+msgstr "أنت لا تحمل هذا الدور."
+
+#: accounts\views.py:72
+msgctxt "history"
+msgid "switched role"
+msgstr "بدّل الدور"
+
+#: accounts\views.py:73
+msgid "You are now working as %(role)s."
+msgstr "أنت تعمل الآن بدور %(role)s."
+
+#: accounts\views.py:88
+msgid "Settings saved."
+msgstr "تم حفظ الإعدادات."
+
+#: ai\adapter.py:102
+msgid "The AI service is busy. Try again in a minute."
+msgstr "خدمة الذكاء الاصطناعي مشغولة. حاول مرة أخرى بعد دقيقة."
+
+#: ai\adapter.py:105
+msgid "The AI did not answer within 15 seconds."
+msgstr "لم يُجب الذكاء الاصطناعي خلال 15 ثانية."
+
+#: ai\adapter.py:108
+msgid "The AI service could not be reached."
+msgstr "تعذّر الوصول إلى خدمة الذكاء الاصطناعي."
+
+#: ai\adapter.py:111
+msgid "The AI service returned an error."
+msgstr "أعادت خدمة الذكاء الاصطناعي خطأً."
+
+#: ai\adapter.py:114
+msgid "The AI service returned an answer the app could not read."
+msgstr "أعادت خدمة الذكاء الاصطناعي إجابة تعذّر على التطبيق قراءتها."
+
+#: ai\adapter.py:117
+msgid "The AI answer did not have the expected structure."
+msgstr "لم تأتِ إجابة الذكاء الاصطناعي بالبنية المتوقعة."
+
+#: ai\adapter.py:65
+msgid "No AI key is set, so the AI service is switched off."
+msgstr "مفتاح الذكاء الاصطناعي غير مُعَدّ، لذا فإن خدمة الذكاء الاصطناعي متوقفة."
+
+#: ai\adapter.py:77
+msgid "The 15-second limit was reached."
+msgstr "تم بلوغ الحد الزمني البالغ 15 ثانية."
+
+#: ai\adapter.py:89
+msgid "The AI declined this request."
+msgstr "رفض الذكاء الاصطناعي هذا الطلب."
+
+#: ai\adapter.py:91
+msgid "The AI answer was incomplete."
+msgstr "كانت إجابة الذكاء الاصطناعي غير مكتملة."
+
+#: ai\adapter.py:99
+msgid "The AI key was not accepted."
+msgstr "لم يُقبل مفتاح الذكاء الاصطناعي."
+
+#: ai\classification.py:100
+msgid "%(agreeing)s of %(runs)s runs agreed on the category"
+msgid_plural "%(agreeing)s of %(runs)s runs agreed on the category"
+msgstr[0] "اتفقت %(agreeing)s من %(runs)s محاولة على الفئة"
+msgstr[1] "اتفقت %(agreeing)s من محاولة واحدة على الفئة"
+msgstr[2] "اتفقت %(agreeing)s من محاولتين على الفئة"
+msgstr[3] "اتفقت %(agreeing)s من %(runs)s محاولات على الفئة"
+msgstr[4] "اتفقت %(agreeing)s من %(runs)s محاولةً على الفئة"
+msgstr[5] "اتفقت %(agreeing)s من %(runs)s محاولة على الفئة"
+
+#: ai\classification.py:72
+msgid "Unknown category in the answer."
+msgstr "فئة غير معروفة في الإجابة."
+
+#: ai\classification.py:78
+msgid "No answer."
+msgstr "لا توجد إجابة."
+
+#: ai\matching.py:104
+msgid "Meaning and purpose"
+msgstr "المعنى والغرض"
+
+#: ai\matching.py:105
+msgid "Meaning match %(value)s (rated by the AI)"
+msgstr "تطابق المعنى %(value)s (بتقييم الذكاء الاصطناعي)"
+
+#: ai\matching.py:111
+#: ai\matching.py:116
+msgid "Technical fit"
+msgstr "الملاءمة التقنية"
+
+#: ai\matching.py:112
+msgid "%(met)s of %(wanted)s requested specifications met"
+msgid_plural "%(met)s of %(wanted)s requested specifications met"
+msgstr[0] "استُوفيت %(met)s من %(wanted)s مواصفة مطلوبة"
+msgstr[1] "استُوفيت %(met)s من مواصفة مطلوبة واحدة"
+msgstr[2] "استُوفيت %(met)s من مواصفتين مطلوبتين"
+msgstr[3] "استُوفيت %(met)s من %(wanted)s مواصفات مطلوبة"
+msgstr[4] "استُوفيت %(met)s من %(wanted)s مواصفةً مطلوبة"
+msgstr[5] "استُوفيت %(met)s من %(wanted)s مواصفة مطلوبة"
+
+#: ai\matching.py:116
+msgid "No specifications requested"
+msgstr "لم تُطلب أي مواصفات"
+
+#: ai\matching.py:120
+msgid "%(condition)s against minimum %(minimum)s"
+msgstr "%(condition)s مقابل الحد الأدنى %(minimum)s"
+
+#: ai\matching.py:126
+#: ai\matching.py:129
+#: ai\matching.py:131
+msgid "Location and transfer cost"
+msgstr "الموقع وتكلفة النقل"
+
+#: ai\matching.py:126
+msgid "No delivery location given"
+msgstr "لم يُحدَّد موقع التوصيل"
+
+#: ai\matching.py:129
+msgid "Same building"
+msgstr "المبنى نفسه"
+
+#: ai\matching.py:132
+msgid "Other campus (%(campus)s)"
+msgstr "حرم جامعي آخر (%(campus)s)"
+
+#: ai\matching.py:135
+msgid "Other building (%(building)s)"
+msgstr "مبنى آخر (%(building)s)"
+
+#: ai\matching.py:135
+msgid "unknown"
+msgstr "غير معروف"
+
+#: ai\matching.py:138
+msgid "Available now"
+msgstr "متاح الآن"
+
+#: ai\matching.py:140
+msgid "Available from %(date)s"
+msgstr "متاح اعتباراً من %(date)s"
+
+#: ai\matching.py:142
+msgid "Available from %(date)s, before the required date"
+msgstr "متاح اعتباراً من %(date)s، قبل التاريخ المطلوب"
+
+#: ai\matching.py:143
+msgid "Availability"
+msgstr "التوفر"
+
+#: ai\matching.py:148
+#: ai\matching.py:151
+msgid "Useful life left"
+msgstr "العمر الإنتاجي المتبقي"
+
+#: ai\matching.py:149
+msgid "About %(years)s years left"
+msgstr "يتبقى نحو %(years)s سنة"
+
+#: ai\matching.py:151
+msgid "Planned retirement date unknown"
+msgstr "تاريخ الإخراج من الخدمة المخطط غير معروف"
+
+#: ai\matching.py:154
+msgid "No repair needed (condition New or Good)"
+msgstr "لا حاجة إلى إصلاح (الحالة المادية جديد أو جيد)"
+
+#: ai\matching.py:154
+#: ai\matching.py:156
+msgid "Repair cost"
+msgstr "تكلفة الإصلاح"
+
+#: ai\matching.py:156
+msgid "No repair estimate recorded"
+msgstr "لم يُسجَّل تقدير لتكلفة الإصلاح"
+
+#: ai\matching.py:175
+msgid "Withheld (confidence below 0.50)"
+msgstr "محجوبة (الثقة أقل من 0.50)"
+
+#: ai\matching.py:177
+msgid "Confidence %(value)s - check carefully"
+msgstr "الثقة %(value)s - تحقّق بعناية"
+
+#: ai\matching.py:178
+msgid "Confidence %(value)s"
+msgstr "الثقة %(value)s"
+
+#: ai\matching.py:193
+msgid "No published item passes the mandatory checks (category, quantity, condition, date)."
+msgstr "لا يوجد عنصر منشور يجتاز الفحوصات الإلزامية (الفئة، الكمية، الحالة المادية، التاريخ)."
+
+#: ai\matching.py:199
+msgid "%(condition)s condition, available from %(date)s"
+msgstr "الحالة المادية %(condition)s، متاح اعتباراً من %(date)s"
+
+#: ai\matching.py:203
+msgid "%(error)s Showing eligible items in classic order without AI scores."
+msgstr "%(error)s تُعرض العناصر المؤهلة بالترتيب التقليدي دون درجات الذكاء الاصطناعي."
+
+#: ai\matching.py:88
+msgid "The AI did not rate every item."
+msgstr "لم يقيّم الذكاء الاصطناعي جميع العناصر."
+
+#: ai\models.py:105
+msgctxt "history"
+msgid "AI suggestion applied"
+msgstr "طُبّق اقتراح الذكاء الاصطناعي"
+
+#: ai\models.py:12
+msgid "Classification"
+msgstr "التصنيف"
+
+#: ai\models.py:121
+msgid "Chosen over a higher-ranked item"
+msgstr "اختير بدلاً من عنصر أعلى ترتيباً"
+
+#: ai\models.py:13
+msgid "Matching"
+msgstr "المطابقة"
+
+#: ai\models.py:14
+msgid "Advice"
+msgstr "المشورة"
+
+#: ai\models.py:15
+msgid "Assistant"
+msgstr "المساعد"
+
+#: ai\models.py:16
+#: reports\views.py:103
+msgid "Report"
+msgstr "التقرير"
+
+#: ai\models.py:168
+msgid "You chose a lower-ranked item. Give a reason for the override (AI-05.2)."
+msgstr "اخترت عنصراً بترتيب أدنى. اذكر سبب تجاوز الترتيب (AI-05.2)."
+
+#: ai\models.py:118
+#: ai\models.py:41
+msgid "Waiting for a decision"
+msgstr "بانتظار القرار"
+
+#: ai\models.py:119
+#: ai\models.py:42
+msgid "Accepted"
+msgstr "مقبول"
+
+#: ai\models.py:43
+msgid "Corrected"
+msgstr "مُصحَّح"
+
+#: ai\models.py:120
+#: ai\models.py:44
+#: resource_requests\models.py:41
+msgid "Rejected"
+msgstr "مرفوض"
+
+#: ai\models.py:99
+msgid "The asset is already confirmed; AI values can no longer be applied."
+msgstr "تم تأكيد الأصل مسبقاً؛ ولم يعد بالإمكان تطبيق قيم الذكاء الاصطناعي."
+
+#: ai\views.py:102
+msgid "Only the requester can search matches for an open request."
+msgstr "لا يمكن البحث عن مطابقات لطلب مفتوح إلا من قِبل مقدّم الطلب."
+
+#: ai\views.py:108
+msgid "%(count)s eligible item(s) ranked."
+msgid_plural "%(count)s eligible item(s) ranked."
+msgstr[0] "لم يُرتَّب أي عنصر مؤهل."
+msgstr[1] "رُتّب عنصر مؤهل واحد."
+msgstr[2] "رُتّب عنصران مؤهلان."
+msgstr[3] "رُتّب %(count)s عناصر مؤهلة."
+msgstr[4] "رُتّب %(count)s عنصرًا مؤهلًا."
+msgstr[5] "رُتّب %(count)s عنصر مؤهل."
+
+#: ai\views.py:129
+msgid "Only the requester can choose a match."
+msgstr "لا يمكن اختيار مطابقة إلا من قِبل مقدّم الطلب."
+
+#: ai\views.py:132
+msgid "Hold requested from the releasing department. Choosing alone holds nothing."
+msgstr "طُلب الحجز من القسم المُتيح. الاختيار وحده لا يحجز شيئاً."
+
+#: ai\views.py:143
+msgid "Only the requester can reject a match."
+msgstr "لا يمكن رفض مطابقة إلا من قِبل مقدّم الطلب."
+
+#: ai\views.py:146
+msgid "%(item)s marked as not suitable."
+msgstr "تم تعليم %(item)s على أنه غير مناسب."
+
+#: ai\views.py:156
+msgid "Fix the filters first."
+msgstr "صحّح عوامل التصفية أولاً."
+
+#: ai\views.py:161
+msgid "AI-generated draft ready. Check it against the figures, edit it, then publish."
+msgstr "مسودة من إنشاء الذكاء الاصطناعي جاهزة. راجعها مقابل الأرقام وعدّلها ثم انشرها."
+
+#: ai\views.py:163
+msgid "%(error)s The conventional figures above are still complete."
+msgstr "%(error)s ولا تزال الأرقام التقليدية أعلاه مكتملة."
+
+#: ai\views.py:177
+msgid "Draft discarded."
+msgstr "تم تجاهل المسودة."
+
+#: ai\views.py:181
+msgid "The summary has numbers that are not in the dashboard figures: %(numbers)s. Correct them before publishing."
+msgstr "يحتوي الملخص على أرقام غير موجودة في أرقام لوحة المؤشرات: %(numbers)s. صحّحها قبل النشر."
+
+#: ai\views.py:183
+msgid "The summary is empty."
+msgstr "الملخص فارغ."
+
+#: ai\views.py:189
+msgid "Summary published with your name as reviewer."
+msgstr "نُشر الملخص باسمك بصفتك مراجعاً."
+
+#: ai\views.py:29
+msgid "Only the owning department can classify this asset."
+msgstr "لا يمكن تصنيف هذا الأصل إلا من قِبل القسم المالك."
+
+#: ai\views.py:38
+msgid "AI suggestions are for draft records only."
+msgstr "اقتراحات الذكاء الاصطناعي مخصصة لسجلات المسودة فقط."
+
+#: ai\views.py:42
+msgid "AI suggestion ready. Accept, edit or reject it."
+msgstr "اقتراح الذكاء الاصطناعي جاهز. اقبله أو عدّله أو ارفضه."
+
+#: ai\views.py:44
+msgid "%(error)s Choose the category, condition and tags yourself."
+msgstr "%(error)s اختر الفئة والحالة المادية والوسوم بنفسك."
+
+#: ai\views.py:57
+msgid "This suggestion was already decided or replaced by a newer one."
+msgstr "تم البت في هذا الاقتراح مسبقاً أو استُبدل باقتراح أحدث."
+
+#: ai\views.py:62
+msgid "Confidence is below 0.60, so this suggestion is an option only. Use Edit to choose the values yourself (SRS Table 4.2)."
+msgstr "الثقة أقل من 0.60، لذا يُعد هذا الاقتراح خياراً فقط. استخدم «تعديل» لاختيار القيم بنفسك (SRS Table 4.2)."
+
+#: ai\views.py:65
+msgid "Suggestion accepted."
+msgstr "تم قبول الاقتراح."
+
+#: ai\views.py:71
+msgid "Choose a category and a condition."
+msgstr "اختر الفئة والحالة المادية."
+
+#: ai\views.py:74
+msgid "Your corrected values were saved."
+msgstr "تم حفظ القيم المصحّحة."
+
+#: ai\views.py:78
+msgid "Give a reason for rejecting the suggestion."
+msgstr "اذكر سبب رفض الاقتراح."
+
+#: ai\views.py:81
+msgid "Suggestion rejected. Nothing was changed on the asset."
+msgstr "تم رفض الاقتراح. لم يتغير شيء في الأصل."
+
+#: ai\views.py:92
+msgid "You can only see matches for your own requests."
+msgstr "يمكنك رؤية المطابقات لطلباتك فقط."
+
+#: assets\forms.py:121
+msgid "Quantity to offer"
+msgstr "الكمية المراد عرضها"
+
+#: assets\forms.py:123
+msgid "Restrictions or conditions"
+msgstr "القيود أو الشروط"
+
+#: assets\forms.py:130
+msgid "%(count)s available"
+msgstr "المتاح: %(count)s"
+
+#: assets\forms.py:135
+msgid "Offer between 1 and %(count)s units."
+msgstr "يجب أن تكون الكمية المعروضة بين 1 و%(count)s."
+
+#: assets\forms.py:143
+msgid "This asset is already offered in %(code)s. Change or withdraw that listing instead."
+msgstr "هذا الأصل معروض مسبقاً في %(code)s. عدّل ذلك العرض أو اسحبه بدلاً من ذلك."
+
+#: assets\forms.py:151
+msgid "Best condition"
+msgstr "الأفضل حالةً"
+
+#: assets\forms.py:151
+msgid "Newest listing"
+msgstr "أحدث العروض"
+
+#: assets\forms.py:152
+msgid "Most available"
+msgstr "الأكثر توفراً"
+
+#: assets\forms.py:153
+msgid "Keyword"
+msgstr "كلمة مفتاحية"
+
+#: assets\forms.py:154
+msgid "Name, description, tags or specifications"
+msgstr "الاسم أو الوصف أو الوسوم أو المواصفات"
+
+#: assets\forms.py:156
+msgid "Any category"
+msgstr "أي فئة"
+
+#: assets\forms.py:158
+msgid "Any condition"
+msgstr "أي حالة مادية"
+
+#: assets\forms.py:160
+msgid "Any department"
+msgstr "أي قسم"
+
+#: assets\forms.py:161
+msgid "Sort"
+msgstr "ترتيب حسب"
+
+#: assets\forms.py:17
+msgid "General asset"
+msgstr "أصل عام"
+
+#: assets\forms.py:17
+msgid "IT equipment"
+msgstr "معدات تقنية المعلومات"
+
+#: assets\forms.py:19
+msgid "Type of asset"
+msgstr "نوع الأصل"
+
+#: assets\forms.py:21
+msgid "IT equipment only"
+msgstr "لمعدات تقنية المعلومات فقط"
+
+#: assets\forms.py:23
+msgid "Stores data (needs data erasure before disposal)"
+msgstr "يخزّن بيانات (يحتاج إلى مسح البيانات قبل التخلص منه)"
+
+#: assets\forms.py:25
+#: assets\forms.py:27
+msgid "Furniture only"
+msgstr "للأثاث فقط"
+
+#: assets\forms.py:37
+msgid "Campus"
+msgstr "الحرم الجامعي"
+
+#: assets\forms.py:37
+msgid "Search tags"
+msgstr "وسوم البحث"
+
+#: assets\forms.py:38
+msgid "Building"
+msgstr "المبنى"
+
+#: assets\forms.py:38
+#: transfers\forms.py:23
+msgid "Room"
+msgstr "الغرفة"
+
+#: assets\forms.py:41
+msgid "Planned retirement date"
+msgstr "تاريخ الإخراج من الخدمة المخطط"
+
+#: assets\forms.py:42
+msgid "Separate tags with commas, for example monitor, 24-inch"
+msgstr "افصل الوسوم بفاصلة (,)، مثل: monitor, 24-inch"
+
+#: assets\forms.py:43
+msgid "You can ask the AI to suggest it after saving the draft"
+msgstr "يمكنك أن تطلب من الذكاء الاصطناعي اقتراحها بعد حفظ المسودة"
+
+#: assets\forms.py:80
+#: resource_requests\forms.py:36
+#: resource_requests\models.py:87
+msgid "The quantity must be a positive whole number."
+msgstr "يجب أن تكون الكمية عدداً صحيحاً موجباً."
+
+#: assets\forms.py:86
+msgid "The purchase date cannot be in the future."
+msgstr "لا يمكن أن يكون تاريخ الشراء في المستقبل."
+
+#: assets\models.py:106
+msgid "estimated value (AED)"
+msgstr "القيمة التقديرية (AED)"
+
+#: assets\models.py:169
+msgctxt "history"
+msgid "registered"
+msgstr "سُجّل"
+
+#: assets\models.py:17
+msgid "New"
+msgstr "جديد"
+
+#: assets\models.py:174
+msgid "A different user must confirm this asset record (BR-02)."
+msgstr "يجب أن يؤكد مستخدم آخر سجل هذا الأصل (BR-02)."
+
+#: assets\models.py:176
+msgid "Choose a category before the asset is confirmed."
+msgstr "اختر الفئة قبل تأكيد الأصل."
+
+#: assets\models.py:179
+msgctxt "history"
+msgid "confirmed"
+msgstr "أُكّد"
+
+#: assets\models.py:18
+msgid "Good"
+msgstr "جيد"
+
+#: assets\models.py:183
+msgctxt "history"
+msgid "status changed"
+msgstr "تغيّرت الحالة"
+
+#: assets\models.py:188
+msgid "Only %(count)s of %(code)s are still available."
+msgstr "الكمية المتاحة من %(code)s الآن %(count)s فقط."
+
+#: assets\models.py:19
+msgid "Fair"
+msgstr "مقبول"
+
+#: assets\models.py:20
+msgid "Poor"
+msgstr "ضعيف"
+
+#: assets\models.py:21
+msgid "Not working"
+msgstr "لا يعمل"
+
+#: assets\models.py:242
+msgid "furniture asset"
+msgstr "أصل أثاث"
+
+#: assets\models.py:248
+#: transfers\models.py:299
+msgid "Pending release approval"
+msgstr "بانتظار موافقة الإتاحة"
+
+#: assets\models.py:249
+msgid "Published"
+msgstr "منشور"
+
+#: assets\models.py:250
+msgid "Fully reserved"
+msgstr "محجوز بالكامل"
+
+#: assets\models.py:251
+#: transfers\models.py:43
+msgid "Withdrawn"
+msgstr "مسحوب"
+
+#: assets\models.py:252
+msgid "Closed"
+msgstr "مغلق"
+
+#: assets\models.py:255
+msgid "Surplus"
+msgstr "فائض"
+
+#: assets\models.py:256
+msgid "Underutilised"
+msgstr "قليل الاستخدام"
+
+#: assets\models.py:257
+msgid "Unwanted"
+msgstr "غير مرغوب فيه"
+
+#: assets\models.py:285
+msgid "Listing of %(name)s"
+msgstr "عرض %(name)s"
+
+#: assets\models.py:311
+msgid "Only an asset that is in service or in storage can be listed."
+msgstr "لا يمكن عرض أصل إلا إذا كان في الخدمة أو في المخزن."
+
+#: assets\models.py:314
+msgid "The listing offers more units than are available."
+msgstr "الكمية المعروضة أكبر من الوحدات المتاحة."
+
+#: assets\models.py:316
+msgid "An item rated Not working cannot be offered for reuse until it is repaired (FR-12.2)."
+msgstr "لا يمكن عرض عنصر حالته المادية «لا يعمل» لإعادة الاستخدام حتى يتم إصلاحه (FR-12.2)."
+
+#: assets\models.py:318
+msgctxt "history"
+msgid "submitted for release"
+msgstr "أُرسل للإتاحة"
+
+#: assets\models.py:33
+msgid "Set"
+msgstr "مجموعة"
+
+#: assets\models.py:331
+msgid "This listing has no release request to approve."
+msgstr "لا يوجد طلب إتاحة لهذا العرض للموافقة عليه."
+
+#: assets\models.py:334
+msgctxt "history"
+msgid "published"
+msgstr "نُشر"
+
+#: assets\models.py:339
+msgid "This listing has no release request to reject."
+msgstr "لا يوجد طلب إتاحة لهذا العرض لرفضه."
+
+#: assets\models.py:34
+msgid "Kilogram"
+msgstr "كيلوغرام"
+
+#: assets\models.py:341
+msgctxt "history"
+msgid "release rejected"
+msgstr "رُفضت الإتاحة"
+
+#: assets\models.py:347
+msgid "Give a reason for withdrawing the listing (BR-20)."
+msgstr "اذكر سبب سحب العرض (BR-20)."
+
+#: assets\models.py:349
+msgid "Every unit is held for a requester. Wait until a hold ends, then withdraw."
+msgstr "جميع الوحدات محجوزة لمقدّمي طلبات. انتظر حتى ينتهي أحد الحجوزات، ثم اسحب العرض."
+
+#: assets\models.py:353
+msgid "A listing cannot be withdrawn during a transfer (BR-19)."
+msgstr "لا يمكن سحب العرض أثناء عملية نقل (BR-19)."
+
+#: assets\models.py:355
+#: transfers\models.py:160
+msgctxt "history"
+msgid "withdrawn"
+msgstr "سُحب"
+
+#: assets\models.py:366
+msgctxt "history"
+msgid "fully reserved"
+msgstr "حُجز بالكامل"
+
+#: assets\models.py:368
+msgctxt "history"
+msgid "units available again"
+msgstr "أُتيحت الوحدات مجدداً"
+
+#: assets\models.py:54
+msgid "categories"
+msgstr "الفئات"
+
+#: assets\models.py:68
+msgid "In storage"
+msgstr "في المخزن"
+
+#: assets\models.py:69
+msgid "Under maintenance"
+msgstr "قيد الصيانة"
+
+#: assets\models.py:70
+#: resource_requests\models.py:38
+msgid "In transfer"
+msgstr "قيد النقل"
+
+#: assets\models.py:71
+msgid "Retired"
+msgstr "مُخرَج من الخدمة"
+
+#: assets\models.py:72
+msgid "Donated"
+msgstr "متبرَّع به"
+
+#: assets\models.py:73
+msgid "Recycled"
+msgstr "مُعاد تدويره"
+
+#: assets\models.py:74
+msgid "Disassembled"
+msgstr "مُفكَّك"
+
+#: assets\models.py:75
+msgid "Disposed"
+msgstr "تم التخلص منه"
+
+#: assets\models.py:93
+msgid "Comma-separated search tags"
+msgstr "وسوم بحث مفصولة بفواصل"
+
+#: assets\views.py:105
+msgid "Only a custodian or representative of the owning department can confirm."
+msgstr "لا يمكن التأكيد إلا من قِبل أمين عهدة أو ممثل للقسم المالك."
+
+#: assets\views.py:107
+msgid "%(code)s confirmed."
+msgstr "تم تأكيد %(code)s."
+
+#: assets\views.py:115
+msgid "Only the owning department can list this asset."
+msgstr "لا يمكن عرض هذا الأصل لإعادة الاستخدام إلا من قِبل القسم المالك."
+
+#: assets\views.py:128
+msgid "Listing sent to your department representative for release approval."
+msgstr "أُرسل العرض إلى ممثل قسمك لموافقة الإتاحة."
+
+#: assets\views.py:129
+msgid "Listing saved as a draft."
+msgstr "حُفظ العرض كمسودة."
+
+#: assets\views.py:140
+msgid "Unpublished listings are visible to the owning department only (FR-08.4)."
+msgstr "لا تظهر العروض غير المنشورة إلا للقسم المالك (FR-08.4)."
+
+#: assets\views.py:169
+msgid "Only the owning department can submit this listing."
+msgstr "لا يمكن إرسال هذا العرض إلا من قِبل القسم المالك."
+
+#: assets\views.py:171
+msgid "Sent to the department representative for release approval."
+msgstr "أُرسل إلى ممثل القسم لموافقة الإتاحة."
+
+#: assets\views.py:180
+msgid "Only the owning department representative can release this listing."
+msgstr "لا يمكن إتاحة هذا العرض إلا من قِبل ممثل القسم المالك."
+
+#: assets\views.py:183
+msgid "Listing published. Staff can now find it in search."
+msgstr "نُشر العرض. يمكن للموظفين الآن العثور عليه في البحث."
+
+#: assets\views.py:186
+msgid "Release rejected; the listing is back to draft."
+msgstr "رُفضت الإتاحة؛ وعاد العرض إلى حالة المسودة."
+
+#: assets\views.py:195
+msgid "Only the owning department can withdraw this listing."
+msgstr "لا يمكن سحب هذا العرض إلا من قِبل القسم المالك."
+
+#: assets\views.py:197
+msgid "Listing withdrawn."
+msgstr "سُحب العرض."
+
+#: assets\views.py:33
+msgid "You can only open the assets of your own department."
+msgstr "يمكنك فتح أصول قسمك فقط."
+
+#: assets\views.py:47
+msgid "all departments"
+msgstr "جميع الأقسام"
+
+#: assets\views.py:57
+msgid "Saved as a draft (AS-01). Another custodian or the department representative must confirm it."
+msgstr "حُفظ كمسودة (AS-01). يجب أن يؤكده أمين عهدة آخر أو ممثل القسم."
+
+#: assets\views.py:68
+msgid "Only a draft can be edited. A confirmed asset changes through its workflows."
+msgstr "لا يمكن تعديل إلا المسودة. أما الأصل المؤكَّد فيتغير من خلال سير العمل الخاص به."
+
+#: assets\views.py:73
+#: resource_requests\views.py:90
+msgctxt "history"
+msgid "draft edited"
+msgstr "عُدّلت المسودة"
+
+#: assets\views.py:74
+#: resource_requests\views.py:94
+msgid "Draft saved."
+msgstr "تم حفظ المسودة."
+
+#: assets\views.py:76
+#: resource_requests\views.py:96
+msgid "Edit %(code)s"
+msgstr "تعديل %(code)s"
+
+#: audit\lifecycle.py:21
+msgctxt "record name"
+msgid "IT asset"
+msgstr "أصل تقنية المعلومات"
+
+#: audit\lifecycle.py:21
+msgctxt "record name"
+msgid "asset"
+msgstr "الأصل"
+
+#: audit\lifecycle.py:22
+msgctxt "record name"
+msgid "furniture asset"
+msgstr "أصل الأثاث"
+
+#: audit\lifecycle.py:23
+msgctxt "record name"
+msgid "listing"
+msgstr "العرض"
+
+#: audit\lifecycle.py:23
+msgctxt "record name"
+msgid "request"
+msgstr "الطلب"
+
+#: audit\lifecycle.py:24
+msgctxt "record name"
+msgid "hold"
+msgstr "الحجز"
+
+#: audit\lifecycle.py:24
+msgctxt "record name"
+msgid "transfer"
+msgstr "عملية النقل"
+
+#: audit\lifecycle.py:25
+msgctxt "record name"
+msgid "approval"
+msgstr "الموافقة"
+
+#: audit\lifecycle.py:37
+msgid "This %(record)s is already %(state)s, so this step was not done."
+msgstr "حالة %(record)s هي «%(state)s» بالفعل، لذا لم تُنفَّذ هذه الخطوة."
+
+#: audit\lifecycle.py:40
+msgid "This step is not allowed: a %(record)s cannot go from %(before)s to %(after)s."
+msgstr "هذه الخطوة غير مسموح بها: لا يمكن تغيير حالة %(record)s من «%(before)s» إلى «%(after)s»."
+
+#: audit\templatetags\audit_ui.py:59
+msgctxt "record kind"
+msgid "Asset"
+msgstr "أصل"
+
+#: audit\templatetags\audit_ui.py:59
+msgctxt "record kind"
+msgid "Listing"
+msgstr "عرض"
+
+#: audit\templatetags\audit_ui.py:60
+msgctxt "record kind"
+msgid "Hold"
+msgstr "حجز"
+
+#: audit\templatetags\audit_ui.py:60
+msgctxt "record kind"
+msgid "Request"
+msgstr "طلب"
+
+#: audit\templatetags\audit_ui.py:61
+msgctxt "record kind"
+msgid "Approval"
+msgstr "موافقة"
+
+#: audit\templatetags\audit_ui.py:61
+msgctxt "record kind"
+msgid "Transfer"
+msgstr "عملية نقل"
+
+#: audit\templatetags\audit_ui.py:62
+msgctxt "record kind"
+msgid "AI suggestion"
+msgstr "اقتراح الذكاء الاصطناعي"
+
+#: audit\templatetags\audit_ui.py:62
+msgctxt "record kind"
+msgid "User"
+msgstr "مستخدم"
+
+#: audit\templatetags\audit_ui.py:63
+msgctxt "record kind"
+msgid "AI match"
+msgstr "مطابقة الذكاء الاصطناعي"
+
+#: audit\templatetags\audit_ui.py:64
+msgctxt "record kind"
+msgid "Sustainability record"
+msgstr "سجل استدامة"
+
+#: audit\templatetags\audit_ui.py:65
+msgctxt "record kind"
+msgid "Page"
+msgstr "صفحة"
+
+#: audit\views.py:51
+msgid "Custodians and representatives see the history of their own department's assets."
+msgstr "يرى أمناء العهدة والممثلون سجل أصول أقسامهم فقط."
+
+#: audit\views.py:61
+msgid "User name contains"
+msgstr "اسم المستخدم يحتوي على"
+
+#: audit\views.py:62
+msgid "Record type"
+msgstr "نوع السجل"
+
+#: audit\views.py:63
+msgid "Action contains"
+msgstr "الإجراء يحتوي على"
+
+#: audit\views.py:70
+msgid "Any record"
+msgstr "أي سجل"
+
+#: audit\views.py:75
+msgid "Choose a start date on or before the end date."
+msgstr "اختر تاريخ بدء يسبق تاريخ الانتهاء أو يساويه."
+
+#: core\templatetags\dawra_ui.py:70
+msgid "Sustainability"
+msgstr "الاستدامة"
+
+#: core\views.py:29
+msgid "Drafts to finish"
+msgstr "مسودات بانتظار الإكمال"
+
+#: core\views.py:30
+msgid "Waiting for department approval"
+msgstr "بانتظار موافقة القسم"
+
+#: core\views.py:32
+msgid "Open: find a match"
+msgstr "مفتوحة: ابحث عن مطابقة"
+
+#: core\views.py:33
+#: resource_requests\models.py:39
+#: resource_requests\views.py:24
+msgid "Fulfilled"
+msgstr "مُلبّى"
+
+#: core\views.py:39
+msgid "Assets to confirm"
+msgstr "أصول بانتظار التأكيد"
+
+#: core\views.py:41
+msgid "Assets in storage"
+msgstr "أصول في المخزن"
+
+#: core\views.py:47
+msgid "Listings to release"
+msgstr "عروض بانتظار الإتاحة"
+
+#: core\views.py:48
+msgid "Requests to approve"
+msgstr "طلبات بانتظار الموافقة"
+
+#: core\views.py:51
+msgid "Approval tasks"
+msgstr "مهام الموافقة"
+
+#: core\views.py:55
+msgid "Holds to decide"
+msgstr "حجوزات بانتظار البت"
+
+#: core\views.py:59
+msgid "Transfers to hand over"
+msgstr "عمليات نقل بانتظار التسليم"
+
+#: core\views.py:60
+msgid "Deliveries to confirm"
+msgstr "عمليات توصيل بانتظار التأكيد"
+
+#: core\views.py:63
+msgid "Holds ready: start the transfer"
+msgstr "حجوزات جاهزة: ابدأ النقل"
+
+#: core\views.py:66
+msgid "Published items"
+msgstr "العناصر المنشورة"
+
+#: notifications\rules.py:103
+msgid "%(code)s was handed over. Confirm what arrived."
+msgstr "تم تسليم %(code)s. أكّد ما وصل."
+
+#: notifications\rules.py:107
+msgid "%(code)s was received by %(department)s. Ownership has changed."
+msgstr "استُلم %(code)s من قِبل %(department)s. وتغيّرت الملكية."
+
+#: notifications\rules.py:113
+msgid "A difference was recorded on %(code)s: %(reason)s"
+msgstr "سُجّل اختلاف في %(code)s: %(reason)s"
+
+#: notifications\rules.py:117
+msgid "%(code)s was rejected: %(reason)s"
+msgstr "رُفض %(code)s: %(reason)s"
+
+#: notifications\rules.py:120
+msgid "%(code)s was cancelled: %(reason)s"
+msgstr "أُلغي %(code)s: %(reason)s"
+
+#: notifications\rules.py:123
+msgid "%(code)s is published and visible in search."
+msgstr "نُشر %(code)s وأصبح ظاهراً في البحث."
+
+#: notifications\rules.py:40
+msgid "New approval task: %(stage)s for %(code)s."
+msgstr "مهمة موافقة جديدة: %(stage)s بخصوص %(code)s."
+
+#: notifications\rules.py:48
+msgid "Hold requested on %(item)s (%(quantity)s) for %(request)s. Confirm or decline it."
+msgstr "طُلب حجز %(item)s (%(quantity)s) للطلب %(request)s. أكّده أو ارفضه."
+
+#: notifications\rules.py:61
+msgid "Your request %(code)s was approved. You can now find matching items."
+msgstr "تمت الموافقة على طلبك %(code)s. يمكنك الآن البحث عن عناصر مطابقة."
+
+#: notifications\rules.py:63
+msgid "Your request %(code)s was rejected: %(reason)s"
+msgstr "رُفض طلبك %(code)s: %(reason)s"
+
+#: notifications\rules.py:65
+msgid "Changes were requested on %(code)s: %(reason)s"
+msgstr "طُلبت تعديلات على %(code)s: %(reason)s"
+
+#: notifications\rules.py:67
+msgid "Your request %(code)s is fulfilled. The item was received."
+msgstr "تمت تلبية طلبك %(code)s. واستُلم العنصر."
+
+#: notifications\rules.py:69
+msgid "Your request %(code)s expired."
+msgstr "انتهت صلاحية طلبك %(code)s."
+
+#: notifications\rules.py:82
+msgid "Your hold on %(item)s is confirmed until %(date)s. Start the transfer."
+msgstr "تم تأكيد حجزك لـ %(item)s حتى %(date)s. ابدأ النقل."
+
+#: notifications\rules.py:86
+msgid "Your hold on %(item)s was declined: %(reason)s"
+msgstr "رُفض حجزك لـ %(item)s: %(reason)s"
+
+#: notifications\rules.py:90
+msgid "The hold on %(item)s expired; the units are free again."
+msgstr "انتهت صلاحية حجز %(item)s؛ وأصبحت الوحدات متاحة مجدداً."
+
+#: notifications\rules.py:99
+msgid "%(code)s is approved. The releasing custodian can hand it over."
+msgstr "تمت الموافقة على %(code)s. يمكن لأمين العهدة المُتيح تسليمه."
+
+#: reports\views.py:104
+msgid "Period"
+msgstr "الفترة"
+
+#: reports\views.py:106
+msgid "Data"
+msgstr "البيانات"
+
+#: reports\views.py:106
+#: sustainability\indicators.py:24
+msgid "Synthetic demo data"
+msgstr "بيانات تجريبية للعرض"
+
+#: reports\views.py:111
+msgid "Total records"
+msgstr "إجمالي السجلات"
+
+#: reports\views.py:23
+msgid "Report type"
+msgstr "نوع التقرير"
+
+#: reports\views.py:105
+#: reports\views.py:28
+#: sustainability\views.py:26
+msgid "All departments"
+msgstr "جميع الأقسام"
+
+#: reports\views.py:33
+#: sustainability\views.py:31
+msgid "Choose a start date on or before the end date, then apply again."
+msgstr "اختر تاريخ بدء يسبق تاريخ الانتهاء أو يساويه، ثم طبّق مجدداً."
+
+#: reports\views.py:52
+msgid "Purpose"
+msgstr "الغرض"
+
+#: reports\views.py:53
+msgid "Submitted"
+msgstr "تاريخ الإرسال"
+
+#: resource_requests\forms.py:20
+msgid "What do you need, and for what?"
+msgstr "ما الذي تحتاجه، ولأي غرض؟"
+
+#: resource_requests\forms.py:25
+msgid "For example: 24-inch, HDMI"
+msgstr "مثال: 24 بوصة، HDMI"
+
+#: resource_requests\forms.py:42
+msgid "The required-by date must be today or later."
+msgstr "يجب أن يكون تاريخ «مطلوب بحلول» اليوم أو بعده."
+
+#: resource_requests\models.py:109
+#: resource_requests\models.py:116
+#: resource_requests\models.py:123
+msgid "This request has no approval task."
+msgstr "لا توجد مهمة موافقة لهذا الطلب."
+
+#: resource_requests\models.py:111
+msgctxt "history"
+msgid "approved"
+msgstr "تمت الموافقة"
+
+#: resource_requests\models.py:118
+msgctxt "history"
+msgid "changes requested"
+msgstr "طُلبت تعديلات"
+
+#: resource_requests\models.py:125
+#: transfers\models.py:453
+msgctxt "history"
+msgid "rejected"
+msgstr "رُفض"
+
+#: resource_requests\models.py:132
+#: transfers\models.py:459
+msgid "Give a reason for cancelling (BR-20)."
+msgstr "اذكر سبب الإلغاء (BR-20)."
+
+#: resource_requests\models.py:133
+#: transfers\models.py:462
+msgctxt "history"
+msgid "cancelled"
+msgstr "أُلغي"
+
+#: resource_requests\models.py:138
+msgctxt "history"
+msgid "closed: no suitable item"
+msgstr "أُغلق: لا يوجد عنصر مناسب"
+
+#: resource_requests\models.py:143
+msgctxt "history"
+msgid "expired"
+msgstr "انتهت الصلاحية"
+
+#: resource_requests\models.py:19
+msgid "Low"
+msgstr "منخفض"
+
+#: resource_requests\models.py:20
+msgid "Normal"
+msgstr "عادي"
+
+#: resource_requests\models.py:21
+msgid "High"
+msgstr "مرتفع"
+
+#: resource_requests\models.py:35
+msgid "Pending department approval"
+msgstr "بانتظار موافقة القسم"
+
+#: resource_requests\models.py:37
+msgid "Reservation requested"
+msgstr "تم طلب الحجز"
+
+#: resource_requests\models.py:40
+msgid "No suitable item"
+msgstr "لا يوجد عنصر مناسب"
+
+#: resource_requests\models.py:42
+#: transfers\models.py:170
+#: transfers\models.py:307
+msgid "Cancelled"
+msgstr "ملغى"
+
+#: resource_requests\models.py:43
+#: transfers\models.py:169
+msgid "Expired"
+msgstr "منتهي الصلاحية"
+
+#: resource_requests\models.py:57
+msgid "What the item is for"
+msgstr "الغرض من العنصر"
+
+#: resource_requests\models.py:89
+msgid "The required-by date must not be in the past."
+msgstr "يجب ألا يكون تاريخ «مطلوب بحلول» في الماضي."
+
+#: resource_requests\models.py:97
+msgctxt "history"
+msgid "submitted"
+msgstr "أُرسل"
+
+#: resource_requests\views.py:124
+msgid "Only the requester can submit this request."
+msgstr "لا يمكن إرسال هذا الطلب إلا من قِبل مقدّم الطلب."
+
+#: resource_requests\views.py:125
+msgid "Sent to your department representative for approval."
+msgstr "أُرسل إلى ممثل قسمك للموافقة."
+
+#: resource_requests\views.py:134
+msgid "Only the requester can cancel this request."
+msgstr "لا يمكن إلغاء هذا الطلب إلا من قِبل مقدّم الطلب."
+
+#: resource_requests\views.py:135
+msgid "Request cancelled."
+msgstr "أُلغي الطلب."
+
+#: resource_requests\views.py:144
+msgid "Only the requester can close this request."
+msgstr "لا يمكن إغلاق هذا الطلب إلا من قِبل مقدّم الطلب."
+
+#: resource_requests\views.py:147
+msgid "Closed as no suitable item. It does not count as an avoided purchase."
+msgstr "أُغلق الطلب لعدم توفر عنصر مناسب. ولا يُحتسب كشراء مُتجنَّب."
+
+#: resource_requests\views.py:43
+msgid "You can only open your own requests or your department's requests."
+msgstr "يمكنك فتح طلباتك أو طلبات قسمك فقط."
+
+#: resource_requests\views.py:71
+msgctxt "history"
+msgid "created"
+msgstr "أُنشئ"
+
+#: resource_requests\views.py:75
+msgid "Request saved."
+msgstr "تم حفظ الطلب."
+
+#: resource_requests\views.py:78
+msgid "Submit a resource request"
+msgstr "تقديم طلب موارد"
+
+#: resource_requests\views.py:85
+msgid "Only your own draft can be edited."
+msgstr "يمكنك تعديل مسوداتك فقط."
+
+#: resource_requests\views.py:92
+msgid "Sent to your department representative."
+msgstr "أُرسل إلى ممثل قسمك."
+
+#: sustainability\indicators.py:100
+msgid "About %(low)s to %(high)s kg CO2e saved (estimated)"
+msgstr "تم توفير ما بين %(low)s و%(high)s kg CO2e تقريبًا (تقدير)"
+
+#: sustainability\indicators.py:102
+msgid "N/A (nothing listed in this period)"
+msgstr "غير متاح (لم يُعرض شيء في هذه الفترة)"
+
+#: sustainability\indicators.py:105
+msgid "Waste diverted"
+msgstr "النفايات المُجنَّبة"
+
+#: sustainability\indicators.py:106
+msgid "Sum of quantities received through reuse. Mass = items x category mass per item."
+msgstr "مجموع الكميات المستلمة عبر إعادة الاستخدام. الكتلة = عدد العناصر × كتلة العنصر الواحد في الفئة."
+
+#: sustainability\indicators.py:107
+msgid "%(count)s completed transfer; %(without)s without a recorded mass"
+msgid_plural "%(count)s completed transfers; %(without)s without a recorded mass"
+msgstr[0] "لا توجد عمليات نقل مكتملة؛ %(without)s بلا كتلة مسجّلة"
+msgstr[1] "عملية نقل مكتملة واحدة؛ %(without)s بلا كتلة مسجّلة"
+msgstr[2] "عمليتا نقل مكتملتان؛ %(without)s بلا كتلة مسجّلة"
+msgstr[3] "%(count)s عمليات نقل مكتملة؛ %(without)s بلا كتلة مسجّلة"
+msgstr[4] "%(count)s عملية نقل مكتملة؛ %(without)s بلا كتلة مسجّلة"
+msgstr[5] "%(count)s عملية نقل مكتملة؛ %(without)s بلا كتلة مسجّلة"
+
+#: sustainability\indicators.py:110
+msgid "Completed transfers (TR-06). Monitor mass 5.15 kg from the Dell P2422H specifications (F3)."
+msgstr "عمليات النقل المكتملة (TR-06). كتلة الشاشة 5.15 kg من مواصفات Dell P2422H (F3)."
+
+#: sustainability\indicators.py:111
+msgid "Avoided purchases"
+msgstr "المشتريات المُتجنَّبة"
+
+#: sustainability\indicators.py:112
+msgid "%(count)s request, %(value)s"
+msgid_plural "%(count)s requests, %(value)s"
+msgstr[0] "%(count)s طلب، %(value)s"
+msgstr[1] "طلب واحد، %(value)s"
+msgstr[2] "طلبان، %(value)s"
+msgstr[3] "%(count)s طلبات، %(value)s"
+msgstr[4] "%(count)s طلبًا، %(value)s"
+msgstr[5] "%(count)s طلب، %(value)s"
+
+#: sustainability\indicators.py:114
+msgid "Count of fulfilled requests the receiving representative confirmed (BR-18). Value = quantity x replacement cost."
+msgstr "عدد الطلبات المُلبّاة التي أكّدها الممثل المستلم (BR-18). القيمة = الكمية × تكلفة الاستبدال."
+
+#: sustainability\indicators.py:116
+msgid "Only confirmed transfers count; 'no suitable item' never counts; %(count)s request without a cited replacement cost (N/A)"
+msgid_plural "Only confirmed transfers count; 'no suitable item' never counts; %(count)s requests without a cited replacement cost (N/A)"
+msgstr[0] "لا تُحتسب إلا عمليات النقل المؤكدة، ولا تُحتسب حالات «لا يوجد عنصر مناسب» أبدًا؛ لا توجد طلبات بلا تكلفة استبدال موثّقة بمصدر (غير متاح)"
+msgstr[1] "لا تُحتسب إلا عمليات النقل المؤكدة، ولا تُحتسب حالات «لا يوجد عنصر مناسب» أبدًا؛ طلب واحد بلا تكلفة استبدال موثّقة بمصدر (غير متاح)"
+msgstr[2] "لا تُحتسب إلا عمليات النقل المؤكدة، ولا تُحتسب حالات «لا يوجد عنصر مناسب» أبدًا؛ طلبان بلا تكلفة استبدال موثّقة بمصدر (غير متاح)"
+msgstr[3] "لا تُحتسب إلا عمليات النقل المؤكدة، ولا تُحتسب حالات «لا يوجد عنصر مناسب» أبدًا؛ %(count)s طلبات بلا تكلفة استبدال موثّقة بمصدر (غير متاح)"
+msgstr[4] "لا تُحتسب إلا عمليات النقل المؤكدة، ولا تُحتسب حالات «لا يوجد عنصر مناسب» أبدًا؛ %(count)s طلبًا بلا تكلفة استبدال موثّقة بمصدر (غير متاح)"
+msgstr[5] "لا تُحتسب إلا عمليات النقل المؤكدة، ولا تُحتسب حالات «لا يوجد عنصر مناسب» أبدًا؛ %(count)s طلب بلا تكلفة استبدال موثّقة بمصدر (غير متاح)"
+
+#: sustainability\indicators.py:121
+msgid "Replacement cost per category, e.g. monitor AED 345 incl. VAT, Phase 2 feasibility study [S15] (F7)."
+msgstr "تكلفة الاستبدال لكل فئة، مثل الشاشة بسعر 345 AED شاملًا ضريبة القيمة المضافة، وفق دراسة الجدوى في المرحلة 2 [S15] (F7)."
+
+#: sustainability\indicators.py:123
+msgid "Net financial savings"
+msgstr "صافي الوفورات المالية"
+
+#: sustainability\indicators.py:124
+msgid "Avoided purchase value - transfer costs of the same transfers (no double counting)."
+msgstr "قيمة المشتريات المُتجنَّبة - تكاليف النقل لعمليات النقل نفسها (دون احتساب مزدوج)."
+
+#: sustainability\indicators.py:126
+msgid "Transfer costs entered on each transfer."
+msgstr "تكاليف النقل المُدخَلة في كل عملية نقل."
+
+#: sustainability\indicators.py:127
+msgid "Carbon saved"
+msgstr "الكربون المُوفَّر"
+
+#: sustainability\indicators.py:128
+msgid "For confirmed avoided purchases: sum of (quantity x category factor) - transport, shown as a low-to-high range."
+msgstr "للمشتريات المُتجنَّبة المؤكدة: مجموع (الكمية × معامل الفئة) - انبعاثات النقل، ويُعرض كنطاق من الأدنى إلى الأعلى."
+
+#: sustainability\indicators.py:130
+msgid "Transport %(transport)s kg CO2e (van trips x km x %(factor)s); %(count)s transfer in categories without a factor (N/A)"
+msgid_plural "Transport %(transport)s kg CO2e (van trips x km x %(factor)s); %(count)s transfers in categories without a factor (N/A)"
+msgstr[0] "انبعاثات النقل %(transport)s kg CO2e (رحلات الشاحنة الصغيرة × km × %(factor)s)؛ لا توجد عمليات نقل في فئات بلا معامل (غير متاح)"
+msgstr[1] "انبعاثات النقل %(transport)s kg CO2e (رحلات الشاحنة الصغيرة × km × %(factor)s)؛ عملية نقل واحدة في فئة بلا معامل (غير متاح)"
+msgstr[2] "انبعاثات النقل %(transport)s kg CO2e (رحلات الشاحنة الصغيرة × km × %(factor)s)؛ عمليتا نقل في فئات بلا معامل (غير متاح)"
+msgstr[3] "انبعاثات النقل %(transport)s kg CO2e (رحلات الشاحنة الصغيرة × km × %(factor)s)؛ %(count)s عمليات نقل في فئات بلا معامل (غير متاح)"
+msgstr[4] "انبعاثات النقل %(transport)s kg CO2e (رحلات الشاحنة الصغيرة × km × %(factor)s)؛ %(count)s عملية نقل في فئات بلا معامل (غير متاح)"
+msgstr[5] "انبعاثات النقل %(transport)s kg CO2e (رحلات الشاحنة الصغيرة × km × %(factor)s)؛ %(count)s عملية نقل في فئات بلا معامل (غير متاح)"
+
+#: sustainability\indicators.py:136
+msgid "Monitor: UK DESNZ 2024 IT materials x 5.15 kg (F1, F3) to Dell P2422H PCF 327 kg (F2). Chair: FIRA average 27 kg (F4) to Steelcase Leap EPD 104 kg (F5). Van: %(van)s (F6)."
+msgstr "الشاشة: من مواد تقنية المعلومات وفق UK DESNZ 2024 × 5.15 kg (F1، F3) إلى بصمة PCF لطراز Dell P2422H البالغة 327 kg (F2). الكرسي: من متوسط FIRA البالغ 27 kg (F4) إلى إعلان EPD لطراز Steelcase Leap البالغ 104 kg (F5). الشاحنة الصغيرة: %(van)s (F6)."
+
+#: sustainability\indicators.py:139
+msgid "Reuse rate"
+msgstr "معدل إعادة الاستخدام"
+
+#: sustainability\indicators.py:140
+msgid "Units listed in the period and received by its end / units listed in the period x 100."
+msgstr "الوحدات المعروضة في الفترة والمستلمة بنهايتها ÷ الوحدات المعروضة في الفترة × 100."
+
+#: sustainability\indicators.py:142
+msgid "%(reused)s of %(listed)s listed units"
+msgid_plural "%(reused)s of %(listed)s listed units"
+msgstr[0] "%(reused)s من %(listed)s وحدة معروضة"
+msgstr[1] "%(reused)s من وحدة واحدة معروضة"
+msgstr[2] "%(reused)s من وحدتين معروضتين"
+msgstr[3] "%(reused)s من %(listed)s وحدات معروضة"
+msgstr[4] "%(reused)s من %(listed)s وحدة معروضة"
+msgstr[5] "%(reused)s من %(listed)s وحدة معروضة"
+
+#: sustainability\indicators.py:144
+msgid "Listings and completed transfers in the period."
+msgstr "العروض وعمليات النقل المكتملة في الفترة."
+
+#: sustainability\indicators.py:95
+msgid "%(count)s item"
+msgid_plural "%(count)s items"
+msgstr[0] "%(count)s عنصر"
+msgstr[1] "عنصر واحد"
+msgstr[2] "عنصران"
+msgstr[3] "%(count)s عناصر"
+msgstr[4] "%(count)s عنصرًا"
+msgstr[5] "%(count)s عنصر"
+
+#: sustainability\indicators.py:97
+msgid "%(count)s item, %(kg)s kg"
+msgid_plural "%(count)s items, %(kg)s kg"
+msgstr[0] "%(count)s عنصر، %(kg)s kg"
+msgstr[1] "عنصر واحد، %(kg)s kg"
+msgstr[2] "عنصران، %(kg)s kg"
+msgstr[3] "%(count)s عناصر، %(kg)s kg"
+msgstr[4] "%(count)s عنصرًا، %(kg)s kg"
+msgstr[5] "%(count)s عنصر، %(kg)s kg"
+
+#: sustainability\models.py:102
+msgid "This avoided purchase was already confirmed by %(user)s."
+msgstr "سبق أن أكّد %(user)s هذا الشراء المُتجنَّب."
+
+#: sustainability\models.py:108
+msgctxt "history"
+msgid "avoided purchase confirmed"
+msgstr "أُكّد الشراء المُتجنَّب"
+
+#: sustainability\models.py:24
+msgid "Measured"
+msgstr "مُقاس"
+
+#: sustainability\models.py:25
+msgid "Estimated"
+msgstr "تقديري"
+
+#: sustainability\models.py:26
+msgid "Synthetic"
+msgstr "تجريبي"
+
+#: sustainability\models.py:99
+msgid "Only the representative of %(department)s can confirm this."
+msgstr "لا يمكن تأكيد ذلك إلا من قِبل ممثل %(department)s."
+
+#: sustainability\views.py:72
+msgid "Only the receiving department representative can confirm this."
+msgstr "لا يمكن تأكيد ذلك إلا من قِبل ممثل القسم المستلم."
+
+#: sustainability\views.py:74
+msgid "Avoided purchase confirmed. It now counts on the dashboard."
+msgstr "تم تأكيد الشراء المُتجنَّب. وأصبح يُحتسب الآن في لوحة المؤشرات."
+
+#: templates\403.html
+msgid "Access refused · logged in the audit log"
+msgstr "تم رفض الوصول · سُجّل في سجل التدقيق"
+
+#: templates\403.html
+msgid "Back to the home page"
+msgstr "العودة إلى الصفحة الرئيسية"
+
+#: templates\403.html
+msgid "Not allowed"
+msgstr "غير مسموح"
+
+#: templates\403.html
+msgid "Please <a href=\"%(login_url)s\">sign in</a>."
+msgstr "يرجى <a href=\"%(login_url)s\">تسجيل الدخول</a>."
+
+#: templates\403.html
+msgid "Switch to %(user_role)s and try again"
+msgstr "بدّل إلى %(user_role)s ثم حاول مرة أخرى"
+
+#: templates\403.html
+msgid "You cannot do this with your current role"
+msgstr "لا يمكنك القيام بهذا بدورك الحالي"
+
+#: templates\accounts\settings.html
+msgid "Appearance"
+msgstr "المظهر"
+
+#: templates\accounts\settings.html
+msgid "Arabic, right to left."
+msgstr "العربية، من اليمين إلى اليسار."
+
+#: assets\forms.py:160
+#: reports\views.py:105
+#: reports\views.py:52
+msgid "Department"
+msgstr "القسم"
+
+#: templates\accounts\settings.html
+msgid "English, left to right."
+msgstr "الإنجليزية، من اليسار إلى اليمين."
+
+#: templates\accounts\settings.html
+msgid "Language"
+msgstr "اللغة"
+
+#: templates\accounts\settings.html
+msgid "Motion"
+msgstr "الحركة"
+
+#: assets\forms.py:34
+#: templates\accounts\settings.html
+msgid "Name"
+msgstr "الاسم"
+
+#: templates\accounts\settings.html
+#: templates\base.html
+#: templates\core\home.html
+msgid "No active role"
+msgstr "لا يوجد دور حالي"
+
+#: templates\accounts\settings.html
+msgid "Nothing moves. The app also follows this setting on your device."
+msgstr "لا شيء يتحرك. ويتبع التطبيق أيضاً هذا الإعداد على جهازك."
+
+#: templates\accounts\settings.html
+msgid "Pages, panels and numbers move gently into place."
+msgstr "تتحرك الصفحات واللوحات والأرقام بلطف إلى مواضعها."
+
+#: templates\accounts\settings.html
+msgid "Pick a theme. You see it at once; Save keeps it."
+msgstr "اختر مظهراً. يظهر لك فوراً، ويُثبَّت عند الحفظ."
+
+#: templates\accounts\settings.html
+msgid "Roles"
+msgstr "الأدوار"
+
+#: templates\accounts\settings.html
+msgid "Save settings"
+msgstr "حفظ الإعدادات"
+
+#: templates\accounts\settings.html
+msgid "Saved to your account, so they follow you to every device"
+msgstr "تُحفظ في حسابك، فترافقك على كل أجهزتك"
+
+#: templates\accounts\settings.html
+#: templates\base.html
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: templates\accounts\settings.html
+msgid "Theme"
+msgstr "المظهر"
+
+#: accounts\forms.py:8
+#: templates\accounts\settings.html
+msgid "Username"
+msgstr "اسم المستخدم"
+
+#: templates\accounts\settings.html
+msgid "Your account"
+msgstr "حسابك"
+
+#: templates\accounts\sign_in.html
+msgid "9 roles"
+msgstr "9 أدوار"
+
+#: templates\accounts\sign_in.html
+msgid "About Dawra Campus"
+msgstr "عن Dawra Campus"
+
+#: templates\accounts\sign_in.html
+msgid "Campus furniture, computers, lab equipment and books move to the department that needs them next, with people approving every step."
+msgstr "ينتقل أثاث الحرم الجامعي وأجهزة الحاسوب ومعدات المختبرات والكتب إلى القسم الذي يحتاجها بعد ذلك، مع موافقة بشرية على كل خطوة."
+
+#: templates\accounts\sign_in.html
+msgid "Campus resource exchange. Use your staff account."
+msgstr "تبادل موارد الحرم الجامعي. استخدم حساب الموظف الخاص بك."
+
+#: templates\accounts\sign_in.html
+msgid "Dawra means cycle"
+msgstr "اسمٌ يعني الدورة"
+
+#: templates\accounts\sign_in.html
+msgid "Every AI step"
+msgstr "كل خطوة للذكاء الاصطناعي"
+
+#: templates\accounts\sign_in.html
+msgid "Five wrong passwords lock the account for 15 minutes."
+msgstr "خمس محاولات خاطئة لكلمة المرور تقفل الحساب لمدة 15 دقيقة."
+
+#: templates\accounts\sign_in.html
+#: templates\base.html
+msgid "Reuse before replacement"
+msgstr "إعادة الاستخدام قبل الاستبدال"
+
+#: templates\accounts\sign_in.html
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
+#: templates\accounts\sign_in.html
+msgid "decided by a person"
+msgstr "يقرّرها شخص"
+
+#: templates\accounts\sign_in.html
+msgid "each checked on the server"
+msgstr "يُتحقَّق من كلٍّ منها على الخادم"
+
+#: templates\accounts\sign_in.html
+msgid "shown as an honest range"
+msgstr "تُعرض كنطاق تقديري صادق"
+
+#: templates\ai\_classification_panel.html
+msgid "%(response)s by %(user)s."
+msgstr "%(response)s من قِبل %(user)s."
+
+#: templates\ai\_classification_panel.html
+#: templates\ai\matches.html
+msgid "AI assistance"
+msgstr "مساعدة الذكاء الاصطناعي"
+
+#: templates\ai\_classification_panel.html
+msgid "AI evidence and human decision"
+msgstr "أدلة الذكاء الاصطناعي والقرار البشري"
+
+#: templates\ai\_classification_panel.html
+#: templates\ai\matches.html
+msgid "AI unavailable"
+msgstr "الذكاء الاصطناعي غير متاح"
+
+#: templates\ai\_classification_panel.html
+msgid "Accept suggestions"
+msgstr "قبول الاقتراحات"
+
+#: templates\ai\_classification_panel.html
+msgid "Below 0.60: shown as an option only."
+msgstr "أقل من 0.60: يُعرض كخيار فقط."
+
+#: assets\forms.py:156
+#: assets\forms.py:35
+#: reports\views.py:52
+msgid "Category"
+msgstr "الفئة"
+
+#: ai\matching.py:119
+#: assets\forms.py:35
+#: templates\ai\_classification_panel.html
+msgid "Condition"
+msgstr "الحالة المادية"
+
+#: templates\ai\_classification_panel.html
+msgid "Confidence %(confidence)s"
+msgstr "الثقة %(confidence)s"
+
+#: ai\matching.py:173
+#: templates\ai\_classification_panel.html
+msgid "Confidence unavailable - check carefully"
+msgstr "الثقة غير متاحة - تحقّق بعناية"
+
+#: templates\ai\_classification_panel.html
+msgid "Edit"
+msgstr "تعديل"
+
+#: templates\ai\_classification_panel.html
+msgid "Missing: %(details)s"
+msgstr "معلومات ناقصة: %(details)s"
+
+#: templates\ai\_classification_panel.html
+msgid "Model %(model)s · %(basis)s · saved %(when)s"
+msgstr "النموذج %(model)s · %(basis)s · حُفظ في %(when)s"
+
+#: templates\ai\_classification_panel.html
+msgid "No AI suggestion was made for this asset."
+msgstr "لم يُقدَّم أي اقتراح من الذكاء الاصطناعي لهذا الأصل."
+
+#: templates\ai\_classification_panel.html
+msgid "Nothing changes on the asset until you accept or edit."
+msgstr "لن يتغير شيء في الأصل حتى تقبل أو تعدّل."
+
+#: templates\ai\_classification_panel.html
+#: templates\ai\matches.html
+msgid "OFFLINE"
+msgstr "غير متصل"
+
+#: templates\ai\_classification_panel.html
+#: templates\ai\matches.html
+msgid "REVIEW"
+msgstr "للمراجعة"
+
+#: templates\ai\_classification_panel.html
+#: templates\assets\listing_detail.html
+#: templates\transfers\approval_detail.html
+msgid "Reason (needed to reject)"
+msgstr "السبب (مطلوب للرفض)"
+
+#: templates\ai\_classification_panel.html
+#: templates\assets\listing_detail.html
+#: templates\transfers\approval_detail.html
+msgid "Reject"
+msgstr "رفض"
+
+#: templates\ai\_classification_panel.html
+msgid "Save my values"
+msgstr "حفظ قيمي"
+
+#: templates\ai\_classification_panel.html
+msgid "Suggest category, condition and tags"
+msgstr "اقتراح الفئة والحالة المادية والوسوم"
+
+#: templates\ai\_classification_panel.html
+#: templates\assets\asset_detail.html
+msgid "Tags"
+msgstr "الوسوم"
+
+#: templates\ai\_classification_panel.html
+msgid "The AI can suggest the category, condition and tags from the description. You decide what is saved."
+msgstr "يمكن للذكاء الاصطناعي اقتراح الفئة والحالة المادية والوسوم من الوصف. وأنت من يقرر ما يُحفظ."
+
+#: templates\ai\_classification_panel.html
+msgid "The AI key is not set. Choose the category, condition and tags yourself in Edit draft."
+msgstr "مفتاح الذكاء الاصطناعي غير مُعَدّ. اختر الفئة والحالة المادية والوسوم بنفسك من «تعديل المسودة»."
+
+#: templates\ai\_classification_panel.html
+msgid "Use Edit to set the values yourself."
+msgstr "استخدم «تعديل» لتحديد القيم بنفسك."
+
+#: templates\ai\_classification_panel.html
+msgid "Why this suggestion"
+msgstr "سبب هذا الاقتراح"
+
+#: templates\ai\_classification_panel.html
+#: templates\ai\matches.html
+#: templates\transfers\approval_detail.html
+msgid "Your decision"
+msgstr "قرارك"
+
+#: templates\ai\_matches_link.html
+msgid "Find matching items"
+msgstr "البحث عن عناصر مطابقة"
+
+#: templates\ai\_report_panel.html
+msgid "AI drafting is unavailable; the figures above are complete without it."
+msgstr "الصياغة بالذكاء الاصطناعي غير متاحة؛ والأرقام أعلاه مكتملة بدونها."
+
+#: templates\ai\_report_panel.html
+msgid "AI-GENERATED DRAFT"
+msgstr "مسودة من إنشاء الذكاء الاصطناعي"
+
+#: templates\ai\_report_panel.html
+msgid "AI-generated draft reviewed and published by %(user)s on %(when)s"
+msgstr "مسودة من إنشاء الذكاء الاصطناعي راجعها ونشرها %(user)s في %(when)s"
+
+#: templates\ai\_report_panel.html
+msgid "Discard draft"
+msgstr "تجاهل المسودة"
+
+#: templates\ai\_report_panel.html
+msgid "Draft a summary with AI"
+msgstr "صياغة ملخص بالذكاء الاصطناعي"
+
+#: templates\ai\_report_panel.html
+msgid "Edit before publishing"
+msgstr "عدّل قبل النشر"
+
+#: templates\ai\_report_panel.html
+msgid "Figures the AI was given (%(period)s)"
+msgstr "الأرقام المقدَّمة للذكاء الاصطناعي (%(period)s)"
+
+#: templates\ai\_report_panel.html
+#: templates\ai\matches.html
+msgid "Model %(model)s · saved %(when)s"
+msgstr "النموذج %(model)s · حُفظ في %(when)s"
+
+#: templates\ai\_report_panel.html
+msgid "No summary has been published yet."
+msgstr "لم يُنشر أي ملخص بعد."
+
+#: templates\ai\_report_panel.html
+msgid "Publish summary"
+msgstr "نشر الملخص"
+
+#: templates\ai\_report_panel.html
+msgid "Report assistant"
+msgstr "مساعد التقارير"
+
+#: templates\ai\_report_panel.html
+msgid "Summary"
+msgstr "الملخص"
+
+#: templates\ai\_report_panel.html
+msgid "The AI writes from the figures above only; you edit and publish it."
+msgstr "يكتب الذكاء الاصطناعي استناداً إلى الأرقام أعلاه فقط؛ وأنت تعدّله وتنشره."
+
+#: templates\ai\matches.html
+msgid "(unknown)"
+msgstr "(غير معروف)"
+
+#: templates\ai\matches.html
+#: templates\audit\asset_history.html
+msgid "Back to %(code)s"
+msgstr "العودة إلى %(code)s"
+
+#: templates\ai\matches.html
+msgid "Check carefully"
+msgstr "تحقّق بعناية"
+
+#: templates\ai\matches.html
+msgid "Choosing an item only asks for a hold. Choosing a lower-ranked item needs a reason."
+msgstr "اختيار عنصر يطلب حجزاً فقط. واختيار عنصر بترتيب أدنى يتطلب ذكر السبب."
+
+#: templates\ai\matches.html
+msgid "Classic result"
+msgstr "نتيجة تقليدية"
+
+#: templates\ai\matches.html
+msgid "Compare items that meet your request, then ask the releasing team for a hold. The score is calculated by our fixed rules; the AI only rates how close the meaning is."
+msgstr "قارن العناصر التي تلبي طلبك، ثم اطلب حجزاً من الفريق المُتيح. تُحسب الدرجة وفق قواعدنا الثابتة؛ ويقيّم الذكاء الاصطناعي مدى تقارب المعنى فقط."
+
+#: templates\ai\matches.html
+msgid "Compatibility %(score)s/100 for the top item. The score is separate from AI confidence; Claude's meaning ratings come without a confidence measure."
+msgstr "التوافق %(score)s/100 للعنصر الأول. الدرجة منفصلة عن ثقة الذكاء الاصطناعي؛ إذ تأتي تقييمات Claude للمعنى دون مقياس للثقة."
+
+#: templates\ai\matches.html
+msgid "Confidence"
+msgstr "الثقة"
+
+#: templates\ai\matches.html
+msgid "Eligible item"
+msgstr "العنصر المؤهل"
+
+#: templates\ai\matches.html
+msgid "Find and rank matches"
+msgstr "البحث عن المطابقات وترتيبها"
+
+#: templates\ai\matches.html
+msgid "How the score was calculated"
+msgstr "كيف حُسبت الدرجة"
+
+#: templates\ai\matches.html
+msgid "Mandatory category, stock, condition and date checks passed for every item below."
+msgstr "اجتاز كل عنصر أدناه الفحوصات الإلزامية للفئة والمخزون والحالة المادية والتاريخ."
+
+#: templates\ai\matches.html
+msgid "Matches for %(code)s"
+msgstr "مطابقات %(code)s"
+
+#: templates\ai\matches.html
+msgid "Meaning and purpose 30, technical fit 20, condition 15, location 10, availability 10, useful life 10, repair cost 5 (SRS Table 4.1). Missing values earn 0 and say \"unknown\"."
+msgstr "المعنى والغرض 30، الملاءمة التقنية 20، الحالة المادية 15، الموقع 10، التوفر 10، العمر الإنتاجي 10، تكلفة الإصلاح 5 (SRS Table 4.1). القيم الناقصة تحصل على 0 وتظهر \"غير معروف\"."
+
+#: templates\ai\matches.html
+msgid "No matches yet. Matches can be searched while the request is open."
+msgstr "لا توجد مطابقات بعد. يمكن البحث عن المطابقات ما دام الطلب مفتوحاً."
+
+#: templates\ai\matches.html
+msgid "Not suitable"
+msgstr "غير مناسب"
+
+#: templates\ai\matches.html
+msgid "Open classic search"
+msgstr "فتح البحث التقليدي"
+
+#: templates\ai\matches.html
+msgid "Override reason"
+msgstr "سبب تجاوز الترتيب"
+
+#: templates\ai\matches.html
+msgid "Rank"
+msgstr "الترتيب"
+
+#: templates\ai\matches.html
+msgid "Reason for rejecting"
+msgstr "سبب الرفض"
+
+#: templates\ai\matches.html
+#: templates\transfers\_hold_form.html
+msgid "Request a hold"
+msgstr "طلب حجز"
+
+#: templates\ai\matches.html
+msgid "Review eligible matches"
+msgstr "مراجعة المطابقات المؤهلة"
+
+#: templates\ai\matches.html
+msgid "Score"
+msgstr "الدرجة"
+
+#: templates\ai\matches.html
+msgid "Score %(score)s out of 100"
+msgstr "الدرجة %(score)s من 100"
+
+#: templates\ai\matches.html
+msgid "Search again"
+msgstr "البحث مجدداً"
+
+#: templates\ai\matches.html
+msgid "These items passed the mandatory checks and are shown in classic order (available sooner, better condition). No AI scores are invented."
+msgstr "اجتازت هذه العناصر الفحوصات الإلزامية وتُعرض بالترتيب التقليدي (الأقرب توفراً، الأفضل حالةً). لا تُختلق أي درجات للذكاء الاصطناعي."
+
+#: templates\ai\matches.html
+msgid "Unavailable"
+msgstr "غير متاحة"
+
+#: templates\ai\matches.html
+msgid "Why not? (optional)"
+msgstr "لماذا لا؟ (اختياري)"
+
+#: templates\ai\matches.html
+msgid "Why this one instead of rank 1? *"
+msgstr "لماذا هذا العنصر بدلاً من الترتيب 1؟ *"
+
+#: templates\ai\matches.html
+msgid "Why this order"
+msgstr "سبب هذا الترتيب"
+
+#: templates\assets\asset_detail.html
+msgid "%(free)s free · %(reserved)s reserved · %(allocated)s in transfer"
+msgstr "%(free)s متاح · %(reserved)s محجوز · %(allocated)s قيد النقل"
+
+#: templates\assets\asset_detail.html
+#: templates\assets\listing_detail.html
+msgid "Age (years)"
+msgstr "العمر (بالسنوات)"
+
+#: templates\assets\asset_detail.html
+#: templates\assets\asset_form.html
+msgid "Asset details"
+msgstr "تفاصيل الأصل"
+
+#: assets\forms.py:121
+#: templates\assets\asset_detail.html
+#: templates\assets\listing_detail.html
+msgid "Available from"
+msgstr "متاح اعتباراً من"
+
+#: templates\assets\asset_detail.html
+msgid "Check the record, then confirm it. The asset becomes active."
+msgstr "راجع السجل ثم أكّده. يصبح الأصل نشطاً."
+
+#: templates\assets\asset_detail.html
+msgid "Confirm asset record"
+msgstr "تأكيد سجل الأصل"
+
+#: templates\assets\asset_detail.html
+msgid "Confirmation"
+msgstr "التأكيد"
+
+#: templates\assets\asset_detail.html
+#: templates\assets\asset_form.html
+msgid "Custodian"
+msgstr "أمين العهدة"
+
+#: assets\forms.py:34
+#: templates\assets\asset_detail.html
+#: templates\assets\listing_detail.html
+msgid "Description"
+msgstr "الوصف"
+
+#: assets\forms.py:26
+#: templates\assets\asset_detail.html
+msgid "Dimensions"
+msgstr "الأبعاد"
+
+#: templates\assets\asset_detail.html
+#: templates\resource_requests\request_detail.html
+msgid "Edit draft"
+msgstr "تعديل المسودة"
+
+#: assets\forms.py:39
+#: templates\assets\asset_detail.html
+msgid "Estimated value per item (AED)"
+msgstr "القيمة التقديرية لكل عنصر (AED)"
+
+#: templates\assets\asset_detail.html
+msgid "Free, reserved, in transfer"
+msgstr "متاح، محجوز، قيد النقل"
+
+#: assets\forms.py:18
+#: templates\assets\asset_detail.html
+msgid "Furniture"
+msgstr "أثاث"
+
+#: templates\assets\asset_detail.html
+msgid "History"
+msgstr "السجل"
+
+#: assets\models.py:231
+#: templates\assets\asset_detail.html
+msgid "IT asset"
+msgstr "أصل تقنية معلومات"
+
+#: assets\models.py:67
+#: templates\assets\asset_detail.html
+msgid "In service"
+msgstr "في الخدمة"
+
+#: templates\assets\asset_detail.html
+msgid "In storage (can be listed)"
+msgstr "في المخزن (يمكن عرضه)"
+
+#: templates\assets\asset_detail.html
+msgid "Last confirmed"
+msgstr "آخر تأكيد"
+
+#: templates\assets\asset_detail.html
+#: templates\assets\listing_form.html
+msgid "Listing"
+msgstr "العرض"
+
+#: templates\assets\asset_detail.html
+msgid "Listings"
+msgstr "العروض"
+
+#: templates\assets\asset_detail.html
+#: templates\assets\asset_list.html
+#: templates\assets\search.html
+msgid "Location"
+msgstr "الموقع"
+
+#: assets\forms.py:24
+#: templates\assets\asset_detail.html
+msgid "Material"
+msgstr "المادة"
+
+#: templates\assets\asset_detail.html
+#: templates\assets\listing_form.html
+msgid "Offer for reuse"
+msgstr "عرض لإعادة الاستخدام"
+
+#: templates\assets\asset_detail.html
+msgid "Offered"
+msgstr "المعروض"
+
+#: templates\assets\asset_detail.html
+msgid "Planned retirement"
+msgstr "الإخراج من الخدمة المخطط"
+
+#: assets\forms.py:40
+#: templates\assets\asset_detail.html
+msgid "Purchase date"
+msgstr "تاريخ الشراء"
+
+#: assets\forms.py:36
+#: reports\views.py:52
+#: reports\views.py:64
+msgid "Quantity"
+msgstr "الكمية"
+
+#: templates\assets\asset_detail.html
+msgid "Quantity, ownership and location"
+msgstr "الكمية والملكية والموقع"
+
+#: assets\forms.py:20
+#: templates\assets\asset_detail.html
+msgid "Serial number"
+msgstr "الرقم التسلسلي"
+
+#: assets\forms.py:36
+#: resource_requests\forms.py:21
+#: templates\assets\asset_detail.html
+msgid "Specifications"
+msgstr "المواصفات"
+
+#: reports\views.py:53
+#: reports\views.py:64
+#: templates\assets\asset_detail.html
+msgid "Status"
+msgstr "الحالة"
+
+#: templates\assets\asset_detail.html
+msgid "Stores data"
+msgstr "يخزّن بيانات"
+
+#: templates\assets\asset_detail.html
+msgid "This asset has not been offered for reuse."
+msgstr "لم يُعرض هذا الأصل لإعادة الاستخدام."
+
+#: templates\assets\asset_detail.html
+msgid "Waiting for confirmation by the owning department."
+msgstr "بانتظار تأكيد القسم المالك."
+
+#: templates\assets\asset_detail.html
+msgid "Where is it now?"
+msgstr "أين هو الآن؟"
+
+#: templates\assets\asset_detail.html
+msgid "Yes (erase before disposal),No"
+msgstr "نعم (تُمسح البيانات قبل التخلص منه),لا"
+
+#: templates\assets\asset_detail.html
+msgid "You registered this asset. Another custodian or the department representative of %(department)s must confirm it (BR-02)."
+msgstr "لقد سجّلت هذا الأصل. يجب أن يؤكده أمين عهدة آخر أو ممثل قسم %(department)s (BR-02)."
+
+#: templates\assets\asset_form.html
+#: templates\assets\listing_form.html
+#: templates\resource_requests\request_form.html
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: templates\assets\asset_form.html
+msgid "Create a verified record before offering an asset for reuse. Save the draft first; you can then ask the AI to suggest the category, condition and tags."
+msgstr "أنشئ سجلاً موثَّقاً قبل عرض الأصل لإعادة الاستخدام. احفظ المسودة أولاً؛ ثم يمكنك أن تطلب من الذكاء الاصطناعي اقتراح الفئة والحالة المادية والوسوم."
+
+#: templates\assets\asset_form.html
+msgid "Draft (AS-01)"
+msgstr "مسودة (AS-01)"
+
+#: templates\assets\asset_form.html
+msgid "Ownership and location"
+msgstr "الملكية والموقع"
+
+#: templates\assets\asset_form.html
+msgid "Owning department"
+msgstr "القسم المالك"
+
+#: templates\assets\asset_form.html
+#: templates\assets\listing_form.html
+#: templates\resource_requests\request_form.html
+msgid "Save draft"
+msgstr "حفظ المسودة"
+
+#: templates\assets\asset_form.html
+msgid "Type details"
+msgstr "تفاصيل النوع"
+
+#: templates\assets\asset_list.html
+msgid "%(free)s of %(total)s free"
+msgstr "%(free)s من %(total)s متاح"
+
+#: templates\assets\asset_list.html
+#: templates\resource_requests\request_list.html
+msgid "Any status"
+msgstr "أي حالة"
+
+#: reports\views.py:64
+#: templates\assets\asset_list.html
+msgid "Asset"
+msgstr "الأصل"
+
+#: core\templatetags\dawra_ui.py:63
+#: templates\assets\asset_list.html
+msgid "Assets"
+msgstr "الأصول"
+
+#: templates\assets\asset_list.html
+msgid "Every asset starts as a draft and becomes active after a second person confirms it."
+msgstr "يبدأ كل أصل كمسودة ويصبح نشطاً بعد أن يؤكده شخص ثانٍ."
+
+#: templates\assets\asset_list.html
+#: templates\resource_requests\request_list.html
+msgid "Filter"
+msgstr "تصفية"
+
+#: templates\assets\asset_list.html
+msgid "No assets match."
+msgstr "لا توجد أصول مطابقة."
+
+#: templates\assets\asset_list.html
+msgid "Not chosen yet"
+msgstr "لم يُحدَّد بعد"
+
+#: assets\views.py:61
+#: templates\assets\asset_list.html
+msgid "Register an asset"
+msgstr "تسجيل أصل"
+
+#: templates\assets\asset_list.html
+msgid "Register the first one"
+msgstr "سجّل أول أصل"
+
+#: templates\assets\asset_list.html
+msgid "Showing %(scope)s"
+msgstr "النطاق: %(scope)s"
+
+#: templates\assets\listing_detail.html
+msgid "%(left)s of %(total)s left"
+msgstr "المتبقي %(left)s من %(total)s"
+
+#: templates\assets\listing_detail.html
+msgid "Approve release"
+msgstr "الموافقة على الإتاحة"
+
+#: templates\assets\listing_detail.html
+msgid "Open asset %(code)s"
+msgstr "فتح الأصل %(code)s"
+
+#: templates\assets\listing_detail.html
+#: templates\resource_requests\request_detail.html
+#: templates\transfers\transfer_detail.html
+msgid "Reason"
+msgstr "السبب"
+
+#: templates\assets\listing_detail.html
+#: transfers\models.py:33
+#: transfers\views.py:31
+msgid "Release approval"
+msgstr "موافقة الإتاحة"
+
+#: assets\forms.py:122
+#: templates\assets\listing_detail.html
+msgid "Release reason"
+msgstr "سبب الإتاحة"
+
+#: templates\assets\listing_detail.html
+msgid "Release this listing so staff from other departments can find and request it."
+msgstr "أتِح هذا العرض ليتمكن موظفو الأقسام الأخرى من العثور عليه وطلبه."
+
+#: templates\assets\listing_detail.html
+msgid "Restrictions"
+msgstr "القيود"
+
+#: templates\assets\listing_detail.html
+#: templates\assets\listing_form.html
+msgid "Submit for release approval"
+msgstr "إرسال لموافقة الإتاحة"
+
+#: templates\assets\listing_detail.html
+#: templates\resource_requests\request_detail.html
+msgid "Waiting for the %(department)s department representative."
+msgstr "بانتظار ممثل قسم %(department)s."
+
+#: templates\assets\listing_detail.html
+msgid "What is offered"
+msgstr "المعروض"
+
+#: templates\assets\listing_detail.html
+msgid "Withdraw listing"
+msgstr "سحب العرض"
+
+#: templates\assets\listing_detail.html
+msgid "Withdraw this listing"
+msgstr "سحب هذا العرض"
+
+#: templates\assets\listing_detail.html
+msgid "You prepared this listing, so another representative must release it (BR-02)."
+msgstr "أنت من أعدّ هذا العرض، لذا يجب أن يتيحه ممثل آخر (BR-02)."
+
+#: templates\assets\listing_detail.html
+msgid "offered by %(department)s"
+msgstr "معروض من %(department)s"
+
+#: templates\assets\listing_form.html
+msgid "%(available)s available"
+msgstr "المتاح: %(available)s"
+
+#: templates\assets\listing_form.html
+msgid "A listing becomes visible to staff after the department representative releases it."
+msgstr "يظهر العرض للموظفين بعد أن يتيحه ممثل القسم."
+
+#: templates\assets\listing_form.html
+msgid "New listing"
+msgstr "عرض جديد"
+
+#: templates\assets\listing_form.html
+msgid "Offer %(code)s"
+msgstr "عرض %(code)s لإعادة الاستخدام"
+
+#: templates\assets\search.html
+msgid "%(counter)s item found"
+msgid_plural "%(counter)s items found"
+msgstr[0] "لم يُعثر على أي عنصر"
+msgstr[1] "عُثر على عنصر واحد"
+msgstr[2] "عُثر على عنصرين"
+msgstr[3] "عُثر على %(counter)s عناصر"
+msgstr[4] "عُثر على %(counter)s عنصرًا"
+msgstr[5] "عُثر على %(counter)s عنصر"
+
+#: templates\assets\search.html
+msgid "Available"
+msgstr "المتاح"
+
+#: templates\assets\search.html
+msgid "Create a request with these criteria"
+msgstr "إنشاء طلب بهذه المعايير"
+
+#: templates\assets\search.html
+msgid "Find surplus items"
+msgstr "البحث عن عناصر فائضة"
+
+#: assets\models.py:32
+#: templates\assets\search.html
+#: templates\sustainability\dashboard.html
+msgid "Item"
+msgstr "العنصر"
+
+#: templates\assets\search.html
+msgid "Listed"
+msgstr "تاريخ النشر"
+
+#: templates\assets\search.html
+msgid "No items are published right now."
+msgstr "لا توجد عناصر منشورة حاليًا."
+
+#: templates\assets\search.html
+msgid "No published items match these filters."
+msgstr "لا توجد عناصر منشورة تطابق عوامل التصفية هذه."
+
+#: templates\assets\search.html
+msgid "Published listings from every department"
+msgstr "العروض المنشورة من جميع الأقسام"
+
+#: templates\assets\search.html
+#: templates\audit\audit_search.html
+#: templates\sustainability\dashboard.html
+msgid "Reset"
+msgstr "إعادة تعيين"
+
+#: core\templatetags\dawra_ui.py:64
+#: templates\assets\search.html
+#: templates\audit\audit_search.html
+msgid "Search"
+msgstr "بحث"
+
+#: templates\assets\search.html
+msgid "Search works without AI. Combine a keyword with any of the filters."
+msgstr "يعمل البحث دون الذكاء الاصطناعي. اجمع بين كلمة مفتاحية وأي من عوامل التصفية."
+
+#: templates\audit\asset_history.html
+msgid "Every change to this asset and its listings, holds, transfers and approvals, with who did it and when. Entries cannot be changed or deleted (BR-17)."
+msgstr "كل تغيير على هذا الأصل وعروضه وحجوزاته وعمليات نقله وموافقاته، مع من أجراه ومتى. لا يمكن تعديل الإدخالات أو حذفها (BR-17)."
+
+#: audit\views.py:64
+#: reports\views.py:24
+#: reports\views.py:64
+msgid "From"
+msgstr "من"
+
+#: templates\audit\asset_history.html
+msgid "History of %(code)s"
+msgstr "سجل %(code)s"
+
+#: templates\audit\asset_history.html
+msgid "History of %(name)s"
+msgstr "سجل %(name)s"
+
+#: templates\audit\asset_history.html
+msgid "No history yet."
+msgstr "لا يوجد سجل بعد."
+
+#: templates\audit\asset_history.html
+#: templates\audit\audit_search.html
+#: templates\transfers\_request_progress.html
+msgid "Record"
+msgstr "السجل"
+
+#: templates\audit\asset_history.html
+#: templates\audit\audit_search.html
+msgid "System"
+msgstr "النظام"
+
+#: audit\views.py:65
+#: reports\views.py:26
+#: reports\views.py:64
+msgid "To"
+msgstr "إلى"
+
+#: templates\audit\asset_history.html
+msgid "What happened"
+msgstr "ما حدث"
+
+#: templates\audit\asset_history.html
+#: templates\audit\audit_search.html
+#: templates\notifications\list.html
+msgid "When"
+msgstr "الوقت"
+
+#: templates\audit\asset_history.html
+#: templates\audit\audit_search.html
+msgid "Who"
+msgstr "المستخدم"
+
+#: templates\audit\audit_search.html
+msgid "%(counter)s entry"
+msgid_plural "%(counter)s entries"
+msgstr[0] "لا توجد إدخالات"
+msgstr[1] "إدخال واحد"
+msgstr[2] "إدخالان"
+msgstr[3] "%(counter)s إدخالات"
+msgstr[4] "%(counter)s إدخالًا"
+msgstr[5] "%(counter)s إدخال"
+
+#: templates\audit\audit_search.html
+msgid "%(counter)s entry, showing the newest 200"
+msgid_plural "%(counter)s entries, showing the newest 200"
+msgstr[0] "%(counter)s إدخال، مع عرض أحدث 200"
+msgstr[1] "إدخال واحد، مع عرض أحدث 200"
+msgstr[2] "إدخالان، مع عرض أحدث 200"
+msgstr[3] "%(counter)s إدخالات، مع عرض أحدث 200"
+msgstr[4] "%(counter)s إدخالًا، مع عرض أحدث 200"
+msgstr[5] "%(counter)s إدخال، مع عرض أحدث 200"
+
+#: templates\audit\audit_search.html
+msgid "Action"
+msgstr "الإجراء"
+
+#: core\templatetags\dawra_ui.py:72
+#: templates\audit\audit_search.html
+msgid "Audit log"
+msgstr "سجل التدقيق"
+
+#: accounts\models.py:37
+#: templates\audit\audit_search.html
+msgid "Business administrator"
+msgstr "مسؤول الأعمال"
+
+#: templates\audit\audit_search.html
+#: templates\reports\index.html
+msgid "Export CSV"
+msgstr "تصدير CSV"
+
+#: templates\audit\audit_search.html
+msgid "No entries match."
+msgstr "لا توجد إدخالات مطابقة."
+
+#: templates\audit\audit_search.html
+msgid "Search by user, record, action and period. Exporting does not change any entry."
+msgstr "ابحث حسب المستخدم والسجل والإجراء والفترة. لا يغيّر التصدير أي إدخال."
+
+#: templates\base.html
+msgid "* Required field"
+msgstr "* حقل مطلوب"
+
+#: templates\base.html
+msgid "Asking the AI"
+msgstr "جارٍ سؤال الذكاء الاصطناعي"
+
+#: templates\base.html
+msgid "Campus resource exchange"
+msgstr "تبادل موارد الحرم الجامعي"
+
+#: templates\base.html
+msgid "Dawra Campus home"
+msgstr "صفحة Dawra Campus الرئيسية"
+
+#: templates\base.html
+msgid "Dawra Campus · Phase 6 draft · Synthetic data"
+msgstr "Dawra Campus · مسودة المرحلة 6 · بيانات تجريبية"
+
+#: templates\base.html
+msgid "Find a second life for campus resources."
+msgstr "امنح موارد الحرم الجامعي حياة ثانية."
+
+#: templates\base.html
+msgid "Light or dark"
+msgstr "فاتح أو داكن"
+
+#: templates\base.html
+msgid "Main navigation"
+msgstr "التنقل الرئيسي"
+
+#: templates\base.html
+msgid "Sign out"
+msgstr "تسجيل الخروج"
+
+#: templates\base.html
+msgid "Staff workspace"
+msgstr "مساحة عمل الموظفين"
+
+#: templates\base.html
+msgid "Switch"
+msgstr "تبديل"
+
+#: templates\base.html
+msgid "Switch between light and dark"
+msgstr "التبديل بين المظهر الفاتح والداكن"
+
+#: templates\base.html
+msgid "Working as"
+msgstr "العمل بصفة"
+
+#: core\templatetags\dawra_ui.py:62
+#: templates\core\home.html
+msgid "Home"
+msgstr "الرئيسية"
+
+#: templates\core\home.html
+msgid "Nothing is waiting for you."
+msgstr "لا توجد مهام بانتظارك."
+
+#: templates\core\home.html
+msgid "Welcome, %(name)s"
+msgstr "مرحبًا، %(name)s"
+
+#: templates\core\home.html
+msgid "You have no active role yet. The Business administrator authorises roles and the System administrator applies them."
+msgstr "ليس لديك دور حالي بعد. يعتمد مسؤول الأعمال الأدوار، ويطبّقها مسؤول النظام."
+
+#: templates\core\home.html
+msgid "Your work as %(role)s. Reuse before replacement."
+msgstr "عملك بصفة %(role)s. إعادة الاستخدام قبل الاستبدال."
+
+#: templates\notifications\_bell.html
+msgid "%(counter)s unread notification"
+msgid_plural "%(counter)s unread notifications"
+msgstr[0] "لا توجد إشعارات غير مقروءة"
+msgstr[1] "إشعار واحد غير مقروء"
+msgstr[2] "إشعاران غير مقروءين"
+msgstr[3] "%(counter)s إشعارات غير مقروءة"
+msgstr[4] "%(counter)s إشعارًا غير مقروء"
+msgstr[5] "%(counter)s إشعار غير مقروء"
+
+#: templates\notifications\list.html
+msgid "In-app messages about your requests, tasks and transfers"
+msgstr "رسائل داخل التطبيق حول طلباتك ومهامك وعمليات النقل الخاصة بك"
+
+#: templates\notifications\list.html
+msgid "Mark all as read"
+msgstr "تعليم الكل كمقروء"
+
+#: templates\notifications\list.html
+msgid "Message"
+msgstr "الرسالة"
+
+#: templates\notifications\list.html
+msgid "No notifications yet."
+msgstr "لا توجد إشعارات بعد."
+
+#: templates\notifications\list.html
+msgid "Notifications"
+msgstr "الإشعارات"
+
+#: resource_requests\models.py:36
+#: templates\notifications\list.html
+msgid "Open"
+msgstr "فتح"
+
+#: templates\reports\index.html
+msgid "%(counter)s request"
+msgid_plural "%(counter)s requests"
+msgstr[0] "لا توجد طلبات"
+msgstr[1] "طلب واحد"
+msgstr[2] "طلبان"
+msgstr[3] "%(counter)s طلبات"
+msgstr[4] "%(counter)s طلبًا"
+msgstr[5] "%(counter)s طلب"
+
+#: templates\reports\index.html
+msgid "%(counter)s transfer"
+msgid_plural "%(counter)s transfers"
+msgstr[0] "لا توجد عمليات نقل"
+msgstr[1] "عملية نقل واحدة"
+msgstr[2] "عمليتا نقل"
+msgstr[3] "%(counter)s عمليات نقل"
+msgstr[4] "%(counter)s عملية نقل"
+msgstr[5] "%(counter)s عملية نقل"
+
+#: templates\reports\index.html
+msgid "Apply"
+msgstr "تطبيق"
+
+#: templates\reports\index.html
+#: templates\sustainability\dashboard.html
+#: templates\transfers\approval_detail.html
+msgid "Dawra Campus"
+msgstr "Dawra Campus"
+
+#: templates\reports\index.html
+msgid "Filter by period and department. The CSV export contains the filters, the records and the totals."
+msgstr "صفِّ حسب الفترة والقسم. يتضمن ملف CSV المُصدَّر عوامل التصفية والسجلات والمجاميع."
+
+#: templates\reports\index.html
+msgid "No records for these filters."
+msgstr "لا توجد سجلات لعوامل التصفية هذه."
+
+#: core\templatetags\dawra_ui.py:71
+#: templates\reports\index.html
+msgid "Reports"
+msgstr "التقارير"
+
+#: templates\reports\index.html
+msgid "Requests and transfers report"
+msgstr "تقرير الطلبات وعمليات النقل"
+
+#: templates\resource_requests\request_detail.html
+msgid "<span class=\"what\">%(action)s</span> by %(user)s"
+msgstr "<span class=\"what\">%(action)s</span> بواسطة %(user)s"
+
+#: templates\resource_requests\request_detail.html
+msgid "<strong>%(status)s</strong> by %(approver)s on %(when)s."
+msgstr "<strong>%(status)s</strong> بواسطة %(approver)s في %(when)s."
+
+#: templates\resource_requests\request_detail.html
+msgid "Cancel request"
+msgstr "إلغاء الطلب"
+
+#: templates\resource_requests\request_detail.html
+msgid "Cancel this request"
+msgstr "إلغاء هذا الطلب"
+
+#: templates\resource_requests\request_detail.html
+msgid "Close as no suitable item"
+msgstr "إغلاق لعدم توفر عنصر مناسب"
+
+#: templates\resource_requests\request_detail.html
+#: templates\transfers\transfer_detail.html
+msgid "Decide this approval"
+msgstr "البت في هذه الموافقة"
+
+#: resource_requests\forms.py:23
+#: templates\resource_requests\request_detail.html
+#: templates\transfers\approval_detail.html
+msgid "Delivery location"
+msgstr "موقع التوصيل"
+
+#: templates\resource_requests\request_detail.html
+msgid "Department approval"
+msgstr "موافقة القسم"
+
+#: templates\resource_requests\request_detail.html
+msgid "For example: nothing in the right size"
+msgstr "مثال: لا يوجد شيء بالمقاس المناسب"
+
+#: assets\forms.py:157
+#: resource_requests\forms.py:22
+#: templates\resource_requests\request_detail.html
+msgid "Minimum condition"
+msgstr "الحد الأدنى للحالة المادية"
+
+#: templates\resource_requests\request_detail.html
+msgid "No suitable item? Close the request"
+msgstr "لا يوجد عنصر مناسب؟ أغلق الطلب"
+
+#: templates\resource_requests\request_detail.html
+msgid "Not submitted yet."
+msgstr "لم يُرسَل بعد."
+
+#: templates\resource_requests\request_detail.html
+msgid "Reason *"
+msgstr "السبب *"
+
+#: reports\views.py:53
+#: resource_requests\forms.py:23
+#: templates\resource_requests\request_detail.html
+msgid "Required by"
+msgstr "مطلوب بحلول"
+
+#: templates\resource_requests\request_detail.html
+#: templates\resource_requests\request_form.html
+msgid "Submit for department approval"
+msgstr "إرسال لموافقة القسم"
+
+#: templates\resource_requests\request_detail.html
+msgid "Updates"
+msgstr "التحديثات"
+
+#: resource_requests\forms.py:22
+#: templates\resource_requests\request_detail.html
+#: templates\transfers\approval_detail.html
+msgid "Urgency"
+msgstr "الاستعجال"
+
+#: templates\resource_requests\request_detail.html
+msgid "What is needed"
+msgstr "المطلوب"
+
+#: templates\resource_requests\request_detail.html
+#: templates\resource_requests\request_form.html
+#: templates\transfers\transfer_detail.html
+msgid "Workflow stages"
+msgstr "مراحل سير العمل"
+
+#: templates\resource_requests\request_detail.html
+#: templates\transfers\transfer_detail.html
+msgid "now %(value)s"
+msgstr "الآن: %(value)s"
+
+#: templates\resource_requests\request_form.html
+msgid "Delivery and approval"
+msgstr "التوصيل والموافقة"
+
+#: accounts\models.py:34
+#: templates\resource_requests\request_form.html
+msgid "Department representative"
+msgstr "ممثل القسم"
+
+#: resource_requests\views.py:20
+#: templates\resource_requests\request_form.html
+msgid "Department review"
+msgstr "مراجعة القسم"
+
+#: assets\models.py:247
+#: assets\models.py:66
+#: resource_requests\models.py:34
+msgid "Draft"
+msgstr "مسودة"
+
+#: templates\resource_requests\request_form.html
+msgid "Draft request"
+msgstr "مسودة الطلب"
+
+#: resource_requests\views.py:21
+#: templates\resource_requests\request_form.html
+msgid "Find a match"
+msgstr "إيجاد مطابقة"
+
+#: templates\resource_requests\request_form.html
+msgid "Next responsible role"
+msgstr "الدور المسؤول التالي"
+
+#: accounts\models.py:36
+#: reports\views.py:52
+#: templates\resource_requests\request_form.html
+msgid "Requester"
+msgstr "مقدّم الطلب"
+
+#: templates\resource_requests\request_form.html
+msgid "Tell your department what you need. Approval comes before any item is held for you."
+msgstr "أخبر قسمك بما تحتاجه. تتم الموافقة قبل حجز أي عنصر لك."
+
+#: templates\resource_requests\request_form.html
+msgid "What do you need?"
+msgstr "ما الذي تحتاجه؟"
+
+#: templates\resource_requests\request_list.html
+msgid "%(department)s requests"
+msgstr "طلبات %(department)s"
+
+#: templates\resource_requests\request_list.html
+msgid "%(urgency)s urgency"
+msgstr "الاستعجال: %(urgency)s"
+
+#: templates\resource_requests\request_list.html
+msgid "Create one"
+msgstr "أنشئ طلبًا"
+
+#: templates\resource_requests\request_list.html
+msgid "My requests"
+msgstr "طلباتي"
+
+#: templates\resource_requests\request_list.html
+msgid "New request"
+msgstr "طلب جديد"
+
+#: templates\resource_requests\request_list.html
+msgid "No requests yet."
+msgstr "لا توجد طلبات بعد."
+
+#: reports\views.py:52
+#: templates\resource_requests\request_list.html
+#: templates\transfers\approval_detail.html
+msgid "Request"
+msgstr "الطلب"
+
+#: core\templatetags\dawra_ui.py:65
+#: reports\views.py:22
+#: templates\resource_requests\request_list.html
+msgid "Requests"
+msgstr "الطلبات"
+
+#: templates\resource_requests\request_list.html
+msgid "Track every request and its status"
+msgstr "تابِع كل طلب وحالته"
+
+#: templates\resource_requests\request_list.html
+msgid "Your department approves a request before it can be matched to an item."
+msgstr "يوافق قسمك على الطلب قبل أن تمكن مطابقته مع عنصر."
+
+#: sustainability\indicators.py:29
+#: templates\sustainability\dashboard.html
+msgid "AED %(amount)s"
+msgstr "%(amount)s AED"
+
+#: templates\sustainability\dashboard.html
+msgid "Apply filters"
+msgstr "تطبيق عوامل التصفية"
+
+#: templates\sustainability\dashboard.html
+msgid "Avoided purchases to confirm"
+msgstr "مشتريات مُتجنَّبة بانتظار التأكيد"
+
+#: templates\sustainability\dashboard.html
+msgid "Carbon is a range because the low factor counts only the materials and the high factor the full manufacturing footprint of one model. Categories without a published factor show N/A instead of a guess. All data in this prototype is synthetic."
+msgstr "يُعرض الكربون كنطاق لأن المعامل الأدنى يحتسب المواد فقط، بينما يحتسب المعامل الأعلى البصمة الكاملة لتصنيع طراز واحد. تظهر الفئات التي ليس لها معامل منشور بعبارة «غير متاح» بدلًا من التخمين. جميع البيانات في هذا النموذج الأولي تجريبية."
+
+#: templates\sustainability\dashboard.html
+msgid "Confirm"
+msgstr "تأكيد"
+
+#: templates\sustainability\dashboard.html
+msgid "Every figure is calculated by the database from completed, approved actions. Each one shows its formula, inputs and source."
+msgstr "تحسب قاعدة البيانات كل رقم من الإجراءات المكتملة والمعتمدة. ويعرض كل رقم معادلته ومدخلاته ومصدره."
+
+#: templates\sustainability\dashboard.html
+msgid "Formula"
+msgstr "المعادلة"
+
+#: templates\sustainability\dashboard.html
+msgid "Indicator"
+msgstr "المؤشر"
+
+#: templates\sustainability\dashboard.html
+msgid "Inputs"
+msgstr "المدخلات"
+
+#: templates\sustainability\dashboard.html
+msgid "Items"
+msgstr "العناصر"
+
+#: templates\sustainability\dashboard.html
+msgid "Limits of these figures"
+msgstr "حدود هذه الأرقام"
+
+#: sustainability\indicators.py:99
+#: templates\sustainability\dashboard.html
+msgid "N/A"
+msgstr "غير متاح"
+
+#: templates\sustainability\dashboard.html
+msgid "Only purchases your department confirms it avoided count (BR-18)."
+msgstr "لا تُحتسب إلا المشتريات التي يؤكد قسمك أنه تجنّبها (BR-18)."
+
+#: templates\sustainability\dashboard.html
+msgid "Source and status"
+msgstr "المصدر والحالة"
+
+#: templates\sustainability\dashboard.html
+msgid "Sustainability dashboard"
+msgstr "لوحة مؤشرات الاستدامة"
+
+#: templates\sustainability\dashboard.html
+msgid "Sustainability indicators"
+msgstr "مؤشرات الاستدامة"
+
+#: reports\views.py:64
+#: resource_requests\views.py:23
+#: templates\sustainability\dashboard.html
+msgid "Transfer"
+msgstr "النقل"
+
+#: templates\sustainability\dashboard.html
+msgid "Value"
+msgstr "القيمة"
+
+#: templates\sustainability\dashboard.html
+msgid "design section 12"
+msgstr "البند 12 من وثيقة التصميم"
+
+#: templates\transfers\_hold_form.html
+msgid "For which approved request?"
+msgstr "لأي طلب معتمد؟"
+
+#: templates\transfers\_hold_form.html
+msgid "The releasing department confirms or declines. Choosing an item alone holds nothing (BR-15)."
+msgstr "يؤكد القسم المُتيح أو يرفض. اختيار عنصر وحده لا يحجز شيئًا (BR-15)."
+
+#: templates\transfers\_hold_form.html
+msgid "Use this item"
+msgstr "استخدام هذا العنصر"
+
+#: templates\transfers\_request_progress.html
+#: templates\transfers\approval_detail.html
+#: templates\transfers\transfer_detail.html
+msgid "%(from_department)s to %(to_department)s"
+msgstr "من %(from_department)s إلى %(to_department)s"
+
+#: templates\transfers\_request_progress.html
+msgid "Held until %(date)s"
+msgstr "محجوز حتى %(date)s"
+
+#: core\templatetags\dawra_ui.py:69
+#: templates\transfers\_request_progress.html
+#: templates\transfers\transfer_list.html
+msgid "Holds and transfers"
+msgstr "الحجوزات وعمليات النقل"
+
+#: templates\transfers\_request_progress.html
+#: templates\transfers\transfer_list.html
+#: templates\transfers\transfer_start.html
+msgid "Start the transfer"
+msgstr "بدء النقل"
+
+#: templates\transfers\approval_detail.html
+msgid "%(quantity)s needed"
+msgstr "المطلوب: %(quantity)s"
+
+#: templates\transfers\approval_detail.html
+msgid "Already decided: %(status)s."
+msgstr "تم البت فيها مسبقًا: %(status)s."
+
+#: templates\transfers\approval_detail.html
+msgid "Approve assigned stage"
+msgstr "الموافقة على المرحلة المسندة"
+
+#: templates\transfers\approval_detail.html
+msgid "Approve, or give a reason to reject."
+msgstr "وافق، أو اذكر سببًا للرفض."
+
+#: templates\transfers\approval_detail.html
+msgid "Approve, or give a reason to request changes or reject."
+msgstr "وافق، أو اذكر سببًا لطلب تعديلات أو للرفض."
+
+#: templates\transfers\approval_detail.html
+msgid "Decision evidence"
+msgstr "أدلة القرار"
+
+#: templates\transfers\approval_detail.html
+#: templates\transfers\transfer_detail.html
+msgid "Deliver to"
+msgstr "يُوصَل إلى"
+
+#: templates\transfers\approval_detail.html
+msgid "Finance approval needed (BR-06)"
+msgstr "تلزم موافقة المالية (BR-06)"
+
+#: templates\transfers\approval_detail.html
+msgid "Other stages"
+msgstr "المراحل الأخرى"
+
+#: templates\transfers\approval_detail.html
+msgid "Procurement approval needed (BR-06)"
+msgstr "تلزم موافقة المشتريات (BR-06)"
+
+#: templates\transfers\approval_detail.html
+msgid "Reason (needed to reject or request changes)"
+msgstr "السبب (مطلوب للرفض أو لطلب تعديلات)"
+
+#: templates\transfers\approval_detail.html
+#: templates\transfers\transfer_detail.html
+#: transfers\forms.py:16
+msgid "Receiving custodian"
+msgstr "أمين العهدة المستلم"
+
+#: templates\transfers\approval_detail.html
+msgid "Record version"
+msgstr "إصدار السجل"
+
+#: templates\transfers\approval_detail.html
+msgid "Request changes"
+msgstr "طلب تعديلات"
+
+#: templates\transfers\approval_detail.html
+msgid "Review the evidence and decide only the approval stage assigned to you."
+msgstr "راجع الأدلة وابتّ فقط في مرحلة الموافقة المسندة إليك."
+
+#: templates\transfers\approval_detail.html
+#: transfers\forms.py:26
+msgid "Transfer cost (AED)"
+msgstr "تكلفة النقل (AED)"
+
+#: templates\transfers\approval_detail.html
+#: templates\transfers\transfer_detail.html
+msgid "Transfer to %(department)s"
+msgstr "نقل إلى %(department)s"
+
+#: templates\transfers\approval_detail.html
+msgid "Value (AED)"
+msgstr "القيمة (AED)"
+
+#: templates\transfers\approval_detail.html
+msgid "Yes,No"
+msgstr "نعم,لا"
+
+#: templates\transfers\approval_detail.html
+msgid "You created this record, so you cannot decide it (BR-02)."
+msgstr "أنت من أنشأ هذا السجل، لذا لا يمكنك البت فيه (BR-02)."
+
+#: templates\transfers\approval_detail.html
+#: templates\transfers\transfer_detail.html
+msgid "by %(user)s"
+msgstr "بواسطة %(user)s"
+
+#: core\templatetags\dawra_ui.py:66
+#: templates\transfers\approvals.html
+#: templates\transfers\transfer_detail.html
+msgid "Approvals"
+msgstr "الموافقات"
+
+#: templates\transfers\approvals.html
+msgid "Asked by"
+msgstr "مقدَّم من"
+
+#: templates\transfers\approvals.html
+msgid "Decision"
+msgstr "القرار"
+
+#: templates\transfers\approvals.html
+msgid "No approval tasks are waiting for you."
+msgstr "لا توجد مهام موافقة بانتظارك."
+
+#: templates\transfers\approvals.html
+msgid "Overdue (over 3 working days)"
+msgstr "متأخرة (أكثر من 3 أيام عمل)"
+
+#: templates\transfers\approvals.html
+msgid "Review"
+msgstr "مراجعة"
+
+#: templates\transfers\approvals.html
+msgid "Task"
+msgstr "المهمة"
+
+#: templates\transfers\approvals.html
+msgid "Tasks for %(role)s"
+msgstr "مهام %(role)s"
+
+#: templates\transfers\approvals.html
+msgid "Waiting since"
+msgstr "بالانتظار منذ"
+
+#: templates\transfers\approvals.html
+msgid "You only see the stages assigned to your role and department. Your own requests and records go to someone else (BR-02)."
+msgstr "لا ترى إلا المراحل المسندة إلى دورك وقسمك. أما طلباتك وسجلاتك فتُحال إلى شخص آخر (BR-02)."
+
+#: templates\transfers\approvals.html
+msgid "Your recent decisions"
+msgstr "قراراتك الأخيرة"
+
+#: templates\transfers\transfer_detail.html
+msgid "%(counter)s item reused, %(kg)s kg diverted."
+msgid_plural "%(counter)s items reused, %(kg)s kg diverted."
+msgstr[0] "لم يُعَد استخدام أي عنصر، وجُنِّب %(kg)s kg من النفايات."
+msgstr[1] "أُعيد استخدام عنصر واحد، وجُنِّب %(kg)s kg من النفايات."
+msgstr[2] "أُعيد استخدام عنصرين، وجُنِّب %(kg)s kg من النفايات."
+msgstr[3] "أُعيد استخدام %(counter)s عناصر، وجُنِّب %(kg)s kg من النفايات."
+msgstr[4] "أُعيد استخدام %(counter)s عنصرًا، وجُنِّب %(kg)s kg من النفايات."
+msgstr[5] "أُعيد استخدام %(counter)s عنصر، وجُنِّب %(kg)s kg من النفايات."
+
+#: templates\transfers\transfer_detail.html
+msgid "%(counter)s item reused."
+msgid_plural "%(counter)s items reused."
+msgstr[0] "لم يُعَد استخدام أي عنصر."
+msgstr[1] "أُعيد استخدام عنصر واحد."
+msgstr[2] "أُعيد استخدام عنصرين."
+msgstr[3] "أُعيد استخدام %(counter)s عناصر."
+msgstr[4] "أُعيد استخدام %(counter)s عنصرًا."
+msgstr[5] "أُعيد استخدام %(counter)s عنصر."
+
+#: templates\transfers\transfer_detail.html
+#: templates\transfers\transfer_start.html
+msgid "%(counter)s unit"
+msgid_plural "%(counter)s units"
+msgstr[0] "%(counter)s وحدة"
+msgstr[1] "وحدة واحدة"
+msgstr[2] "وحدتان"
+msgstr[3] "%(counter)s وحدات"
+msgstr[4] "%(counter)s وحدة"
+msgstr[5] "%(counter)s وحدة"
+
+#: templates\transfers\transfer_detail.html
+msgid "%(department)s representative"
+msgstr "ممثل %(department)s"
+
+#: templates\transfers\transfer_detail.html
+msgid "About %(low)s to %(high)s kg CO2e saved (estimated)."
+msgstr "تم توفير ما بين %(low)s و%(high)s kg CO2e تقريبًا (تقدير)."
+
+#: templates\transfers\transfer_detail.html
+msgid "Accept as received"
+msgstr "القبول كما استُلم"
+
+#: templates\transfers\transfer_detail.html
+msgid "Approved transfer and handover"
+msgstr "النقل المعتمد والتسليم"
+
+#: templates\transfers\transfer_detail.html
+msgid "Arrangement"
+msgstr "ترتيب التوصيل"
+
+#: templates\transfers\transfer_detail.html
+msgid "Asset record now owned by %(department)s"
+msgstr "سجل الأصل الذي يملكه الآن %(department)s"
+
+#: templates\transfers\transfer_detail.html
+msgid "Avoided purchase confirmed by %(user)s."
+msgstr "أكّد %(user)s الشراء المُتجنَّب."
+
+#: templates\transfers\transfer_detail.html
+msgid "Avoided purchase not confirmed yet by the receiving representative."
+msgstr "لم يؤكد الممثل المستلم الشراء المُتجنَّب بعد."
+
+#: templates\transfers\transfer_detail.html
+msgid "Cancel this transfer"
+msgstr "إلغاء عملية النقل هذه"
+
+#: templates\transfers\transfer_detail.html
+msgid "Cancel transfer"
+msgstr "إلغاء النقل"
+
+#: templates\transfers\transfer_detail.html
+#: transfers\forms.py:52
+msgid "Condition at handover"
+msgstr "الحالة المادية عند التسليم"
+
+#: templates\transfers\transfer_detail.html
+msgid "Confirm avoided purchase"
+msgstr "تأكيد الشراء المُتجنَّب"
+
+#: templates\transfers\transfer_detail.html
+msgid "Confirm handover"
+msgstr "تأكيد التسليم"
+
+#: templates\transfers\transfer_detail.html
+msgid "Confirm receipt"
+msgstr "تأكيد الاستلام"
+
+#: templates\transfers\transfer_detail.html
+msgid "Confirm what arrived"
+msgstr "تأكيد ما وصل"
+
+#: templates\transfers\transfer_detail.html
+msgid "Did this reuse avoid buying a new item? Only confirmed savings count (BR-18)."
+msgstr "هل أغنت إعادة الاستخدام هذه عن شراء عنصر جديد؟ لا تُحتسب إلا الوفورات المؤكدة (BR-18)."
+
+#: templates\transfers\transfer_detail.html
+msgid "Difference recorded"
+msgstr "سُجّل اختلاف"
+
+#: reports\views.py:64
+#: templates\transfers\transfer_detail.html
+msgid "Final approver"
+msgstr "صاحب الموافقة النهائية"
+
+#: reports\views.py:65
+#: templates\transfers\transfer_detail.html
+#: transfers\models.py:303
+msgid "Handed over"
+msgstr "تم التسليم"
+
+#: templates\transfers\transfer_detail.html
+msgid "No approvals yet."
+msgstr "لا توجد موافقات بعد."
+
+#: templates\transfers\transfer_detail.html
+#: transfers\forms.py:25
+msgid "Planned date"
+msgstr "التاريخ المخطط"
+
+#: reports\views.py:65
+#: templates\transfers\transfer_detail.html
+msgid "Received"
+msgstr "تاريخ الاستلام"
+
+#: templates\transfers\transfer_detail.html
+msgid "Received quantity and condition"
+msgstr "الكمية المستلمة والحالة المادية"
+
+#: templates\transfers\transfer_detail.html
+msgid "Record discrepancy"
+msgstr "تسجيل اختلاف"
+
+#: templates\transfers\transfer_detail.html
+msgid "Record the handover"
+msgstr "تسجيل التسليم"
+
+#: templates\transfers\transfer_detail.html
+msgid "Resolve the difference"
+msgstr "معالجة الاختلاف"
+
+#: templates\transfers\transfer_detail.html
+msgid "Return to sender"
+msgstr "إعادة إلى المُرسِل"
+
+#: templates\transfers\transfer_detail.html
+msgid "Sustainability impact"
+msgstr "أثر الاستدامة"
+
+#: templates\transfers\transfer_detail.html
+msgid "Who did what"
+msgstr "من فعل ماذا"
+
+#: templates\transfers\transfer_list.html
+msgid "A hold keeps units for one request for 5 working days. A transfer moves them after the approvals; ownership changes only when the receiver confirms."
+msgstr "يحتفظ الحجز بالوحدات لطلب واحد مدة 5 أيام عمل. أما عملية النقل فتنقلها بعد الموافقات، ولا تتغير الملكية إلا عندما يؤكد المستلم الاستلام."
+
+#: templates\transfers\transfer_list.html
+msgid "Confirm hold"
+msgstr "تأكيد الحجز"
+
+#: templates\transfers\transfer_list.html
+msgid "Decline"
+msgstr "رفض"
+
+#: templates\transfers\transfer_list.html
+msgid "For request"
+msgstr "للطلب"
+
+#: resource_requests\views.py:22
+#: templates\transfers\transfer_list.html
+#: transfers\models.py:195
+msgid "Hold"
+msgstr "الحجز"
+
+#: templates\transfers\transfer_list.html
+msgid "No open holds."
+msgstr "لا توجد حجوزات مفتوحة."
+
+#: templates\transfers\transfer_list.html
+msgid "No transfers yet."
+msgstr "لا توجد عمليات نقل بعد."
+
+#: templates\transfers\transfer_list.html
+msgid "Open holds"
+msgstr "الحجوزات المفتوحة"
+
+#: templates\transfers\transfer_list.html
+msgid "Reason to decline"
+msgstr "سبب الرفض"
+
+#: reports\views.py:22
+#: templates\transfers\transfer_list.html
+msgid "Transfers"
+msgstr "عمليات النقل"
+
+#: templates\transfers\transfer_list.html
+msgid "Until %(date)s"
+msgstr "حتى %(date)s"
+
+#: templates\transfers\transfer_start.html
+msgid "Create transfer"
+msgstr "إنشاء عملية نقل"
+
+#: templates\transfers\transfer_start.html
+msgid "Hold confirmed"
+msgstr "الحجز مؤكَّد"
+
+#: templates\transfers\transfer_start.html
+msgid "Receiver and delivery"
+msgstr "المستلم والتوصيل"
+
+#: templates\transfers\transfer_start.html
+msgid "Start a transfer"
+msgstr "بدء عملية نقل"
+
+#: templates\transfers\transfer_start.html
+msgid "The transfer then needs release approval from %(department)s and receipt approval from your department."
+msgstr "بعد ذلك تحتاج عملية النقل إلى موافقة الإتاحة من %(department)s وموافقة الاستلام من قسمك."
+
+#: templates\transfers\transfer_start.html
+msgid "Transport and cost"
+msgstr "وسيلة النقل والتكلفة"
+
+#: transfers\forms.py:23
+msgid "Deliver to building"
+msgstr "التوصيل إلى المبنى"
+
+#: transfers\forms.py:24
+msgid "Delivery arrangement"
+msgstr "ترتيب التوصيل"
+
+#: transfers\forms.py:25
+msgid "Distance (km)"
+msgstr "المسافة (km)"
+
+#: transfers\forms.py:26
+msgid "Van trips"
+msgstr "رحلات الشاحنة الصغيرة"
+
+#: transfers\forms.py:27
+msgid "Used for transport emissions (van trips x km x 0.25561 kg CO2e)"
+msgstr "تُستخدم لحساب انبعاثات النقل (رحلات الشاحنة الصغيرة × km × 0.25561 kg CO2e)"
+
+#: transfers\forms.py:28
+msgid "Subtracted from the avoided purchase value in net savings"
+msgstr "تُطرح من قيمة المشتريات المُتجنَّبة عند حساب صافي الوفورات"
+
+#: transfers\forms.py:40
+msgid "The planned date cannot be in the past."
+msgstr "لا يمكن أن يكون التاريخ المخطط في الماضي."
+
+#: transfers\forms.py:47
+msgid "This cannot be negative."
+msgstr "لا يمكن أن تكون هذه القيمة سالبة."
+
+#: transfers\forms.py:58
+msgid "Received quantity"
+msgstr "الكمية المستلمة"
+
+#: transfers\forms.py:59
+msgid "Cannot be more than the quantity handed over"
+msgstr "لا يمكن أن تتجاوز الكمية المُسلَّمة"
+
+#: transfers\forms.py:60
+msgid "Received condition"
+msgstr "الحالة المادية عند الاستلام"
+
+#: transfers\forms.py:62
+msgid "Discrepancy reason"
+msgstr "سبب الاختلاف"
+
+#: transfers\forms.py:63
+msgid "Needed only if the quantity or condition differs from the handover"
+msgstr "مطلوب فقط إذا اختلفت الكمية أو الحالة المادية عمّا سُجّل عند التسليم"
+
+#: transfers\models.py:106
+msgctxt "history"
+msgid "approval task created"
+msgstr "أُنشئت مهمة موافقة"
+
+#: transfers\models.py:120
+msgid "This task was already decided."
+msgstr "تم البت في هذه المهمة مسبقًا."
+
+#: transfers\models.py:122
+msgid "You cannot approve your own request or record (BR-02)."
+msgstr "لا يمكنك الموافقة على طلبك أو سجلك بنفسك (BR-02)."
+
+#: transfers\models.py:127
+msgid "Only the %(role)s of %(department)s can decide this stage."
+msgstr "لا يمكن البت في هذه المرحلة إلا من قِبل %(role)s في %(department)s."
+
+#: transfers\models.py:130
+msgid "Only the %(role)s can decide this stage."
+msgstr "لا يمكن البت في هذه المرحلة إلا من قِبل %(role)s."
+
+#: transfers\models.py:133
+msgid "The record changed after this task was created. Reload it and decide again."
+msgstr "تغيّر السجل بعد إنشاء هذه المهمة. أعد تحميله ثم ابتّ فيه مجددًا."
+
+#: transfers\models.py:136
+msgid "Give a reason for this decision (BR-20)."
+msgstr "اذكر سببًا لهذا القرار (BR-20)."
+
+#: transfers\models.py:166
+msgid "Confirmed"
+msgstr "مؤكَّد"
+
+#: transfers\models.py:167
+msgid "Declined"
+msgstr "مرفوض"
+
+#: transfers\models.py:168
+msgid "Converted to transfer"
+msgstr "تحوّل إلى عملية نقل"
+
+#: transfers\models.py:205
+msgid "Only the requester can ask for a hold."
+msgstr "لا يمكن طلب الحجز إلا من قِبل مقدّم الطلب."
+
+#: transfers\models.py:207
+msgid "A hold can only be requested for an open request."
+msgstr "لا يمكن طلب الحجز إلا لطلب مفتوح."
+
+#: transfers\models.py:210
+msgid "This item is no longer published."
+msgstr "لم يعد هذا العنصر منشورًا."
+
+#: transfers\models.py:212
+msgid "This item already belongs to your department, so there is nothing to transfer."
+msgstr "هذا العنصر يتبع قسمك بالفعل، لذا لا يوجد ما يُنقل."
+
+#: transfers\models.py:217
+msgid "Nothing is left to hold on this listing."
+msgstr "لم يتبقَّ في هذا العرض شيء للحجز."
+
+#: transfers\models.py:218
+msgid "Only %(left)s of the units you need are left on this listing."
+msgstr "لم يتبقَّ في هذا العرض سوى %(left)s من الوحدات التي تحتاجها."
+
+#: transfers\models.py:224
+#: transfers\models.py:225
+msgctxt "history"
+msgid "hold requested"
+msgstr "طُلب الحجز"
+
+#: transfers\models.py:230
+msgid "You cannot confirm your own hold (BR-02)."
+msgstr "لا يمكنك تأكيد حجز طلبته بنفسك (BR-02)."
+
+#: transfers\models.py:234
+msgid "Only a custodian or representative of %(department)s can decide this hold."
+msgstr "لا يمكن البت في هذا الحجز إلا من قِبل أمين عهدة أو ممثل %(department)s."
+
+#: transfers\models.py:243
+msgid "This hold was already decided."
+msgstr "تم البت في هذا الحجز مسبقًا."
+
+#: transfers\models.py:246
+msgid "This listing is no longer published."
+msgstr "لم يعد هذا العرض منشورًا."
+
+#: transfers\models.py:250
+msgid "Every unit of this listing is already held for someone else."
+msgstr "جميع وحدات هذا العرض محجوزة بالفعل لآخرين."
+
+#: transfers\models.py:251
+msgid "Only %(left)s of the %(total)s listed units are still free; this hold asks for %(asked)s."
+msgstr "المتاح الآن %(left)s فقط من أصل %(total)s من الوحدات المعروضة، بينما يطلب هذا الحجز %(asked)s."
+
+#: transfers\models.py:256
+msgid "The asset must be checked again before a hold (last check over 90 days ago, BR-16)."
+msgstr "يجب فحص الأصل مجددًا قبل الحجز (آخر فحص كان قبل أكثر من 90 يومًا، BR-16)."
+
+#: transfers\models.py:261
+msgctxt "history"
+msgid "hold confirmed"
+msgstr "أُكّد الحجز"
+
+#: transfers\models.py:267
+msgid "Give a reason for declining (BR-20)."
+msgstr "اذكر سبب الرفض (BR-20)."
+
+#: transfers\models.py:270
+msgctxt "history"
+msgid "hold declined"
+msgstr "رُفض الحجز"
+
+#: transfers\models.py:275
+msgctxt "history"
+msgid "hold cancelled"
+msgstr "أُلغي الحجز"
+
+#: transfers\models.py:282
+msgctxt "history"
+msgid "hold expired"
+msgstr "انتهت صلاحية الحجز"
+
+#: transfers\models.py:300
+msgid "Pending receipt approval"
+msgstr "بانتظار موافقة الاستلام"
+
+#: transfers\models.py:301
+msgid "Pending policy approval"
+msgstr "بانتظار موافقة السياسة"
+
+#: transfers\models.py:304
+msgid "Completed"
+msgstr "مكتمل"
+
+#: transfers\models.py:305
+msgid "Disputed"
+msgstr "متنازع عليه"
+
+#: transfers\models.py:31
+msgid "Department approval of the request"
+msgstr "موافقة القسم على الطلب"
+
+#: transfers\models.py:310
+msgid "Collection"
+msgstr "استلام ذاتي"
+
+#: transfers\models.py:311
+msgid "Delivery"
+msgstr "توصيل"
+
+#: transfers\models.py:32
+msgid "Release of the listing"
+msgstr "إتاحة العرض"
+
+#: transfers\models.py:34
+#: transfers\views.py:31
+msgid "Receipt approval"
+msgstr "موافقة الاستلام"
+
+#: transfers\models.py:35
+msgid "Policy approval: Finance"
+msgstr "موافقة السياسة: المالية"
+
+#: transfers\models.py:36
+msgid "Policy approval: Procurement"
+msgstr "موافقة السياسة: المشتريات"
+
+#: transfers\models.py:39
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+#: transfers\models.py:391
+msgid "Only the requester can start this transfer."
+msgstr "لا يمكن بدء عملية النقل هذه إلا من قِبل مقدّم الطلب."
+
+#: transfers\models.py:393
+msgid "The hold must be confirmed before a transfer starts."
+msgstr "يجب تأكيد الحجز قبل بدء عملية النقل."
+
+#: transfers\models.py:396
+msgid "The receiving custodian must be a custodian of your department."
+msgstr "يجب أن يكون أمين العهدة المستلم أحد أمناء العهدة في قسمك."
+
+#: transfers\models.py:399
+msgid "This hold has expired (BR-12). Ask for a new hold."
+msgstr "انتهت صلاحية هذا الحجز (BR-12). اطلب حجزًا جديدًا."
+
+#: transfers\models.py:302
+#: transfers\models.py:40
+#: transfers\views.py:32
+msgid "Approved"
+msgstr "موافَق عليه"
+
+#: transfers\models.py:403
+msgid "Costs, distances and van trips cannot be negative."
+msgstr "لا يمكن أن تكون التكاليف والمسافات ورحلات الشاحنة الصغيرة سالبة."
+
+#: transfers\models.py:412
+#: transfers\models.py:414
+msgctxt "history"
+msgid "transfer created"
+msgstr "أُنشئت عملية النقل"
+
+#: transfers\models.py:413
+msgctxt "history"
+msgid "converted to transfer"
+msgstr "حُوِّل إلى عملية نقل"
+
+#: transfers\models.py:42
+msgid "Changes requested"
+msgstr "طُلبت تعديلات"
+
+#: transfers\models.py:425
+msgid "There is no approval task waiting on this transfer."
+msgstr "لا توجد مهمة موافقة معلّقة على عملية النقل هذه."
+
+#: transfers\models.py:433
+msgctxt "history"
+msgid "release approved"
+msgstr "تمت الموافقة على الإتاحة"
+
+#: transfers\models.py:438
+#: transfers\models.py:445
+msgctxt "history"
+msgid "receipt approved"
+msgstr "تمت الموافقة على الاستلام"
+
+#: transfers\models.py:448
+msgctxt "history"
+msgid "policy approved"
+msgstr "تمت موافقة السياسة"
+
+#: transfers\models.py:461
+msgid "A transfer can only be cancelled before handover."
+msgstr "لا يمكن إلغاء عملية النقل إلا قبل التسليم."
+
+#: transfers\models.py:476
+msgid "Only a custodian of %(department)s can do this."
+msgstr "لا يمكن القيام بذلك إلا من قِبل أمين عهدة في %(department)s."
+
+#: transfers\models.py:485
+#: transfers\models.py:488
+msgctxt "history"
+msgid "handed over"
+msgstr "سُلِّم"
+
+#: transfers\models.py:494
+msgid "What arrived differs from the handover record. Record a discrepancy instead."
+msgstr "ما وصل يختلف عن سجل التسليم. سجّل اختلافًا بدلًا من ذلك."
+
+#: transfers\models.py:501
+msgid "Describe the difference (FR-11.5)."
+msgstr "صِف الاختلاف (FR-11.5)."
+
+#: transfers\models.py:503
+msgid "The received quantity must be between 0 and %(count)s."
+msgstr "يجب أن تكون الكمية المستلمة بين 0 و%(count)s."
+
+#: transfers\models.py:508
+msgctxt "history"
+msgid "difference recorded"
+msgstr "سُجّل الاختلاف"
+
+#: transfers\models.py:514
+msgid "Only the representative of %(department)s can resolve this."
+msgstr "لا يمكن معالجة ذلك إلا من قِبل ممثل %(department)s."
+
+#: transfers\models.py:517
+msgid "Give a reason for the resolution."
+msgstr "اذكر سببًا لهذه المعالجة."
+
+#: transfers\models.py:521
+msgid "Units are missing, so this delivery cannot be accepted. Return it instead."
+msgstr "توجد وحدات ناقصة، لذا لا يمكن قبول هذا التوصيل. أعِده إلى المُرسِل بدلًا من ذلك."
+
+#: transfers\models.py:526
+msgctxt "history"
+msgid "returned"
+msgstr "أُرجِع"
+
+#: transfers\models.py:529
+msgctxt "history"
+msgid "returned after dispute"
+msgstr "أُرجِع بعد النزاع"
+
+#: transfers\models.py:533
+msgctxt "history"
+msgid "transfer returned"
+msgstr "أُرجِعت عملية النقل"
+
+#: transfers\models.py:554
+#: transfers\models.py:557
+msgctxt "history"
+msgid "received by new owner"
+msgstr "استلمه المالك الجديد"
+
+#: transfers\models.py:586
+msgctxt "history"
+msgid "receipt confirmed"
+msgstr "أُكّد الاستلام"
+
+#: transfers\models.py:595
+msgctxt "history"
+msgid "closed after transfer"
+msgstr "أُغلق بعد النقل"
+
+#: transfers\models.py:89
+msgid "%(stage)s for %(record)s"
+msgstr "%(stage)s لـ %(record)s"
+
+#: transfers\views.py:105
+msgid "Only the releasing department can decide this hold."
+msgstr "لا يمكن البت في هذا الحجز إلا من قِبل القسم المُتيح."
+
+#: transfers\views.py:109
+msgid "Hold confirmed for 5 working days."
+msgstr "تم تأكيد الحجز لمدة 5 أيام عمل."
+
+#: transfers\views.py:111
+msgid "Hold declined."
+msgstr "تم رفض الحجز."
+
+#: transfers\views.py:130
+msgid "Transfer created. It now needs the release and receipt approvals."
+msgstr "تم إنشاء عملية النقل. وهي تحتاج الآن إلى موافقتَي الإتاحة والاستلام."
+
+#: transfers\views.py:172
+msgid "You can only open transfers of your department or your own requests."
+msgstr "يمكنك فتح عمليات النقل الخاصة بقسمك أو بطلباتك فقط."
+
+#: transfers\views.py:213
+msgid "Handover recorded. The receiving custodian now confirms receipt."
+msgstr "تم تسجيل التسليم. يؤكد أمين العهدة المستلم الاستلام الآن."
+
+#: transfers\views.py:227
+msgid "Difference recorded. Ownership has not changed; both representatives are told."
+msgstr "تم تسجيل الاختلاف. لم تتغير الملكية، وقد أُبلغ كلا الممثلين."
+
+#: transfers\views.py:231
+msgid "Receipt confirmed. The asset now belongs to your department."
+msgstr "تم تأكيد الاستلام. أصبح الأصل الآن تابعًا لقسمك."
+
+#: transfers\views.py:241
+msgid "Dispute resolved."
+msgstr "تمت معالجة النزاع."
+
+#: transfers\views.py:250
+msgid "You cannot cancel this transfer."
+msgstr "لا يمكنك إلغاء عملية النقل هذه."
+
+#: transfers\views.py:252
+msgid "Transfer cancelled. The held units are available again."
+msgstr "تم إلغاء عملية النقل. الوحدات المحجوزة متاحة مجددًا."
+
+#: transfers\views.py:32
+msgid "Policy review"
+msgstr "مراجعة السياسة"
+
+#: transfers\views.py:33
+msgid "Receipt confirmed"
+msgstr "الاستلام مؤكَّد"
+
+#: transfers\views.py:64
+msgid "This approval belongs to another department."
+msgstr "هذه الموافقة تخص قسمًا آخر."
+
+#: transfers\views.py:74
+msgid "Decision saved."
+msgstr "تم حفظ القرار."
+
+#: transfers\views.py:90
+msgid "Unknown request or listing."
+msgstr "طلب أو عرض غير معروف."
+
+#: transfers\views.py:94
+msgid "Hold requested. The releasing department will confirm or decline it. Selection alone holds nothing."
+msgstr "تم طلب الحجز. سيؤكده القسم المُتيح أو يرفضه. الاختيار وحده لا يحجز شيئًا."

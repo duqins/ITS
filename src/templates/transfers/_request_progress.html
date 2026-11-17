@@ -1,8 +1,8 @@
-{% load dawra_ui %}{% if holds or transfers %}
-<section class="group"><div class="group-title">{% icon 'transfer' %}<h2>Holds and transfers</h2></div>
-<div class="table-wrap"><table class="data-table"><thead><tr><th>Record</th><th>Item</th><th class="num">Quantity</th><th>Status</th><th></th></tr></thead><tbody>
-{% for h in holds %}<tr><td>{{ h.code }}{% if h.expires_at %}<small>Held until {{ h.expires_at|date:"j M Y" }}</small>{% endif %}</td><td>{{ h.listing.asset.name }}<small>{{ h.listing.asset.code }}</small></td><td class="num">{{ h.quantity }}</td><td>{% status_pill h %}</td>
-  <td>{% if mine and h.status == "RV-02" %}<a class="button primary" href="{% url 'transfers:start' h.pk %}">Start the transfer</a>{% endif %}</td></tr>{% endfor %}
-{% for t in transfers %}<tr><td><a href="{% url 'transfers:detail' t.pk %}">{{ t.code }}</a></td><td>{{ t.asset.name }}<small>{{ t.from_department }} to {{ t.to_department }}</small></td><td class="num">{{ t.quantity }}</td><td>{% status_pill t %}</td><td></td></tr>{% endfor %}
+{% load dawra_ui i18n %}{% if holds or transfers %}
+<section class="group"><div class="group-title">{% icon 'transfer' %}<h2>{% translate "Holds and transfers" %}</h2></div>
+<div class="table-wrap"><table class="data-table"><thead><tr><th>{% translate "Record" %}</th><th>{% translate "Item" %}</th><th class="num">{% translate "Quantity" %}</th><th>{% translate "Status" %}</th><th></th></tr></thead><tbody>
+{% for h in holds %}<tr><td>{{ h.code }}{% if h.expires_at %}<small>{% blocktranslate trimmed with date=h.expires_at|date:"j M Y" %}Held until {{ date }}{% endblocktranslate %}</small>{% endif %}</td><td>{{ h.listing.asset.name }}<small>{{ h.listing.asset.code }}</small></td><td class="num">{{ h.quantity }}</td><td>{% status_pill h %}</td>
+  <td>{% if mine and h.status == "RV-02" %}<a class="button primary" href="{% url 'transfers:start' h.pk %}">{% translate "Start the transfer" %}</a>{% endif %}</td></tr>{% endfor %}
+{% for t in transfers %}<tr><td><a href="{% url 'transfers:detail' t.pk %}">{{ t.code }}</a></td><td>{{ t.asset.name }}<small>{% blocktranslate trimmed with from_department=t.from_department to_department=t.to_department %}{{ from_department }} to {{ to_department }}{% endblocktranslate %}</small></td><td class="num">{{ t.quantity }}</td><td>{% status_pill t %}</td><td></td></tr>{% endfor %}
 </tbody></table></div></section>
 {% endif %}

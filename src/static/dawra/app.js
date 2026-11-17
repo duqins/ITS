@@ -20,8 +20,10 @@
     button.setAttribute("aria-busy", "true");
     if (AI_ACTIONS.test(form.action)) {
       button.dataset.label = button.innerHTML;
-      button.innerHTML = 'Asking the AI<span class="thinking-dots" aria-hidden="true">' +
-        "<span></span><span></span><span></span></span>";
+      var label = document.documentElement.dataset.busyAi || "Asking the AI";  // in the page's language
+      button.textContent = label;
+      button.insertAdjacentHTML("beforeend", '<span class="thinking-dots" aria-hidden="true">' +
+        "<span></span><span></span><span></span></span>");
     }
   });
 

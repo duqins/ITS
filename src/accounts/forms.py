@@ -1,11 +1,14 @@
 from django import forms
+from django.utils.translation import gettext_lazy
 
 from .models import User
 
 
 class SignInForm(forms.Form):
-    username = forms.CharField(max_length=150, widget=forms.TextInput(attrs={"autocomplete": "username", "autofocus": True}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}))
+    username = forms.CharField(max_length=150, label=gettext_lazy("Username"),
+                               widget=forms.TextInput(attrs={"autocomplete": "username", "autofocus": True}))
+    password = forms.CharField(label=gettext_lazy("Password"),
+                               widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}))
 
 
 class PreferencesForm(forms.ModelForm):
@@ -13,5 +16,5 @@ class PreferencesForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["theme", "motion"]
-        widgets = {"theme": forms.RadioSelect, "motion": forms.RadioSelect}
+        fields = ["theme", "language", "motion"]
+        widgets = {"theme": forms.RadioSelect, "language": forms.RadioSelect, "motion": forms.RadioSelect}
