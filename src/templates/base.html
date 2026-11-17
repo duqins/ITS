@@ -1,6 +1,6 @@
 {% load static dawra_ui notification_ui i18n %}<!doctype html>
 {% get_current_language as LANG %}{% get_current_language_bidi as RTL %}
-<html lang="{{ LANG }}" dir="{% if RTL %}rtl{% else %}ltr{% endif %}" data-theme="{% if user.is_authenticated %}{{ user.theme }}{% else %}system{% endif %}" data-motion="{% if user.is_authenticated %}{{ user.motion }}{% else %}standard{% endif %}" data-busy-ai="{% translate 'Asking the AI' %}">
+<html lang="{{ LANG }}" dir="{% if RTL %}rtl{% else %}ltr{% endif %}" data-theme="{% if user.is_authenticated %}{{ user.theme }}{% else %}system{% endif %}" data-motion="{% if user.is_authenticated %}{{ user.motion }}{% else %}standard{% endif %}" data-busy-ai="{% translate 'Asking the AI' %}" data-confirm-back="{% translate 'Go back' %}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,6 +26,7 @@
 </head>
 <body>
 {% if user.is_authenticated %}
+<a class="skip-link" href="#main">{% translate "Skip to main content" %}</a>
 <header class="top">
   <a class="logo" href="{% url 'core:home' %}" aria-label="{% translate 'Dawra Campus home' %}"><img src="{% static 'dawra/assets/dawra-campus-logo.png' %}" alt="Dawra Campus" width="1942" height="809"></a>
   <div class="workspace-name">{% translate "Campus resource exchange" %}<br>{% translate "Staff workspace" %}</div>
@@ -46,9 +47,10 @@
     {% if my_roles|length > 1 %}
     <form class="role-switch" method="post" action="{% url 'accounts:switch_role' %}">{% csrf_token %}
       <label for="role-select">{% translate "Working as" %}</label>
-      <select id="role-select" name="user_role" onchange="this.form.submit()">
+      <select id="role-select" name="user_role" aria-describedby="role-hint" onchange="this.form.submit()">
         {% for r in my_roles %}<option value="{{ r.pk }}"{% if r == active_role %} selected{% endif %}>{{ r }}</option>{% endfor %}
       </select>
+      <span id="role-hint" class="sr-only">{% translate "The page reloads as soon as you pick a role." %}</span>
       <noscript><button class="button" type="submit">{% translate "Switch" %}</button></noscript>
     </form>
     {% endif %}
@@ -64,10 +66,10 @@
     {% main_menu %}
     <div class="sidebar-foot"><strong>{% icon 'leaf' %}{% translate "Reuse before replacement" %}</strong>{% translate "Find a second life for campus resources." %}</div>
   </nav>
-  <main>
+  <main id="main" tabindex="-1">
     {% include "includes/messages.html" %}
     {% block content %}{% endblock %}
-    <div class="synthetic"><span>{% translate "Dawra Campus · Phase 6 draft · Synthetic data" %}</span><span>{% translate "* Required field" %}</span></div>
+    <div class="synthetic"><span>{% translate "Dawra Campus · Phase 6 draft · Synthetic data" %}</span><span class="required-note">{% translate "* Required field" %}</span></div>
   </main>
 </div>
 {% else %}

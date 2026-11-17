@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.translation import gettext as _
 
 from accounts.models import Role, User
@@ -77,11 +78,10 @@ def record_changed(sender, instance, from_state, to_state, actor, action, reason
         requester, link = instance.request.requester, reverse("resource_requests:detail", args=[instance.request_id])
         item = instance.listing.asset.name
         if to_state == Reservation.Status.CONFIRMED:
-            # The date keeps its English format (for example "06 Nov") in every language.
-            until = f"{timezone.localtime(instance.expires_at):%d %b}"
+            # Built inside the message, so the date is in the reader's language too ("13 Nov").
             Notification.send([requester], instance, lambda: _(
                 "Your hold on %(item)s is confirmed until %(date)s. Start the transfer.") % {
-                "item": item, "date": until}, link)
+                "item": item, "date": date_format(timezone.localtime(instance.expires_at), "d M")}, link)
         elif to_state == Reservation.Status.DECLINED:
             Notification.send([requester], instance, lambda: _("Your hold on %(item)s was declined: %(reason)s") % {
                 "item": item, "reason": reason}, link)

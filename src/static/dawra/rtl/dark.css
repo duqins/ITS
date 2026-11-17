@@ -46,6 +46,7 @@
 [data-theme="dark"] .journey .done .step-dot{background:#1c2726;border-color:#374643}
 [data-theme="dark"] .asset-summary{background:#151a20}
 [data-theme="dark"] .asset-symbol{background:#192226}
+[data-theme="dark"] .thumb,[data-theme="dark"] .gallery a,[data-theme="dark"] .asset-symbol.has-photo,[data-theme="dark"] .thumb.has-photo{background:#192226;color:#9aafbf}
 [data-theme="dark"] .data-table th{background:#151c20;color:#bec8d0}
 [data-theme="dark"] .data-table .selected{background:#172221}
 [data-theme="dark"] .factor-list li{border-bottom:1px solid #293632}
@@ -66,9 +67,9 @@
 [data-theme="dark"] .data-table tr.highlight td{background:#172221}
 [data-theme="dark"] .empty{border:1px dashed #2e373d}
 [data-theme="dark"] .status.status-as-01,[data-theme="dark"] .status.status-ls-01,[data-theme="dark"] .status.status-rq-01{background:#191c1e;color:#c2c8ce}
-[data-theme="dark"] .status.status-ls-03,[data-theme="dark"] .status.status-rq-03,[data-theme="dark"] .status.status-as-02,[data-theme="dark"] .status.status-as-03,[data-theme="dark"] .status.status-tr-04,[data-theme="dark"] .status.status-rv-02,[data-theme="dark"] .status.status-at-02{background:#192422}
-[data-theme="dark"] .status.status-rq-06,[data-theme="dark"] .status.status-tr-06,[data-theme="dark"] .status.status-rv-04{background:#1a241e;color:#c7dace}
-[data-theme="dark"] .status.status-rq-08,[data-theme="dark"] .status.status-tr-08,[data-theme="dark"] .status.status-at-03,[data-theme="dark"] .status.status-rv-03,[data-theme="dark"] .status.status-tr-07{background:#251212}
+[data-theme="dark"] .status.status-ls-03,[data-theme="dark"] .status.status-rq-03,[data-theme="dark"] .status.status-as-02,[data-theme="dark"] .status.status-as-03,[data-theme="dark"] .status.status-tr-04,[data-theme="dark"] .status.status-rv-02,[data-theme="dark"] .status.status-at-02,[data-theme="dark"] .status.status-authorised{background:#192422}
+[data-theme="dark"] .status.status-rq-06,[data-theme="dark"] .status.status-tr-06,[data-theme="dark"] .status.status-rv-04,[data-theme="dark"] .status.status-active{background:#1a241e;color:#c7dace}
+[data-theme="dark"] .status.status-rq-08,[data-theme="dark"] .status.status-tr-08,[data-theme="dark"] .status.status-at-03,[data-theme="dark"] .status.status-rv-03,[data-theme="dark"] .status.status-tr-07,[data-theme="dark"] .status.status-rejected{background:#251212}
 [data-theme="dark"] .status.status-rq-09,[data-theme="dark"] .status.status-rq-10,[data-theme="dark"] .status.status-tr-09,[data-theme="dark"] .status.status-ls-05,[data-theme="dark"] .status.status-rv-05,[data-theme="dark"] .status.status-rv-06,[data-theme="dark"] .status.status-at-05{background:#191c1e;color:#b3b9bd}
 [data-theme="dark"] .card{background:#10171e}
 [data-theme="dark"] a.card:hover{border-color:#38444a;background:#131a1e}
@@ -133,6 +134,7 @@
 [data-theme="system"] .journey .done .step-dot{background:#1c2726;border-color:#374643}
 [data-theme="system"] .asset-summary{background:#151a20}
 [data-theme="system"] .asset-symbol{background:#192226}
+[data-theme="system"] .thumb,[data-theme="system"] .gallery a,[data-theme="system"] .asset-symbol.has-photo,[data-theme="system"] .thumb.has-photo{background:#192226;color:#9aafbf}
 [data-theme="system"] .data-table th{background:#151c20;color:#bec8d0}
 [data-theme="system"] .data-table .selected{background:#172221}
 [data-theme="system"] .factor-list li{border-bottom:1px solid #293632}
@@ -153,9 +155,9 @@
 [data-theme="system"] .data-table tr.highlight td{background:#172221}
 [data-theme="system"] .empty{border:1px dashed #2e373d}
 [data-theme="system"] .status.status-as-01,[data-theme="system"] .status.status-ls-01,[data-theme="system"] .status.status-rq-01{background:#191c1e;color:#c2c8ce}
-[data-theme="system"] .status.status-ls-03,[data-theme="system"] .status.status-rq-03,[data-theme="system"] .status.status-as-02,[data-theme="system"] .status.status-as-03,[data-theme="system"] .status.status-tr-04,[data-theme="system"] .status.status-rv-02,[data-theme="system"] .status.status-at-02{background:#192422}
-[data-theme="system"] .status.status-rq-06,[data-theme="system"] .status.status-tr-06,[data-theme="system"] .status.status-rv-04{background:#1a241e;color:#c7dace}
-[data-theme="system"] .status.status-rq-08,[data-theme="system"] .status.status-tr-08,[data-theme="system"] .status.status-at-03,[data-theme="system"] .status.status-rv-03,[data-theme="system"] .status.status-tr-07{background:#251212}
+[data-theme="system"] .status.status-ls-03,[data-theme="system"] .status.status-rq-03,[data-theme="system"] .status.status-as-02,[data-theme="system"] .status.status-as-03,[data-theme="system"] .status.status-tr-04,[data-theme="system"] .status.status-rv-02,[data-theme="system"] .status.status-at-02,[data-theme="system"] .status.status-authorised{background:#192422}
+[data-theme="system"] .status.status-rq-06,[data-theme="system"] .status.status-tr-06,[data-theme="system"] .status.status-rv-04,[data-theme="system"] .status.status-active{background:#1a241e;color:#c7dace}
+[data-theme="system"] .status.status-rq-08,[data-theme="system"] .status.status-tr-08,[data-theme="system"] .status.status-at-03,[data-theme="system"] .status.status-rv-03,[data-theme="system"] .status.status-tr-07,[data-theme="system"] .status.status-rejected{background:#251212}
 [data-theme="system"] .status.status-rq-09,[data-theme="system"] .status.status-rq-10,[data-theme="system"] .status.status-tr-09,[data-theme="system"] .status.status-ls-05,[data-theme="system"] .status.status-rv-05,[data-theme="system"] .status.status-rv-06,[data-theme="system"] .status.status-at-05{background:#191c1e;color:#b3b9bd}
 [data-theme="system"] .card{background:#10171e}
 [data-theme="system"] a.card:hover{border-color:#38444a;background:#131a1e}

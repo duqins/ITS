@@ -4,7 +4,7 @@
 {% block content %}
 <div class="heading"><div><h1>{% translate "Sustainability dashboard" %}</h1><div class="record">UI-13 · {% translate "design section 12" %}</div></div></div>
 <p class="lead">{% translate "Every figure is calculated by the database from completed, approved actions. Each one shows its formula, inputs and source." %}</p>
-<form method="get" class="filters" style="grid-template-columns:repeat(3,minmax(0,1fr)) auto">
+<form method="get" class="filters" style="--columns:repeat(3,minmax(0,1fr)) auto">
   {% for error in form.non_field_errors %}<div class="toast error" style="grid-column:1/-1">{{ error }}</div>{% endfor %}
   {% include "includes/field.html" with field=form.date_from %}
   {% include "includes/field.html" with field=form.date_to %}
@@ -27,8 +27,8 @@
 {% if pending %}
 <section class="group"><div class="group-title">{% icon 'approval' %}<h2>{% translate "Avoided purchases to confirm" %}</h2></div>
 <p class="muted small">{% translate "Only purchases your department confirms it avoided count (BR-18)." %}</p>
-<div class="table-wrap"><table class="data-table"><thead><tr><th>{% translate "Transfer" %}</th><th>{% translate "Item" %}</th><th class="num">{% translate "Items" %}</th><th>{% translate "Value" %}</th><th></th></tr></thead><tbody>
-{% for p in pending %}<tr><td><a href="{% url 'transfers:detail' p.transfer.pk %}">{{ p.transfer.code }}</a></td><td>{{ p.transfer.asset.name }}</td><td class="num">{{ p.items_diverted }}</td><td>{% if p.avoided_purchase_aed is not None %}{% blocktranslate trimmed with amount=p.avoided_purchase_aed %}AED {{ amount }}{% endblocktranslate %}{% else %}{% translate "N/A" %}{% endif %}</td>
+<div class="table-wrap"><table class="data-table"><thead><tr><th>{% translate "Transfer" %}</th><th>{% translate "Item" %}</th><th class="num">{% translate "Items" %}</th><th>{% translate "Value" %}</th><th><span class="sr-only">{% translate "Actions" %}</span></th></tr></thead><tbody>
+{% for p in pending %}<tr><td><a href="{% url 'transfers:detail' p.transfer.pk %}">{{ p.transfer.code }}</a></td><td>{{ p.transfer.asset.name }}</td><td class="num">{{ p.items_diverted }}</td><td>{% if p.avoided_purchase_aed is not None %}{% blocktranslate trimmed with amount=p.avoided_purchase_aed|floatformat:"2g" %}AED {{ amount }}{% endblocktranslate %}{% else %}{% translate "N/A" %}{% endif %}</td>
 <td><form method="post" action="{% url 'sustainability:confirm' p.pk %}">{% csrf_token %}<button class="button primary" type="submit">{% translate "Confirm" %}</button></form></td></tr>{% endfor %}
 </tbody></table></div></section>
 {% endif %}

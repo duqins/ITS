@@ -5,12 +5,13 @@ states such as "AS-01 Draft", approval stages, roles such as "Department represe
 and the actions written by the app ("hold requested"). Anything else is shown as saved.
 """
 
+import re
 from functools import lru_cache
 
 from django import template
 from django.conf import settings
 from django.utils import translation
-from django.utils.translation import pgettext, pgettext_lazy
+from django.utils.translation import npgettext, pgettext, pgettext_lazy
 
 register = template.Library()
 
@@ -18,13 +19,13 @@ register = template.Library()
 @lru_cache(maxsize=1)
 def known_names():
     """English name -> translatable name, for every state, stage, role and condition."""
-    from accounts.models import Role
+    from accounts.models import Role, UserRole
     from assets.models import Asset, Condition, Listing
     from resource_requests.models import ResourceRequest
     from transfers.models import Approval, Reservation, Transfer
 
     choices = [Role.Code, Condition, Asset.Status, Listing.Status, ResourceRequest.Status, Reservation.Status,
-               Transfer.Status, Approval.Status, Approval.Stage]
+               Transfer.Status, Approval.Status, Approval.Stage, UserRole.Status]
     names = {}
     with translation.override(settings.LANGUAGE_CODE):
         for kind in choices:
@@ -51,8 +52,36 @@ def localized(value):
 
 @register.filter
 def action_text(value):
-    """An action the app wrote in the history ("hold requested"), in the reader's language."""
-    return pgettext("history", value) if value else value
+    """An action the app wrote in the history ("hold requested"), in the reader's language.
+
+    A few actions carry a code, a number or another action inside them ("1 unit moved to AST-0007",
+    "blocked: request hold"). Those are matched here, so the value is kept and only the words change.
+    """
+    if not value:
+        return value
+    moved = re.fullmatch(r"(\d+) unit(?:s|\(s\))? moved to (\S+)", value)
+    if moved:
+        count = int(moved[1])
+        return npgettext("history", "%(count)s unit moved to %(code)s", "%(count)s units moved to %(code)s",
+                         count) % {"count": count, "code": moved[2]}
+    received = re.fullmatch(r"received from (\S+) by (\S+)", value)
+    if received:
+        return pgettext("history", "received from %(asset)s by %(transfer)s") % {
+            "asset": received[1], "transfer": received[2]}
+    rejected = re.fullmatch(r"AI match (\S+) rejected", value)
+    if rejected:
+        return pgettext("history", "AI match %(code)s rejected") % {"code": rejected[1]}
+    suggestion = re.fullmatch(r"AI (\w+) suggestion (\w+)", value)
+    if suggestion:
+        from ai.models import AiSuggestion, Task
+        task = dict(Task.choices).get(suggestion[1], suggestion[1])
+        response = dict(AiSuggestion.Response.choices).get(suggestion[2], suggestion[2])
+        return pgettext("history", "AI %(task)s suggestion %(response)s") % {
+            "task": str(task).lower(), "response": str(response).lower()}
+    blocked = re.fullmatch(r"blocked: (.+)", value)
+    if blocked:
+        return pgettext("history", "blocked: %(action)s") % {"action": pgettext("history", blocked[1])}
+    return pgettext("history", value)
 
 
 RECORD_KINDS = {
@@ -63,6 +92,7 @@ RECORD_KINDS = {
     "matchrecommendation": pgettext_lazy("record kind", "AI match"),
     "sustainabilityimpact": pgettext_lazy("record kind", "Sustainability record"),
     "page": pgettext_lazy("record kind", "Page"),
+    "userrole": pgettext_lazy("record kind", "Role assignment"),
 }
 
 
@@ -70,3 +100,15 @@ RECORD_KINDS = {
 def record_kind(value):
     """The kind of record in the history ("resourcerequest" -> "Request"), in the reader's language."""
     return RECORD_KINDS.get(str(value)) or str(value).capitalize()
+
+
+CODES = {"asset": "AST", "listing": "LST", "resourcerequest": "REQ", "reservation": "HLD", "transfer": "TRF"}
+
+
+@register.filter
+def record_label(entry):
+    """The record of a history line as people know it: AST-0002, TRF-0002, or "Approval 12" for the rest."""
+    prefix = CODES.get(entry.record_type)
+    if prefix:
+        return f"{prefix}-{entry.record_id:04d}"
+    return f"{record_kind(entry.record_type)} {entry.record_id}"

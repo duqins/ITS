@@ -2,10 +2,10 @@
 {% load dawra_ui i18n %}
 {% block title %}{% translate "Reports" %} · {% translate "Dawra Campus" %}{% endblock %}
 {% block content %}
-<div class="heading"><div><h1>{% translate "Requests and transfers report" %}</h1><div class="record">FR-17 · C9</div></div>
+<div class="heading"><div><h1>{% translate "Requests and transfers report" %}</h1><div class="record">UI-13 · FR-17</div></div>
   {% if rows %}<a class="button" href="?{{ query }}&amp;format=csv">{% icon 'file' %}{% translate "Export CSV" %}</a>{% endif %}</div>
 <p class="lead">{% translate "Filter by period and department. The CSV export contains the filters, the records and the totals." %}</p>
-<form method="get" class="filters" style="grid-template-columns:repeat(4,minmax(0,1fr)) auto">
+<form method="get" class="filters" style="--columns:repeat(4,minmax(0,1fr)) auto">
   {% for error in form.non_field_errors %}<div class="toast error" style="grid-column:1/-1">{{ error }}</div>{% endfor %}
   {% include "includes/field.html" with field=form.report %}
   {% include "includes/field.html" with field=form.date_from %}

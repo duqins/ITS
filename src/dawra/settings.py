@@ -120,6 +120,7 @@ LANGUAGE_CODE = "en-gb"
 # before sign-in the language comes from the language cookie or the browser.
 LANGUAGES = [("en-gb", "English"), ("ar", "العربية")]
 LOCALE_PATHS = [BASE_DIR / "locale"]
+FORMAT_MODULE_PATH = ["dawra.formats"]  # dawra/formats/ar: numbers as 1,800.00 on the Arabic pages
 TIME_ZONE = "Asia/Dubai"
 USE_I18N = True
 USE_TZ = True

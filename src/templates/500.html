@@ -1,0 +1,22 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Something went wrong · Dawra Campus</title>
+  <link rel="icon" href="{% static 'dawra/assets/dawra-campus-logo.png' %}">
+  <link rel="stylesheet" href="{% static 'dawra/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'dawra/app.css' %}">
+</head>
+{# Shown when the server fails, so it uses nothing that could fail too: no account, no language, no database. #}
+<body>
+<main class="error-page">
+  <img src="{% static 'dawra/assets/dawra-campus-logo.png' %}" alt="Dawra Campus" width="194" height="81">
+  <h1>Something went wrong on our side</h1>
+  <p>Your last action may not have been saved. Go back and try again; if it happens again, tell the system administrator.</p>
+  <h1 lang="ar" dir="rtl">حدث خطأ من جهتنا</h1>
+  <p lang="ar" dir="rtl">ربما لم يُحفظ آخر إجراء قمت به. ارجع وحاول مرة أخرى، وإذا تكرر ذلك فأبلغ مسؤول النظام.</p>
+  <p><a class="button primary" href="/">Home · الرئيسية</a></p>
+</main>
+</body>
+</html>
