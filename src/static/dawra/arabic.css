@@ -1,0 +1,14 @@
+/* Arabic text. Manrope has no Arabic letters, so Arabic uses the device's Arabic font (Segoe UI on
+   Windows, SF Arabic or Geeza Pro on Apple, Noto on Android) while numbers and Latin names keep Manrope.
+   Letter spacing is removed because it breaks the joined Arabic letters, and lines get a little air. */
+html[lang="ar"] body {
+  font-family: Manrope, "Segoe UI", Tahoma, system-ui, "Geeza Pro", "Noto Sans Arabic", "Noto Naskh Arabic", sans-serif;
+}
+html[lang="ar"] *, html[lang="ar"] *::before, html[lang="ar"] *::after { letter-spacing: 0 !important; }
+html[lang="ar"] p, html[lang="ar"] .lead, html[lang="ar"] .reason, html[lang="ar"] .readonly { line-height: 1.75; }
+html[lang="ar"] h1, html[lang="ar"] h2 { line-height: 1.4; }
+html[lang="ar"] .sidebar a, html[lang="ar"] .button { font-size: 12px; }
+/* Record codes, numbers and e-mail-like values stay left to right inside Arabic sentences. */
+html[lang="ar"] .record, html[lang="ar"] .data-table td small { unicode-bidi: plaintext; }
+/* Arrows point the way the page reads. */
+html[dir="rtl"] .icon-flip { transform: scaleX(-1); }
