@@ -71,6 +71,48 @@
                         headers: {"X-Requested-With": "fetch"}});
   }, true);
 
+  // Actions that cannot be undone ask first (SRS 3.1.1). A button with data-confirm opens a small dialog that
+  // names the record and what happens next; the dialog's main button repeats the button's own words.
+  // Runs before the busy-state handler (capture), so a cancelled dialog leaves the form untouched.
+  var dialog = null;
+  function confirmDialog() {
+    if (!dialog) {
+      dialog = document.createElement("dialog");
+      dialog.className = "confirm-dialog";
+      dialog.innerHTML = '<form method="dialog"><p></p><div class="confirm-actions">' +
+        '<button class="button" value="back"></button><button class="button primary" value="go"></button></div></form>';
+      document.body.appendChild(dialog);
+    }
+    return dialog;
+  }
+
+  document.addEventListener("submit", function (event) {
+    var button = event.submitter;
+    if (!button || !button.dataset.confirm || !window.HTMLDialogElement) return;
+    if (button.dataset.confirmed) {
+      delete button.dataset.confirmed;
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    var form = event.target, box = confirmDialog();
+    var back = box.querySelector("[value=back]"), go = box.querySelector("[value=go]");
+    box.querySelector("p").textContent = button.dataset.confirm;
+    back.textContent = root.dataset.confirmBack || "Go back";  // in the page's language
+    go.textContent = button.textContent.trim();
+    go.className = "button " + (button.classList.contains("danger") ? "danger" : "primary");
+    // The main button sends the form straight away; Go back and the Escape key only close the dialog.
+    go.onclick = function (click) {
+      click.preventDefault();
+      box.close("go");
+      button.dataset.confirmed = "1";
+      form.requestSubmit(button);
+    };
+    box.returnValue = "";
+    box.showModal();
+    back.focus();
+  }, true);
+
   document.addEventListener("change", function (event) {
     var input = event.target;
     if (input.name !== "theme" || !input.closest(".settings")) return;

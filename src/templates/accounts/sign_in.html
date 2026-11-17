@@ -20,7 +20,7 @@
       </div>
       <div>
         <p class="arabic"><span lang="ar">دورة</span> · {% translate "Dawra means cycle" %}</p>
-        <h2>{% translate "Reuse before replacement" %}</h2>
+        <p class="scene-title">{% translate "Reuse before replacement" %}</p>
       </div>
       <p>{% translate "Campus furniture, computers, lab equipment and books move to the department that needs them next, with people approving every step." %}</p>
       <div class="signin-facts">
@@ -30,7 +30,7 @@
       </div>
     </section>
     <div class="signin-panel">
-      <div class="signin-card">
+      <div class="signin-card{% if form.errors %} refused{% endif %}">
         <form class="lang-toggle signin-lang" method="post" action="{% url 'accounts:set_language' %}">{% csrf_token %}
           <input type="hidden" name="next" value="{{ request.get_full_path }}">
           {% if LANG == "ar" %}<button class="button" type="submit" name="language" value="en-gb" lang="en">English</button>

@@ -57,7 +57,7 @@ class TransferFlowTests(DemoTestCase):
         rep_as_requester = self.sign_in("comp.rep", role="requester")
         rep_as_requester.post("/requests/new/", {
             "purpose": "Own monitor", "category": Category.objects.get(subcategory="Monitor").pk, "quantity": 1,
-            "min_condition": "fair", "urgency": "normal", "required_by": self.future(), "submit_for": "approval"})
+            "min_condition": "fair", "urgency": "normal", "required_by": self.future(), "submit_for": "approval", "specifications": "24-inch, HDMI", "delivery_location": "Computing Building C1-001",})
         own = ResourceRequest.objects.get(purpose="Own monitor")
         response = self.decide(self.comp_rep, own.approvals.get())
         own.refresh_from_db()

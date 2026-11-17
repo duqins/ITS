@@ -6,12 +6,12 @@
 <p class="lead">{% translate "You only see the stages assigned to your role and department. Your own requests and records go to someone else (BR-02)." %}</p>
 {% if tasks %}
 <div class="table-wrap"><table class="data-table">
-  <thead><tr><th>{% translate "Task" %}</th><th>{% translate "Record" %}</th><th>{% translate "Asked by" %}</th><th>{% translate "Waiting since" %}</th><th></th></tr></thead>
+  <thead><tr><th>{% translate "Task" %}</th><th>{% translate "Record" %}</th><th>{% translate "Asked by" %}</th><th>{% translate "Waiting since" %}</th><th><span class="sr-only">{% translate "Actions" %}</span></th></tr></thead>
   <tbody>{% for t in tasks %}
   <tr{% if t.is_overdue %} class="highlight"{% endif %}>
     <td><strong>{{ t.get_stage_display }}</strong>{% if t.is_overdue %}<small>{% translate "Overdue (over 3 working days)" %}</small>{% endif %}</td>
-    <td>{% if t.request %}{{ t.request.code }} · {{ t.request.purpose }}{% elif t.listing %}{{ t.listing.code }} · {{ t.listing.asset.name }}{% else %}{{ t.transfer.code }} · {{ t.transfer.asset.name }}{% endif %}</td>
-    <td>{{ t.requested_by }}</td><td>{{ t.created_at|date:"j M Y, H:i" }}</td>
+    <td><a href="{% if t.listing %}{% url 'assets:listing' t.listing.pk %}{% else %}{% url 'transfers:approval' t.pk %}{% endif %}">{% if t.request %}{{ t.request.code }} · {{ t.request.purpose }}{% elif t.listing %}{{ t.listing.code }} · {{ t.listing.asset.name }}{% else %}{{ t.transfer.code }} · {{ t.transfer.asset.name }}{% endif %}</a></td>
+    <td>{{ t.requested_by }}</td><td>{{ t.created_at|date:"DATETIME_FORMAT" }}</td>
     <td><a class="button primary" href="{% if t.listing %}{% url 'assets:listing' t.listing.pk %}{% else %}{% url 'transfers:approval' t.pk %}{% endif %}">{% translate "Review" %}</a></td>
   </tr>{% endfor %}</tbody>
 </table></div>
@@ -19,7 +19,7 @@
 {% if decided %}
 <section class="group"><div class="group-title">{% icon 'clock' %}<h2>{% translate "Your recent decisions" %}</h2></div>
 <div class="table-wrap"><table class="data-table"><thead><tr><th>{% translate "Task" %}</th><th>{% translate "Record" %}</th><th>{% translate "Decision" %}</th><th>{% translate "When" %}</th></tr></thead><tbody>
-{% for d in decided %}<tr><td>{{ d.get_stage_display }}</td><td>{{ d.record }}</td><td>{% status_pill d %}</td><td>{{ d.decided_at|date:"j M Y, H:i" }}</td></tr>{% endfor %}
+{% for d in decided %}<tr><td>{{ d.get_stage_display }}</td><td>{% if d.request %}{{ d.request.code }} · {{ d.request.purpose }}{% elif d.listing %}{{ d.listing.code }} · {{ d.listing.asset.name }}{% else %}{{ d.transfer.code }} · {{ d.transfer.asset.name }}{% endif %}</td><td>{% status_pill d %}</td><td>{{ d.decided_at|date:"DATETIME_FORMAT" }}</td></tr>{% endfor %}
 </tbody></table></div></section>
 {% endif %}
 {% endblock %}

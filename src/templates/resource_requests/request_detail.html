@@ -4,7 +4,7 @@
 {% block content %}
 <div class="heading"><div><h1>{{ obj.purpose }}</h1><div class="record">{{ obj.code }} · {{ obj.requester }} · {{ obj.department }}</div></div>{% status_pill obj %}</div>
 <ol class="journey" aria-label="{% translate 'Workflow stages' %}">
-  {% for label, done, current in journey %}<li class="{% if done %}done{% elif current %}current{% endif %}"><span class="step-dot">{% if done %}{% icon 'check' %}{% else %}{{ forloop.counter }}{% endif %}</span>{{ label }}</li>{% endfor %}
+  {% for label, done, current, stopped in journey %}<li class="{% if done %}done{% elif current %}current{% elif stopped %}stopped{% endif %}"><span class="step-dot">{% if done %}{% icon 'check' %}{% else %}{{ forloop.counter }}{% endif %}</span>{{ label }}</li>{% endfor %}
 </ol>
 <div class="layout">
   <div class="record-body">
@@ -16,10 +16,11 @@
       {% include "includes/readonly.html" with label=_("Urgency") value=obj.get_urgency_display %}
       {% include "includes/readonly.html" with label=_("Delivery location") value=obj.delivery_location %}
       {% include "includes/readonly.html" with label=_("Required by") value=obj.required_by %}
+      {% if obj.description %}{% include "includes/readonly.html" with label=_("Description") value=obj.description wide=True %}{% endif %}
     </div></section>
     {% request_progress obj %}
     <section class="group"><div class="group-title">{% icon 'clock' %}<h2>{% translate "Updates" %}</h2></div>
-      <ol class="timeline">{% for e in updates %}<li><span class="when">{{ e.created_at|date:"j M Y, H:i" }}</span> {% if e.user %}{% blocktranslate trimmed with action=e.action|action_text|capfirst user=e.user %}<span class="what">{{ action }}</span> by {{ user }}{% endblocktranslate %}{% else %}<span class="what">{{ e.action|action_text|capfirst }}</span>{% endif %}{% if e.after_value %} · {% blocktranslate trimmed with value=e.after_value|localized %}now {{ value }}{% endblocktranslate %}{% endif %}{% if e.reason %}<span class="reason">{{ e.reason }}</span>{% endif %}</li>{% endfor %}</ol>
+      <ol class="timeline">{% for e in updates %}<li><span class="when">{{ e.created_at|date:"DATETIME_FORMAT" }}</span> {% if e.user %}{% blocktranslate trimmed with action=e.action|action_text|capfirst user=e.user %}<span class="what">{{ action }}</span> by {{ user }}{% endblocktranslate %}{% else %}<span class="what">{{ e.action|action_text|capfirst }}</span>{% endif %}{% if e.after_value %} · {% blocktranslate trimmed with value=e.after_value|localized %}now {{ value }}{% endblocktranslate %}{% endif %}{% if e.reason %}<span class="reason">{{ e.reason }}</span>{% endif %}</li>{% endfor %}</ol>
     </section>
     {% if can_edit or can_cancel or can_close %}
     <div class="actions">
@@ -32,7 +33,7 @@
     <details><summary>{% translate "No suitable item? Close the request" %}</summary>
       <form method="post" action="{% url 'resource_requests:close' obj.pk %}" class="reason-form">{% csrf_token %}
         <label for="close-reason">{% translate "Reason" %}</label><textarea id="close-reason" name="reason" placeholder="{% translate 'For example: nothing in the right size' %}"></textarea>
-        <button class="button" type="submit">{% translate "Close as no suitable item" %}</button>
+        <button class="button" type="submit" data-confirm="{% blocktranslate trimmed with code=obj.code %}Close {{ code }} as no suitable item? It will not count as an avoided purchase.{% endblocktranslate %}">{% translate "Close as no suitable item" %}</button>
       </form>
     </details>
     {% endif %}
@@ -40,7 +41,7 @@
     <details><summary>{% translate "Cancel this request" %}</summary>
       <form method="post" action="{% url 'resource_requests:cancel' obj.pk %}" class="reason-form">{% csrf_token %}
         <label for="cancel-reason">{% translate "Reason *" %}</label><textarea id="cancel-reason" name="reason" required></textarea>
-        <button class="button danger" type="submit">{% translate "Cancel request" %}</button>
+        <button class="button danger" type="submit" data-confirm="{% blocktranslate trimmed with code=obj.code %}Cancel {{ code }}? Any hold on it is released, and this cannot be undone.{% endblocktranslate %}">{% translate "Cancel request" %}</button>
       </form>
     </details>
     {% endif %}
@@ -50,9 +51,10 @@
     <div class="side-panel">
       <h2>{% translate "Department approval" %}</h2>
       {% if pending %}<p>{% blocktranslate trimmed with department=obj.department %}Waiting for the {{ department }} department representative.{% endblocktranslate %}</p>
-      {% elif last_decision %}<p>{% blocktranslate trimmed with status=last_decision.get_status_display approver=last_decision.approver when=last_decision.decided_at|date:"j M Y" %}<strong>{{ status }}</strong> by {{ approver }} on {{ when }}.{% endblocktranslate %}</p>{% if last_decision.reason %}<p class="muted">{{ last_decision.reason }}</p>{% endif %}
+      {% elif last_decision %}<p>{% blocktranslate trimmed with status=last_decision.get_status_display approver=last_decision.approver when=last_decision.decided_at|date:"DATE_FORMAT" %}<strong>{{ status }}</strong> by {{ approver }} on {{ when }}.{% endblocktranslate %}</p>{% if last_decision.reason %}<p class="muted">{{ last_decision.reason }}</p>{% endif %}
       {% elif obj.status == "RQ-01" %}<p>{% translate "Not submitted yet." %}</p>{% endif %}
       {% approval_task obj as task %}{% if task %}<a class="button primary" href="{% url 'transfers:approval' task.pk %}">{% icon 'approval' %}{% translate "Decide this approval" %}</a>{% endif %}
+      {% next_step obj as step %}{% if step %}<p class="next-step"><strong>{% translate "Next step" %}</strong> {{ step }}</p>{% endif %}
       {% matches_link obj %}
     </div>
   </aside>

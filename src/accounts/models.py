@@ -4,9 +4,8 @@ from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import PermissionDenied
 from django.db import models
-from django.utils import timezone
+from django.utils import timezone, translation
 from django.utils.translation import gettext as _, gettext_lazy
 
 
@@ -160,6 +159,13 @@ class User(AbstractUser):
             roles = roles.filter(department=department)
         return roles.exists()
 
+    def is_administrator_account(self):
+        """A staff account, or someone who holds or is being given an administrator role. Another administrator
+        cannot change it in the administration site, so nobody can act as an administrator (BR-01)."""
+        return self.is_staff or self.is_superuser or self.user_roles.filter(
+            role__code__in=(Role.Code.BUSINESS_ADMINISTRATOR, Role.Code.SYSTEM_ADMINISTRATOR),
+            status__in=(UserRole.Status.REQUESTED, UserRole.Status.AUTHORISED, UserRole.Status.ACTIVE)).exists()
+
     def deactivate(self):
         self.account_status = self.AccountStatus.INACTIVE
         self.is_active = False
@@ -174,11 +180,15 @@ class UserRole(models.Model):
         AUTHORISED = "authorised", gettext_lazy("Authorised")
         ACTIVE = "active", gettext_lazy("Active")
         REMOVED = "removed", gettext_lazy("Removed")
+        REJECTED = "rejected", gettext_lazy("Rejected")
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_roles")
     role = models.ForeignKey(Role, on_delete=models.PROTECT, related_name="assignments")
     department = models.ForeignKey(Department, on_delete=models.PROTECT, related_name="user_roles")
     status = models.CharField(max_length=12, choices=Status.choices, default=Status.REQUESTED)
+    requested_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
+    )
     authorised_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
     )
@@ -195,22 +205,101 @@ class UserRole(models.Model):
     def __str__(self):
         return f"{self.role} · {self.department}"
 
-    def authorise(self, by):
-        # Business administrator authorises; System administrator applies (FR-02, BR-01).
+    @classmethod
+    def request(cls, user, role, department, by):
+        """A Business administrator asks for a role assignment (UC-01 step 1, FR-01.3)."""
+        from audit.lifecycle import BusinessRuleError
+        from audit.models import AuditLog
         if not by.has_role(Role.Code.BUSINESS_ADMINISTRATOR):
-            raise PermissionDenied(_("Only a Business administrator can authorise a role."))
-        self.status = self.Status.AUTHORISED
-        self.authorised_by = by
+            raise BusinessRuleError(_("Only a Business administrator can request a role."), user, "request role")
+        assignment, created = cls.objects.get_or_create(
+            user=user, role=role, department=department,
+            defaults={"status": cls.Status.REQUESTED, "requested_by": by})
+        if not created:
+            if assignment.status in (cls.Status.REQUESTED, cls.Status.AUTHORISED, cls.Status.ACTIVE):
+                raise BusinessRuleError(_("%(user)s already holds or is waiting for this role.") % {"user": user},
+                                        assignment, "request role")
+            # A removed or rejected assignment is asked for again from the start.
+            assignment.status, assignment.requested_by = cls.Status.REQUESTED, by
+            assignment.authorised_by = assignment.applied_by = None
+            assignment.save(update_fields=["status", "requested_by", "authorised_by", "applied_by"])
+        AuditLog.record(by, "role requested", assignment, after=cls.Status.REQUESTED.label,
+                        reason=assignment.history_label())
+        return assignment
+
+    def history_label(self):
+        """Who gets which role, written in English like the rest of the history."""
+        with translation.override(settings.LANGUAGE_CODE):
+            return f"{self.user.username}: {self}"
+
+    def decision_problem(self, by):
+        """Why this person may not authorise or reject the request, or None (BR-01, BR-02)."""
+        if not by.has_role(Role.Code.BUSINESS_ADMINISTRATOR):
+            return _("Only a Business administrator can authorise or reject a role.")
+        if by.pk == self.user_id:
+            return _("Nobody can decide a role for themselves (BR-02).")
+        if by.pk == self.requested_by_id:
+            return _("You requested this role, so another Business administrator must decide it (BR-02).")
+        if self.status != self.Status.REQUESTED:
+            return _("Only a requested role can be authorised or rejected.")
+        return None
+
+    def authorise(self, by):
+        """An independent Business administrator authorises the request (UC-01 step 3, BR-01, BR-02)."""
+        from audit.lifecycle import BusinessRuleError
+        from audit.models import AuditLog
+        problem = self.decision_problem(by)
+        if problem:
+            raise BusinessRuleError(problem, self, "authorise role")
+        self.status, self.authorised_by = self.Status.AUTHORISED, by
         self.save(update_fields=["status", "authorised_by"])
+        AuditLog.record(by, "role authorised", self, before=self.Status.REQUESTED.label,
+                        after=self.Status.AUTHORISED.label, reason=self.history_label())
+
+    def reject(self, by, reason):
+        """The authoriser refuses the request; no role becomes active (UC-01 exception 3a, BR-20)."""
+        from audit.lifecycle import BusinessRuleError
+        from audit.models import AuditLog
+        problem = self.decision_problem(by)
+        if problem:
+            raise BusinessRuleError(problem, self, "reject role")
+        if not reason.strip():
+            raise BusinessRuleError(_("Give a reason for the rejection (BR-20)."), self, "reject role")
+        self.status = self.Status.REJECTED
+        self.save(update_fields=["status"])
+        AuditLog.record(by, "role rejected", self, before=self.Status.REQUESTED.label,
+                        after=self.Status.REJECTED.label, reason=reason.strip())
 
     def apply(self, by):
+        """The System administrator applies an authorised role; only then is it active (UC-01 step 5, BR-01)."""
+        from audit.lifecycle import BusinessRuleError
+        from audit.models import AuditLog
         if not by.has_role(Role.Code.SYSTEM_ADMINISTRATOR):
-            raise PermissionDenied(_("Only a System administrator can apply a role."))
+            raise BusinessRuleError(_("Only a System administrator can apply a role."), self, "apply role")
         if self.status != self.Status.AUTHORISED:
-            raise PermissionDenied(_("A role must be authorised before it is applied."))
-        self.status = self.Status.ACTIVE
-        self.applied_by = by
+            raise BusinessRuleError(_("A role must be authorised by a Business administrator before it is "
+                                      "applied."), self, "apply role")
+        if by.pk in (self.user_id, self.requested_by_id, self.authorised_by_id):
+            # UC-01: requesting, authorising and applying are done by different people.
+            raise BusinessRuleError(_("The person who applies a role must not be the one who receives, requested "
+                                      "or authorised it (BR-01, BR-02)."), self, "apply role")
+        self.status, self.applied_by = self.Status.ACTIVE, by
         self.save(update_fields=["status", "applied_by"])
+        AuditLog.record(by, "role applied", self, before=self.Status.AUTHORISED.label,
+                        after=self.Status.ACTIVE.label, reason=self.history_label())
+
+    def withdraw(self, by):
+        """The Business administrator who asked for a role takes the request back before it is applied."""
+        from audit.lifecycle import BusinessRuleError
+        from audit.models import AuditLog
+        if by.pk != self.requested_by_id or self.status not in (self.Status.REQUESTED, self.Status.AUTHORISED):
+            raise BusinessRuleError(_("Only the person who requested a role can withdraw it, before it is applied."),
+                                    self, "withdraw role request")
+        before = self.Status(self.status).label
+        self.status = self.Status.REMOVED
+        self.save(update_fields=["status"])
+        AuditLog.record(by, "role request withdrawn", self, before=before, after=self.Status.REMOVED.label,
+                        reason=self.history_label())
 
     def remove(self):
         self.status = self.Status.REMOVED

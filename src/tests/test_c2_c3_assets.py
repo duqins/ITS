@@ -11,7 +11,9 @@ class AssetTests(DemoTestCase):
     def register(self, client, **extra):
         data = {"kind": "it", "name": "Lenovo 27-inch monitor", "description": "Spare monitor",
                 "category": Category.objects.get(subcategory="Monitor").pk, "condition": "good", "quantity": 2,
-                "campus": "Main campus", "building": "Engineering Building", "serial_number": "SN-1"}
+                "campus": "Main campus", "building": "Engineering Building", "serial_number": "SN-1",
+                # FR-04.2: needed before a second person can confirm the record.
+                "specifications": "27-inch, HDMI", "room": "E1-101", "purchase_date": "2024-01-15", "value": "900"}
         data.update(extra)
         client.post("/assets/register/", data)
         return Asset.objects.get(name=data["name"])

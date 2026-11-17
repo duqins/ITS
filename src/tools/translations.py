@@ -105,8 +105,10 @@ def from_python(found, problems):
                 continue
             func = node.func.id if isinstance(node.func, ast.Name) else (
                 node.func.attr if isinstance(node.func, ast.Attribute) else None)
-            if func in ("record", "change_state"):  # history actions, shown translated by audit_ui.action_text
-                position = 1 if func == "record" else 3
+            # History actions, shown translated by audit_ui.action_text. A refused action is saved as
+            # "blocked: <action>", so the action names given to BusinessRuleError are history texts too.
+            if func in ("record", "change_state", "BusinessRuleError"):
+                position = {"record": 1, "change_state": 3, "BusinessRuleError": 2}[func]
                 action = node.args[position] if len(node.args) > position else next(
                     (k.value for k in node.keywords if k.arg == "action"), None)
                 if isinstance(action, ast.Constant) and isinstance(action.value, str) and action.value:

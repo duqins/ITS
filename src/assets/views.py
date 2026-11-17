@@ -1,9 +1,13 @@
 """C2 Departments and assets, C3 Publish and search."""
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.db.models import Case, IntegerField, Q, Value, When
+from django.db import transaction
+from django.db.models import Case, IntegerField, OuterRef, Q, Subquery, Value, When
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
@@ -13,7 +17,7 @@ from audit.models import AuditLog
 from core.actions import perform
 
 from .forms import AssetForm, ListingForm, ReasonForm, SearchForm
-from .models import Asset, Condition, Listing
+from .models import Asset, AssetFile, Condition, Listing
 
 MANAGERS = (Role.Code.ASSET_CUSTODIAN, Role.Code.DEPARTMENT_REPRESENTATIVE)
 
@@ -41,23 +45,43 @@ def asset_list(request):
     status = request.GET.get("status", "")
     if status in Asset.Status.values:
         assets = assets.filter(status=status)
+    needed = request.GET.get("verification") == "needed"
+    if needed:
+        assets = assets.filter(Asset.needing_verification())
     return render(request, "assets/asset_list.html", {
-        "assets": assets, "statuses": Asset.Status.choices, "status": status,
+        "assets": assets, "statuses": Asset.Status.choices, "status": status, "verification_needed": needed,
         "can_register": role.allows("asset.register"),
         "scope": role.department if role.role.code in MANAGERS else _("all departments"),
     })
 
 
+def keep_files_note(request, form):
+    """Browsers never keep chosen files after an error, so say that they must be chosen again."""
+    if request.FILES and form.errors:
+        form.add_error(None, _("Please choose your photos and documents again after fixing the fields below."))
+
+
+def save_files(request, form, asset):
+    note = form.save_files(asset, request.user)
+    if note:
+        AuditLog.record(request.user, "files changed", asset, reason=note)
+
+
 @role_required("asset.register")
 def asset_register(request):
-    form = AssetForm(request.POST or None)
+    form = AssetForm(request.POST or None, request.FILES or None, department=request.active_role.department)
     if request.method == "POST" and form.is_valid():
         asset = form.build_asset()
-        result = perform(request, lambda: asset.register(request.user, request.active_role.department),
-                         _("Saved as a draft (AS-01). Another custodian or the department representative must "
-                           "confirm it."))
+
+        def register():
+            asset.register(request.user, request.active_role.department)
+            save_files(request, form, asset)
+
+        result = perform(request, register, _("Saved as a draft (AS-01). Another custodian or the department "
+                                              "representative must confirm it."))
         if result:
             return redirect("assets:detail", pk=asset.pk)
+    keep_files_note(request, form)
     return render(request, "assets/asset_form.html", {"form": form, "title": _("Register an asset")})
 
 
@@ -67,14 +91,47 @@ def asset_edit(request, pk):
     if asset.status != Asset.Status.DRAFT:
         messages.error(request, _("Only a draft can be edited. A confirmed asset changes through its workflows."))
         return redirect("assets:detail", pk=asset.pk)
-    form = AssetForm(request.POST or None, instance=asset)
+    form = AssetForm(request.POST or None, request.FILES or None, instance=asset)
     if request.method == "POST" and form.is_valid():
-        form.save_draft_changes()
-        AuditLog.record(request.user, "draft edited", asset, reason=", ".join(form.changed_data))
+        with transaction.atomic():
+            form.save_draft_changes()
+            fields = [name for name in form.changed_data if name not in ("photos", "documents", "remove_files")]
+            if fields:
+                AuditLog.record(request.user, "draft edited", asset, reason=", ".join(fields))
+            save_files(request, form, asset)
         messages.success(request, _("Draft saved."))
         return redirect("assets:detail", pk=asset.pk)
+    keep_files_note(request, form)
     return render(request, "assets/asset_form.html", {"form": form, "title": _("Edit %(code)s") % {"code": asset.code},
                                                       "asset": asset})
+
+
+def can_see_files(request, asset):
+    """Who may open an asset's photos and documents: whoever may open the asset, and, once it is offered in
+    search, everyone who may search (FR-08.4)."""
+    role = request.active_role
+    if role is None:
+        return False
+    if role.allows("asset.view") and (role.role.code not in MANAGERS or asset.owner_department_id == role.department_id):
+        return True
+    public = (Listing.Status.PUBLISHED, Listing.Status.FULLY_RESERVED, Listing.Status.CLOSED)
+    return role.allows("listing.search") and asset.listings.filter(status__in=public).exists()
+
+
+@login_required
+def asset_file(request, pk, file_pk):
+    """One photo (?size=small for the list copy) or document of an asset."""
+    small = request.GET.get("size") == "small"
+    files = AssetFile.objects.select_related("asset").defer("data" if small else "thumbnail")
+    file = get_object_or_404(files, pk=file_pk, asset_id=pk)
+    if not can_see_files(request, file.asset):
+        raise PermissionDenied(_("You cannot open the files of this asset."))
+    content = file.thumbnail if small and file.thumbnail is not None else file.data
+    response = HttpResponse(bytes(content), content_type=file.content_type)
+    # Photos open in the page; documents are downloaded rather than opened inside the app.
+    response["Content-Disposition"] = content_disposition_header(file.kind == AssetFile.Kind.DOCUMENT, file.name)
+    response["Cache-Control"] = "private, max-age=86400"
+    return response
 
 
 @role_required("asset.view")
@@ -88,13 +145,27 @@ def asset_detail(request, pk):
         "child": child,
         "kind": {"ITAsset": "it", "FurnitureAsset": "furniture"}.get(type(child).__name__, "general"),
         "listings": asset.listings.all(),
+        "files": asset.files.defer("data", "thumbnail"),
         "can_edit": manages and asset.status == Asset.Status.DRAFT,
         "can_confirm": manages and role.allows("asset.confirm") and asset.status == Asset.Status.DRAFT
                        and asset.registered_by_id != request.user.pk,
+        "missing": asset.missing_for_confirmation() if asset.status == Asset.Status.DRAFT else [],
+        "can_verify": manages and asset.status in (Asset.Status.IN_SERVICE, Asset.Status.IN_STORAGE),
         "waiting_for_other": asset.status == Asset.Status.DRAFT and asset.registered_by_id == request.user.pk,
         "can_list": manages and role.allows("listing.prepare") and asset.is_active and asset.available_qty > 0
                     and not asset.listings.filter(status__in=Listing.OPEN).exists(),
     })
+
+
+@require_POST
+@role_required("asset.register")
+def asset_verify(request, pk):
+    """The custodian or representative checks the item again: availability and condition (FR-04.4, BR-16)."""
+    asset = get_visible_asset(request, pk)
+    if not asset.can_be_managed_by(request.active_role):
+        raise PermissionDenied(_("Only a custodian or representative of the owning department can verify it."))
+    perform(request, lambda: asset.verify(request.user), _("%(code)s verified today.") % {"code": asset.code})
+    return redirect("assets:detail", pk=asset.pk)
 
 
 @require_POST
@@ -150,6 +221,7 @@ def listing_detail(request, pk):
     return render(request, "assets/listing_detail.html", {
         "listing": listing,
         "asset": listing.asset,
+        "files": listing.asset.files.defer("data", "thumbnail"),
         "owner": owner,
         "pending": pending,
         "can_submit": owner and role.allows("listing.prepare") and listing.status == Listing.Status.DRAFT,
@@ -226,7 +298,11 @@ def search(request):
                 output_field=IntegerField())
     order = {"newest": ["-published_at"], "condition": ["-condition_rank", "-published_at"],
              "quantity": ["-asset__available_qty", "-published_at"]}[sort]
-    results = [l for l in listings.annotate(condition_rank=rank).order_by(*order) if l.remaining_quantity() > 0]
+    first_photo = AssetFile.objects.filter(asset=OuterRef("asset_id"), kind=AssetFile.Kind.PHOTO).order_by("pk")
+    results = [l for l in listings.annotate(condition_rank=rank, first_photo=Subquery(first_photo.values("pk")[:1]))
+               .order_by(*order) if l.remaining_quantity() > 0]
+    for listing in results:
+        listing.asset.first_photo = listing.first_photo
     searched = bool(request.GET)
     return render(request, "assets/search.html", {
         "form": form, "results": results, "searched": searched,

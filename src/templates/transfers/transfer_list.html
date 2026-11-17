@@ -7,18 +7,18 @@
 <section class="group"><div class="group-title">{% icon 'clock' %}<h2>{% translate "Open holds" %}</h2></div>
 {% if holds %}
 <div class="table-wrap"><table class="data-table">
-  <thead><tr><th>{% translate "Hold" %}</th><th>{% translate "Item" %}</th><th>{% translate "For request" %}</th><th class="num">{% translate "Quantity" %}</th><th>{% translate "Status" %}</th><th></th></tr></thead>
+  <thead><tr><th>{% translate "Hold" %}</th><th>{% translate "Item" %}</th><th>{% translate "For request" %}</th><th class="num">{% translate "Quantity" %}</th><th>{% translate "Status" %}</th><th><span class="sr-only">{% translate "Actions" %}</span></th></tr></thead>
   <tbody>{% for h in holds %}
-  <tr><td>{{ h.code }}{% if h.expires_at %}<small>{% blocktranslate trimmed with date=h.expires_at|date:"j M Y" %}Until {{ date }}{% endblocktranslate %}</small>{% endif %}</td>
+  <tr><td>{{ h.code }}{% if h.expires_at %}<small>{% blocktranslate trimmed with date=h.expires_at|date:"DATE_FORMAT" %}Until {{ date }}{% endblocktranslate %}</small>{% endif %}</td>
       <td><a href="{% url 'assets:listing' h.listing.pk %}">{{ h.listing.asset.name }}</a><small>{{ h.listing.asset.code }}</small></td>
       <td>{{ h.request.code }} · {{ h.request.purpose }}<small>{{ h.request.requester }}</small></td>
       <td class="num">{{ h.quantity }}</td><td>{% status_pill h %}</td>
       <td>
         {% if can_decide_holds and h.status == "RV-01" %}
         <form method="post" action="{% url 'transfers:hold_decide' h.pk %}" class="reason-form">{% csrf_token %}
-          <button class="button primary" type="submit" name="decision" value="confirm">{% icon 'check' %}{% translate "Confirm hold" %}</button>
+          <button class="button primary" type="submit" name="decision" value="confirm" data-confirm="{% blocktranslate trimmed with code=h.request.code %}Hold these units for {{ code }} for 5 working days? Nobody else can take them meanwhile.{% endblocktranslate %}">{% icon 'check' %}{% translate "Confirm hold" %}</button>
           <textarea name="reason" placeholder="{% translate 'Reason to decline' %}" aria-label="{% translate 'Reason to decline' %}"></textarea>
-          <button class="button danger" type="submit" name="decision" value="decline">{% translate "Decline" %}</button>
+          <button class="button danger" type="submit" name="decision" value="decline" data-confirm="{% blocktranslate trimmed with code=h.request.code %}Decline the hold for {{ code }}? The requester sees your reason.{% endblocktranslate %}">{% translate "Decline" %}</button>
         </form>
         {% elif is_requester and h.status == "RV-02" %}
         <a class="button primary" href="{% url 'transfers:start' h.pk %}">{% icon 'transfer' %}{% translate "Start the transfer" %}</a>
@@ -33,7 +33,7 @@
 <div class="table-wrap"><table class="data-table">
   <thead><tr><th>{% translate "Transfer" %}</th><th>{% translate "Item" %}</th><th>{% translate "From" %}</th><th>{% translate "To" %}</th><th class="num">{% translate "Quantity" %}</th><th>{% translate "Status" %}</th></tr></thead>
   <tbody>{% for t in transfers %}
-  <tr><td><a href="{% url 'transfers:detail' t.pk %}">{{ t.code }}</a><small>{{ t.created_at|date:"j M Y" }}</small></td><td>{{ t.asset.name }}<small>{{ t.asset.code }}</small></td>
+  <tr><td><a href="{% url 'transfers:detail' t.pk %}">{{ t.code }}</a><small>{{ t.created_at|date:"DATE_FORMAT" }}</small></td><td>{{ t.asset.name }}<small>{{ t.asset.code }}</small></td>
       <td>{{ t.from_department }}</td><td>{{ t.to_department }}</td><td class="num">{{ t.quantity }}</td><td>{% status_pill t %}</td></tr>
   {% endfor %}</tbody>
 </table></div>

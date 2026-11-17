@@ -1,7 +1,17 @@
 from django import forms
 from django.utils.translation import gettext_lazy
 
-from .models import User
+from .models import Department, Role, User
+
+
+class RoleRequestForm(forms.Form):
+    """UI-14: a Business administrator asks for a role for a staff account (UC-01 step 1)."""
+
+    user = forms.ModelChoiceField(User.objects.filter(is_active=True).order_by("first_name", "last_name"),
+                                  label=gettext_lazy("Staff account"), empty_label=gettext_lazy("Choose a person"))
+    role = forms.ModelChoiceField(Role.objects.all(), label=gettext_lazy("Role"), empty_label=gettext_lazy("Choose a role"))
+    department = forms.ModelChoiceField(Department.objects.filter(is_active=True), label=gettext_lazy("Department"),
+                                        empty_label=gettext_lazy("Choose a department"))
 
 
 class SignInForm(forms.Form):

@@ -10,7 +10,7 @@ from django.utils import timezone, translation
 from django.utils.translation import gettext as _, gettext_lazy
 
 from accounts.models import Department, Role
-from assets.models import Asset, Condition, FurnitureAsset, ITAsset, Listing
+from assets.models import Asset, AssetFile, Condition, FurnitureAsset, ITAsset, Listing
 from audit.lifecycle import BusinessRuleError, change_state
 from audit.models import AuditLog
 from resource_requests.models import ResourceRequest
@@ -211,6 +211,9 @@ class Reservation(models.Model):
         if listing.asset.owner_department_id == resource_request.department_id:
             raise BusinessRuleError(_("This item already belongs to your department, so there is nothing to transfer."),
                                     resource_request, "request hold")
+        problem = resource_request.listing_problem(listing)
+        if problem:
+            raise BusinessRuleError(problem, resource_request, "request hold")
         if resource_request.quantity > listing.remaining_quantity():
             left = listing.remaining_quantity()
             raise BusinessRuleError(
@@ -578,7 +581,11 @@ class Transfer(models.Model):
                 owner_department=self.to_department, custodian=self.to_custodian, registered_by=asset.registered_by,
             )
             AuditLog.record(by, f"received from {asset.code} by {self.code}", new_asset, after="AS-02 In service")
-            AuditLog.record(by, f"{self.quantity} unit(s) moved to {new_asset.code}", asset, reason=self.code)
+            AssetFile.objects.bulk_create(
+                AssetFile(asset=new_asset, kind=f.kind, name=f.name, content_type=f.content_type, size=f.size,
+                          data=f.data, thumbnail=f.thumbnail, uploaded_by_id=f.uploaded_by_id) for f in asset.files.all())
+            units = "unit" if self.quantity == 1 else "units"
+            AuditLog.record(by, f"{self.quantity} {units} moved to {new_asset.code}", asset, reason=self.code)
             self.received_asset = asset = new_asset
         change_state(self, self.Status.COMPLETED, by, action, reason,
                      extra_fields=("received_at", "received_by", "received_quantity", "received_condition",

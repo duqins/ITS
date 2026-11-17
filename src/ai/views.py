@@ -10,7 +10,7 @@ from django.views.decorators.http import require_POST
 
 from accounts.models import Role
 from accounts.permissions import role_required
-from assets.models import Asset, Category, Condition
+from assets.models import Asset, Category, Condition, Listing
 from audit.models import AuditLog
 from core.actions import perform
 from resource_requests.models import ResourceRequest
@@ -66,7 +66,8 @@ def classification_respond(request, pk):
     elif decision == "edit":
         category = request.POST.get("category", "")
         values = {"category_id": int(category) if category.isdigit() else 0, "condition": request.POST.get("condition"),
-                  "tags": [t.strip().lower() for t in request.POST.get("tags", "").split(",") if t.strip()]}
+                  "tags": [t.strip().lower() for t in request.POST.get("tags", "").split(",") if t.strip()],
+                  "description": request.POST.get("description", "").strip()}
         if not Category.objects.filter(pk=values["category_id"]).exists() or values["condition"] not in Condition.values:
             messages.error(request, _("Choose a category and a condition."))
         else:
@@ -104,12 +105,13 @@ def request_matches(request, pk):
         if note:
             messages.warning(request, note)
         elif matches:
-            # Same English for one and many; the plural form is for Arabic.
-            messages.success(request, ngettext("%(count)s eligible item(s) ranked.",
-                                               "%(count)s eligible item(s) ranked.", len(matches))
+            messages.success(request, ngettext("%(count)s eligible item ranked.",
+                                               "%(count)s eligible items ranked.", len(matches))
                              % {"count": len(matches)})
         return redirect("ai:matches", pk=obj.pk)
-    matches = MatchingService.latest(obj)
+    open_listing = (Listing.Status.PUBLISHED, Listing.Status.FULLY_RESERVED)
+    matches = [m for m in MatchingService.latest(obj)
+               if m.listing.status in open_listing or m.user_response != MatchRecommendation.Response.PENDING]
     for m in matches:
         m.confidence_text = confidence_label(m.confidence)
     return render(request, "ai/matches.html", {
@@ -178,6 +180,7 @@ def report_publish(request, pk):
         return redirect(back)
     problems = unsupported_numbers(text, suggestion.suggestion["figures"])
     if not text or problems:
+        request.session[f"report_text_{suggestion.pk}"] = text  # shown again in the box (keeps the edits)
         messages.error(request, _("The summary has numbers that are not in the dashboard figures: %(numbers)s. "
                                   "Correct them before publishing.") % {"numbers": ", ".join(problems)} if problems
                        else _("The summary is empty."))

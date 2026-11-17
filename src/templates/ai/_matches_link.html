@@ -1,1 +1,1 @@
-{% load dawra_ui i18n %}{% if show %}<a class="button primary" href="{% url 'ai:matches' obj.pk %}">{% icon 'match' %}{% translate "Find matching items" %}</a>{% endif %}
+{% load dawra_ui i18n %}{% if show %}<a class="button primary" href="{% url 'ai:matches' obj.pk %}">{% icon 'match' %}{% if obj.status == "RQ-03" %}{% translate "Find matching items" %}{% else %}{% translate "View matches" %}{% endif %}</a>{% endif %}

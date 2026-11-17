@@ -70,6 +70,7 @@ MENU = [
     (gettext_lazy("Sustainability"), "leaf", "sustainability:dashboard", ("dashboard.view",)),
     (gettext_lazy("Reports"), "report", "reports:index", ("report.view",)),
     (gettext_lazy("Audit log"), "clock", "audit:search", ("audit.view",)),
+    (gettext_lazy("Administration"), "user", "accounts:administration", ("role.authorise", "role.apply")),
 ]
 
 

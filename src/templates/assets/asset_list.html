@@ -7,9 +7,11 @@
   {% if can_register %}<a class="button primary" href="{% url 'assets:register' %}">{% icon 'box' %}{% translate "Register an asset" %}</a>{% endif %}
 </div>
 <p class="lead">{% translate "Every asset starts as a draft and becomes active after a second person confirms it." %}</p>
-<form method="get" class="filters" style="grid-template-columns:minmax(0,260px) auto">
+<form method="get" class="filters" style="--columns:minmax(0,260px) minmax(0,260px) auto">
   <div class="field"><label for="status">{% translate "Status" %}</label>
     <select id="status" name="status"><option value="">{% translate "Any status" %}</option>{% for code, label in statuses %}<option value="{{ code }}"{% if code == status %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+  <div class="field"><label for="verification">{% translate "Last verified" %}</label>
+    <select id="verification" name="verification"><option value="">{% translate "Any date" %}</option><option value="needed"{% if verification_needed %} selected{% endif %}>{% translate "Verification needed" %}</option></select></div>
   <div class="actions"><button class="button" type="submit">{% translate "Filter" %}</button></div>
 </form>
 {% if assets %}
@@ -18,7 +20,7 @@
   <tbody>{% for a in assets %}
   <tr><td><a href="{% url 'assets:detail' a.pk %}">{{ a.name }}</a><small>{{ a.code }} · {{ a.owner_department }}</small></td>
       <td>{{ a.category|default:_("Not chosen yet") }}</td><td>{{ a.get_condition_display }}</td>
-      <td class="num">{% blocktranslate trimmed with free=a.available_qty total=a.quantity %}{{ free }} of {{ total }} free{% endblocktranslate %}</td><td>{{ a.location }}</td><td>{% status_pill a %}</td></tr>
+      <td class="num">{% blocktranslate trimmed with free=a.available_qty total=a.quantity %}{{ free }} of {{ total }} free{% endblocktranslate %}</td><td>{{ a.location }}</td><td>{% status_pill a %}{% if a.needs_verification %}<small class="needs-check">{% translate "Verification needed" %}</small>{% endif %}</td></tr>
   {% endfor %}</tbody>
 </table></div>
 {% else %}<div class="empty">{% translate "No assets match." %}{% if can_register %}<br><a class="button" href="{% url 'assets:register' %}">{% translate "Register the first one" %}</a>{% endif %}</div>{% endif %}

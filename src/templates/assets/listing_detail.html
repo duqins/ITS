@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% load dawra_ui transfer_ui i18n %}
+{% load dawra_ui transfer_ui asset_ui i18n %}
 {% block title %}{{ listing.code }} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{{ asset.name }}</h1><div class="record">{{ listing.code }} · {% blocktranslate trimmed with department=asset.owner_department %}offered by {{ department }}{% endblocktranslate %}</div></div>{% status_pill listing %}</div>
 <div class="layout">
   <div class="record-body">
-    <div class="asset-summary"><div class="asset-symbol">{% icon 'box' %}</div><div><h2>{{ asset.name }}</h2><p>{{ asset.category }} · {{ asset.get_condition_display }} · {{ asset.location }}</p></div><div class="asset-meta">{% blocktranslate trimmed with left=listing.remaining_quantity total=listing.quantity %}{{ left }} of {{ total }} left{% endblocktranslate %}</div></div>
+    <div class="asset-summary">{% asset_thumb asset %}<div><h2>{{ asset.name }}</h2><p>{{ asset.category }} · {{ asset.get_condition_display }} · {{ asset.location }}</p></div><div class="asset-meta">{% blocktranslate trimmed with left=listing.remaining_quantity total=listing.quantity %}{{ left }} of {{ total }} left{% endblocktranslate %}</div></div>
     <section class="group"><div class="group-title">{% icon 'file' %}<h2>{% translate "What is offered" %}</h2></div><div class="fields">
       {% include "includes/readonly.html" with label=_("Description") value=asset.description wide=True %}
       {% include "includes/readonly.html" with label=_("Specifications") value=asset.specifications wide=True %}
@@ -13,8 +13,10 @@
       {% include "includes/readonly.html" with label=_("Available from") value=listing.available_from %}
       {% include "includes/readonly.html" with label=_("Release reason") value=listing.get_release_reason_display %}
       {% include "includes/readonly.html" with label=_("Age (years)") value=asset.asset_age %}
+      <div class="field field-plain"><span class="read-label">{% translate "Last verified" %}</span><div class="readonly">{{ asset.verified_on|date:"DATE_FORMAT"|default:"—" }}{% if not asset.verification_is_recent %} <span class="needs-check">{% translate "Verification needed" %}</span>{% endif %}</div></div>
       {% include "includes/readonly.html" with label=_("Restrictions") value=listing.restrictions wide=True %}
     </div></section>
+    {% include "assets/_files.html" with files=files %}
     {% if owner %}
     <div class="actions">
       {% if can_submit %}<form method="post" action="{% url 'assets:listing_submit' listing.pk %}">{% csrf_token %}<button class="button primary" type="submit">{% icon 'check' %}{% translate "Submit for release approval" %}</button></form>{% endif %}
@@ -24,7 +26,7 @@
     <details><summary>{% translate "Withdraw this listing" %}</summary>
       <form method="post" action="{% url 'assets:listing_withdraw' listing.pk %}" class="reason-form">{% csrf_token %}
         <label for="withdraw-reason">{% translate "Reason" %} *</label><textarea id="withdraw-reason" name="reason" required></textarea>
-        <button class="button danger" type="submit">{% translate "Withdraw listing" %}</button>
+        <button class="button danger" type="submit" data-confirm="{% blocktranslate trimmed with code=listing.code %}Withdraw {{ code }}? It disappears from search.{% endblocktranslate %}">{% translate "Withdraw listing" %}</button>
       </form>
     </details>
     {% endif %}
@@ -39,8 +41,8 @@
       <p>{% translate "Release this listing so staff from other departments can find and request it." %}</p>
       <form method="post" action="{% url 'assets:listing_decide' listing.pk %}" class="reason-form">{% csrf_token %}
         <label for="decide-reason">{% translate "Reason (needed to reject)" %}</label><textarea id="decide-reason" name="reason"></textarea>
-        <button class="button primary" type="submit" name="decision" value="approve">{% icon 'check' %}{% translate "Approve release" %}</button>
-        <button class="button danger" type="submit" name="decision" value="reject">{% translate "Reject" %}</button>
+        <button class="button primary" type="submit" name="decision" value="approve" data-confirm="{% blocktranslate trimmed with code=listing.code %}Release {{ code }}? Staff in other departments can then find and request it.{% endblocktranslate %}">{% icon 'check' %}{% translate "Approve release" %}</button>
+        <button class="button danger" type="submit" name="decision" value="reject" data-confirm="{% blocktranslate trimmed with code=listing.code %}Reject the release of {{ code }}? Your reason is sent back.{% endblocktranslate %}">{% translate "Reject" %}</button>
       </form>
       {% elif own_listing %}<p>{% translate "You prepared this listing, so another representative must release it (BR-02)." %}</p>
       {% else %}<p>{% blocktranslate trimmed with department=asset.owner_department %}Waiting for the {{ department }} department representative.{% endblocktranslate %}</p>{% endif %}

@@ -1,0 +1,8 @@
+{% load dawra_ui i18n %}{% if files or show_empty %}
+<section class="group"><div class="group-title">{% icon 'file' %}<h2>{% translate "Photos and documents" %}</h2></div>
+  {% if files %}
+  <div class="gallery">{% for f in files %}{% if f.kind == "photo" %}<a href="{% url 'assets:file' f.asset_id f.pk %}" target="_blank" rel="noopener"><img src="{% url 'assets:file' f.asset_id f.pk %}?size=small" alt="{% blocktranslate trimmed with name=f.name %}Photo {{ name }}{% endblocktranslate %}" loading="lazy"></a>{% endif %}{% endfor %}</div>
+  <ul class="file-list">{% for f in files %}{% if f.kind == "document" %}<li><a href="{% url 'assets:file' f.asset_id f.pk %}">{% icon 'file' %}{{ f.name }}</a> <span class="muted small">{{ f.size|filesizeformat }}</span></li>{% endif %}{% endfor %}</ul>
+  {% else %}<p class="muted small">{% translate "No photos or documents yet." %}</p>{% endif %}
+</section>
+{% endif %}

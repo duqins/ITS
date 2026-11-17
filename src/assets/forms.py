@@ -6,9 +6,28 @@ from django.utils.translation import gettext as _, gettext_lazy
 
 from accounts.models import Department
 
-from .models import Asset, Category, Condition, FurnitureAsset, ITAsset, Listing
+from .files import MAX_DOCUMENTS, MAX_PHOTOS, read_document, read_photo
+from .models import Asset, AssetFile, Category, Condition, FurnitureAsset, ITAsset, Listing
 
 DATE = forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d")
+
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    """A file field that takes several files at once (Django's documented pattern)."""
+
+    def __init__(self, *args, accept="", **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput(attrs={"accept": accept}))
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single = super().clean
+        if isinstance(data, (list, tuple)):
+            return [single(d, initial) for d in data]
+        return [single(data, initial)] if data else []
 
 
 class AssetForm(forms.ModelForm):
@@ -25,6 +44,15 @@ class AssetForm(forms.ModelForm):
                                help_text=gettext_lazy("Furniture only"))
     dimensions = forms.CharField(required=False, max_length=60, label=gettext_lazy("Dimensions"),
                                  help_text=gettext_lazy("Furniture only"))
+    photos = MultipleFileField(required=False, accept="image/jpeg,image/png", label=gettext_lazy("Photos"),
+                               help_text=gettext_lazy("JPG or PNG, up to 5 photos of 5 MB each"))
+    documents = MultipleFileField(required=False, accept="application/pdf", label=gettext_lazy("Supporting documents"),
+                                  help_text=gettext_lazy("PDF, up to 5 documents of 10 MB each"))
+    # FR-04.5: shown only when a possible duplicate was found.
+    not_duplicate = forms.BooleanField(required=False, label=gettext_lazy("This is a different item: save it anyway"))
+    remove_files = forms.ModelMultipleChoiceField(AssetFile.objects.none(), required=False,
+                                                  widget=forms.CheckboxSelectMultiple,
+                                                  label=gettext_lazy("Remove files"))
 
     class Meta:
         model = Asset
@@ -48,11 +76,23 @@ class AssetForm(forms.ModelForm):
             "planned_retirement_date": DATE,
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, department=None, **kwargs):
         super().__init__(*args, **kwargs)
+        self.department = department
+        self.possible_duplicate = None
         self.fields["category"].queryset = Category.objects.filter(is_active=True)
         self.fields["category"].required = False
+        self.fields["category"].empty_label = gettext_lazy("Not chosen yet")
+        # The browser already refuses what clean_quantity and clean_purchase_date refuse.
+        self.fields["quantity"].widget.attrs["min"] = 1
+        self.fields["quantity"].error_messages["min_value"] = _("The quantity must be a positive whole number.")
+        self.fields["value"].widget.attrs["min"] = 0
+        self.fields["purchase_date"].widget.attrs["max"] = timezone.localdate().isoformat()
         instance = self.instance
+        if instance.pk and instance.files.exists():
+            self.fields["remove_files"].queryset = instance.files.defer("data", "thumbnail")
+        else:
+            self.fields.pop("remove_files")
         if instance.pk:
             # The type is fixed once the asset exists.
             self.fields.pop("kind")
@@ -79,6 +119,58 @@ class AssetForm(forms.ModelForm):
         if quantity < 1:
             raise forms.ValidationError(_("The quantity must be a positive whole number."))
         return quantity
+
+    def clean_value(self):
+        value = self.cleaned_data.get("value")
+        if value is not None and value < 0:
+            raise forms.ValidationError(_("The value cannot be negative."))
+        return value
+
+    def clean_photos(self):
+        return [read_photo(upload) for upload in self.cleaned_data["photos"]]
+
+    def clean_documents(self):
+        return [read_document(upload) for upload in self.cleaned_data["documents"]]
+
+    def clean(self):
+        data = super().clean()
+        kept = {AssetFile.Kind.PHOTO: 0, AssetFile.Kind.DOCUMENT: 0}
+        if self.instance.pk:
+            removed = {f.pk for f in data.get("remove_files") or []}
+            for kind in kept:
+                kept[kind] = self.instance.files.filter(kind=kind).exclude(pk__in=removed).count()
+        if kept[AssetFile.Kind.PHOTO] + len(data.get("photos") or []) > MAX_PHOTOS:
+            self.add_error("photos", _("An asset can have up to 5 photos."))
+        if kept[AssetFile.Kind.DOCUMENT] + len(data.get("documents") or []) > MAX_DOCUMENTS:
+            self.add_error("documents", _("An asset can have up to 5 documents."))
+        # FR-04.5: the same department, category, name and specifications as an existing asset is a possible
+        # duplicate. It is saved only after the person confirms it is a different item.
+        if not self.instance.pk and self.department is not None and data.get("name"):
+            same = Asset.objects.filter(owner_department=self.department, category=data.get("category"),
+                                        name__iexact=data["name"].strip(),
+                                        specifications__iexact=(data.get("specifications") or "").strip()).first()
+            if same is not None and not data.get("not_duplicate"):
+                self.possible_duplicate = same
+                self.add_error(None, _("%(code)s in your department has the same category, name and specifications. "
+                                       "If this is a different item, tick the box below and save again (FR-04.5).")
+                               % {"code": same.code})
+        return data
+
+    def save_files(self, asset, user):
+        """Add the new photos and documents and remove the ticked ones. Returns a short note for the history."""
+        added = []
+        for name, large, small in self.cleaned_data.get("photos") or []:
+            AssetFile.objects.create(asset=asset, kind=AssetFile.Kind.PHOTO, name=name[:150], content_type="image/jpeg",
+                                     size=len(large), data=large, thumbnail=small, uploaded_by=user)
+            added.append(name)
+        for name, data in self.cleaned_data.get("documents") or []:
+            AssetFile.objects.create(asset=asset, kind=AssetFile.Kind.DOCUMENT, name=name[:150],
+                                     content_type="application/pdf", size=len(data), data=data, uploaded_by=user)
+            added.append(name)
+        removed = [f.name for f in self.cleaned_data.get("remove_files") or []]
+        if removed:
+            asset.files.filter(pk__in=[f.pk for f in self.cleaned_data["remove_files"]]).delete()
+        return "; ".join(filter(None, ["+ " + ", ".join(added) if added else "", "- " + ", ".join(removed) if removed else ""]))
 
     def clean_purchase_date(self):
         value = self.cleaned_data.get("purchase_date")
@@ -128,6 +220,7 @@ class ListingForm(forms.ModelForm):
         self.asset = asset
         self.fields["quantity"].initial = asset.available_qty
         self.fields["quantity"].help_text = _("%(count)s available") % {"count": asset.available_qty}
+        self.fields["quantity"].widget.attrs.update(min=1, max=asset.available_qty)
 
     def clean_quantity(self):
         quantity = self.cleaned_data["quantity"]

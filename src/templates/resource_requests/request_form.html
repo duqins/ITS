@@ -14,12 +14,14 @@
     {% include "includes/field.html" with field=form.specifications wide=True %}
     {% include "includes/field.html" with field=form.min_condition %}
     {% include "includes/field.html" with field=form.urgency %}
+    {% include "includes/field.html" with field=form.description wide=True %}
   </div></section>
   <section class="group"><div class="group-title">{% icon 'location' %}<h2>{% translate "Delivery and approval" %}</h2></div><div class="fields">
     {% include "includes/field.html" with field=form.delivery_location %}
     {% include "includes/field.html" with field=form.required_by %}
     {% include "includes/readonly.html" with label=_("Requester") value=user %}
-    {% include "includes/readonly.html" with label=_("Next responsible role") value=_("Department representative") %}
+    {% blocktranslate trimmed asvar next_role with department=active_role.department %}{{ department }} department representative{% endblocktranslate %}
+    {% include "includes/readonly.html" with label=_("Next responsible role") value=next_role %}
   </div></section>
   <div class="actions">
     <button class="button primary" type="submit" name="submit_for" value="approval">{% icon 'check' %}{% translate "Submit for department approval" %}</button>

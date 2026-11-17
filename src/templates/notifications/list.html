@@ -6,10 +6,10 @@
   <form method="post" action="{% url 'notifications:read_all' %}">{% csrf_token %}<button class="button" type="submit">{% icon 'check' %}{% translate "Mark all as read" %}</button></form></div>
 {% if notifications %}
 <div class="table-wrap"><table class="data-table">
-  <thead><tr><th>{% translate "Message" %}</th><th>{% translate "When" %}</th><th></th></tr></thead>
+  <thead><tr><th>{% translate "Message" %}</th><th>{% translate "When" %}</th><th><span class="sr-only">{% translate "Actions" %}</span></th></tr></thead>
   <tbody>{% for n in notifications %}
   <tr{% if not n.is_read %} class="highlight"{% endif %}><td>{% if not n.is_read %}<strong>{{ n.message }}</strong>{% else %}{{ n.message }}{% endif %}</td>
-    <td>{{ n.sent_at|date:"j M Y, H:i" }}</td><td><a class="button" href="{% url 'notifications:open' n.pk %}">{% translate "Open" %}</a></td></tr>
+    <td>{{ n.sent_at|date:"DATETIME_FORMAT" }}</td><td><a class="button" href="{% url 'notifications:open' n.pk %}">{% translate "Open" %}</a></td></tr>
   {% endfor %}</tbody>
 </table></div>
 {% else %}<div class="empty">{% translate "No notifications yet." %}</div>{% endif %}

@@ -1,5 +1,6 @@
 """C9 Basic report: requests and transfers with filters, totals and CSV export (FR-17)."""
 
+import codecs
 import csv
 from collections import Counter
 from datetime import date, datetime, time
@@ -25,7 +26,7 @@ class ReportFilter(forms.Form):
                                 widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
     date_to = forms.DateField(label=gettext_lazy("To"), widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
     department = forms.ModelChoiceField(Department.objects.filter(is_active=True), required=False,
-                                        empty_label=gettext_lazy("All departments"))
+                                        label=gettext_lazy("Department"), empty_label=gettext_lazy("All departments"))
 
     def clean(self):
         data = super().clean()
@@ -52,7 +53,7 @@ def request_rows(start, end, department):
     header = [_("Request"), _("Purpose"), _("Requester"), _("Department"), _("Category"), _("Quantity"),
               _("Required by"), _("Status"), _("Submitted")]
     data = [[r.code, r.purpose, str(r.requester), str(r.department), str(r.category), r.quantity, r.required_by,
-             r.get_status_display(), timezone.localtime(r.submitted_at).strftime("%Y-%m-%d") if r.submitted_at else ""]
+             r.get_status_display(), timezone.localtime(r.submitted_at).date() if r.submitted_at else ""]
             for r in rows.select_related("requester", "department", "category")]
     return header, data, Counter(r.get_status_display() for r in rows)
 
@@ -63,7 +64,8 @@ def transfer_rows(start, end, department):
         rows = rows.filter(Q(from_department=department) | Q(to_department=department))
     header = [_("Transfer"), _("Asset"), _("Quantity"), _("From"), _("To"), _("Status"), _("Final approver"),
               _("Handed over"), _("Received")]
-    fmt = lambda d: timezone.localtime(d).strftime("%Y-%m-%d") if d else ""  # noqa: E731
+    # Dates stay dates: the page shows them like every other date and the CSV writes them as YYYY-MM-DD.
+    fmt = lambda d: timezone.localtime(d).date() if d else ""  # noqa: E731
     data = [[t.code, f"{t.asset.code} {t.asset.name}", t.quantity, str(t.from_department), str(t.to_department),
              t.get_status_display(), str(t.approver or ""), fmt(t.handed_over_at), fmt(t.received_at)]
             for t in rows.select_related("asset", "from_department", "to_department", "approver")]
@@ -97,7 +99,8 @@ def index(request):
 
 def csv_response(data, department, header, rows, totals):
     """The export contains the filters, the records and the totals (SI-04)."""
-    response = HttpResponse(content_type="text/csv")
+    response = HttpResponse(content_type="text/csv; charset=utf-8")
+    response.write(codecs.BOM_UTF8)  # lets Excel read Arabic text as UTF-8
     response["Content-Disposition"] = f'attachment; filename="dawra-{data["report"]}-{data["date_from"]}-{data["date_to"]}.csv"'
     writer = csv.writer(response)
     writer.writerow([_("Report"), str(dict(ReportFilter.TYPES)[data["report"]])])

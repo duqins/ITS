@@ -1,6 +1,6 @@
 """Category, Asset (with ITAsset and FurnitureAsset) and Listing from the class diagram."""
 
-from datetime import date
+from datetime import date, timedelta
 
 from django.conf import settings
 from django.db import models
@@ -168,12 +168,24 @@ class Asset(models.Model):
         self.save()
         AuditLog.record(by, "registered", self, after="AS-01 Draft")
 
+    # FR-04.1 and mockup 7.1: a draft may be saved without these, but it stays a draft until they are filled.
+    NEEDED_TO_CONFIRM = [("description", gettext_lazy("Description")), ("category", gettext_lazy("Category")),
+                         ("specifications", gettext_lazy("Specifications")), ("building", gettext_lazy("Building")),
+                         ("room", gettext_lazy("Room")), ("purchase_date", gettext_lazy("Purchase date")),
+                         ("value", gettext_lazy("Estimated value per item (AED)"))]
+
+    def missing_for_confirmation(self):
+        return [label for name, label in self.NEEDED_TO_CONFIRM if getattr(self, name) in (None, "")]
+
     def confirm(self, by, in_use=True):
         """A second user confirms the record; the asset becomes Active (AS-02 or AS-03)."""
         if by == self.registered_by:
             raise BusinessRuleError(_("A different user must confirm this asset record (BR-02)."), self, "confirm asset")
-        if self.category_id is None:
-            raise BusinessRuleError(_("Choose a category before the asset is confirmed."), self, "confirm asset")
+        missing = self.missing_for_confirmation()
+        if missing:
+            # FR-04.2: a missing mandatory field keeps the asset in Draft and names the fields.
+            raise BusinessRuleError(_("Complete these fields before confirming: %(fields)s.")
+                                    % {"fields": ", ".join(str(label) for label in missing)}, self, "confirm asset")
         self.verified_on = timezone.now()
         self.verified_by = by
         change_state(self, self.Status.IN_SERVICE if in_use else self.Status.IN_STORAGE, by,
@@ -210,9 +222,27 @@ class Asset(models.Model):
         self.available_qty += qty
         self.save(update_fields=["allocated_qty", "available_qty"])
 
+    def verify(self, by):
+        """Record a new check of availability and condition (FR-04.4); a stale record can be held again (BR-16)."""
+        if self.status not in (self.Status.IN_SERVICE, self.Status.IN_STORAGE):
+            raise BusinessRuleError(_("Only an active asset can be verified."), self, "verify asset")
+        self.verified_on, self.verified_by = timezone.now(), by
+        self.save(update_fields=["verified_on", "verified_by"])
+        AuditLog.record(by, "verified", self)
+
     def verification_is_recent(self):
         limit = settings.DAWRA["VERIFICATION_MAX_AGE_DAYS"]
         return self.verified_on is not None and (timezone.now() - self.verified_on).days <= limit
+
+    def needs_verification(self):
+        return self.status in self.ACTIVE and not self.verification_is_recent()
+
+    @classmethod
+    def needing_verification(cls):
+        """Active assets not checked within the verification period (UI-02, FR-06.4, BR-16): the same rule as
+        verification_is_recent, written as a database filter."""
+        cutoff = timezone.now() - timedelta(days=settings.DAWRA["VERIFICATION_MAX_AGE_DAYS"] + 1)
+        return Q(status__in=cls.ACTIVE) & (Q(verified_on__isnull=True) | Q(verified_on__lte=cutoff))
 
     def can_be_managed_by(self, user_role):
         """Custodians and representatives act on their own department's assets only."""
@@ -366,3 +396,30 @@ class Listing(models.Model):
             change_state(self, self.Status.FULLY_RESERVED, by, "fully reserved")
         elif self.status == self.Status.FULLY_RESERVED and remaining > 0:
             change_state(self, self.Status.PUBLISHED, by, "units available again")
+
+
+class AssetFile(models.Model):
+    """A photo or supporting document of an asset (FR-04.1).
+
+    Files are kept in the database rather than on disk, because the hosting plan's disk is emptied on every
+    deploy. Photos are stored as a resized JPEG plus a small copy for lists (assets/files.py)."""
+
+    class Kind(models.TextChoices):
+        PHOTO = "photo", gettext_lazy("Photo")
+        DOCUMENT = "document", gettext_lazy("Document")
+
+    asset = models.ForeignKey(Asset, on_delete=models.CASCADE, related_name="files")
+    kind = models.CharField(max_length=8, choices=Kind.choices)
+    name = models.CharField(max_length=150)
+    content_type = models.CharField(max_length=40)
+    size = models.PositiveIntegerField()
+    data = models.BinaryField()
+    thumbnail = models.BinaryField(null=True, blank=True)
+    uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="+")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["kind", "pk"]
+
+    def __str__(self):
+        return self.name

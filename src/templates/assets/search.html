@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dawra_ui i18n %}
+{% load dawra_ui asset_ui i18n %}
 {% block title %}{% translate "Search" %} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{% translate "Find surplus items" %}</h1><div class="record">{% translate "Published listings from every department" %}</div></div></div>
@@ -15,11 +15,12 @@
 {% if results %}
 <p class="result-count">{% blocktranslate trimmed count counter=results|length %}{{ counter }} item found{% plural %}{{ counter }} items found{% endblocktranslate %}</p>
 <div class="table-wrap"><table class="data-table">
-  <thead><tr><th>{% translate "Item" %}</th><th>{% translate "Category" %}</th><th>{% translate "Condition" %}</th><th>{% translate "Department" %}</th><th>{% translate "Location" %}</th><th class="num">{% translate "Available" %}</th><th>{% translate "Listed" %}</th></tr></thead>
+  <thead><tr><th>{% translate "Item" %}</th><th>{% translate "Category" %}</th><th>{% translate "Condition" %}</th><th>{% translate "Department" %}</th><th>{% translate "Location" %}</th><th class="num">{% translate "Available" %}</th><th>{% translate "Restrictions" %}</th><th>{% translate "Last verified" %}</th><th>{% translate "Listed" %}</th></tr></thead>
   <tbody>{% for l in results %}
-  <tr><td><a href="{% url 'assets:listing' l.pk %}">{{ l.asset.name }}</a><small>{{ l.code }}{% if l.asset.tags %} · {{ l.asset.tags }}{% endif %}</small></td>
+  <tr><td><div class="item-cell">{% asset_thumb l.asset "thumb" %}<div><a href="{% url 'assets:listing' l.pk %}">{{ l.asset.name }}</a><small>{{ l.code }}{% if l.asset.tags %} · {{ l.asset.tags }}{% endif %}</small></div></div></td>
       <td>{{ l.asset.category }}</td><td>{{ l.asset.get_condition_display }}</td><td>{{ l.asset.owner_department }}</td>
-      <td>{{ l.asset.building|default:l.asset.campus }}</td><td class="num">{{ l.remaining_quantity }}</td><td>{{ l.published_at|date:"j M Y" }}</td></tr>
+      <td>{{ l.asset.building|default:l.asset.campus }}{% if l.asset.room %}<small>{{ l.asset.room }}</small>{% endif %}</td><td class="num">{{ l.remaining_quantity }}</td><td>{{ l.restrictions|truncatechars:60|default:_("None") }}</td>
+      <td>{{ l.asset.verified_on|date:"DATE_FORMAT"|default:"—" }}{% if not l.asset.verification_is_recent %}<small class="needs-check">{% translate "Verification needed" %}</small>{% endif %}</td><td>{{ l.published_at|date:"DATE_FORMAT" }}</td></tr>
   {% endfor %}</tbody>
 </table></div>
 {% else %}

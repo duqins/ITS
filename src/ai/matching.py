@@ -15,6 +15,7 @@ from datetime import date
 
 from django.conf import settings
 from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.translation import gettext as _, ngettext
 from pydantic import BaseModel
 
@@ -35,14 +36,10 @@ class EligibilityChecker:
         listings = Listing.objects.filter(status=Listing.Status.PUBLISHED, asset__category=request.category,
                                           asset__status__in=Asset.ACTIVE).exclude(
             asset__owner_department=request.department).select_related("asset__category")
-        minimum = Condition.rank(request.min_condition)
         for listing in listings:
-            asset = listing.asset
             if listing.remaining_quantity() < request.quantity:
                 continue
-            if Condition.rank(asset.condition) < minimum:
-                continue
-            if listing.available_from > request.required_by:
+            if request.listing_problem(listing) is not None:  # minimum condition and date (BR-14)
                 continue
             candidates.append(listing)
         # Classic order: available sooner first, then better condition.
@@ -78,6 +75,7 @@ class SemanticMatcher:
         lines = [f"Item {i}: {l.asset.name}. {l.asset.description} Specifications: {l.asset.specifications or 'none'}. "
                  f"Tags: {l.asset.tags or 'none'}." for i, l in enumerate(listings, start=1)]
         prompt = (f"Request: {request.purpose}. Specifications: {request.specifications or 'none'}. "
+                  f"Description: {request.description or 'none'}. "
                   f"Quantity: {request.quantity}.\n\nItems:\n" + "\n".join(lines))
         answer = self.adapter.ask(Task.MATCHING, self.model, in_language(SYSTEM), prompt, MeaningAnswer, deadline, max_tokens=2000)
         result = {}
@@ -130,16 +128,20 @@ class RankingModel:
         elif asset.campus and asset.campus.lower() != "main campus" and asset.campus.lower() not in place:
             factors.append(self.factor(_("Location and transfer cost"), 2, 10,
                                        _("Other campus (%(campus)s)") % {"campus": asset.campus}))
+        elif not asset.building:  # a missing value earns 0 and says so (SRS 4.1)
+            factors.append(self.factor(_("Location and transfer cost"), 0, 10, _("Item building not recorded"),
+                                       unknown=True))
         else:
             factors.append(self.factor(_("Location and transfer cost"), 6, 10,
-                                       _("Other building (%(building)s)") % {"building": asset.building or _("unknown")}))
+                                       _("Other building (%(building)s)") % {"building": asset.building}))
 
         if listing.available_from <= today:
             availability = (10, _("Available now"))
         elif listing.available_from <= add_working_days(today, 5):
-            availability = (6, _("Available from %(date)s") % {"date": listing.available_from})
+            availability = (6, _("Available from %(date)s") % {"date": date_format(listing.available_from)})
         else:
-            availability = (2, _("Available from %(date)s, before the required date") % {"date": listing.available_from})
+            availability = (2, _("Available from %(date)s, before the required date") % {
+                "date": date_format(listing.available_from)})
         factors.append(self.factor(_("Availability"), availability[0], 10, availability[1]))
 
         if asset.planned_retirement_date:
@@ -197,7 +199,7 @@ class MatchingService:
             matches = [MatchRecommendation.objects.create(
                 request=request, asset=l.asset, listing=l, rank=i, score=None,
                 reason=_("%(condition)s condition, available from %(date)s") % {
-                    "condition": l.asset.get_condition_display(), "date": l.available_from},
+                    "condition": l.asset.get_condition_display(), "date": date_format(l.available_from)},
                 explanation={"run": run, "classic": True, "factors": []},
             ) for i, l in enumerate(listings[:shown], start=1)]
             return matches, False, _("%(error)s Showing eligible items in classic order without AI scores.") % {

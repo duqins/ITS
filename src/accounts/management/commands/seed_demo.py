@@ -9,8 +9,10 @@ import os
 from datetime import date, timedelta
 from decimal import Decimal
 
+from django.contrib.auth.models import Permission
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from django.utils import timezone
 
 from accounts.models import Department, Role, User, UserRole
 from assets.models import Asset, Category, Condition, FurnitureAsset, ITAsset, Listing
@@ -34,9 +36,20 @@ USERS = [
     ("procurement.officer", "Noura", "Al Mazrouei", "PROC", [("procurement_officer", "PROC")]),
     ("sustainability.officer", "Salem", "Al Dhaheri", "SUS", [("sustainability_officer", "SUS")]),
     ("business.admin", "Latifa", "Al Suwaidi", "BA", [("business_administrator", "BA")]),
+    # A second Business administrator: a role request needs an independent authoriser (UC-01, BR-02).
+    ("business.admin2", "Khalfan", "Al Romaithi", "BA", [("business_administrator", "BA")]),
     ("maintenance.staff", "Yousef", "Al Ali", "FM", [("maintenance_staff", "FM")]),
     ("system.admin", "Reem", "Al Kaabi", "ITS", [("system_administrator", "ITS")]),
 ]
+
+BUSINESS_SETTINGS = ["accounts.view_department", "accounts.add_department", "accounts.change_department",
+                     "assets.view_category", "assets.add_category", "assets.change_category"]
+ADMIN_SITE_PERMISSIONS = {
+    "system.admin": ["accounts.view_user", "accounts.add_user", "accounts.change_user", "accounts.view_userrole",
+                     "accounts.view_department"],
+    "business.admin": BUSINESS_SETTINGS,
+    "business.admin2": BUSINESS_SETTINGS,
+}
 
 MONITOR_SOURCE = ("Low: UK DESNZ 2024 'IT (primary material production)' 24.86548 kg CO2e/kg x Dell P2422H mass "
                   "5.15 kg (F1 x F3). High: Dell P2422H product carbon footprint 2024, 327 kg CO2e (F2).")
@@ -86,16 +99,22 @@ class Command(BaseCommand):
                 username=username, password=password, first_name=first, last_name=last,
                 email=f"{username}@dawra.example", department=self.departments[dept],
             )
-            if username == "system.admin":
-                user.is_staff = user.is_superuser = True
-                user.save()
-            if username == "business.admin":
+            # The administration site only for what each administrator maintains (FR-01.1, FR-03). Nobody is a
+            # superuser, so technical administration never gives business approval rights (BR-01).
+            if username in ADMIN_SITE_PERMISSIONS:
                 user.is_staff = True
                 user.save()
+                for name in ADMIN_SITE_PERMISSIONS[username]:
+                    app_label, codename = name.split(".")
+                    user.user_permissions.add(Permission.objects.get(content_type__app_label=app_label,
+                                                                     codename=codename))
             for role, role_dept in roles:
                 UserRole.objects.create(user=user, role=Role.objects.get(code=role),
                                         department=self.departments[role_dept], status=UserRole.Status.ACTIVE)
             self.users[username] = user
+        # A role request waiting for an independent Business administrator (shown in Administration).
+        UserRole.request(self.users["maintenance.staff"], Role.objects.get(code="requester"), self.departments["FM"],
+                         by=self.users["business.admin2"])
 
     def create_categories(self):
         self.categories = {}
@@ -149,6 +168,9 @@ class Command(BaseCommand):
             quantity=3, specifications="Electric height adjustment, 160 x 80 cm", building="Computing Building",
             room="C1-105", value=Decimal("1200"), purchase_date=today - timedelta(days=200),
         )
+        # The desks were last checked four months ago, so the Computing home page shows an asset needing
+        # verification (UI-02, FR-06.4). They are not listed, so the demo holds are not affected (BR-16).
+        Asset.objects.filter(pk=self.desks.pk).update(verified_on=timezone.now() - timedelta(days=120))
         for asset, qty in ((self.monitors, 4), (self.chairs, 6), (self.projector, 1), (self.oscilloscope, 1)):
             listing = Listing.objects.create(asset=asset, quantity=qty, created_by=self.users["eng.custodian"],
                                              release_reason=Listing.ReleaseReason.SURPLUS)

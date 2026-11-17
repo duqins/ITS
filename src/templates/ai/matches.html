@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dawra_ui i18n %}
+{% load dawra_ui asset_ui i18n %}
 {% block title %}{% blocktranslate trimmed with code=obj.code %}Matches for {{ code }}{% endblocktranslate %} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{% translate "Review eligible matches" %}</h1><div class="record">{{ obj.code }} · {{ obj.purpose }} · UI-07</div></div>{% status_pill obj %}</div>
@@ -12,12 +12,12 @@
 <div class="layout">
   <div class="record-body">
     <div class="table-wrap"><table class="data-table">
-      <thead><tr><th>{% translate "Rank" %}</th><th>{% translate "Eligible item" %}</th><th>{% translate "Score" %}</th><th>{% translate "Confidence" %}</th>{% if can_choose %}<th></th>{% endif %}</tr></thead>
+      <thead><tr><th>{% translate "Rank" %}</th><th>{% translate "Eligible item" %}</th><th>{% translate "Compatibility" %}</th><th>{% translate "Confidence" %}</th>{% if can_choose %}<th><span class="sr-only">{% translate "Actions" %}</span></th>{% endif %}</tr></thead>
       <tbody>{% for m in matches %}
       <tr{% if forloop.first %} class="selected"{% endif %}>
         <td>{{ m.rank }}</td>
-        <td><a href="{% url 'assets:listing' m.listing.pk %}">{{ m.asset.name }}</a><small>{{ m.asset.code }} · {{ m.asset.get_condition_display }} · {{ m.asset.owner_department }}</small><small>{{ m.reason }}</small>
-          {% if m.explanation.factors %}<details><summary>{% translate "How the score was calculated" %}</summary><ul class="factor-list">{% for f in m.explanation.factors %}<li>{{ f.factor }}: {{ f.used }}{% if f.unknown %} {% translate "(unknown)" %}{% endif %} <b>{{ f.points }} / {{ f.max }}</b></li>{% endfor %}</ul></details>{% endif %}</td>
+        <td><div class="item-cell">{% asset_thumb m.asset "thumb" %}<div><a href="{% url 'assets:listing' m.listing.pk %}">{{ m.asset.name }}</a><small>{{ m.asset.code }} · {{ m.asset.get_condition_display }} · {{ m.asset.owner_department }}</small><small>{{ m.reason }}</small>
+          {% if m.explanation.factors %}<details><summary>{% translate "How the score was calculated" %}</summary><ul class="factor-list">{% for f in m.explanation.factors %}<li>{{ f.factor }}: {{ f.used }} <b>{{ f.points }} / {{ f.max }}</b></li>{% endfor %}</ul></details>{% endif %}</div></div></td>
         <td>{% if m.score is not None %}<span class="score-ring" style="--score:{{ m.score|stringformat:'d' }}" role="img" aria-label="{% blocktranslate trimmed with score=m.score %}Score {{ score }} out of 100{% endblocktranslate %}"><span class="score-ring-value" data-count="{{ m.score|stringformat:'d' }}">{{ m.score }}</span></span><small>/100</small>{% else %}—<small>{% translate "Classic result" %}</small>{% endif %}</td>
         <td>{% if m.score is not None %}{% translate "Unavailable" %}<small>{% translate "Check carefully" %}</small>{% else %}—{% endif %}</td>
         {% if can_choose %}<td>
@@ -45,7 +45,7 @@
     <p class="ai-result">{% translate "These items passed the mandatory checks and are shown in classic order (available sooner, better condition). No AI scores are invented." %}</p>
     {% endif %}
     <div class="human"><strong>{% translate "Your decision" %}</strong><p>{% translate "Choosing an item only asks for a hold. Choosing a lower-ranked item needs a reason." %}</p></div>
-    {% if ai_used %}<p class="ai-meta">{% blocktranslate trimmed with model=matches.0.model_version when=matches.0.created_at|date:"j M Y, H:i" %}Model {{ model }} · saved {{ when }}{% endblocktranslate %}</p>{% endif %}
+    {% if ai_used %}<p class="ai-meta">{% blocktranslate trimmed with model=matches.0.model_version when=matches.0.created_at|date:"DATETIME_FORMAT" %}Model {{ model }} · saved {{ when }}{% endblocktranslate %}</p>{% endif %}
   </aside>
 </div>
 {% elif not can_search %}

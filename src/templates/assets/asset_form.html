@@ -3,9 +3,10 @@
 {% block title %}{{ title }} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{{ title }}</h1><div class="record">{% if asset %}{{ asset.code }} · {% endif %}UI-03</div></div><span class="status"><i></i>{% translate "Draft (AS-01)" %}</span></div>
-<p class="lead">{% translate "Create a verified record before offering an asset for reuse. Save the draft first; you can then ask the AI to suggest the category, condition and tags." %}</p>
-<form method="post" novalidate>{% csrf_token %}
+<p class="lead">{% translate "Create a verified record before offering an asset for reuse. Save the draft first; you can then ask the AI to suggest the category, condition and tags." %} {% translate "A draft needs only the starred fields, but it can be confirmed only when the description, category, specifications, building, room, purchase date and value are filled in (FR-04.2)." %}</p>
+<form method="post" enctype="multipart/form-data" novalidate>{% csrf_token %}
   {% for error in form.non_field_errors %}<div class="toast error">{{ error }}</div>{% endfor %}
+  {% if form.possible_duplicate or form.not_duplicate.value %}<div class="field"><label class="check">{{ form.not_duplicate }} {{ form.not_duplicate.label }}</label> {% if form.possible_duplicate %}<a href="{% url 'assets:detail' form.possible_duplicate.pk %}" target="_blank" rel="noopener">{% blocktranslate trimmed with code=form.possible_duplicate.code %}Open {{ code }}{% endblocktranslate %}</a>{% endif %}</div>{% endif %}
   <section class="group"><div class="group-title">{% icon 'box' %}<h2>{% translate "Asset details" %}</h2></div><div class="fields">
     {% if form.kind %}{% include "includes/field.html" with field=form.kind %}{% endif %}
     {% include "includes/field.html" with field=form.name %}
@@ -25,9 +26,14 @@
     {% if form.dimensions %}{% include "includes/field.html" with field=form.dimensions %}{% endif %}
   </div></section>
   {% endif %}
+  <section class="group"><div class="group-title">{% icon 'file' %}<h2>{% translate "Photos and documents" %}</h2></div><div class="fields">
+    {% include "includes/field.html" with field=form.photos %}
+    {% include "includes/field.html" with field=form.documents %}
+    {% if form.remove_files %}<fieldset class="field wide"><legend class="read-label">{{ form.remove_files.label }}</legend><div class="file-choices">{% for choice in form.remove_files %}<label>{{ choice.tag }} {{ choice.choice_label }}</label>{% endfor %}</div></fieldset>{% endif %}
+  </div></section>
   <section class="group"><div class="group-title">{% icon 'location' %}<h2>{% translate "Ownership and location" %}</h2></div><div class="fields">
     {% include "includes/readonly.html" with label=_("Owning department") value=active_role.department %}
-    {% include "includes/readonly.html" with label=_("Custodian") value=user %}
+    {% include "includes/readonly.html" with label=_("Custodian") value=asset.custodian|default:user %}
     {% include "includes/field.html" with field=form.campus %}
     {% include "includes/field.html" with field=form.building %}
     {% include "includes/field.html" with field=form.room %}

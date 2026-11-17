@@ -1,5 +1,6 @@
 """C6 States and history: who did what, and when."""
 
+import codecs
 import csv
 from datetime import datetime, time
 
@@ -100,7 +101,8 @@ def audit_search(request):
     if form.is_valid():
         entries = form.apply(entries)
     if request.GET.get("format") == "csv":
-        response = HttpResponse(content_type="text/csv")
+        response = HttpResponse(content_type="text/csv; charset=utf-8")
+        response.write(codecs.BOM_UTF8)  # lets Excel read Arabic text as UTF-8
         response["Content-Disposition"] = 'attachment; filename="dawra-audit-log.csv"'
         writer = csv.writer(response)
         writer.writerow(["time", "user", "role", "action", "record type", "record id", "before", "after", "reason"])

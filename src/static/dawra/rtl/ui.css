@@ -68,3 +68,10 @@ html[data-motion="reduced"]::view-transition-group(*),
 html[data-motion="reduced"]::view-transition-old(*),
 html[data-motion="reduced"]::view-transition-new(*) {animation:none !important}
 [data-motion="reduced"] *, [data-motion="reduced"] *::before, [data-motion="reduced"] *::after {animation:none !important;transition:none !important}
+
+
+.confirm-dialog {width:min(420px, calc(100% - 32px));padding:22px;border:1px solid var(--line);border-radius:12px;background:var(--paper);color:var(--ink);box-shadow:0 24px 60px rgba(8, 20, 35, .28)}
+.confirm-dialog[open] {animation:dawra-arrive .25s cubic-bezier(.2, .65, .25, 1) both}
+.confirm-dialog::backdrop {background:rgba(8, 15, 22, .45);backdrop-filter:blur(2px)}
+.confirm-dialog p {margin:0 0 18px;color:var(--navy);font-size:14px;line-height:1.55}
+.confirm-actions {display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px}

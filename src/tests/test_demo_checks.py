@@ -43,7 +43,7 @@ class DemoCheckTests(DemoTestCase):
 
     def test_export_csv_works_without_pressing_apply(self):
         response = self.sign_in("business.admin").get("/reports/?format=csv")
-        self.assertEqual(response["Content-Type"], "text/csv")
+        self.assertEqual(response["Content-Type"], "text/csv; charset=utf-8")
 
     def test_a_department_cannot_transfer_to_itself(self):
         desk = Asset.objects.get(name="Standing desk")

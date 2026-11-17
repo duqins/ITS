@@ -29,3 +29,4 @@ The Neon project `dawra-campus` already exists in AWS Europe Central 1 (Frankfur
 - On the free plan the app sleeps after some idle time; the first page after that takes about a minute.
 - The Neon database also sleeps after 5 minutes without use and wakes on the next request. The app checks each saved connection before reusing it (`dawra/settings.py`).
 - To change the AI key, edit `ANTHROPIC_API_KEY` in the Render service's Environment page and redeploy.
+- The demo data changed in the last version: a second Business administrator, a role request waiting for authorisation, and no superuser (BR-01). The build only adds demo data to an empty database, so reset it once after that version is deployed. From a laptop, with `DATABASE_URL` set to the direct Neon connection string and `DEMO_PASSWORD` set to the online password, run `python manage.py flush --no-input` and then `python manage.py seed_demo`.

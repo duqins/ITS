@@ -7,7 +7,7 @@
   {% if can_create %}<a class="button primary" href="{% url 'resource_requests:create' %}">{% icon 'request' %}{% translate "New request" %}</a>{% endif %}
 </div>
 <p class="lead">{% translate "Your department approves a request before it can be matched to an item." %}</p>
-<form method="get" class="filters" style="grid-template-columns:minmax(0,260px) auto">
+<form method="get" class="filters" style="--columns:minmax(0,260px) auto">
   <div class="field"><label for="status">{% translate "Status" %}</label>
     <select id="status" name="status"><option value="">{% translate "Any status" %}</option>{% for code, label in statuses %}<option value="{{ code }}"{% if code == status %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
   <div class="actions"><button class="button" type="submit">{% translate "Filter" %}</button></div>

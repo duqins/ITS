@@ -1,7 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.translation import ngettext
 from django.views.decorators.http import require_POST
 
 from .models import Notification
@@ -26,5 +28,7 @@ def notification_open(request, pk):
 @login_required
 @require_POST
 def mark_all_read(request):
-    request.user.notifications.filter(read_at__isnull=True).update(read_at=timezone.now())
+    count = request.user.notifications.filter(read_at__isnull=True).update(read_at=timezone.now())
+    messages.success(request, ngettext("%(count)s notification marked as read.", "%(count)s notifications marked as read.",
+                                       count) % {"count": count})
     return redirect("notifications:list")
