@@ -8,7 +8,10 @@ someone types the address by hand. Refused attempts are written to the audit log
 from functools import wraps
 
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
+from django.utils import translation
+from django.utils.translation import gettext as _
 
 from audit.models import AuditLog
 
@@ -19,10 +22,15 @@ def roles_allowed(action):
     return [Role.Code(code).label for code, actions in Role.ACTIONS.items() if action in actions]
 
 
+def english(value):
+    with translation.override(settings.LANGUAGE_CODE):
+        return str(value)
+
+
 def log_refusal(request, action):
     AuditLog.objects.create(
         user=request.user if request.user.is_authenticated else None,
-        role=str(getattr(request, "active_role", "") or ""),
+        role=english(getattr(request, "active_role", "") or ""),
         action=f"blocked: {action}",
         record_type="page",
         record_id=0,
@@ -35,8 +43,9 @@ def check_action(request, action):
     user_role = getattr(request, "active_role", None)
     if user_role is None or not user_role.allows(action):
         log_refusal(request, action)
-        needed = ", ".join(roles_allowed(action)) or "an administrator"
-        error = PermissionDenied(f"This needs one of these roles: {needed}. Switch role if you hold one.")
+        needed = ", ".join(str(label) for label in roles_allowed(action)) or _("an administrator")
+        error = PermissionDenied(_("This needs one of these roles: %(roles)s. Switch role if you hold one.")
+                                 % {"roles": needed})
         error.logged = True  # the refused page handler does not log it a second time
         raise error
     return user_role

@@ -1,9 +1,12 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.utils import translation
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.translation import gettext as _
 from django.views import defaults
 from django.views.decorators.http import require_POST
 
@@ -29,7 +32,7 @@ def sign_in(request):
     if request.method == "POST" and form.is_valid():
         user = User.objects.filter(username__iexact=form.cleaned_data["username"]).first()
         if user is not None and user.is_locked():
-            form.add_error(None, "This account is locked for 15 minutes after 5 failed sign-ins. Try again later.")
+            form.add_error(None, _("This account is locked for 15 minutes after 5 failed sign-ins. Try again later."))
         elif user is not None and user.sign_in(form.cleaned_data["password"]):
             login(request, user, backend="django.contrib.auth.backends.ModelBackend")
             AuditLog.record(user, "signed in", user)
@@ -41,9 +44,9 @@ def sign_in(request):
             if user is not None:
                 AuditLog.record(user, "failed sign-in", user)
             if user is not None and user.is_locked():
-                form.add_error(None, "Too many failed sign-ins. This account is locked for 15 minutes.")
+                form.add_error(None, _("Too many failed sign-ins. This account is locked for 15 minutes."))
             else:
-                form.add_error(None, "The username or password is not correct.")
+                form.add_error(None, _("The username or password is not correct."))
     return render(request, "accounts/sign_in.html", {"form": form})
 
 
@@ -62,12 +65,12 @@ def switch_role(request):
         pk=request.POST.get("user_role"), user=request.user, status=UserRole.Status.ACTIVE
     ).select_related("role", "department").first()
     if user_role is None:
-        messages.error(request, "You do not hold that role.")
+        messages.error(request, _("You do not hold that role."))
     else:
         request.session[SESSION_KEY] = user_role.pk
         request.user.active_role = user_role
-        AuditLog.record(request.user, "switched role", request.user, after=str(user_role))
-        messages.success(request, f"You are now working as {user_role}.")
+        AuditLog.record(request.user, "switched role", request.user, after=user_role)
+        messages.success(request, _("You are now working as %(role)s.") % {"role": user_role})
         # From the refused page, go back to the page the user was trying to open.
         target = request.POST.get("next", "")
         if url_has_allowed_host_and_scheme(target, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
@@ -80,9 +83,10 @@ def preferences(request):
     """Settings: theme and motion, saved to the account so they apply on every device."""
     form = PreferencesForm(request.POST or None, instance=request.user)
     if request.method == "POST" and form.is_valid():
-        form.save()
-        messages.success(request, "Settings saved.")
-        return redirect("accounts:settings")
+        user = form.save()
+        translation.activate(user.language)
+        messages.success(request, _("Settings saved."))
+        return remember_language(redirect("accounts:settings"), user.language)
     roles = request.user.user_roles.filter(status=UserRole.Status.ACTIVE).select_related("role", "department")
     return render(request, "accounts/settings.html", {"form": form, "roles": roles})
 
@@ -101,3 +105,24 @@ def set_theme(request):
     if url_has_allowed_host_and_scheme(target, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
         return redirect(target)
     return redirect("core:home")
+
+
+def remember_language(response, language):
+    """Keep the language in a cookie too, so the sign-in page shows it after signing out."""
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language, max_age=365 * 24 * 3600, samesite="Lax")
+    return response
+
+
+@require_POST
+def set_language(request):
+    """The language button (header and sign-in page): English or Arabic, saved to the account when signed in."""
+    language = request.POST.get("language")
+    if language not in dict(settings.LANGUAGES):
+        language = settings.LANGUAGE_CODE
+    if request.user.is_authenticated:
+        request.user.language = language
+        request.user.save(update_fields=["language"])
+    target = request.POST.get("next", "")
+    if not url_has_allowed_host_and_scheme(target, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        target = "/"
+    return remember_language(redirect(target), language)
