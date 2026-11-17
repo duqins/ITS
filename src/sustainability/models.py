@@ -5,6 +5,7 @@ from decimal import ROUND_HALF_UP, Decimal
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext as _, gettext_lazy
 
 from accounts.models import Department
 
@@ -20,9 +21,9 @@ def two_places(value):
 
 class SustainabilityImpact(models.Model):
     class DataStatus(models.TextChoices):
-        MEASURED = "measured", "Measured"
-        ESTIMATED = "estimated", "Estimated"
-        SYNTHETIC = "synthetic", "Synthetic"
+        MEASURED = "measured", gettext_lazy("Measured")
+        ESTIMATED = "estimated", gettext_lazy("Estimated")
+        SYNTHETIC = "synthetic", gettext_lazy("Synthetic")
 
     # In Phase 6 only completed transfers create impacts; repair and end-of-life come later.
     transfer = models.OneToOneField("transfers.Transfer", on_delete=models.PROTECT, related_name="impact")
@@ -95,11 +96,11 @@ class SustainabilityImpact(models.Model):
         from audit.models import AuditLog
 
         if not by.has_role(Role.Code.DEPARTMENT_REPRESENTATIVE, self.department):
-            raise BusinessRuleError(f"Only the representative of {self.department} can confirm this.", self.transfer,
-                                    "confirm avoided purchase")
+            raise BusinessRuleError(_("Only the representative of %(department)s can confirm this.") % {
+                "department": self.department}, self.transfer, "confirm avoided purchase")
         if self.purchase_avoided_confirmed:
-            raise BusinessRuleError(f"This avoided purchase was already confirmed by {self.confirmed_by}.",
-                                    self.transfer, "confirm avoided purchase")
+            raise BusinessRuleError(_("This avoided purchase was already confirmed by %(user)s.") % {
+                "user": self.confirmed_by}, self.transfer, "confirm avoided purchase")
         self.purchase_avoided_confirmed = True
         self.confirmed_by = by
         self.confirmed_at = timezone.now()

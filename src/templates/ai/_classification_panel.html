@@ -1,35 +1,35 @@
-{% load dawra_ui %}
-<aside class="ai{% if not ai_on %} fallback-state{% elif suggestion and not can_prefill %} low-state{% endif %}" aria-label="AI evidence and human decision" style="margin-top:14px">
-  <div class="ai-heading">{% if ai_on %}{% icon 'spark' %}<h2>AI assistance</h2><span class="small-tag">REVIEW</span>{% else %}{% icon 'info' %}<h2>AI unavailable</h2><span class="small-tag">OFFLINE</span>{% endif %}</div>
+{% load dawra_ui i18n %}
+<aside class="ai{% if not ai_on %} fallback-state{% elif suggestion and not can_prefill %} low-state{% endif %}" aria-label="{% translate 'AI evidence and human decision' %}" style="margin-top:14px">
+  <div class="ai-heading">{% if ai_on %}{% icon 'spark' %}<h2>{% translate "AI assistance" %}</h2><span class="small-tag">{% translate "REVIEW" %}</span>{% else %}{% icon 'info' %}<h2>{% translate "AI unavailable" %}</h2><span class="small-tag">{% translate "OFFLINE" %}</span>{% endif %}</div>
   {% if suggestion %}
-    <div class="confidence">{% if suggestion.confidence is not None %}{% icon 'check' %}Confidence {{ suggestion.confidence|floatformat:2 }}{% else %}{% icon 'info' %}Confidence unavailable - check carefully{% endif %}</div>
+    <div class="confidence">{% if suggestion.confidence is not None %}{% icon 'check' %}{% blocktranslate trimmed with confidence=suggestion.confidence|floatformat:2 %}Confidence {{ confidence }}{% endblocktranslate %}{% else %}{% icon 'info' %}{% translate "Confidence unavailable - check carefully" %}{% endif %}</div>
     {% if suggestion.confidence is not None %}<span class="meter" style="--value:{{ suggestion.confidence|stringformat:'.2f' }}" aria-hidden="true"><i></i></span>{% endif %}
     <p class="ai-result">{{ suggestion.suggestion.category }} · {{ suggestion.suggestion.condition|capfirst }} · {{ suggestion.suggestion.tags|join:", " }}</p>
-    {% if not can_prefill %}<p class="ai-result"><strong>Below 0.60: shown as an option only.</strong> Use Edit to set the values yourself.</p>{% endif %}
-    <div class="reason"><strong>Why this suggestion</strong><p>{{ suggestion.explanation }}</p>
-      {% if suggestion.suggestion.missing_details %}<p>Missing: {{ suggestion.suggestion.missing_details|join:"; " }}</p>{% endif %}</div>
+    {% if not can_prefill %}<p class="ai-result"><strong>{% translate "Below 0.60: shown as an option only." %}</strong> {% translate "Use Edit to set the values yourself." %}</p>{% endif %}
+    <div class="reason"><strong>{% translate "Why this suggestion" %}</strong><p>{{ suggestion.explanation }}</p>
+      {% if suggestion.suggestion.missing_details %}<p>{% blocktranslate trimmed with details=suggestion.suggestion.missing_details|join:"; " %}Missing: {{ details }}{% endblocktranslate %}</p>{% endif %}</div>
     {% if can_decide %}
-    <div class="human"><strong>Your decision</strong><p>Nothing changes on the asset until you accept or edit.</p>
+    <div class="human"><strong>{% translate "Your decision" %}</strong><p>{% translate "Nothing changes on the asset until you accept or edit." %}</p>
       <form method="post" action="{% url 'ai:respond' suggestion.pk %}" class="reason-form">
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-        {% if can_prefill %}<button class="button primary" type="submit" name="decision" value="accept">{% icon 'check' %}Accept suggestions</button>{% endif %}
-        <details{% if not can_prefill %} open{% endif %}><summary>Edit</summary>
-          <div class="field"><label for="ai-category">Category</label><select id="ai-category" name="category">{% for c in categories %}<option value="{{ c.pk }}"{% if c.pk == suggestion.suggestion.category_id and can_prefill %} selected{% endif %}>{{ c }}</option>{% endfor %}</select></div>
-          <div class="field"><label for="ai-condition">Condition</label><select id="ai-condition" name="condition">{% for v, l in conditions %}<option value="{{ v }}"{% if v == suggestion.suggestion.condition and can_prefill %} selected{% endif %}>{{ l }}</option>{% endfor %}</select></div>
-          <div class="field"><label for="ai-tags">Tags</label><input id="ai-tags" name="tags" value="{% if can_prefill %}{{ suggestion.suggestion.tags|join:', ' }}{% endif %}"></div>
-          <button class="button" type="submit" name="decision" value="edit">Save my values</button>
+        {% if can_prefill %}<button class="button primary" type="submit" name="decision" value="accept">{% icon 'check' %}{% translate "Accept suggestions" %}</button>{% endif %}
+        <details{% if not can_prefill %} open{% endif %}><summary>{% translate "Edit" %}</summary>
+          <div class="field"><label for="ai-category">{% translate "Category" %}</label><select id="ai-category" name="category">{% for c in categories %}<option value="{{ c.pk }}"{% if c.pk == suggestion.suggestion.category_id and can_prefill %} selected{% endif %}>{{ c }}</option>{% endfor %}</select></div>
+          <div class="field"><label for="ai-condition">{% translate "Condition" %}</label><select id="ai-condition" name="condition">{% for v, l in conditions %}<option value="{{ v }}"{% if v == suggestion.suggestion.condition and can_prefill %} selected{% endif %}>{{ l }}</option>{% endfor %}</select></div>
+          <div class="field"><label for="ai-tags">{% translate "Tags" %}</label><input id="ai-tags" name="tags" value="{% if can_prefill %}{{ suggestion.suggestion.tags|join:', ' }}{% endif %}"></div>
+          <button class="button" type="submit" name="decision" value="edit">{% translate "Save my values" %}</button>
         </details>
-        <label for="ai-reason">Reason (needed to reject)</label><textarea id="ai-reason" name="reason"></textarea>
-        <button class="button danger" type="submit" name="decision" value="reject">Reject</button>
+        <label for="ai-reason">{% translate "Reason (needed to reject)" %}</label><textarea id="ai-reason" name="reason"></textarea>
+        <button class="button danger" type="submit" name="decision" value="reject">{% translate "Reject" %}</button>
       </form></div>
     {% else %}
-    <div class="human"><strong>Your decision</strong><p>{{ suggestion.get_user_response_display }}{% if suggestion.responded_by %} by {{ suggestion.responded_by }}{% endif %}.</p></div>
+    <div class="human"><strong>{% translate "Your decision" %}</strong><p>{% if suggestion.responded_by %}{% blocktranslate trimmed with response=suggestion.get_user_response_display user=suggestion.responded_by %}{{ response }} by {{ user }}.{% endblocktranslate %}{% else %}{{ suggestion.get_user_response_display }}.{% endif %}</p></div>
     {% endif %}
-    <p class="ai-meta">Model {{ suggestion.model_version }} · {{ suggestion.confidence_basis }} · saved {{ suggestion.created_at|date:"j M Y, H:i" }}</p>
+    <p class="ai-meta">{% blocktranslate trimmed with model=suggestion.model_version basis=suggestion.confidence_basis when=suggestion.created_at|date:"j M Y, H:i" %}Model {{ model }} · {{ basis }} · saved {{ when }}{% endblocktranslate %}</p>
   {% elif can_ask %}
-    <p class="ai-result">{% if ai_on %}The AI can suggest the category, condition and tags from the description. You decide what is saved.{% else %}The AI key is not set. Choose the category, condition and tags yourself in Edit draft.{% endif %}</p>
-    {% if ai_on %}<form method="post" action="{% url 'ai:classify' asset.pk %}"><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"><button class="button primary" type="submit">{% icon 'spark' %}Suggest category, condition and tags</button></form>{% endif %}
+    <p class="ai-result">{% if ai_on %}{% translate "The AI can suggest the category, condition and tags from the description. You decide what is saved." %}{% else %}{% translate "The AI key is not set. Choose the category, condition and tags yourself in Edit draft." %}{% endif %}</p>
+    {% if ai_on %}<form method="post" action="{% url 'ai:classify' asset.pk %}"><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"><button class="button primary" type="submit">{% icon 'spark' %}{% translate "Suggest category, condition and tags" %}</button></form>{% endif %}
   {% else %}
-    <p class="ai-result">No AI suggestion was made for this asset.</p>
+    <p class="ai-result">{% translate "No AI suggestion was made for this asset." %}</p>
   {% endif %}
 </aside>

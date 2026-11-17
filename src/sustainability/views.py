@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 from django.utils import timezone
+from django.utils.translation import gettext as _, gettext_lazy
 
 from accounts.models import Department, Role
 from accounts.permissions import role_required
@@ -18,15 +19,16 @@ from .models import SustainabilityImpact
 
 
 class DashboardFilter(forms.Form):
-    date_from = forms.DateField(label="From", widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
-    date_to = forms.DateField(label="To", widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
+    date_from = forms.DateField(label=gettext_lazy("From"),
+                                widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
+    date_to = forms.DateField(label=gettext_lazy("To"), widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"))
     department = forms.ModelChoiceField(Department.objects.filter(is_active=True), required=False,
-                                        empty_label="All departments")
+                                        label=gettext_lazy("Department"), empty_label=gettext_lazy("All departments"))
 
     def clean(self):
         data = super().clean()
         if data.get("date_from") and data.get("date_to") and data["date_from"] > data["date_to"]:
-            raise forms.ValidationError("Choose a start date on or before the end date, then apply again.")
+            raise forms.ValidationError(_("Choose a start date on or before the end date, then apply again."))
         return data
 
 
@@ -67,9 +69,9 @@ def dashboard(request):
 def confirm_avoided_purchase(request, pk):
     impact = get_object_or_404(SustainabilityImpact.objects.select_related("transfer"), pk=pk)
     if request.active_role.department_id != impact.department_id:
-        raise PermissionDenied("Only the receiving department representative can confirm this.")
+        raise PermissionDenied(_("Only the receiving department representative can confirm this."))
     perform(request, lambda: impact.confirm_avoided_purchase(request.user),
-            "Avoided purchase confirmed. It now counts on the dashboard.")
+            _("Avoided purchase confirmed. It now counts on the dashboard."))
     target = request.POST.get("next", "")
     if url_has_allowed_host_and_scheme(target, allowed_hosts={request.get_host()}):
         return redirect(target)

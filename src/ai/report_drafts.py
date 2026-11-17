@@ -12,7 +12,7 @@ from decimal import Decimal
 from django.conf import settings
 from pydantic import BaseModel
 
-from .adapter import PROMPT_VERSION, ClaudeAdapter, Deadline
+from .adapter import in_language, PROMPT_VERSION, ClaudeAdapter, Deadline
 from .models import AiSuggestion, ModelVersion, Task
 
 SYSTEM = (
@@ -92,6 +92,14 @@ def unsupported_numbers(text, figures):
     return found
 
 
+def report_instructions():
+    """In Arabic the dates of the period are left out: the figures check only knows English month names."""
+    system = in_language(SYSTEM)
+    if system != SYSTEM:
+        system += ' Do not write the dates of the period; say "this period" instead.'
+    return system
+
+
 class ReportDraftService:
     def __init__(self, adapter=None):
         self.adapter = adapter or ClaudeAdapter()
@@ -99,7 +107,7 @@ class ReportDraftService:
 
     def draft(self, totals, period, department, user):
         figures = figures_text(totals, period, department)
-        answer = self.adapter.ask(Task.REPORT, self.model, SYSTEM, f"Figures:\n{figures}", ReportAnswer,
+        answer = self.adapter.ask(Task.REPORT, self.model, report_instructions(), f"Figures:\n{figures}", ReportAnswer,
                                   Deadline(), max_tokens=2000)
         problems = unsupported_numbers(answer.summary, figures)
         return AiSuggestion.objects.create(

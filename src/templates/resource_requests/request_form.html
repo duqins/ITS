@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
+{% load dawra_ui i18n %}
 {% block title %}{{ title }} · Dawra Campus{% endblock %}
 {% block content %}
-<div class="heading"><div><h1>{{ title }}</h1><div class="record">{% if obj %}{{ obj.code }} · {% endif %}UI-06</div></div><span class="status"><i></i>Draft (RQ-01)</span></div>
-<p class="lead">Tell your department what you need. Approval comes before any item is held for you.</p>
-<ol class="journey" aria-label="Workflow stages"><li class="current"><span class="step-dot">1</span>Draft request</li><li><span class="step-dot">2</span>Department review</li><li><span class="step-dot">3</span>Find a match</li></ol>
+<div class="heading"><div><h1>{{ title }}</h1><div class="record">{% if obj %}{{ obj.code }} · {% endif %}UI-06</div></div><span class="status"><i></i>{% translate "Draft" %} (RQ-01)</span></div>
+<p class="lead">{% translate "Tell your department what you need. Approval comes before any item is held for you." %}</p>
+<ol class="journey" aria-label="{% translate 'Workflow stages' %}"><li class="current"><span class="step-dot">1</span>{% translate "Draft request" %}</li><li><span class="step-dot">2</span>{% translate "Department review" %}</li><li><span class="step-dot">3</span>{% translate "Find a match" %}</li></ol>
 <form method="post" novalidate>{% csrf_token %}
   {% for error in form.non_field_errors %}<div class="toast error">{{ error }}</div>{% endfor %}
-  <section class="group"><div class="group-title">{% icon 'request' %}<h2>What do you need?</h2></div><div class="fields">
+  <section class="group"><div class="group-title">{% icon 'request' %}<h2>{% translate "What do you need?" %}</h2></div><div class="fields">
     {% include "includes/field.html" with field=form.purpose wide=True %}
     {% include "includes/field.html" with field=form.category %}
     {% include "includes/field.html" with field=form.quantity %}
@@ -15,16 +15,16 @@
     {% include "includes/field.html" with field=form.min_condition %}
     {% include "includes/field.html" with field=form.urgency %}
   </div></section>
-  <section class="group"><div class="group-title">{% icon 'location' %}<h2>Delivery and approval</h2></div><div class="fields">
+  <section class="group"><div class="group-title">{% icon 'location' %}<h2>{% translate "Delivery and approval" %}</h2></div><div class="fields">
     {% include "includes/field.html" with field=form.delivery_location %}
     {% include "includes/field.html" with field=form.required_by %}
-    {% include "includes/readonly.html" with label="Requester" value=user %}
-    {% include "includes/readonly.html" with label="Next responsible role" value="Department representative" %}
+    {% include "includes/readonly.html" with label=_("Requester") value=user %}
+    {% include "includes/readonly.html" with label=_("Next responsible role") value=_("Department representative") %}
   </div></section>
   <div class="actions">
-    <button class="button primary" type="submit" name="submit_for" value="approval">{% icon 'check' %}Submit for department approval</button>
-    <button class="button" type="submit" name="submit_for" value="draft">Save draft</button>
-    <a class="button" href="{% url 'resource_requests:list' %}">Cancel</a>
+    <button class="button primary" type="submit" name="submit_for" value="approval">{% icon 'check' %}{% translate "Submit for department approval" %}</button>
+    <button class="button" type="submit" name="submit_for" value="draft">{% translate "Save draft" %}</button>
+    <a class="button" href="{% url 'resource_requests:list' %}">{% translate "Cancel" %}</a>
   </div>
 </form>
 {% endblock %}

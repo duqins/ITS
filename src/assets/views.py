@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.db.models import Case, IntegerField, Q, Value, When
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from accounts.models import Role
@@ -29,7 +30,7 @@ def get_visible_asset(request, pk):
     asset = get_object_or_404(Asset, pk=pk)
     role = request.active_role
     if role.role.code in MANAGERS and asset.owner_department_id != role.department_id:
-        raise PermissionDenied("You can only open the assets of your own department.")
+        raise PermissionDenied(_("You can only open the assets of your own department."))
     return asset
 
 
@@ -43,7 +44,7 @@ def asset_list(request):
     return render(request, "assets/asset_list.html", {
         "assets": assets, "statuses": Asset.Status.choices, "status": status,
         "can_register": role.allows("asset.register"),
-        "scope": role.department if role.role.code in MANAGERS else "all departments",
+        "scope": role.department if role.role.code in MANAGERS else _("all departments"),
     })
 
 
@@ -53,25 +54,27 @@ def asset_register(request):
     if request.method == "POST" and form.is_valid():
         asset = form.build_asset()
         result = perform(request, lambda: asset.register(request.user, request.active_role.department),
-                         "Saved as a draft (AS-01). Another custodian or the department representative must confirm it.")
+                         _("Saved as a draft (AS-01). Another custodian or the department representative must "
+                           "confirm it."))
         if result:
             return redirect("assets:detail", pk=asset.pk)
-    return render(request, "assets/asset_form.html", {"form": form, "title": "Register an asset"})
+    return render(request, "assets/asset_form.html", {"form": form, "title": _("Register an asset")})
 
 
 @role_required("asset.register")
 def asset_edit(request, pk):
     asset = get_visible_asset(request, pk)
     if asset.status != Asset.Status.DRAFT:
-        messages.error(request, "Only a draft can be edited. A confirmed asset changes through its workflows.")
+        messages.error(request, _("Only a draft can be edited. A confirmed asset changes through its workflows."))
         return redirect("assets:detail", pk=asset.pk)
     form = AssetForm(request.POST or None, instance=asset)
     if request.method == "POST" and form.is_valid():
         form.save_draft_changes()
         AuditLog.record(request.user, "draft edited", asset, reason=", ".join(form.changed_data))
-        messages.success(request, "Draft saved.")
+        messages.success(request, _("Draft saved."))
         return redirect("assets:detail", pk=asset.pk)
-    return render(request, "assets/asset_form.html", {"form": form, "title": f"Edit {asset.code}", "asset": asset})
+    return render(request, "assets/asset_form.html", {"form": form, "title": _("Edit %(code)s") % {"code": asset.code},
+                                                      "asset": asset})
 
 
 @role_required("asset.view")
@@ -99,9 +102,9 @@ def asset_detail(request, pk):
 def asset_confirm(request, pk):
     asset = get_visible_asset(request, pk)
     if not asset.can_be_managed_by(request.active_role):
-        raise PermissionDenied("Only a custodian or representative of the owning department can confirm.")
+        raise PermissionDenied(_("Only a custodian or representative of the owning department can confirm."))
     in_use = request.POST.get("placement") == "in_use"
-    perform(request, lambda: asset.confirm(request.user, in_use=in_use), f"{asset.code} confirmed.")
+    perform(request, lambda: asset.confirm(request.user, in_use=in_use), _("%(code)s confirmed.") % {"code": asset.code})
     return redirect("assets:detail", pk=asset.pk)
 
 
@@ -109,7 +112,7 @@ def asset_confirm(request, pk):
 def listing_create(request, pk):
     asset = get_visible_asset(request, pk)
     if not asset.can_be_managed_by(request.active_role):
-        raise PermissionDenied("Only the owning department can list this asset.")
+        raise PermissionDenied(_("Only the owning department can list this asset."))
     form = ListingForm(request.POST or None, asset=asset)
     if request.method == "POST" and form.is_valid():
         listing = form.save(commit=False)
@@ -122,8 +125,8 @@ def listing_create(request, pk):
                 listing.submit_for_release(request.user)
 
         sent = request.POST.get("submit_for") == "release"
-        if perform(request, create, "Listing sent to your department representative for release approval." if sent
-                   else "Listing saved as a draft."):
+        if perform(request, create, _("Listing sent to your department representative for release approval.") if sent
+                   else _("Listing saved as a draft.")):
             return redirect("assets:listing", pk=listing.pk)
     return render(request, "assets/listing_form.html", {"form": form, "asset": asset})
 
@@ -134,7 +137,7 @@ def get_visible_listing(request, pk):
     owner = listing.asset.can_be_managed_by(role)
     public = listing.status in (Listing.Status.PUBLISHED, Listing.Status.FULLY_RESERVED, Listing.Status.CLOSED)
     if not (owner or public):
-        raise PermissionDenied("Unpublished listings are visible to the owning department only (FR-08.4).")
+        raise PermissionDenied(_("Unpublished listings are visible to the owning department only (FR-08.4)."))
     return listing, owner
 
 
@@ -163,9 +166,9 @@ def listing_detail(request, pk):
 def listing_submit(request, pk):
     listing, owner = get_visible_listing(request, pk)
     if not owner:
-        raise PermissionDenied("Only the owning department can submit this listing.")
+        raise PermissionDenied(_("Only the owning department can submit this listing."))
     perform(request, lambda: listing.submit_for_release(request.user),
-            "Sent to the department representative for release approval.")
+            _("Sent to the department representative for release approval."))
     return redirect("assets:listing", pk=listing.pk)
 
 
@@ -174,12 +177,13 @@ def listing_submit(request, pk):
 def listing_decide(request, pk):
     listing, owner = get_visible_listing(request, pk)
     if not owner:
-        raise PermissionDenied("Only the owning department representative can release this listing.")
+        raise PermissionDenied(_("Only the owning department representative can release this listing."))
     reason = request.POST.get("reason", "")
     if request.POST.get("decision") == "approve":
-        perform(request, lambda: listing.publish(request.user), "Listing published. Staff can now find it in search.")
+        perform(request, lambda: listing.publish(request.user), _("Listing published. Staff can now find it in search."))
     else:
-        perform(request, lambda: listing.reject_release(request.user, reason), "Release rejected; the listing is back to draft.")
+        perform(request, lambda: listing.reject_release(request.user, reason),
+                _("Release rejected; the listing is back to draft."))
     return redirect("assets:listing", pk=listing.pk)
 
 
@@ -188,8 +192,9 @@ def listing_decide(request, pk):
 def listing_withdraw(request, pk):
     listing, owner = get_visible_listing(request, pk)
     if not owner:
-        raise PermissionDenied("Only the owning department can withdraw this listing.")
-    perform(request, lambda: listing.withdraw(request.user, request.POST.get("reason", "").strip()), "Listing withdrawn.")
+        raise PermissionDenied(_("Only the owning department can withdraw this listing."))
+    perform(request, lambda: listing.withdraw(request.user, request.POST.get("reason", "").strip()),
+            _("Listing withdrawn."))
     return redirect("assets:listing", pk=listing.pk)
 
 

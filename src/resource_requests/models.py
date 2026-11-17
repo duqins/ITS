@@ -5,6 +5,7 @@ from datetime import date
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext as _, gettext_lazy
 
 from accounts.models import Department
 from assets.models import Category, Condition
@@ -15,9 +16,9 @@ class RequestSpecification(models.Model):
     """What is needed. A composition part of ResourceRequest, stored in the same table (section 10)."""
 
     class Urgency(models.TextChoices):
-        LOW = "low", "Low"
-        NORMAL = "normal", "Normal"
-        HIGH = "high", "High"
+        LOW = "low", gettext_lazy("Low")
+        NORMAL = "normal", gettext_lazy("Normal")
+        HIGH = "high", gettext_lazy("High")
 
     specifications = models.TextField(blank=True)
     quantity = models.PositiveIntegerField(default=1)
@@ -30,16 +31,16 @@ class RequestSpecification(models.Model):
 
 class ResourceRequest(RequestSpecification):
     class Status(models.TextChoices):
-        DRAFT = "RQ-01", "Draft"
-        PENDING_APPROVAL = "RQ-02", "Pending department approval"
-        OPEN = "RQ-03", "Open"
-        RESERVATION_REQUESTED = "RQ-04", "Reservation requested"
-        IN_TRANSFER = "RQ-05", "In transfer"
-        FULFILLED = "RQ-06", "Fulfilled"
-        NO_SUITABLE_ITEM = "RQ-07", "No suitable item"
-        REJECTED = "RQ-08", "Rejected"
-        CANCELLED = "RQ-09", "Cancelled"
-        EXPIRED = "RQ-10", "Expired"
+        DRAFT = "RQ-01", gettext_lazy("Draft")
+        PENDING_APPROVAL = "RQ-02", gettext_lazy("Pending department approval")
+        OPEN = "RQ-03", gettext_lazy("Open")
+        RESERVATION_REQUESTED = "RQ-04", gettext_lazy("Reservation requested")
+        IN_TRANSFER = "RQ-05", gettext_lazy("In transfer")
+        FULFILLED = "RQ-06", gettext_lazy("Fulfilled")
+        NO_SUITABLE_ITEM = "RQ-07", gettext_lazy("No suitable item")
+        REJECTED = "RQ-08", gettext_lazy("Rejected")
+        CANCELLED = "RQ-09", gettext_lazy("Cancelled")
+        EXPIRED = "RQ-10", gettext_lazy("Expired")
 
     ACTIVE = (Status.OPEN, Status.RESERVATION_REQUESTED)
     FINAL = (Status.FULFILLED, Status.NO_SUITABLE_ITEM, Status.REJECTED, Status.CANCELLED, Status.EXPIRED)
@@ -53,7 +54,7 @@ class ResourceRequest(RequestSpecification):
         Status.IN_TRANSFER: {Status.OPEN, Status.FULFILLED},
     }
 
-    purpose = models.CharField(max_length=200, help_text="What the item is for")
+    purpose = models.CharField(max_length=200, help_text=gettext_lazy("What the item is for"))
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="requests")
     delivery_location = models.CharField(max_length=120, blank=True)
     required_by = models.DateField()
@@ -83,9 +84,9 @@ class ResourceRequest(RequestSpecification):
     def check_details(self):
         # FR-07.1: a positive whole quantity and a required-by date that has not passed.
         if self.quantity < 1:
-            raise BusinessRuleError("The quantity must be a positive whole number.", self, "submit request")
+            raise BusinessRuleError(_("The quantity must be a positive whole number."), self, "submit request")
         if self.required_by < timezone.localdate():
-            raise BusinessRuleError("The required-by date must not be in the past.", self, "submit request")
+            raise BusinessRuleError(_("The required-by date must not be in the past."), self, "submit request")
 
     def submit(self, by):
         """Send the request to the requester's department representative (RQ-01 to RQ-02)."""
@@ -105,21 +106,21 @@ class ResourceRequest(RequestSpecification):
     def approve(self, by):
         approval = self.pending_approval()
         if approval is None:
-            raise BusinessRuleError("This request has no approval task.", self, "approve request")
+            raise BusinessRuleError(_("This request has no approval task."), self, "approve request")
         approval.approve(by)
         change_state(self, self.Status.OPEN, by, "approved")
 
     def request_changes(self, by, reason):
         approval = self.pending_approval()
         if approval is None:
-            raise BusinessRuleError("This request has no approval task.", self, "request changes")
+            raise BusinessRuleError(_("This request has no approval task."), self, "request changes")
         approval.request_changes(by, reason)
         change_state(self, self.Status.DRAFT, by, "changes requested", reason)
 
     def reject(self, by, reason):
         approval = self.pending_approval()
         if approval is None:
-            raise BusinessRuleError("This request has no approval task.", self, "reject request")
+            raise BusinessRuleError(_("This request has no approval task."), self, "reject request")
         approval.reject(by, reason)
         change_state(self, self.Status.REJECTED, by, "rejected", reason)
 
@@ -128,7 +129,7 @@ class ResourceRequest(RequestSpecification):
         from transfers.models import Reservation
 
         if not reason:
-            raise BusinessRuleError("Give a reason for cancelling (BR-20).", self, "cancel request")
+            raise BusinessRuleError(_("Give a reason for cancelling (BR-20)."), self, "cancel request")
         change_state(self, self.Status.CANCELLED, by, "cancelled", reason)
         for reservation in self.reservations.filter(status__in=Reservation.OPEN):
             reservation.cancel(by, "Request cancelled")

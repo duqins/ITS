@@ -15,12 +15,13 @@ from datetime import date
 
 from django.conf import settings
 from django.utils import timezone
+from django.utils.translation import gettext as _, ngettext
 from pydantic import BaseModel
 
 from assets.models import Asset, Condition, Listing
 from transfers.models import add_working_days
 
-from .adapter import PROMPT_VERSION, AIUnavailable, ClaudeAdapter, Deadline
+from .adapter import in_language, PROMPT_VERSION, AIUnavailable, ClaudeAdapter, Deadline
 from .models import MatchRecommendation, ModelVersion, Task
 
 MAX_CANDIDATES = 20
@@ -78,13 +79,13 @@ class SemanticMatcher:
                  f"Tags: {l.asset.tags or 'none'}." for i, l in enumerate(listings, start=1)]
         prompt = (f"Request: {request.purpose}. Specifications: {request.specifications or 'none'}. "
                   f"Quantity: {request.quantity}.\n\nItems:\n" + "\n".join(lines))
-        answer = self.adapter.ask(Task.MATCHING, self.model, SYSTEM, prompt, MeaningAnswer, deadline, max_tokens=2000)
+        answer = self.adapter.ask(Task.MATCHING, self.model, in_language(SYSTEM), prompt, MeaningAnswer, deadline, max_tokens=2000)
         result = {}
         for score in answer.items:
             if 1 <= score.item <= len(listings) and score.item not in result:
                 result[score.item] = (min(max(score.similarity, 0.0), 1.0), score.reason.strip())
         if len(result) != len(listings):
-            raise AIUnavailable("The AI did not rate every item.")
+            raise AIUnavailable(_("The AI did not rate every item."))
         return {listings[i - 1].pk: value for i, value in result.items()}
 
 
@@ -99,51 +100,60 @@ class RankingModel:
 
     def score(self, request, listing, similarity):
         asset, today = listing.asset, timezone.localdate()
-        factors = [self.factor("Meaning and purpose", round(similarity * 30), 30,
-                               f"Meaning match {similarity:.2f} (rated by the AI)")]
+        # The factor texts are saved with the match and shown on the page, in the requester's language.
+        factors = [self.factor(_("Meaning and purpose"), round(similarity * 30), 30,
+                               _("Meaning match %(value)s (rated by the AI)") % {"value": f"{similarity:.2f}"})]
 
         wanted = self.spec_items(request.specifications)
         if wanted:
             haystack = f"{asset.name} {asset.description} {asset.specifications}".lower()
             met = sum(1 for item in wanted if all(word in haystack for word in item.split()))
-            factors.append(self.factor("Technical fit", round(20 * met / len(wanted)), 20,
-                                       f"{met} of {len(wanted)} requested specifications met"))
+            factors.append(self.factor(_("Technical fit"), round(20 * met / len(wanted)), 20,
+                                       ngettext("%(met)s of %(wanted)s requested specifications met",
+                                                "%(met)s of %(wanted)s requested specifications met", len(wanted))
+                                       % {"met": met, "wanted": len(wanted)}))
         else:
-            factors.append(self.factor("Technical fit", 0, 20, "No specifications requested", unknown=True))
+            factors.append(self.factor(_("Technical fit"), 0, 20, _("No specifications requested"), unknown=True))
 
         above = Condition.rank(asset.condition) - Condition.rank(request.min_condition)
-        factors.append(self.factor("Condition", 15 if above >= 2 else 10 if above == 1 else 5, 15,
-                                   f"{asset.get_condition_display()} against minimum {request.get_min_condition_display()}"))
+        factors.append(self.factor(_("Condition"), 15 if above >= 2 else 10 if above == 1 else 5, 15,
+                                   _("%(condition)s against minimum %(minimum)s") % {
+                                       "condition": asset.get_condition_display(),
+                                       "minimum": request.get_min_condition_display()}))
 
         place = (request.delivery_location or "").lower()
         if not place:
-            factors.append(self.factor("Location and transfer cost", 0, 10, "No delivery location given", unknown=True))
+            factors.append(self.factor(_("Location and transfer cost"), 0, 10, _("No delivery location given"),
+                                       unknown=True))
         elif asset.building and asset.building.lower() in place:
-            factors.append(self.factor("Location and transfer cost", 10, 10, "Same building"))
+            factors.append(self.factor(_("Location and transfer cost"), 10, 10, _("Same building")))
         elif asset.campus and asset.campus.lower() != "main campus" and asset.campus.lower() not in place:
-            factors.append(self.factor("Location and transfer cost", 2, 10, f"Other campus ({asset.campus})"))
+            factors.append(self.factor(_("Location and transfer cost"), 2, 10,
+                                       _("Other campus (%(campus)s)") % {"campus": asset.campus}))
         else:
-            factors.append(self.factor("Location and transfer cost", 6, 10, f"Other building ({asset.building or 'unknown'})"))
+            factors.append(self.factor(_("Location and transfer cost"), 6, 10,
+                                       _("Other building (%(building)s)") % {"building": asset.building or _("unknown")}))
 
         if listing.available_from <= today:
-            availability = (10, "Available now")
+            availability = (10, _("Available now"))
         elif listing.available_from <= add_working_days(today, 5):
-            availability = (6, f"Available from {listing.available_from}")
+            availability = (6, _("Available from %(date)s") % {"date": listing.available_from})
         else:
-            availability = (2, f"Available from {listing.available_from}, before the required date")
-        factors.append(self.factor("Availability", availability[0], 10, availability[1]))
+            availability = (2, _("Available from %(date)s, before the required date") % {"date": listing.available_from})
+        factors.append(self.factor(_("Availability"), availability[0], 10, availability[1]))
 
         if asset.planned_retirement_date:
             years = (asset.planned_retirement_date - today).days / 365
             points = 10 if years >= 3 else 6 if years >= 1 else 2
-            factors.append(self.factor("Useful life left", points, 10, f"About {max(years, 0):.1f} years left"))
+            factors.append(self.factor(_("Useful life left"), points, 10,
+                                       _("About %(years)s years left") % {"years": f"{max(years, 0):.1f}"}))
         else:
-            factors.append(self.factor("Useful life left", 0, 10, "Planned retirement date unknown", unknown=True))
+            factors.append(self.factor(_("Useful life left"), 0, 10, _("Planned retirement date unknown"), unknown=True))
 
         if asset.condition in (Condition.NEW, Condition.GOOD):
-            factors.append(self.factor("Repair cost", 5, 5, "No repair needed (condition New or Good)"))
+            factors.append(self.factor(_("Repair cost"), 5, 5, _("No repair needed (condition New or Good)")))
         else:
-            factors.append(self.factor("Repair cost", 0, 5, "No repair estimate recorded", unknown=True))
+            factors.append(self.factor(_("Repair cost"), 0, 5, _("No repair estimate recorded"), unknown=True))
 
         total = sum(f["points"] for f in factors)
         if not 0 <= total <= 100:  # the score always equals the factor total (section 11)
@@ -160,12 +170,12 @@ def short_reason(factors, ai_reason):
 def confidence_label(confidence):
     """SRS Table 4.2 for matching: 0.75 shown normally, 0.50 to 0.74 'Check carefully', below 0.50 withheld."""
     if confidence is None:
-        return "Confidence unavailable - check carefully"
+        return _("Confidence unavailable - check carefully")
     if confidence < settings.AI["MATCH_CHECK_CAREFULLY"]:
-        return "Withheld (confidence below 0.50)"
+        return _("Withheld (confidence below 0.50)")
     if confidence < settings.AI["MATCH_SHOW_NORMALLY"]:
-        return f"Confidence {confidence:.2f} - check carefully"
-    return f"Confidence {confidence:.2f}"
+        return _("Confidence %(value)s - check carefully") % {"value": f"{confidence:.2f}"}
+    return _("Confidence %(value)s") % {"value": f"{confidence:.2f}"}
 
 
 class MatchingService:
@@ -180,16 +190,18 @@ class MatchingService:
         run = uuid.uuid4().hex[:12]
         shown = settings.AI["MATCHES_SHOWN"]
         if not listings:
-            return [], False, "No published item passes the mandatory checks (category, quantity, condition, date)."
+            return [], False, _("No published item passes the mandatory checks (category, quantity, condition, date).")
         try:
             similarities = self.matcher.similarities(request, listings, Deadline())
         except AIUnavailable as error:
             matches = [MatchRecommendation.objects.create(
                 request=request, asset=l.asset, listing=l, rank=i, score=None,
-                reason=f"{l.asset.get_condition_display()} condition, available from {l.available_from}",
+                reason=_("%(condition)s condition, available from %(date)s") % {
+                    "condition": l.asset.get_condition_display(), "date": l.available_from},
                 explanation={"run": run, "classic": True, "factors": []},
             ) for i, l in enumerate(listings[:shown], start=1)]
-            return matches, False, f"{error} Showing eligible items in classic order without AI scores."
+            return matches, False, _("%(error)s Showing eligible items in classic order without AI scores.") % {
+                "error": error}
 
         version = ModelVersion.current(Task.MATCHING, self.matcher.model, PROMPT_VERSION)
         scored = []

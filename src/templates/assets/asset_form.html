@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% load dawra_ui %}
+{% load dawra_ui i18n %}
 {% block title %}{{ title }} · Dawra Campus{% endblock %}
 {% block content %}
-<div class="heading"><div><h1>{{ title }}</h1><div class="record">{% if asset %}{{ asset.code }} · {% endif %}UI-03</div></div><span class="status"><i></i>Draft (AS-01)</span></div>
-<p class="lead">Create a verified record before offering an asset for reuse. Save the draft first; you can then ask the AI to suggest the category, condition and tags.</p>
+<div class="heading"><div><h1>{{ title }}</h1><div class="record">{% if asset %}{{ asset.code }} · {% endif %}UI-03</div></div><span class="status"><i></i>{% translate "Draft (AS-01)" %}</span></div>
+<p class="lead">{% translate "Create a verified record before offering an asset for reuse. Save the draft first; you can then ask the AI to suggest the category, condition and tags." %}</p>
 <form method="post" novalidate>{% csrf_token %}
   {% for error in form.non_field_errors %}<div class="toast error">{{ error }}</div>{% endfor %}
-  <section class="group"><div class="group-title">{% icon 'box' %}<h2>Asset details</h2></div><div class="fields">
+  <section class="group"><div class="group-title">{% icon 'box' %}<h2>{% translate "Asset details" %}</h2></div><div class="fields">
     {% if form.kind %}{% include "includes/field.html" with field=form.kind %}{% endif %}
     {% include "includes/field.html" with field=form.name %}
     {% include "includes/field.html" with field=form.description wide=True %}
@@ -18,16 +18,16 @@
     {% include "includes/field.html" with field=form.tags wide=True %}
   </div></section>
   {% if form.serial_number or form.material %}
-  <section class="group"><div class="group-title">{% icon 'monitor' %}<h2>Type details</h2></div><div class="fields">
+  <section class="group"><div class="group-title">{% icon 'monitor' %}<h2>{% translate "Type details" %}</h2></div><div class="fields">
     {% if form.serial_number %}{% include "includes/field.html" with field=form.serial_number %}{% endif %}
     {% if form.stores_data %}<div class="field"><label class="check">{{ form.stores_data }} {{ form.stores_data.label }}</label></div>{% endif %}
     {% if form.material %}{% include "includes/field.html" with field=form.material %}{% endif %}
     {% if form.dimensions %}{% include "includes/field.html" with field=form.dimensions %}{% endif %}
   </div></section>
   {% endif %}
-  <section class="group"><div class="group-title">{% icon 'location' %}<h2>Ownership and location</h2></div><div class="fields">
-    {% include "includes/readonly.html" with label="Owning department" value=active_role.department %}
-    {% include "includes/readonly.html" with label="Custodian" value=user %}
+  <section class="group"><div class="group-title">{% icon 'location' %}<h2>{% translate "Ownership and location" %}</h2></div><div class="fields">
+    {% include "includes/readonly.html" with label=_("Owning department") value=active_role.department %}
+    {% include "includes/readonly.html" with label=_("Custodian") value=user %}
     {% include "includes/field.html" with field=form.campus %}
     {% include "includes/field.html" with field=form.building %}
     {% include "includes/field.html" with field=form.room %}
@@ -35,8 +35,8 @@
     {% include "includes/field.html" with field=form.planned_retirement_date %}
   </div></section>
   <div class="actions">
-    <button class="button primary" type="submit">{% icon 'check' %}Save draft</button>
-    <a class="button" href="{% if asset %}{% url 'assets:detail' asset.pk %}{% else %}{% url 'assets:list' %}{% endif %}">Cancel</a>
+    <button class="button primary" type="submit">{% icon 'check' %}{% translate "Save draft" %}</button>
+    <a class="button" href="{% if asset %}{% url 'assets:detail' asset.pk %}{% else %}{% url 'assets:list' %}{% endif %}">{% translate "Cancel" %}</a>
   </div>
 </form>
 {% endblock %}

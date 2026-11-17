@@ -5,12 +5,25 @@ way the code changes a status: it refuses any other move, writes the audit entry
 tells the rest of the app (for example notifications) through the state_changed signal.
 """
 
+from django.conf import settings
 from django.dispatch import Signal
+from django.utils import translation
+from django.utils.translation import gettext as _, pgettext_lazy
 
 from .models import AuditLog
 
 # Sent after every saved state change: instance, from_state, to_state, actor, action, reason.
 state_changed = Signal()
+
+
+# Record names used inside sentences such as "This asset is already in storage".
+RECORD_NAMES = {
+    "asset": pgettext_lazy("record name", "asset"), "itasset": pgettext_lazy("record name", "IT asset"),
+    "furnitureasset": pgettext_lazy("record name", "furniture asset"),
+    "listing": pgettext_lazy("record name", "listing"), "resourcerequest": pgettext_lazy("record name", "request"),
+    "reservation": pgettext_lazy("record name", "hold"), "transfer": pgettext_lazy("record name", "transfer"),
+    "approval": pgettext_lazy("record name", "approval"),
+}
 
 
 class TransitionNotAllowed(Exception):
@@ -19,11 +32,14 @@ class TransitionNotAllowed(Exception):
         self.action = action
         label = dict(type(obj).Status.choices)
         before, after = label.get(from_state, from_state), label.get(to_state, to_state)
-        name = obj._meta.verbose_name
-        super().__init__(
-            f"This {name} is already {before.lower()}, so this step was not done." if from_state == to_state else
-            f"This step is not allowed: a {name} cannot go from {before.lower()} to {after.lower()}."
-        )
+        name = RECORD_NAMES.get(obj._meta.model_name, obj._meta.verbose_name)
+        if from_state == to_state:
+            message = _("This %(record)s is already %(state)s, so this step was not done.") % {
+                "record": name, "state": before.lower()}
+        else:
+            message = _("This step is not allowed: a %(record)s cannot go from %(before)s to %(after)s.") % {
+                "record": name, "before": before.lower(), "after": after.lower()}
+        super().__init__(message)
 
 
 class BusinessRuleError(Exception):
@@ -36,7 +52,9 @@ class BusinessRuleError(Exception):
 
 
 def status_label(obj, code):
-    return f"{code} {dict(type(obj).Status.choices).get(code, '')}".strip()
+    """The code and its English name, as saved in the history (shown translated on the page)."""
+    with translation.override(settings.LANGUAGE_CODE):
+        return f"{code} {dict(type(obj).Status.choices).get(code, '')}".strip()
 
 
 def change_state(obj, to_state, actor, action, reason="", extra_fields=()):

@@ -1,46 +1,46 @@
 {% extends "base.html" %}
-{% load dawra_ui transfer_ui ai_ui %}
+{% load dawra_ui transfer_ui ai_ui i18n audit_ui %}
 {% block title %}{{ obj.code }} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{{ obj.purpose }}</h1><div class="record">{{ obj.code }} · {{ obj.requester }} · {{ obj.department }}</div></div>{% status_pill obj %}</div>
-<ol class="journey" aria-label="Workflow stages">
+<ol class="journey" aria-label="{% translate 'Workflow stages' %}">
   {% for label, done, current in journey %}<li class="{% if done %}done{% elif current %}current{% endif %}"><span class="step-dot">{% if done %}{% icon 'check' %}{% else %}{{ forloop.counter }}{% endif %}</span>{{ label }}</li>{% endfor %}
 </ol>
 <div class="layout">
   <div class="record-body">
-    <section class="group"><div class="group-title">{% icon 'request' %}<h2>What is needed</h2></div><div class="fields">
-      {% include "includes/readonly.html" with label="Category" value=obj.category %}
-      {% include "includes/readonly.html" with label="Quantity" value=obj.quantity %}
-      {% include "includes/readonly.html" with label="Specifications" value=obj.specifications wide=True %}
-      {% include "includes/readonly.html" with label="Minimum condition" value=obj.get_min_condition_display %}
-      {% include "includes/readonly.html" with label="Urgency" value=obj.get_urgency_display %}
-      {% include "includes/readonly.html" with label="Delivery location" value=obj.delivery_location %}
-      {% include "includes/readonly.html" with label="Required by" value=obj.required_by %}
+    <section class="group"><div class="group-title">{% icon 'request' %}<h2>{% translate "What is needed" %}</h2></div><div class="fields">
+      {% include "includes/readonly.html" with label=_("Category") value=obj.category %}
+      {% include "includes/readonly.html" with label=_("Quantity") value=obj.quantity %}
+      {% include "includes/readonly.html" with label=_("Specifications") value=obj.specifications wide=True %}
+      {% include "includes/readonly.html" with label=_("Minimum condition") value=obj.get_min_condition_display %}
+      {% include "includes/readonly.html" with label=_("Urgency") value=obj.get_urgency_display %}
+      {% include "includes/readonly.html" with label=_("Delivery location") value=obj.delivery_location %}
+      {% include "includes/readonly.html" with label=_("Required by") value=obj.required_by %}
     </div></section>
     {% request_progress obj %}
-    <section class="group"><div class="group-title">{% icon 'clock' %}<h2>Updates</h2></div>
-      <ol class="timeline">{% for e in updates %}<li><span class="when">{{ e.created_at|date:"j M Y, H:i" }}</span> <span class="what">{{ e.action|capfirst }}</span>{% if e.user %} by {{ e.user }}{% endif %}{% if e.after_value %} · now {{ e.after_value }}{% endif %}{% if e.reason %}<span class="reason">{{ e.reason }}</span>{% endif %}</li>{% endfor %}</ol>
+    <section class="group"><div class="group-title">{% icon 'clock' %}<h2>{% translate "Updates" %}</h2></div>
+      <ol class="timeline">{% for e in updates %}<li><span class="when">{{ e.created_at|date:"j M Y, H:i" }}</span> {% if e.user %}{% blocktranslate trimmed with action=e.action|action_text|capfirst user=e.user %}<span class="what">{{ action }}</span> by {{ user }}{% endblocktranslate %}{% else %}<span class="what">{{ e.action|action_text|capfirst }}</span>{% endif %}{% if e.after_value %} · {% blocktranslate trimmed with value=e.after_value|localized %}now {{ value }}{% endblocktranslate %}{% endif %}{% if e.reason %}<span class="reason">{{ e.reason }}</span>{% endif %}</li>{% endfor %}</ol>
     </section>
     {% if can_edit or can_cancel or can_close %}
     <div class="actions">
       {% if can_edit %}
-        <form method="post" action="{% url 'resource_requests:submit' obj.pk %}">{% csrf_token %}<button class="button primary" type="submit">{% icon 'check' %}Submit for department approval</button></form>
-        <a class="button" href="{% url 'resource_requests:edit' obj.pk %}">Edit draft</a>
+        <form method="post" action="{% url 'resource_requests:submit' obj.pk %}">{% csrf_token %}<button class="button primary" type="submit">{% icon 'check' %}{% translate "Submit for department approval" %}</button></form>
+        <a class="button" href="{% url 'resource_requests:edit' obj.pk %}">{% translate "Edit draft" %}</a>
       {% endif %}
     </div>
     {% if can_close %}
-    <details><summary>No suitable item? Close the request</summary>
+    <details><summary>{% translate "No suitable item? Close the request" %}</summary>
       <form method="post" action="{% url 'resource_requests:close' obj.pk %}" class="reason-form">{% csrf_token %}
-        <label for="close-reason">Reason</label><textarea id="close-reason" name="reason" placeholder="For example: nothing in the right size"></textarea>
-        <button class="button" type="submit">Close as no suitable item</button>
+        <label for="close-reason">{% translate "Reason" %}</label><textarea id="close-reason" name="reason" placeholder="{% translate 'For example: nothing in the right size' %}"></textarea>
+        <button class="button" type="submit">{% translate "Close as no suitable item" %}</button>
       </form>
     </details>
     {% endif %}
     {% if can_cancel %}
-    <details><summary>Cancel this request</summary>
+    <details><summary>{% translate "Cancel this request" %}</summary>
       <form method="post" action="{% url 'resource_requests:cancel' obj.pk %}" class="reason-form">{% csrf_token %}
-        <label for="cancel-reason">Reason *</label><textarea id="cancel-reason" name="reason" required></textarea>
-        <button class="button danger" type="submit">Cancel request</button>
+        <label for="cancel-reason">{% translate "Reason *" %}</label><textarea id="cancel-reason" name="reason" required></textarea>
+        <button class="button danger" type="submit">{% translate "Cancel request" %}</button>
       </form>
     </details>
     {% endif %}
@@ -48,11 +48,11 @@
   </div>
   <aside>
     <div class="side-panel">
-      <h2>Department approval</h2>
-      {% if pending %}<p>Waiting for the {{ obj.department }} department representative.</p>
-      {% elif last_decision %}<p><strong>{{ last_decision.get_status_display }}</strong> by {{ last_decision.approver }} on {{ last_decision.decided_at|date:"j M Y" }}.</p>{% if last_decision.reason %}<p class="muted">{{ last_decision.reason }}</p>{% endif %}
-      {% elif obj.status == "RQ-01" %}<p>Not submitted yet.</p>{% endif %}
-      {% approval_task obj as task %}{% if task %}<a class="button primary" href="{% url 'transfers:approval' task.pk %}">{% icon 'approval' %}Decide this approval</a>{% endif %}
+      <h2>{% translate "Department approval" %}</h2>
+      {% if pending %}<p>{% blocktranslate trimmed with department=obj.department %}Waiting for the {{ department }} department representative.{% endblocktranslate %}</p>
+      {% elif last_decision %}<p>{% blocktranslate trimmed with status=last_decision.get_status_display approver=last_decision.approver when=last_decision.decided_at|date:"j M Y" %}<strong>{{ status }}</strong> by {{ approver }} on {{ when }}.{% endblocktranslate %}</p>{% if last_decision.reason %}<p class="muted">{{ last_decision.reason }}</p>{% endif %}
+      {% elif obj.status == "RQ-01" %}<p>{% translate "Not submitted yet." %}</p>{% endif %}
+      {% approval_task obj as task %}{% if task %}<a class="button primary" href="{% url 'transfers:approval' task.pk %}">{% icon 'approval' %}{% translate "Decide this approval" %}</a>{% endif %}
       {% matches_link obj %}
     </div>
   </aside>

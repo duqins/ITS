@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from django.db import models
+from django.utils import translation
 
 
 class AuditLog(models.Model):
@@ -42,16 +43,19 @@ class AuditLog(models.Model):
     def record(cls, actor, action, obj, before="", after="", reason="", role=""):
         """Write one entry: who did what to which record, when, and why."""
         # The sign-in middleware puts the user's active role on the user object.
-        role = role or str(getattr(actor, "active_role", "") or "")
+        # Names of roles, states and stages are saved in English, whatever language the person uses.
+        with translation.override(settings.LANGUAGE_CODE):
+            role = str(role or getattr(actor, "active_role", "") or "")
+            before, after = str(before or ""), str(after or "")
         return cls.objects.create(
             user=actor if getattr(actor, "pk", None) else None,
             role=role,
             action=action,
             record_type=cls.type_of(obj),
             record_id=obj.pk,
-            before_value=str(before or ""),
-            after_value=str(after or ""),
-            reason=reason or "",
+            before_value=before,
+            after_value=after,
+            reason=str(reason or ""),
         )
 
     @classmethod

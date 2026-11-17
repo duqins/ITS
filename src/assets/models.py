@@ -6,6 +6,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models import F, Q, Sum
 from django.utils import timezone
+from django.utils.translation import gettext as _, gettext_lazy
 
 from accounts.models import Department, Role
 from audit.lifecycle import BusinessRuleError, change_state
@@ -13,11 +14,11 @@ from audit.models import AuditLog
 
 
 class Condition(models.TextChoices):
-    NEW = "new", "New"
-    GOOD = "good", "Good"
-    FAIR = "fair", "Fair"
-    POOR = "poor", "Poor"
-    NOT_WORKING = "not_working", "Not working"
+    NEW = "new", gettext_lazy("New")
+    GOOD = "good", gettext_lazy("Good")
+    FAIR = "fair", gettext_lazy("Fair")
+    POOR = "poor", gettext_lazy("Poor")
+    NOT_WORKING = "not_working", gettext_lazy("Not working")
 
     @classmethod
     def rank(cls, value):
@@ -28,9 +29,9 @@ class Condition(models.TextChoices):
 
 class Category(models.Model):
     class Unit(models.TextChoices):
-        ITEM = "item", "Item"
-        SET = "set", "Set"
-        KILOGRAM = "kilogram", "Kilogram"
+        ITEM = "item", gettext_lazy("Item")
+        SET = "set", gettext_lazy("Set")
+        KILOGRAM = "kilogram", gettext_lazy("Kilogram")
 
     name = models.CharField(max_length=80)
     subcategory = models.CharField(max_length=80, blank=True)
@@ -50,7 +51,7 @@ class Category(models.Model):
 
     class Meta:
         ordering = ["name", "subcategory"]
-        verbose_name_plural = "categories"
+        verbose_name_plural = gettext_lazy("categories")
         constraints = [models.UniqueConstraint(fields=["name", "subcategory"], name="unique_category")]
 
     def __str__(self):
@@ -62,16 +63,16 @@ class Category(models.Model):
 
 class Asset(models.Model):
     class Status(models.TextChoices):
-        DRAFT = "AS-01", "Draft"
-        IN_SERVICE = "AS-02", "In service"
-        IN_STORAGE = "AS-03", "In storage"
-        UNDER_MAINTENANCE = "AS-04", "Under maintenance"
-        IN_TRANSFER = "AS-05", "In transfer"
-        RETIRED = "AS-06", "Retired"
-        DONATED = "AS-07", "Donated"
-        RECYCLED = "AS-08", "Recycled"
-        DISASSEMBLED = "AS-09", "Disassembled"
-        DISPOSED = "AS-10", "Disposed"
+        DRAFT = "AS-01", gettext_lazy("Draft")
+        IN_SERVICE = "AS-02", gettext_lazy("In service")
+        IN_STORAGE = "AS-03", gettext_lazy("In storage")
+        UNDER_MAINTENANCE = "AS-04", gettext_lazy("Under maintenance")
+        IN_TRANSFER = "AS-05", gettext_lazy("In transfer")
+        RETIRED = "AS-06", gettext_lazy("Retired")
+        DONATED = "AS-07", gettext_lazy("Donated")
+        RECYCLED = "AS-08", gettext_lazy("Recycled")
+        DISASSEMBLED = "AS-09", gettext_lazy("Disassembled")
+        DISPOSED = "AS-10", gettext_lazy("Disposed")
 
     ACTIVE = (Status.IN_SERVICE, Status.IN_STORAGE)
     # Allowed moves from the asset state diagram (Figure 10.2, SRS Table 4.3).
@@ -89,7 +90,7 @@ class Asset(models.Model):
     description = models.TextField(blank=True)
     # A draft may be saved before the category is known; confirmation needs it.
     category = models.ForeignKey(Category, on_delete=models.PROTECT, null=True, blank=True, related_name="assets")
-    tags = models.CharField(max_length=255, blank=True, help_text="Comma-separated search tags")
+    tags = models.CharField(max_length=255, blank=True, help_text=gettext_lazy("Comma-separated search tags"))
     condition = models.CharField(max_length=12, choices=Condition.choices, default=Condition.GOOD)
     status = models.CharField(max_length=5, choices=Status.choices, default=Status.DRAFT)
     previous_status = models.CharField(max_length=5, choices=Status.choices, blank=True)
@@ -102,7 +103,7 @@ class Asset(models.Model):
     campus = models.CharField(max_length=60, default="Main campus")
     building = models.CharField(max_length=60, blank=True)
     room = models.CharField(max_length=30, blank=True)
-    value = models.DecimalField("estimated value (AED)", max_digits=10, decimal_places=2, null=True, blank=True)
+    value = models.DecimalField(gettext_lazy("estimated value (AED)"), max_digits=10, decimal_places=2, null=True, blank=True)
     purchase_date = models.DateField(null=True, blank=True)
     planned_retirement_date = models.DateField(null=True, blank=True)
     revised_retirement_date = models.DateField(null=True, blank=True)
@@ -170,9 +171,9 @@ class Asset(models.Model):
     def confirm(self, by, in_use=True):
         """A second user confirms the record; the asset becomes Active (AS-02 or AS-03)."""
         if by == self.registered_by:
-            raise BusinessRuleError("A different user must confirm this asset record (BR-02).", self, "confirm asset")
+            raise BusinessRuleError(_("A different user must confirm this asset record (BR-02)."), self, "confirm asset")
         if self.category_id is None:
-            raise BusinessRuleError("Choose a category before the asset is confirmed.", self, "confirm asset")
+            raise BusinessRuleError(_("Choose a category before the asset is confirmed."), self, "confirm asset")
         self.verified_on = timezone.now()
         self.verified_by = by
         change_state(self, self.Status.IN_SERVICE if in_use else self.Status.IN_STORAGE, by,
@@ -184,7 +185,8 @@ class Asset(models.Model):
     def reserve(self, qty):
         if qty > self.available_qty:
             raise BusinessRuleError(
-                f"Only {self.available_qty} of {self.code} are still available.", self, "reserve"
+                _("Only %(count)s of %(code)s are still available.") % {"count": self.available_qty, "code": self.code},
+                self, "reserve"
             )
         self.available_qty -= qty
         self.reserved_qty += qty
@@ -226,7 +228,7 @@ class ITAsset(Asset):
     stores_data = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = "IT asset"
+        verbose_name = gettext_lazy("IT asset")
 
     def needs_data_erasure(self):
         return self.stores_data
@@ -237,22 +239,22 @@ class FurnitureAsset(Asset):
     dimensions = models.CharField(max_length=60, blank=True)
 
     class Meta:
-        verbose_name = "furniture asset"
+        verbose_name = gettext_lazy("furniture asset")
 
 
 class Listing(models.Model):
     class Status(models.TextChoices):
-        DRAFT = "LS-01", "Draft"
-        PENDING_RELEASE = "LS-02", "Pending release approval"
-        PUBLISHED = "LS-03", "Published"
-        FULLY_RESERVED = "LS-04", "Fully reserved"
-        WITHDRAWN = "LS-05", "Withdrawn"
-        CLOSED = "LS-06", "Closed"
+        DRAFT = "LS-01", gettext_lazy("Draft")
+        PENDING_RELEASE = "LS-02", gettext_lazy("Pending release approval")
+        PUBLISHED = "LS-03", gettext_lazy("Published")
+        FULLY_RESERVED = "LS-04", gettext_lazy("Fully reserved")
+        WITHDRAWN = "LS-05", gettext_lazy("Withdrawn")
+        CLOSED = "LS-06", gettext_lazy("Closed")
 
     class ReleaseReason(models.TextChoices):
-        SURPLUS = "surplus", "Surplus"
-        UNDERUTILISED = "underutilised", "Underutilised"
-        UNWANTED = "unwanted", "Unwanted"
+        SURPLUS = "surplus", gettext_lazy("Surplus")
+        UNDERUTILISED = "underutilised", gettext_lazy("Underutilised")
+        UNWANTED = "unwanted", gettext_lazy("Unwanted")
 
     # SRS section 4.1.2. The SRS deletes an unwanted draft; we mark it Withdrawn instead, so its history
     # is never lost (BR-17). A fully reserved listing cannot be withdrawn while its holds are running.
@@ -280,7 +282,7 @@ class Listing(models.Model):
         ordering = ["-published_at", "-created_at"]
 
     def __str__(self):
-        return f"LST-{self.pk:04d} {self.asset.name}" if self.pk else f"Listing of {self.asset.name}"
+        return f"LST-{self.pk:04d} {self.asset.name}" if self.pk else _("Listing of %(name)s") % {"name": self.asset.name}
 
     @property
     def code(self):
@@ -306,12 +308,13 @@ class Listing(models.Model):
         from transfers.models import Approval
 
         if self.asset.status not in Asset.ACTIVE:
-            raise BusinessRuleError("Only an asset that is in service or in storage can be listed.", self, "submit listing")
+            raise BusinessRuleError(_("Only an asset that is in service or in storage can be listed."), self,
+                                    "submit listing")
         if self.quantity > self.asset.available_qty:
-            raise BusinessRuleError("The listing offers more units than are available.", self, "submit listing")
+            raise BusinessRuleError(_("The listing offers more units than are available."), self, "submit listing")
         if self.asset.condition == Condition.NOT_WORKING:
-            raise BusinessRuleError("An item rated Not working cannot be offered for reuse until it is repaired "
-                                    "(FR-12.2).", self, "submit listing")
+            raise BusinessRuleError(_("An item rated Not working cannot be offered for reuse until it is repaired "
+                                      "(FR-12.2)."), self, "submit listing")
         change_state(self, self.Status.PENDING_RELEASE, by, "submitted for release")
         Approval.open(Approval.Stage.LISTING_RELEASE, self, requested_by=self.created_by,
                       department=self.asset.owner_department)
@@ -325,7 +328,7 @@ class Listing(models.Model):
         """The owning department representative approves the release; the listing is published."""
         approval = self.pending_approval()
         if approval is None:
-            raise BusinessRuleError("This listing has no release request to approve.", self, "publish listing")
+            raise BusinessRuleError(_("This listing has no release request to approve."), self, "publish listing")
         approval.approve(by)
         self.published_at = timezone.now()
         change_state(self, self.Status.PUBLISHED, by, "published", extra_fields=("published_at",))
@@ -333,7 +336,7 @@ class Listing(models.Model):
     def reject_release(self, by, reason):
         approval = self.pending_approval()
         if approval is None:
-            raise BusinessRuleError("This listing has no release request to reject.", self, "reject listing")
+            raise BusinessRuleError(_("This listing has no release request to reject."), self, "reject listing")
         approval.reject(by, reason)
         change_state(self, self.Status.DRAFT, by, "release rejected", reason)
 
@@ -341,13 +344,14 @@ class Listing(models.Model):
         from transfers.models import Reservation, Transfer
 
         if not reason:
-            raise BusinessRuleError("Give a reason for withdrawing the listing (BR-20).", self, "withdraw listing")
+            raise BusinessRuleError(_("Give a reason for withdrawing the listing (BR-20)."), self, "withdraw listing")
         if self.status == self.Status.FULLY_RESERVED:
-            raise BusinessRuleError("Every unit is held for a requester. Wait until a hold ends, then withdraw.",
+            raise BusinessRuleError(_("Every unit is held for a requester. Wait until a hold ends, then withdraw."),
                                     self, "withdraw listing")
         active = Transfer.objects.filter(reservation__listing=self).exclude(status__in=Transfer.FINAL)
         if active.exists():
-            raise BusinessRuleError("A listing cannot be withdrawn during a transfer (BR-19).", self, "withdraw listing")
+            raise BusinessRuleError(_("A listing cannot be withdrawn during a transfer (BR-19)."), self,
+                                    "withdraw listing")
         change_state(self, self.Status.WITHDRAWN, by, "withdrawn", reason)
         pending = self.pending_approval()
         if pending is not None:

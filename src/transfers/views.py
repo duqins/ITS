@@ -4,6 +4,7 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _, gettext_lazy
 from django.views.decorators.http import require_POST
 
 from accounts.models import Role
@@ -27,8 +28,9 @@ STAGE_ACTION = {
     Approval.Stage.TRANSFER_PROCUREMENT: "transfer.approve_procurement",
 }
 TRANSFER_JOURNEY = [
-    ("Release approval", ("TR-01",)), ("Receipt approval", ("TR-02",)), ("Policy review", ("TR-03",)),
-    ("Approved", ("TR-04",)), ("Handed over", ("TR-05", "TR-07")), ("Receipt confirmed", ("TR-06",)),
+    (gettext_lazy("Release approval"), ("TR-01",)), (gettext_lazy("Receipt approval"), ("TR-02",)),
+    (gettext_lazy("Policy review"), ("TR-03",)), (gettext_lazy("Approved"), ("TR-04",)),
+    (gettext_lazy("Handed over"), ("TR-05", "TR-07")), (gettext_lazy("Receipt confirmed"), ("TR-06",)),
 ]
 
 
@@ -59,7 +61,7 @@ def approval_detail(request, pk):
     check_action(request, STAGE_ACTION[approval.stage])
     role = request.active_role
     if approval.department_id not in (None, role.department_id):
-        raise PermissionDenied("This approval belongs to another department.")
+        raise PermissionDenied(_("This approval belongs to another department."))
     if request.method == "POST":
         decision, reason = request.POST.get("decision"), request.POST.get("reason", "").strip()
         record, user = approval.record, request.user
@@ -69,7 +71,7 @@ def approval_detail(request, pk):
         else:
             actions = {"approve": lambda: record.approve_stage(user, approval),
                        "reject": lambda: record.reject_stage(user, reason, approval)}
-        if decision in actions and perform(request, actions[decision], "Decision saved."):
+        if decision in actions and perform(request, actions[decision], _("Decision saved.")):
             return redirect("transfers:approvals")
     record = approval.record
     return render(request, "transfers/approval_detail.html", {
@@ -85,11 +87,12 @@ def hold_request(request):
     """The requester asks for a hold on a published listing (classic path, without AI)."""
     request_id, listing_id = request.POST.get("request", ""), request.POST.get("listing", "")
     if not (request_id.isdigit() and listing_id.isdigit()):
-        raise Http404("Unknown request or listing.")
+        raise Http404(_("Unknown request or listing."))
     resource_request = get_object_or_404(ResourceRequest, pk=request_id, requester=request.user)
     listing = get_object_or_404(Listing, pk=listing_id)
     if perform(request, lambda: Reservation.request_hold(resource_request, listing, request.user),
-               "Hold requested. The releasing department will confirm or decline it. Selection alone holds nothing."):
+               _("Hold requested. The releasing department will confirm or decline it. Selection alone holds "
+                 "nothing.")):
         return redirect("resource_requests:detail", pk=resource_request.pk)
     return redirect("assets:listing", pk=listing.pk)
 
@@ -99,13 +102,13 @@ def hold_request(request):
 def hold_decide(request, pk):
     reservation = get_object_or_404(Reservation.objects.select_related("listing__asset", "request"), pk=pk)
     if request.active_role.department_id != reservation.listing.asset.owner_department_id:
-        raise PermissionDenied("Only the releasing department can decide this hold.")
+        raise PermissionDenied(_("Only the releasing department can decide this hold."))
     expire_overdue()
     reservation.refresh_from_db()
     if request.POST.get("decision") == "confirm":
-        perform(request, lambda: reservation.confirm(request.user), "Hold confirmed for 5 working days.")
+        perform(request, lambda: reservation.confirm(request.user), _("Hold confirmed for 5 working days."))
     else:
-        perform(request, lambda: reservation.decline(request.user, request.POST.get("reason", "")), "Hold declined.")
+        perform(request, lambda: reservation.decline(request.user, request.POST.get("reason", "")), _("Hold declined."))
     return redirect("transfers:list")
 
 
@@ -124,7 +127,7 @@ def transfer_start(request, pk):
         data = form.cleaned_data
         details = {k: v for k, v in data.items() if k != "to_custodian"}
         transfer = perform(request, lambda: Transfer.start(reservation, request.user, data["to_custodian"], **details),
-                           "Transfer created. It now needs the release and receipt approvals.")
+                           _("Transfer created. It now needs the release and receipt approvals."))
         if transfer:
             return redirect("transfers:detail", pk=transfer.pk)
     return render(request, "transfers/transfer_start.html", {"form": form, "reservation": reservation})
@@ -166,11 +169,12 @@ def transfer_detail(request, pk):
     transfer = get_object_or_404(Transfer.objects.select_related(
         "asset__category", "request__requester", "from_department", "to_department", "to_custodian"), pk=pk)
     if not can_view_transfer(request, transfer):
-        raise PermissionDenied("You can only open transfers of your department or your own requests.")
+        raise PermissionDenied(_("You can only open transfers of your department or your own requests."))
     role, user = request.active_role, request.user
-    # The policy stage is shown only when BR-06 applies to this transfer.
+    # The policy stage is shown only when BR-06 applies to this transfer. It is found by its status code,
+    # because the label is translated.
     stages = [s for s in TRANSFER_JOURNEY
-              if s[0] != "Policy review" or transfer.needs_finance() or transfer.needs_procurement()]
+              if "TR-03" not in s[1] or transfer.needs_finance() or transfer.needs_procurement()]
     current = next((i for i, (_, codes) in enumerate(stages) if transfer.status in codes), None)
     is_custodian = role.role.code == Role.Code.ASSET_CUSTODIAN
     is_rep = role.role.code == Role.Code.DEPARTMENT_REPRESENTATIVE
@@ -206,7 +210,7 @@ def transfer_handover(request, pk):
     form = HandoverForm(request.POST)
     if form.is_valid():
         perform(request, lambda: transfer.hand_over(request.user, form.cleaned_data["condition"]),
-                "Handover recorded. The receiving custodian now confirms receipt.")
+                _("Handover recorded. The receiving custodian now confirms receipt."))
     return redirect("transfers:detail", pk=transfer.pk)
 
 
@@ -220,11 +224,11 @@ def transfer_receive(request, pk):
         if request.POST.get("outcome") == "discrepancy":
             perform(request, lambda: transfer.dispute(request.user, data["received_quantity"],
                                                       data["received_condition"], data["note"]),
-                    "Difference recorded. Ownership has not changed; both representatives are told.")
+                    _("Difference recorded. Ownership has not changed; both representatives are told."))
         else:
             perform(request, lambda: transfer.confirm_receipt(request.user, data["received_quantity"],
                                                               data["received_condition"]),
-                    "Receipt confirmed. The asset now belongs to your department.")
+                    _("Receipt confirmed. The asset now belongs to your department."))
     return redirect("transfers:detail", pk=transfer.pk)
 
 
@@ -234,7 +238,7 @@ def transfer_resolve(request, pk):
     transfer = get_object_or_404(Transfer, pk=pk)
     accept = request.POST.get("resolution") == "accept"
     perform(request, lambda: transfer.resolve_dispute(request.user, accept, request.POST.get("reason", "")),
-            "Dispute resolved.")
+            _("Dispute resolved."))
     return redirect("transfers:detail", pk=transfer.pk)
 
 
@@ -243,7 +247,7 @@ def transfer_resolve(request, pk):
 def transfer_cancel(request, pk):
     transfer = get_object_or_404(Transfer.objects.select_related("request"), pk=pk)
     if not can_view_transfer(request, transfer):
-        raise PermissionDenied("You cannot cancel this transfer.")
+        raise PermissionDenied(_("You cannot cancel this transfer."))
     perform(request, lambda: transfer.cancel(request.user, request.POST.get("reason", "")),
-            "Transfer cancelled. The held units are available again.")
+            _("Transfer cancelled. The held units are available again."))
     return redirect("transfers:detail", pk=transfer.pk)
