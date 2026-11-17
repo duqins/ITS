@@ -101,7 +101,9 @@ class AiSuggestion(models.Model):
         asset.category = Category.objects.get(pk=values["category_id"])
         asset.condition = values["condition"]
         asset.tags = ", ".join(values["tags"])
-        asset.save(update_fields=["category", "condition", "tags"])
+        if values.get("description"):
+            asset.description = values["description"]
+        asset.save(update_fields=["category", "condition", "tags", "description"])
         AuditLog.record(by, "AI suggestion applied", asset, after=f"{asset.category}, {asset.get_condition_display()}")
 
     def accept_and_apply(self, by):

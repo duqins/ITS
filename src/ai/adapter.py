@@ -62,7 +62,7 @@ class ClaudeAdapter:
     def _client(self):
         if self.client is None:
             if not self.is_configured():
-                raise AIUnavailable(gettext_lazy("No AI key is set, so the AI service is switched off."))
+                raise AIUnavailable(gettext_lazy("The AI service is not available right now."))
             self.client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY, max_retries=0)
         return self.client
 
