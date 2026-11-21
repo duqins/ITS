@@ -2,7 +2,7 @@
 nothing here comes from the AI."""
 
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, timedelta
 from decimal import Decimal
 
 from django.db.models import Count, Q, Sum
@@ -23,6 +23,7 @@ class Indicator:
     source: str
     status: str = gettext_lazy("Synthetic demo data")
     raw: dict = field(default_factory=dict)
+    tone: str = ""  # "good" (green) or "bad" (red) where the direction is clear, as for net savings
 
 
 def money(value):
@@ -72,6 +73,23 @@ class SustainabilityIndicators:
             "transfers_without_factor": confirmed["no_factor"],
             **self.reuse_rate(),
         }
+
+    def savings_by_month(self):
+        """The dashboard graph: net savings added up month by month over the period, with the same rules as
+        totals() (confirmed avoided purchases with a cited price, minus the costs of those same transfers), so
+        the last month always equals the net savings card."""
+        added = {}
+        for day, avoided, cost in self.impacts.filter(
+                purchase_avoided_confirmed=True, avoided_purchase_aed__isnull=False).values_list(
+                "occurred_on", "avoided_purchase_aed", "transfer_cost_aed"):
+            month = day.replace(day=1)
+            added[month] = added.get(month, Decimal("0")) + avoided - cost
+        months, running, month = [], Decimal("0"), self.date_from.replace(day=1)
+        while month <= self.date_to:
+            running += added.get(month, Decimal("0"))
+            months.append((month, running))
+            month = (month.replace(day=28) + timedelta(days=4)).replace(day=1)
+        return months
 
     def reuse_rate(self):
         """Units listed in the period (the cohort) that were transferred and received by its end (SU-05)."""
@@ -123,7 +141,8 @@ class SustainabilityIndicators:
             Indicator("net", _("Net financial savings"), money(t["net_savings_aed"]),
                       _("Avoided purchase value - transfer costs of the same transfers (no double counting)."),
                       f"{money(t['avoided_purchase_aed'])} - {money(t['transfer_cost_aed'])}",
-                      _("Transfer costs entered on each transfer.")),
+                      _("Transfer costs entered on each transfer."),
+                      tone="good" if t["net_savings_aed"] > 0 else "bad" if t["net_savings_aed"] < 0 else ""),
             Indicator("carbon", _("Carbon saved"), carbon,
                       _("For confirmed avoided purchases: sum of (quantity x category factor) - transport, shown as a "
                         "low-to-high range."),

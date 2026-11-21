@@ -16,11 +16,15 @@ PASSWORD = "dawra-demo-2026"
 
 
 class DemoTestCase(TestCase):
+    # Most tests check exact figures of the section 12 worked example, so they start without the months of
+    # history the demo site has. The tests of the history itself set this to True.
+    with_history = False
+
     @classmethod
     def setUpTestData(cls):
         # The test users always get the local demo password, even where DEMO_PASSWORD is set (for example online).
         with mock.patch.dict(os.environ, {"DEMO_PASSWORD": PASSWORD}):
-            call_command("seed_demo", stdout=StringIO())
+            call_command("seed_demo", without_history=not cls.with_history, stdout=StringIO())
 
     def sign_in(self, username, role=None):
         client = self.client_class()
