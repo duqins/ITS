@@ -136,3 +136,13 @@ main:not(:has([required])) .required-note{display:none}
 .savings-chart.is-bad .line{stroke:var(--bad)}.savings-chart.is-bad .dot,.savings-chart.is-bad .area,.savings-chart.is-bad .last{fill:var(--bad)}
 .savings-chart figcaption{margin-top:6px}
 .savings-chart summary{cursor:pointer;font-size:12px;color:var(--teal-dark)}
+
+.glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:0 0 18px}
+.glance-tile{display:block;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);text-decoration:none}
+a.glance-tile:hover{border-color:var(--teal)}
+.glance-tile .label{font-size:12px;color:var(--muted)}
+.glance-tile .value{font-size:26px;font-weight:750;line-height:1.2;color:var(--navy)}
+.glance-tile.tone-good{background:var(--good-bg);border-color:transparent}.glance-tile.tone-good .value{color:var(--good)}
+.glance-tile.tone-bad{background:var(--bad-bg);border-color:transparent}.glance-tile.tone-bad .value{color:var(--bad)}
+.glance-tile.tone-good,.glance-tile.tone-bad{border-right:4px solid}
+.glance-tile.tone-good{border-right-color:var(--good)}.glance-tile.tone-bad{border-right-color:var(--bad)}

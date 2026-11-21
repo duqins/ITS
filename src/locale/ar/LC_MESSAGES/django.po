@@ -604,6 +604,9 @@ msgstr "أصول بانتظار التأكيد"
 msgid "Assistant"
 msgstr "المساعد"
 
+msgid "At a glance"
+msgstr "نظرة سريعة"
+
 msgid "Audit log"
 msgstr "سجل التدقيق"
 
@@ -1368,11 +1371,17 @@ msgstr "العناصر"
 msgid "Items reused"
 msgstr "العناصر المعاد استخدامها"
 
+msgid "Items reused this year (%(where)s)"
+msgstr "العناصر المُعاد استخدامها هذا العام (%(where)s)"
+
 msgid "JPG or PNG, up to 5 photos of 5 MB each"
 msgstr "JPG أو PNG، حتى 5 صور بحجم 5 ميغابايت لكل منها"
 
 msgid "KU has not set these values yet. The app uses the proposed values of SRS Appendix C until they are confirmed."
 msgstr "لم تحدد الجامعة هذه القيم بعد. يستخدم التطبيق القيم المقترحة في الملحق C من وثيقة المتطلبات حتى تُعتمد."
+
+msgid "Kept in use instead of bought new"
+msgstr "بقيت قيد الاستخدام بدل شراء جديد"
 
 msgid "Keyword"
 msgstr "كلمة مفتاحية"
@@ -1385,6 +1394,12 @@ msgstr "اللغة"
 
 msgid "Last verified"
 msgstr "آخر تحقق"
+
+msgid "Late approvals in %(department)s"
+msgstr "موافقات متأخرة في %(department)s"
+
+msgid "Late approvals on campus"
+msgstr "موافقات متأخرة في الحرم الجامعي"
 
 msgid "Light"
 msgstr "فاتح"
@@ -1519,6 +1534,9 @@ msgstr "الاسم أو الوصف أو الوسوم أو المواصفات"
 msgid "Needed only if the quantity or condition differs from the handover"
 msgstr "مطلوب فقط إذا اختلفت الكمية أو الحالة المادية عمّا سُجّل عند التسليم"
 
+msgid "Needs attention"
+msgstr "تحتاج إلى متابعة"
+
 msgid "Net financial savings"
 msgstr "صافي الوفورات المالية"
 
@@ -1533,6 +1551,9 @@ msgstr "صافي الوفورات عبر الوقت، وقد بلغ %(amount)s A
 
 msgid "Net savings so far"
 msgstr "صافي الوفورات حتى الآن"
+
+msgid "Net savings this year (%(where)s)"
+msgstr "صافي الوفورات هذا العام (%(where)s)"
 
 msgid "New"
 msgstr "جديد"
@@ -1618,6 +1639,9 @@ msgstr "لا توجد طلبات بعد."
 msgid "No role assignments are waiting."
 msgstr "لا توجد إسنادات أدوار بانتظار القرار."
 
+msgid "No savings yet"
+msgstr "لا وفورات بعد"
+
 msgid "No specifications requested"
 msgstr "لم تُطلب أي مواصفات"
 
@@ -1638,6 +1662,9 @@ msgstr "لا يمكن لأحد أن يبت في دور لنفسه (BR-02)."
 
 msgid "None"
 msgstr "لا يوجد"
+
+msgid "None yet"
+msgstr "لا شيء بعد"
 
 msgid "Normal"
 msgstr "عادي"
@@ -1668,6 +1695,9 @@ msgstr "لم يتبقَّ في هذا العرض شيء للحجز."
 
 msgid "Nothing is waiting for you."
 msgstr "لا توجد مهام بانتظارك."
+
+msgid "Nothing late"
+msgstr "لا شيء متأخر"
 
 msgid "Nothing moves. The app also follows this setting on your device."
 msgstr "لا شيء يتحرك. ويتبع التطبيق أيضاً هذا الإعداد على جهازك."
@@ -3034,6 +3064,9 @@ msgstr "أنت مَن طلب هذا الدور، لذا يجب أن يبت في�
 msgid "Your account"
 msgstr "حسابك"
 
+msgid "Your approvals waiting over 3 working days"
+msgstr "موافقاتك المنتظرة أكثر من 3 أيام عمل"
+
 msgid "Your corrected values were saved."
 msgstr "تم حفظ القيم المصحّحة."
 
@@ -3063,6 +3096,9 @@ msgstr "تمت الموافقة على طلبك %(code)s. يمكنك الآن ا
 
 msgid "Your request %(code)s was rejected: %(reason)s"
 msgstr "رُفض طلبك %(code)s: %(reason)s"
+
+msgid "Your requests held up by a late approval"
+msgstr "طلباتك المتأخرة بسبب موافقة متأخرة"
 
 msgid "Your work as %(role)s. Reuse before replacement."
 msgstr "عملك بصفة %(role)s. إعادة الاستخدام قبل الاستبدال."
@@ -3438,6 +3474,9 @@ msgstr "تم التحقق"
 msgctxt "history"
 msgid "verify asset"
 msgstr "التحقق من أصل"
+
+msgid "whole campus"
+msgstr "الحرم الجامعي كله"
 
 msgctxt "history"
 msgid "withdraw listing"
