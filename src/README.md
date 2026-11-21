@@ -52,7 +52,7 @@ Open http://127.0.0.1:8000 and sign in. The demo users all use the password `daw
 | `maintenance.staff` | Maintenance staff |
 | `system.admin` | System administrator |
 
-All demo data is synthetic.
+All demo data is synthetic. Besides the records of the demo script, `seed_demo` adds nine transfers that finished over the last five months (so the dashboard and its savings graph have a history), more published items, and two approvals waiting longer than 3 working days (overdue). The history goes through the real workflow and only its dates are moved back. Money only comes from monitors, the one category with a cited replacement price. `python manage.py seed_demo --without-history` creates only the demo script records and the section 12 worked example; the tests use it.
 
 ## AI features
 
