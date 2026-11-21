@@ -1,5 +1,5 @@
 /* Right-to-left copy of dark.css, made by tools/build_rtl_css.py. Do not edit by hand. */
-:root[data-theme="dark"]{color-scheme:dark;--navy:#e3ecf4;--ink:#cdd9e3;--muted:#9aafbf;--line:#233545;--canvas:#0b1117;--paper:#10171e;--soft:#0f2324;--teal:#6cb5b0;--teal-dark:#8fcfc9;--warning:#ecc78f;--warning-bg:#2b2113;--error:#f3a6a6;--focus:#63b0f2}
+:root[data-theme="dark"]{color-scheme:dark;--navy:#e3ecf4;--ink:#cdd9e3;--muted:#9aafbf;--line:#233545;--canvas:#0b1117;--paper:#10171e;--soft:#0f2324;--teal:#6cb5b0;--teal-dark:#8fcfc9;--warning:#ecc78f;--warning-bg:#2b2113;--error:#f3a6a6;--focus:#63b0f2;--good:#8fd1a6;--good-bg:#13261b;--bad:#f3a6a6;--bad-bg:#2c1717}
 [data-theme="dark"] ::selection{background:#222f2f}
 [data-theme="dark"] ::-webkit-scrollbar-thumb{background:#2e373b}
 [data-theme="dark"] .preview{color:#c2cbd2}
@@ -87,7 +87,7 @@
 [data-theme="dark"] .card:hover{box-shadow:0 10px 24px -14px rgba(0,0,0,.75)}
 [data-theme="dark"] ::selection{background:#24585a;color:#fff}
 @media (prefers-color-scheme: dark){
-:root[data-theme="system"]{color-scheme:dark;--navy:#e3ecf4;--ink:#cdd9e3;--muted:#9aafbf;--line:#233545;--canvas:#0b1117;--paper:#10171e;--soft:#0f2324;--teal:#6cb5b0;--teal-dark:#8fcfc9;--warning:#ecc78f;--warning-bg:#2b2113;--error:#f3a6a6;--focus:#63b0f2}
+:root[data-theme="system"]{color-scheme:dark;--navy:#e3ecf4;--ink:#cdd9e3;--muted:#9aafbf;--line:#233545;--canvas:#0b1117;--paper:#10171e;--soft:#0f2324;--teal:#6cb5b0;--teal-dark:#8fcfc9;--warning:#ecc78f;--warning-bg:#2b2113;--error:#f3a6a6;--focus:#63b0f2;--good:#8fd1a6;--good-bg:#13261b;--bad:#f3a6a6;--bad-bg:#2c1717}
 [data-theme="system"] ::selection{background:#222f2f}
 [data-theme="system"] ::-webkit-scrollbar-thumb{background:#2e373b}
 [data-theme="system"] .preview{color:#c2cbd2}

@@ -53,8 +53,8 @@ def home(request):
         if any(role.allows(a) for a in ("request.approve", "transfer.approve_finance", "transfer.approve_procurement")):
             tasks = list(tasks_for(request))
             cards.insert(0, card(_("Approval tasks"), len(tasks), reverse("transfers:approvals"), "approval"))
-            cards.insert(1, card(_("Overdue tasks"), sum(1 for t in tasks if t.is_overdue), reverse("transfers:approvals"),
-                                 "clock"))
+            cards.insert(1, card(_("Overdue tasks"), sum(1 for t in tasks if t.is_overdue()),
+                                 reverse("transfers:approvals"), "clock"))
         transfers_url = reverse("transfers:list")
         # UI-02: confirmed holds that end within 2 working days, so the transfer is started in time.
         soon = add_working_days(timezone.now(), 2)

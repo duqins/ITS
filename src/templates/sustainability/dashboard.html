@@ -13,8 +13,28 @@
 </form>
 {% if indicators %}
 <div class="cards">
-  {% for i in indicators %}<div class="card">{% icon 'leaf' %}<div class="label">{{ i.name }}</div><div class="number" style="font-size:20px">{{ i.value }}</div></div>{% endfor %}
+  {% for i in indicators %}<div class="card{% if i.tone %} tone-{{ i.tone }}{% endif %}">{% icon 'leaf' %}<div class="label">{{ i.name }}</div><div class="number" style="font-size:20px">{{ i.value }}</div>{% if i.tone == "good" %}<small class="tone-text">{% translate "Saving money" %}</small>{% elif i.tone == "bad" %}<small class="tone-text">{% translate "Costing money" %}</small>{% endif %}</div>{% endfor %}
 </div>
+{% if chart %}
+<section class="group"><div class="group-title">{% icon 'report' %}<h2>{% translate "Net savings over time" %}</h2></div>
+<p class="muted small">{% translate "Running total at the end of each month: confirmed avoided purchases minus the transfer costs of the same transfers. It uses the same figures as the cards, so the last point equals the net savings above." %}</p>
+<figure class="savings-chart {% if chart.good %}is-good{% else %}is-bad{% endif %}">
+  <svg viewBox="0 0 {{ chart.width }} {{ chart.height }}" role="img" aria-labelledby="savings-chart-title">
+    <title id="savings-chart-title">{% blocktranslate trimmed with amount=chart.last.value|floatformat:"0g" month=chart.last.month|date:"F Y" %}Net savings over time, reaching AED {{ amount }} in {{ month }}{% endblocktranslate %}</title>
+    {% for t in chart.ticks %}<line class="grid{% if t.y == chart.zero %} zero{% endif %}" x1="{{ chart.left }}" x2="{{ chart.right }}" y1="{{ t.y }}" y2="{{ t.y }}"/><text class="tick" x="{{ chart.tick_x }}" y="{{ t.y }}" text-anchor="end" dominant-baseline="middle">{{ t.value|floatformat:"0g" }}</text>{% endfor %}
+    <path class="area" d="{{ chart.area }}"/>
+    <polyline class="line" points="{{ chart.line }}"/>
+    {% for p in chart.points %}<circle class="dot" cx="{{ p.x }}" cy="{{ p.y }}" r="4"><title>{{ p.month|date:"F Y" }}: {% blocktranslate trimmed with amount=p.value|floatformat:"0g" %}AED {{ amount }}{% endblocktranslate %}</title></circle>{% endfor %}
+    {% for p in chart.labels %}<text class="month" x="{{ p.x }}" y="{{ chart.label_y }}" text-anchor="{{ p.anchor }}">{{ p.month|date:"M Y" }}</text>{% endfor %}
+    <text class="last" x="{{ chart.last_x }}" y="{{ chart.last.y }}" dy="-10" text-anchor="{{ chart.last_anchor }}">{% blocktranslate trimmed with amount=chart.last.value|floatformat:"0g" %}AED {{ amount }}{% endblocktranslate %}</text>
+  </svg>
+  <figcaption><details><summary>{% translate "Show the numbers" %}</summary>
+    <table class="data-table"><thead><tr><th>{% translate "Month" %}</th><th class="num">{% translate "Net savings so far" %}</th></tr></thead>
+    <tbody>{% for p in chart.points %}<tr><td>{{ p.month|date:"F Y" }}</td><td class="num">{% blocktranslate trimmed with amount=p.value|floatformat:"2g" %}AED {{ amount }}{% endblocktranslate %}</td></tr>{% endfor %}</tbody></table>
+  </details></figcaption>
+</figure>
+</section>
+{% endif %}
 <div class="group-title">{% icon 'report' %}<h2>{% translate "Sustainability indicators" %}</h2></div>
 <div class="table-wrap"><table class="data-table report-values">
   <thead><tr><th>{% translate "Indicator" %}</th><th>{% translate "Value" %}</th><th>{% translate "Formula" %}</th><th>{% translate "Inputs" %}</th><th>{% translate "Source and status" %}</th></tr></thead>
