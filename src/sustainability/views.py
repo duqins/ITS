@@ -14,6 +14,7 @@ from accounts.models import Department, Role
 from accounts.permissions import role_required
 from core.actions import perform
 
+from .charts import savings_chart
 from .indicators import SustainabilityIndicators
 from .models import SustainabilityImpact
 
@@ -59,6 +60,7 @@ def dashboard(request):
     return render(request, "sustainability/dashboard.html", {
         "form": form,
         "indicators": scope.indicators() if scope else [],
+        "chart": savings_chart(scope.savings_by_month()) if scope else None,
         "scope": scope,
         "pending": pending.select_related("transfer__asset"),
     })
