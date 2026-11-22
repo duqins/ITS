@@ -130,3 +130,9 @@ def check_text(value):
     if numbers:
         return _("Figures check: numbers not in the database: %(numbers)s") % {"numbers": numbers}
     return _("Figures check: all numbers match the database")
+
+
+@register.inclusion_tag("ai/_search_panel.html", takes_context=True)
+def ai_search_panel(context):
+    """The 'Search with AI' box on the Search page (added after the TA review)."""
+    return {"ai_on": ClaudeAdapter.is_configured(), "csrf_token": context.get("csrf_token")}

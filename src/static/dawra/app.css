@@ -148,3 +148,7 @@ a.glance-tile:hover{border-color:var(--teal)}
 .glance-tile.tone-bad{background:var(--bad-bg);border-color:transparent}.glance-tile.tone-bad .value{color:var(--bad)}
 .glance-tile.tone-good,.glance-tile.tone-bad{border-left:4px solid}
 .glance-tile.tone-good{border-left-color:var(--good)}.glance-tile.tone-bad{border-left-color:var(--bad)}
+/* AI search (added after the TA review): the box on the Search page and the AI's JSON answer. */
+.ai-search{margin:0 0 20px}.ai-search textarea{width:100%}
+.json-answer{margin-top:16px}.json-answer summary{cursor:pointer;color:var(--teal-dark);font-size:13px}
+.json-answer pre{margin:8px 0 0;padding:12px 14px;max-height:360px;overflow:auto;background:var(--soft);border:1px solid var(--line);border-radius:8px;font-size:12px;line-height:1.45;white-space:pre-wrap;word-break:break-word;text-align:left}

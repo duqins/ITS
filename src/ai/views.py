@@ -1,5 +1,7 @@
 """Pages of the AI features. A person always decides: the AI only suggests, ranks or drafts."""
 
+import json
+
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
@@ -21,6 +23,7 @@ from .classification import ClassificationService
 from .matching import MatchingService, confidence_label
 from .models import AiSuggestion, MatchRecommendation, Task
 from .report_drafts import ReportDraftService, scope_labels, unsupported_numbers
+from .search import AISearchService
 
 
 def managed_draft(request, pk):
@@ -147,6 +150,44 @@ def reject_match(request, pk):
     AuditLog.record(request.user, f"AI match {match.asset.code} rejected", match.request, reason=match.override_reason)
     messages.success(request, _("%(item)s marked as not suitable.") % {"item": match.asset.name})
     return redirect("ai:matches", pk=match.request_id)
+
+
+@require_POST
+@role_required("listing.search")
+def ai_search(request):
+    """AI search: runs only when the user clicks the button (POST), so opening pages never calls the AI."""
+    query = " ".join(request.POST.get("query", "").split())[:300]
+    if len(query) < 3:
+        messages.error(request, _("Describe what you need in a few words, then search again."))
+        return redirect("assets:search")
+    try:
+        result = AISearchService().search(query, request.user)
+    except AIUnavailable as error:
+        messages.warning(request, _("%(error)s Use the keyword and filters above instead; they work without AI.")
+                         % {"error": error})
+        return redirect("assets:search")
+    return redirect("ai:search_results", pk=result.pk)
+
+
+@role_required("listing.search")
+def ai_search_results(request, pk):
+    """The ranked items of one AI search, with the AI's answer as JSON. Only the person who searched sees it."""
+    result = get_object_or_404(AiSuggestion, pk=pk, task=Task.SEARCH, created_by=request.user)
+    answer = result.suggestion
+    listings = Listing.objects.filter(pk__in=[r["id"] for r in answer["results"]]).select_related(
+        "asset__category", "asset__owner_department")
+    by_id = {listing.pk: listing for listing in listings}
+    rows = []
+    for rank, hit in enumerate(answer["results"], start=1):
+        listing = by_id.get(hit["id"])
+        if listing is not None:
+            rows.append({"rank": rank, "listing": listing, "relevance": hit["relevance"], "reason": hit["reason"],
+                         "still_published": listing.status == Listing.Status.PUBLISHED})
+    return render(request, "ai/search_results.html", {
+        "result": result, "query": answer["query"], "rows": rows, "items_sent": answer.get("items_sent"),
+        "json": json.dumps({"query": answer["query"], "results": answer["results"]}, indent=2, ensure_ascii=False),
+        "can_request": request.active_role.allows("request.submit"),
+    })
 
 
 @require_POST

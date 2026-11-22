@@ -10,6 +10,8 @@ urlpatterns = [
     path("requests/<int:pk>/matches/", views.request_matches, name="matches"),
     path("matches/<int:pk>/choose/", views.choose_match, name="choose"),
     path("matches/<int:pk>/reject/", views.reject_match, name="reject"),
+    path("search/", views.ai_search, name="search"),
+    path("search/<int:pk>/", views.ai_search_results, name="search_results"),
     path("report/draft/", views.report_draft, name="report_draft"),
     path("report/<int:pk>/publish/", views.report_publish, name="report_publish"),
 ]
