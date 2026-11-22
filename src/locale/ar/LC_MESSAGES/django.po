@@ -234,6 +234,9 @@ msgstr "%(error)s تُعرض العناصر المؤهلة بالترتيب ال
 msgid "%(error)s The conventional figures above are still complete."
 msgstr "%(error)s ولا تزال الأرقام التقليدية أعلاه مكتملة."
 
+msgid "%(error)s Use the keyword and filters above instead; they work without AI."
+msgstr "%(error)s استخدم الكلمة المفتاحية والمرشحات أعلاه بدلًا من ذلك؛ فهي تعمل دون الذكاء الاصطناعي."
+
 msgid "%(free)s free · %(reserved)s reserved · %(allocated)s in transfer"
 msgstr "%(free)s متاح · %(reserved)s محجوز · %(allocated)s قيد النقل"
 
@@ -364,6 +367,9 @@ msgctxt "history"
 msgid "AI %(task)s suggestion %(response)s"
 msgstr "اقتراح الذكاء الاصطناعي (%(task)s): %(response)s"
 
+msgid "AI SUGGESTS, YOU DECIDE"
+msgstr "الذكاء الاصطناعي يقترح، وأنت تقرّر"
+
 msgid "AI assistance"
 msgstr "مساعدة الذكاء الاصطناعي"
 
@@ -383,6 +389,15 @@ msgstr "رُفضت مطابقة الذكاء الاصطناعي %(code)s"
 
 msgid "AI match evidence"
 msgstr "دليل مطابقة الذكاء الاصطناعي"
+
+msgid "AI search"
+msgstr "البحث بالذكاء الاصطناعي"
+
+msgid "AI search is not available right now. The keyword and filters above work without AI."
+msgstr "البحث بالذكاء الاصطناعي غير متاح الآن. الكلمة المفتاحية والمرشحات أعلاه تعمل دون الذكاء الاصطناعي."
+
+msgid "AI search results"
+msgstr "نتائج البحث بالذكاء الاصطناعي"
 
 msgctxt "record kind"
 msgid "AI suggestion"
@@ -667,6 +682,9 @@ msgstr "مشتريات مُتجنَّبة بانتظار التأكيد"
 msgid "Back to %(code)s"
 msgstr "العودة إلى %(code)s"
 
+msgid "Back to search"
+msgstr "العودة إلى البحث"
+
 msgid "Back to the home page"
 msgstr "العودة إلى الصفحة الرئيسية"
 
@@ -910,6 +928,9 @@ msgstr "لا يمكن أن تكون التكاليف والمسافات ورحل
 msgid "Count of fulfilled requests the receiving representative confirmed (BR-18). Value = quantity x replacement cost."
 msgstr "عدد الطلبات المُلبّاة التي أكّدها الممثل المستلم (BR-18). القيمة = الكمية × تكلفة الاستبدال."
 
+msgid "Create a request instead"
+msgstr "أنشئ طلبًا بدلًا من ذلك"
+
 msgid "Create a request with these criteria"
 msgstr "إنشاء طلب بهذه المعايير"
 
@@ -1005,6 +1026,12 @@ msgstr "الأقسام والفئات"
 
 msgid "Describe the difference (FR-11.5)."
 msgstr "صِف الاختلاف (FR-11.5)."
+
+msgid "Describe what you need in a few words, then search again."
+msgstr "صِف ما تحتاجه في بضع كلمات، ثم ابحث مرة أخرى."
+
+msgid "Describe what you need in your own words. The AI ranks the published items and explains each choice. It runs only when you click, and it never holds or changes anything."
+msgstr "صِف ما تحتاجه بكلماتك. يرتّب الذكاء الاصطناعي العناصر المنشورة ويشرح كل اختيار. لا يعمل إلا عند الضغط على الزر، ولا يحجز أي شيء ولا يغيّره."
 
 msgid "Description"
 msgstr "الوصف"
@@ -1194,6 +1221,9 @@ msgstr "مثال: 24 بوصة، HDMI"
 
 msgid "For example: nothing in the right size"
 msgstr "مثال: لا يوجد شيء بالمقاس المناسب"
+
+msgid "For example: something to show slides in a small seminar room"
+msgstr "مثال: شيء لعرض الشرائح في قاعة ندوات صغيرة"
 
 msgid "For request"
 msgstr "للطلب"
@@ -1503,6 +1533,9 @@ msgstr "النموذج %(model)s · %(basis)s · حُفظ في %(when)s"
 
 msgid "Model %(model)s · saved %(when)s"
 msgstr "النموذج %(model)s · حُفظ في %(when)s"
+
+msgid "Model %(model)s · saved %(when)s. The relevance is the AI's rating; there is no confidence measure for it, so check the items yourself."
+msgstr "النموذج %(model)s · حُفظ في %(when)s. درجة الملاءمة تقدير من الذكاء الاصطناعي ولا يوجد لها مقياس ثقة، لذا تحقّق من العناصر بنفسك."
 
 msgid "Monitor: UK DESNZ 2024 IT materials x 5.15 kg (F1, F3) to Dell P2422H PCF 327 kg (F2). Chair: FIRA average 27 kg (F4) to Steelcase Leap EPD 104 kg (F5). Van: %(van)s (F6)."
 msgstr "الشاشة: من مواد تقنية المعلومات وفق UK DESNZ 2024 × 5.15 kg (F1، F3) إلى بصمة PCF لطراز Dell P2422H البالغة 327 kg (F2). الكرسي: من متوسط FIRA البالغ 27 kg (F4) إلى إعلان EPD لطراز Steelcase Leap البالغ 104 kg (F5). الشاحنة الصغيرة: %(van)s (F6)."
@@ -2027,6 +2060,9 @@ msgstr "للمراجعة"
 msgid "Rank"
 msgstr "الترتيب"
 
+msgid "Ranked by the AI, checked by the app"
+msgstr "رتّبها الذكاء الاصطناعي وتحقّق منها التطبيق"
+
 msgid "Reason"
 msgstr "السبب"
 
@@ -2146,6 +2182,9 @@ msgstr "رُفضت الإتاحة؛ وعاد العرض إلى حالة المس
 
 msgid "Release this listing so staff from other departments can find and request it."
 msgstr "أتِح هذا العرض ليتمكن موظفو الأقسام الأخرى من العثور عليه وطلبه."
+
+msgid "Relevance"
+msgstr "الملاءمة"
 
 msgid "Reminder for overdue approval tasks (TBD-5)"
 msgstr "التذكير بمهام الموافقة المتأخرة (TBD-5)"
@@ -2332,6 +2371,9 @@ msgstr "ابحث حسب المستخدم والسجل والإجراء والف�
 msgid "Search tags"
 msgstr "وسوم البحث"
 
+msgid "Search with AI"
+msgstr "البحث بالذكاء الاصطناعي"
+
 msgid "Search works without AI. Combine a keyword with any of the filters."
 msgstr "يعمل البحث دون الذكاء الاصطناعي. اجمع بين كلمة مفتاحية وأي من عوامل التصفية."
 
@@ -2358,6 +2400,9 @@ msgstr "الإعدادات"
 
 msgid "Settings saved."
 msgstr "تم حفظ الإعدادات."
+
+msgid "Show the AI answer (JSON)"
+msgstr "عرض إجابة الذكاء الاصطناعي (JSON)"
 
 msgid "Show the numbers"
 msgstr "عرض الأرقام"
@@ -2558,11 +2603,23 @@ msgstr "لم يقيّم الذكاء الاصطناعي جميع العناصر.
 msgid "The AI does not read supporting documents (%(names)s). Check them yourself."
 msgstr "لا يقرأ الذكاء الاصطناعي المستندات الداعمة (%(names)s). راجعها بنفسك."
 
+msgid "The AI found no published item that fits. Try other words, or use the keyword and filters on the Search page."
+msgstr "لم يجد الذكاء الاصطناعي عنصرًا منشورًا مناسبًا. جرّب كلمات أخرى، أو استخدم الكلمة المفتاحية والمرشحات في صفحة البحث."
+
 msgid "The AI key was not accepted."
 msgstr "لم يُقبل مفتاح الذكاء الاصطناعي."
 
 msgid "The AI looked at the first %(read)s of %(total)s photos. Check the others yourself: %(names)s."
 msgstr "اطّلع الذكاء الاصطناعي على أول %(read)s من %(total)s صور. راجع البقية بنفسك: %(names)s."
+
+msgid "The AI read %(counter)s published item and returned the ones that fit, best first. Every ID was checked against the items the app sent."
+msgid_plural "The AI read %(counter)s published items and returned the ones that fit, best first. Every ID was checked against the items the app sent."
+msgstr[0] "قرأ الذكاء الاصطناعي العناصر المنشورة (%(counter)s) وأعاد ما يناسب منها، الأنسب أولًا. وتحقّق التطبيق من كل معرّف مقابل العناصر التي أرسلها."
+msgstr[1] "قرأ الذكاء الاصطناعي العناصر المنشورة (%(counter)s) وأعاد ما يناسب منها، الأنسب أولًا. وتحقّق التطبيق من كل معرّف مقابل العناصر التي أرسلها."
+msgstr[2] "قرأ الذكاء الاصطناعي العناصر المنشورة (%(counter)s) وأعاد ما يناسب منها، الأنسب أولًا. وتحقّق التطبيق من كل معرّف مقابل العناصر التي أرسلها."
+msgstr[3] "قرأ الذكاء الاصطناعي العناصر المنشورة (%(counter)s) وأعاد ما يناسب منها، الأنسب أولًا. وتحقّق التطبيق من كل معرّف مقابل العناصر التي أرسلها."
+msgstr[4] "قرأ الذكاء الاصطناعي العناصر المنشورة (%(counter)s) وأعاد ما يناسب منها، الأنسب أولًا. وتحقّق التطبيق من كل معرّف مقابل العناصر التي أرسلها."
+msgstr[5] "قرأ الذكاء الاصطناعي العناصر المنشورة (%(counter)s) وأعاد ما يناسب منها، الأنسب أولًا. وتحقّق التطبيق من كل معرّف مقابل العناصر التي أرسلها."
 
 msgid "The AI score never removes a required approval or makes an ineligible transfer valid."
 msgstr "درجة الذكاء الاصطناعي لا تُلغي أي موافقة مطلوبة ولا تجعل نقلًا غير مؤهل صالحًا."
@@ -2956,6 +3013,9 @@ msgstr "المستخدم"
 msgid "Who did what"
 msgstr "من فعل ماذا"
 
+msgid "Why it fits"
+msgstr "سبب الملاءمة"
+
 msgid "Why not? (optional)"
 msgstr "لماذا لا؟ (اختياري)"
 
@@ -3003,6 +3063,9 @@ msgstr "نعم,لا"
 
 msgid "You are now working as %(role)s."
 msgstr "أنت تعمل الآن بدور %(role)s."
+
+msgid "You asked for:"
+msgstr "طلبت:"
 
 msgid "You can ask the AI to suggest it after saving the draft"
 msgstr "يمكنك أن تطلب من الذكاء الاصطناعي اقتراحها بعد حفظ المسودة"
@@ -3293,6 +3356,9 @@ msgstr "طُلب الحجز"
 msgctxt "record name"
 msgid "listing"
 msgstr "العرض"
+
+msgid "no longer published"
+msgstr "لم يعد منشورًا"
 
 msgid "now %(value)s"
 msgstr "الآن: %(value)s"
