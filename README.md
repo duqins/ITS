@@ -34,6 +34,7 @@ A Django web app that follows our design: Python and Django, PostgreSQL on Neon,
 
 - **Core features C1 to C9:** sign-in with roles and server-side permission checks, asset registration with a second-person check, publishing and search, resource requests, approvals with holds and transfers, record states with a full history, the sustainability dashboard, notifications and reports.
 - **AI features 1, 2 and 5:** suggesting an asset's category, condition and tags, ranking matching items for a request, and drafting the sustainability summary. Every AI result is a suggestion that a person accepts or rejects, and the app still works when the AI is unavailable.
+- **After the TA review (17 November):** AI search in the user's own words (ranked by Claude, returned as JSON with item IDs), a home page row with the most important numbers in green and red (savings, items reused, late approvals), a graph of net savings over time on the dashboard, and months of synthetic history in the demo data.
 
 Not part of this draft yet: maintenance and repair tracking, the end-of-life review, the campus assistant and sustainable-action advice.
 
