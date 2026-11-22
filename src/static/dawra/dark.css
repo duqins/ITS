@@ -51,6 +51,7 @@
 [data-theme="dark"] .thumb,[data-theme="dark"] .gallery a,[data-theme="dark"] .asset-symbol.has-photo,[data-theme="dark"] .thumb.has-photo{background:#192226;color:#9aafbf}
 [data-theme="dark"] .data-table th{background:#151c20;color:#bec8d0}
 [data-theme="dark"] .data-table .selected{background:#172221}
+[data-theme="dark"] .data-table tbody tr:not(.selected):hover{background:#151c22}
 [data-theme="dark"] .factor-list li{border-bottom:1px solid #293632}
 [data-theme="dark"] .message.user{color:#ffffff}
 [data-theme="dark"] .message.answer{background:#192120;color:#c8d9da;border:1px solid #2d3a37}
@@ -139,6 +140,7 @@
 [data-theme="system"] .thumb,[data-theme="system"] .gallery a,[data-theme="system"] .asset-symbol.has-photo,[data-theme="system"] .thumb.has-photo{background:#192226;color:#9aafbf}
 [data-theme="system"] .data-table th{background:#151c20;color:#bec8d0}
 [data-theme="system"] .data-table .selected{background:#172221}
+[data-theme="system"] .data-table tbody tr:not(.selected):hover{background:#151c22}
 [data-theme="system"] .factor-list li{border-bottom:1px solid #293632}
 [data-theme="system"] .message.user{color:#ffffff}
 [data-theme="system"] .message.answer{background:#192120;color:#c8d9da;border:1px solid #2d3a37}
