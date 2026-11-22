@@ -1,0 +1,14 @@
+{% load dawra_ui i18n %}
+<aside class="ai ai-search">
+  <div class="ai-heading">{% icon 'spark' %}<h2>{% translate "Search with AI" %}</h2><span class="small-tag">{% translate "AI SUGGESTS, YOU DECIDE" %}</span></div>
+  <p class="ai-result">{% translate "Describe what you need in your own words. The AI ranks the published items and explains each choice. It runs only when you click, and it never holds or changes anything." %}</p>
+  {% if ai_on %}
+  <form method="post" action="{% url 'ai:search' %}">{% csrf_token %}
+    <div class="field wide"><label for="ai-query">{% translate "What do you need?" %}</label>
+      <textarea id="ai-query" name="query" rows="2" maxlength="300" required placeholder="{% translate 'For example: something to show slides in a small seminar room' %}"></textarea></div>
+    <div class="actions"><button class="button primary" type="submit">{% icon 'spark' %}{% translate "Search with AI" %}</button></div>
+  </form>
+  {% else %}
+  <p class="muted small">{% translate "AI search is not available right now. The keyword and filters above work without AI." %}</p>
+  {% endif %}
+</aside>

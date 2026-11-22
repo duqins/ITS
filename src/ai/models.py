@@ -14,6 +14,7 @@ class Task(models.TextChoices):
     ADVICE = "advice", gettext_lazy("Advice")
     ASSISTANT = "assistant", gettext_lazy("Assistant")
     REPORT = "report", gettext_lazy("Report")
+    SEARCH = "search", gettext_lazy("Search")  # AI search, added after the TA review (17 November)
 
 
 class ModelVersion(models.Model):

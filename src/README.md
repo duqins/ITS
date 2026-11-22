@@ -58,6 +58,8 @@ All demo data is synthetic. Besides the records of the demo script, `seed_demo` 
 
 The AI features use the Claude API. Put the key in `src\.env` as `ANTHROPIC_API_KEY=...` (never commit it). Without a key the app still runs: the AI panels say the AI is unavailable and the classic path is offered.
 
+AI search (added after the TA review on 17 November): on the Search page a user describes what they need in their own words and clicks **Search with AI**. Claude Haiku reads the published items and answers in JSON with each item's ID, a relevance from 0 to 100 and a reason; the app checks every ID against the items it sent, shows the ranking and the JSON, and saves the answer (AI-12). It runs only on the click, sends no names of people or departments, and the normal search keeps working without it.
+
 ## Rules that come from the design
 
 - Every status change goes through `audit/lifecycle.py`, which allows only the moves of the state diagrams (section 10.2) and writes an audit entry.

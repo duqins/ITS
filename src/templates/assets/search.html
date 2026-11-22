@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dawra_ui asset_ui i18n %}
+{% load dawra_ui asset_ui ai_ui i18n %}
 {% block title %}{% translate "Search" %} · Dawra Campus{% endblock %}
 {% block content %}
 <div class="heading"><div><h1>{% translate "Find surplus items" %}</h1><div class="record">{% translate "Published listings from every department" %}</div></div></div>
@@ -12,6 +12,7 @@
   {% include "includes/field.html" with field=form.sort %}
   <div class="actions"><button class="button primary" type="submit">{% icon 'match' %}{% translate "Search" %}</button><a class="button" href="{% url 'assets:search' %}">{% translate "Reset" %}</a></div>
 </form>
+{% ai_search_panel %}
 {% if results %}
 <p class="result-count">{% blocktranslate trimmed count counter=results|length %}{{ counter }} item found{% plural %}{{ counter }} items found{% endblocktranslate %}</p>
 <div class="table-wrap"><table class="data-table">

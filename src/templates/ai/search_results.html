@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load dawra_ui asset_ui ai_ui i18n %}
+{% block title %}{% translate "AI search" %} · Dawra Campus{% endblock %}
+{% block content %}
+<div class="heading"><div><h1>{% translate "AI search results" %}</h1><div class="record">{% blocktranslate trimmed %}Ranked by the AI, checked by the app{% endblocktranslate %}</div></div></div>
+<p class="lead">{% translate "You asked for:" %} <q><bdi>{{ query }}</bdi></q></p>
+<p class="review-note">{% icon 'approval' %}{% blocktranslate trimmed count counter=items_sent %}The AI read {{ counter }} published item and returned the ones that fit, best first. Every ID was checked against the items the app sent.{% plural %}The AI read {{ counter }} published items and returned the ones that fit, best first. Every ID was checked against the items the app sent.{% endblocktranslate %}</p>
+{% if rows %}
+<div class="table-wrap"><table class="data-table">
+  <thead><tr><th class="num">{% translate "Rank" %}</th><th>{% translate "Item" %}</th><th>{% translate "Category" %}</th><th>{% translate "Condition" %}</th><th>{% translate "Department" %}</th><th class="num">{% translate "Available" %}</th><th class="num">{% translate "Relevance" %}</th><th>{% translate "Why it fits" %}</th></tr></thead>
+  <tbody>{% for r in rows %}
+  <tr{% if forloop.first %} class="selected"{% endif %}><td class="num">{{ r.rank }}</td>
+    <td><div class="item-cell">{% asset_thumb r.listing.asset "thumb" %}<div><a href="{% url 'assets:listing' r.listing.pk %}">{{ r.listing.asset.name }}</a><small>{{ r.listing.code }}{% if not r.still_published %} · {% translate "no longer published" %}{% endif %}</small></div></div></td>
+    <td>{{ r.listing.asset.category }}</td><td>{{ r.listing.asset.get_condition_display }}</td><td>{{ r.listing.asset.owner_department }}</td>
+    <td class="num">{{ r.listing.remaining_quantity }}</td><td class="num"><strong>{{ r.relevance }}</strong> / 100</td><td>{{ r.reason }}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+{% else %}
+<div class="empty">{% translate "The AI found no published item that fits. Try other words, or use the keyword and filters on the Search page." %}</div>
+{% endif %}
+<div class="actions">
+  <a class="button" href="{% url 'assets:search' %}">{% translate "Back to search" %}</a>
+  {% if can_request %}<a class="button" href="{% url 'resource_requests:create' %}?purpose={{ query|urlencode }}">{% translate "Create a request instead" %}</a>{% endif %}
+</div>
+<details class="json-answer"><summary>{% translate "Show the AI answer (JSON)" %}</summary>
+  <p class="muted small">{% blocktranslate trimmed with model=result.model_version when=result.created_at|date:"DATETIME_FORMAT" %}Model {{ model }} · saved {{ when }}. The relevance is the AI's rating; there is no confidence measure for it, so check the items yourself.{% endblocktranslate %}</p>
+  <pre dir="ltr">{{ json }}</pre>
+</details>
+{% endblock %}

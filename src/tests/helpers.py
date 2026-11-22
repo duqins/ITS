@@ -58,7 +58,7 @@ class FakeClaude:
 
     def parse(self, model, max_tokens, system, messages, output_format, output_config=None):
         self.calls += 1
-        self.output_format, self.output_config = output_format, output_config
+        self.output_format, self.output_config, self.system = output_format, output_config, system
         # The classification structure is built per request, so match it by its base class.
         answer = next(f for kind, f in self.answers.items() if issubclass(output_format, kind))(messages[0]["content"])
         return SimpleNamespace(stop_reason="end_turn", parsed_output=answer)
