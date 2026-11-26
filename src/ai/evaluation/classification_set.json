@@ -1,0 +1,22 @@
+[
+  {"name": "Dell P2422H display", "description": "24-inch office screen with stand, left over after a lab refresh.", "specifications": "24-inch, HDMI, DisplayPort", "expected": "IT equipment / Monitor"},
+  {"name": "LG UltraWide 29-inch", "description": "Wide screen used for a year at a design desk, no dead pixels.", "specifications": "29-inch, 2560 x 1080, HDMI", "expected": "IT equipment / Monitor"},
+  {"name": "Second screen for a desk", "description": "Flat panel that plugs into a laptop to give more screen space. Small scratch on the frame.", "specifications": "22-inch, VGA and HDMI", "expected": "IT equipment / Monitor"},
+  {"name": "Lenovo ThinkPad T14", "description": "Staff notebook returned after a contract ended. The battery holds about four hours.", "specifications": "14-inch, 16 GB RAM, 512 GB SSD", "expected": "IT equipment / Laptop"},
+  {"name": "HP EliteBook 840", "description": "Portable computer with its charger. Some keys are worn.", "specifications": "Core i5, 8 GB RAM, 256 GB SSD", "expected": "IT equipment / Laptop"},
+  {"name": "MacBook Air 13", "description": "Light notebook used by a visiting lecturer for one semester.", "specifications": "13-inch, 8 GB RAM, 256 GB", "expected": "IT equipment / Laptop"},
+  {"name": "Epson EB-X51", "description": "Ceiling unit removed from a classroom. It shows slides on a wall. The lamp was replaced last year.", "specifications": "3,800 lumens, XGA, HDMI", "expected": "IT equipment / Projector"},
+  {"name": "Portable beamer", "description": "Small device for showing presentations in meeting rooms, with a carry case.", "specifications": "3,000 lumens, HDMI, remote control", "expected": "IT equipment / Projector"},
+  {"name": "Mesh task chair", "description": "Swivel seat with armrests and adjustable height. The fabric is slightly faded.", "specifications": "Adjustable height, lumbar support, five wheels", "expected": "Furniture / Office chair"},
+  {"name": "Herman Miller Aeron", "description": "Ergonomic seat from a manager's office. All levers work.", "specifications": "Size B, adjustable arms", "expected": "Furniture / Office chair"},
+  {"name": "Visitor seating, stackable", "description": "Four-legged seats with padded backs, used in a meeting room.", "specifications": "Stackable, steel frame", "expected": "Furniture / Office chair"},
+  {"name": "Sit-stand workstation", "description": "Electric height-adjustable table. The motor works and the top has light marks.", "specifications": "160 x 80 cm, memory buttons", "expected": "Furniture / Desk"},
+  {"name": "Writing table with drawers", "description": "Wooden work surface with three drawers, from a faculty office.", "specifications": "140 x 70 cm", "expected": "Furniture / Desk"},
+  {"name": "Rigol DS1054Z", "description": "Four-channel bench scope for viewing signals, with probes.", "specifications": "50 MHz, 4 channels", "expected": "Lab equipment / Measurement"},
+  {"name": "Fluke 117 multimeter", "description": "Handheld meter for voltage and current, with test leads.", "specifications": "True RMS, 600 V", "expected": "Lab equipment / Measurement"},
+  {"name": "Laboratory balance", "description": "Precision scale from a chemistry lab, calibrated last year.", "specifications": "Capacity 620 g, readability 0.01 g", "expected": "Lab equipment / Measurement"},
+  {"name": "Calculus: Early Transcendentals", "description": "Class set of course books, some with highlighting inside.", "specifications": "8th edition, hardcover", "expected": "Books / Textbook"},
+  {"name": "Introduction to Algorithms", "description": "Reference copies from a closed reading room.", "specifications": "3rd edition", "expected": "Books / Textbook"},
+  {"name": "A4 copy paper", "description": "Unopened reams left after an office move.", "specifications": "80 gsm, 500 sheets per ream", "expected": "Office materials / Stationery"},
+  {"name": "Box files and ring binders", "description": "Mixed office filing supplies in good shape.", "specifications": "A4, assorted colours", "expected": "Office materials / Stationery"}
+]
