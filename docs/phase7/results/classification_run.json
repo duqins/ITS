@@ -1,0 +1,317 @@
+{
+ "summary": {
+  "run_at": "2026-11-24 20:00",
+  "model": "claude-haiku-5-5",
+  "prompt_version": "prompt v2",
+  "runs_per_asset": 3,
+  "assets": 20,
+  "correct": 20,
+  "needed": 16,
+  "passed": true,
+  "failed_answers": 0,
+  "at_or_above_060": 20,
+  "slowest_seconds": 2.6
+ },
+ "assets": [
+  {
+   "suggested": "IT equipment / Monitor",
+   "runs": [
+    "IT equipment / Monitor",
+    "IT equipment / Monitor",
+    "IT equipment / Monitor"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 1,
+   "name": "Dell P2422H display",
+   "expected": "IT equipment / Monitor",
+   "seconds": 2.6,
+   "correct": true
+  },
+  {
+   "suggested": "IT equipment / Monitor",
+   "runs": [
+    "IT equipment / Monitor",
+    "IT equipment / Monitor",
+    "IT equipment / Monitor"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 2,
+   "name": "LG UltraWide 29-inch",
+   "expected": "IT equipment / Monitor",
+   "seconds": 2.3,
+   "correct": true
+  },
+  {
+   "suggested": "IT equipment / Monitor",
+   "runs": [
+    "IT equipment / Monitor",
+    "IT equipment / Monitor",
+    "IT equipment / Monitor"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 3,
+   "name": "Second screen for a desk",
+   "expected": "IT equipment / Monitor",
+   "seconds": 2.4,
+   "correct": true
+  },
+  {
+   "suggested": "IT equipment / Laptop",
+   "runs": [
+    "IT equipment / Laptop",
+    "IT equipment / Laptop",
+    "IT equipment / Laptop"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 4,
+   "name": "Lenovo ThinkPad T14",
+   "expected": "IT equipment / Laptop",
+   "seconds": 2.1,
+   "correct": true
+  },
+  {
+   "suggested": "IT equipment / Laptop",
+   "runs": [
+    "IT equipment / Laptop",
+    "IT equipment / Laptop",
+    "IT equipment / Laptop"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 5,
+   "name": "HP EliteBook 840",
+   "expected": "IT equipment / Laptop",
+   "seconds": 2.0,
+   "correct": true
+  },
+  {
+   "suggested": "IT equipment / Laptop",
+   "runs": [
+    "IT equipment / Laptop",
+    "IT equipment / Laptop",
+    "IT equipment / Laptop"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 6,
+   "name": "MacBook Air 13",
+   "expected": "IT equipment / Laptop",
+   "seconds": 2.0,
+   "correct": true
+  },
+  {
+   "suggested": "IT equipment / Projector",
+   "runs": [
+    "IT equipment / Projector",
+    "IT equipment / Projector",
+    "IT equipment / Projector"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 7,
+   "name": "Epson EB-X51",
+   "expected": "IT equipment / Projector",
+   "seconds": 2.0,
+   "correct": true
+  },
+  {
+   "suggested": "IT equipment / Projector",
+   "runs": [
+    "IT equipment / Projector",
+    "IT equipment / Projector",
+    "IT equipment / Projector"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 8,
+   "name": "Portable beamer",
+   "expected": "IT equipment / Projector",
+   "seconds": 2.3,
+   "correct": true
+  },
+  {
+   "suggested": "Furniture / Office chair",
+   "runs": [
+    "Furniture / Office chair",
+    "Furniture / Office chair",
+    "Furniture / Office chair"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 9,
+   "name": "Mesh task chair",
+   "expected": "Furniture / Office chair",
+   "seconds": 1.9,
+   "correct": true
+  },
+  {
+   "suggested": "Furniture / Office chair",
+   "runs": [
+    "Furniture / Office chair",
+    "Furniture / Office chair",
+    "Furniture / Office chair"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 10,
+   "name": "Herman Miller Aeron",
+   "expected": "Furniture / Office chair",
+   "seconds": 2.0,
+   "correct": true
+  },
+  {
+   "suggested": "Furniture / Office chair",
+   "runs": [
+    "Furniture / Office chair",
+    "Furniture / Office chair",
+    "Furniture / Office chair"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 11,
+   "name": "Visitor seating, stackable",
+   "expected": "Furniture / Office chair",
+   "seconds": 1.8,
+   "correct": true
+  },
+  {
+   "suggested": "Furniture / Desk",
+   "runs": [
+    "Furniture / Desk",
+    "Furniture / Desk",
+    "Furniture / Desk"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 12,
+   "name": "Sit-stand workstation",
+   "expected": "Furniture / Desk",
+   "seconds": 1.8,
+   "correct": true
+  },
+  {
+   "suggested": "Furniture / Desk",
+   "runs": [
+    "Furniture / Desk",
+    "Furniture / Desk",
+    "Furniture / Desk"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 13,
+   "name": "Writing table with drawers",
+   "expected": "Furniture / Desk",
+   "seconds": 1.8,
+   "correct": true
+  },
+  {
+   "suggested": "Lab equipment / Measurement",
+   "runs": [
+    "Lab equipment / Measurement",
+    "Lab equipment / Measurement",
+    "Lab equipment / Measurement"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 14,
+   "name": "Rigol DS1054Z",
+   "expected": "Lab equipment / Measurement",
+   "seconds": 2.0,
+   "correct": true
+  },
+  {
+   "suggested": "Lab equipment / Measurement",
+   "runs": [
+    "Lab equipment / Measurement",
+    "Lab equipment / Measurement",
+    "Lab equipment / Measurement"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 15,
+   "name": "Fluke 117 multimeter",
+   "expected": "Lab equipment / Measurement",
+   "seconds": 2.1,
+   "correct": true
+  },
+  {
+   "suggested": "Lab equipment / Measurement",
+   "runs": [
+    "Lab equipment / Measurement",
+    "Lab equipment / Measurement",
+    "Lab equipment / Measurement"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 16,
+   "name": "Laboratory balance",
+   "expected": "Lab equipment / Measurement",
+   "seconds": 2.2,
+   "correct": true
+  },
+  {
+   "suggested": "Books / Textbook",
+   "runs": [
+    "Books / Textbook",
+    "Books / Textbook",
+    "Books / Textbook"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 17,
+   "name": "Calculus: Early Transcendentals",
+   "expected": "Books / Textbook",
+   "seconds": 1.8,
+   "correct": true
+  },
+  {
+   "suggested": "Books / Textbook",
+   "runs": [
+    "Books / Textbook",
+    "Books / Textbook",
+    "Books / Textbook"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 18,
+   "name": "Introduction to Algorithms",
+   "expected": "Books / Textbook",
+   "seconds": 1.7,
+   "correct": true
+  },
+  {
+   "suggested": "Office materials / Stationery",
+   "runs": [
+    "Office materials / Stationery",
+    "Office materials / Stationery",
+    "Office materials / Stationery"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 19,
+   "name": "A4 copy paper",
+   "expected": "Office materials / Stationery",
+   "seconds": 1.7,
+   "correct": true
+  },
+  {
+   "suggested": "Office materials / Stationery",
+   "runs": [
+    "Office materials / Stationery",
+    "Office materials / Stationery",
+    "Office materials / Stationery"
+   ],
+   "confidence": 1.0,
+   "error": "",
+   "number": 20,
+   "name": "Box files and ring binders",
+   "expected": "Office materials / Stationery",
+   "seconds": 1.8,
+   "correct": true
+  }
+ ]
+}
