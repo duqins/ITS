@@ -255,6 +255,8 @@ class SystemWorkflowTests(DemoTestCase):
                     self.assertEqual(client.get(url).status_code, 200 if allowed else 403)
                 opened, refused = opened + allowed, refused + (not allowed)
         self.assertEqual(opened + refused, 12 * len(PAGES))
+        # Counted by hand from the access matrix (SRS 2.3.1, design Table 6.2), as listed in Table 5.2 of Phase 7.
+        self.assertEqual((opened, refused), (69, 51))
         # Every refused page was written to the audit log.
         logged = AuditLog.objects.filter(action__startswith="blocked:", record_type="page").count() - refused_before
         self.assertEqual(logged, refused)
