@@ -11,6 +11,7 @@ from unittest import mock
 
 import anthropic
 import httpx2
+import pydantic
 
 from ai.adapter import AIUnavailable, ClaudeAdapter, Deadline
 from ai.matching import MeaningAnswer
@@ -20,6 +21,14 @@ from assets.models import Asset
 from .helpers import DemoTestCase
 
 REQUEST = httpx2.Request("POST", "https://api.anthropic.com/v1/messages")
+
+
+def wrong_structure():
+    """The error the client raises when the AI answers with fields of the wrong type."""
+    try:
+        MeaningAnswer.model_validate({"items": "not a list"})
+    except pydantic.ValidationError as error:
+        return error
 
 
 class FailingClaude:
@@ -47,6 +56,7 @@ FAILURES = {
     "malformed answer": SimpleNamespace(stop_reason="end_turn", parsed_output=None),
     "answer cut short": SimpleNamespace(stop_reason="max_tokens", parsed_output=None),
     "refusal": SimpleNamespace(stop_reason="refusal", parsed_output=None),
+    "wrong structure": wrong_structure(),
 }
 
 # The message the user sees for each failure.
@@ -57,6 +67,7 @@ MESSAGES = {
     "malformed answer": "The AI answer was incomplete.",
     "answer cut short": "The AI answer was incomplete.",
     "refusal": "The AI declined this request.",
+    "wrong structure": "The AI answer did not have the expected structure.",
 }
 
 
