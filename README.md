@@ -23,7 +23,7 @@ Dawra (دورة) means "cycle". Departments register the furniture, computers an
 | 3 | Requirements document (SRS) | [PDF](docs/phase3/Dawra_Campus_Phase3_SRS.pdf), [Word](docs/phase3/Dawra_Campus_Phase3_SRS.docx), [slides](docs/phase3/presentation/Dawra_Campus_Phase3_Presentation.pptx), [sections and owners](docs/phase3/README.md) |
 | 4 and 5 | Design document (architecture and detailed design) | [Sections, diagrams and mockups](docs/phase45/README.md) |
 | 6 | Draft implementation: the working app | [`src/`](src/README.md) |
-| 7 | Test cases | Coming next |
+| 7 | Test cases | [PDF](docs/phase7/Dawra_Campus_Phase7_Test_Cases.pdf), [Word](docs/phase7/Dawra_Campus_Phase7_Test_Cases.docx), [sections](docs/phase7/sections/), [results](docs/phase7/results/) |
 | 8 | Final project, presentation and demo | Coming next |
 
 The course project description and the lab slides are in [`docs/reference/`](docs/reference/).
@@ -49,13 +49,14 @@ docs/
   phase2/       Phase 2 feasibility study (final submission in final/)
   phase3/       Phase 3 requirements document (SRS)
   phase45/      Phase 4 and 5 design document
+  phase7/       Phase 7 test cases and test results
   reference/    Course project description and lab slides
 scripts/        Check for the Phase 2 documents
 src/            The Django app (Phase 6)
 package.json    Builds the Word documents from the Markdown sections
 ```
 
-Each document is written in Markdown, one file per section, under `docs/phaseN/sections/`. To rebuild a Word file, run `npm install` once, then `npm run build:phase1`, `npm run build:phase3` or `npm run build:phase45`.
+Each document is written in Markdown, one file per section, under `docs/phaseN/sections/`. To rebuild a Word file, run `npm install` once, then `npm run build:phase1`, `npm run build:phase3`, `npm run build:phase45` or `npm run build:phase7`. To run all the automated tests, run `python manage.py test` in `src/`.
 
 ## How we work
 

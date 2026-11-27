@@ -45,3 +45,7 @@ docs/**/*.pdf
 src/db.sqlite3
 src/staticfiles/
 src/media/
+
+# Phase 7 test cases submission
+!docs/phase7/Dawra_Campus_Phase7_Test_Cases.docx
+!docs/phase7/Dawra_Campus_Phase7_Test_Cases.pdf
